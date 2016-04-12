@@ -1,0 +1,15 @@
+MODULES_MANAGER_V2
+src.__init__|C:\Users\Harshit Jyoti\Documents\GitHub\APM\APM\src\__init__.py
+src.assets.__init__|C:\Users\Harshit Jyoti\Documents\GitHub\APM\APM\src\assets\__init__.py
+src.assets.css.__init__|C:\Users\Harshit Jyoti\Documents\GitHub\APM\APM\src\assets\css\__init__.py
+src.assets.fonts.__init__|C:\Users\Harshit Jyoti\Documents\GitHub\APM\APM\src\assets\fonts\__init__.py
+src.assets.img.__init__|C:\Users\Harshit Jyoti\Documents\GitHub\APM\APM\src\assets\img\__init__.py
+src.assets.js.__init__|C:\Users\Harshit Jyoti\Documents\GitHub\APM\APM\src\assets\js\__init__.py
+src.controller.__init__|C:\Users\Harshit Jyoti\Documents\GitHub\APM\APM\src\controller\__init__.py
+src.controller.home|C:\Users\Harshit Jyoti\Documents\GitHub\APM\APM\src\controller\home.py
+src.controller.login|C:\Users\Harshit Jyoti\Documents\GitHub\APM\APM\src\controller\login.py
+src.main|C:\Users\Harshit Jyoti\Documents\GitHub\APM\APM\src\main.py
+src.model.__init__|C:\Users\Harshit Jyoti\Documents\GitHub\APM\APM\src\model\__init__.py
+src.model.project|C:\Users\Harshit Jyoti\Documents\GitHub\APM\APM\src\model\project.py
+src.model.user|C:\Users\Harshit Jyoti\Documents\GitHub\APM\APM\src\model\user.py
+src.view.__init__|C:\Users\Harshit Jyoti\Documents\GitHub\APM\APM\src\view\__init__.py

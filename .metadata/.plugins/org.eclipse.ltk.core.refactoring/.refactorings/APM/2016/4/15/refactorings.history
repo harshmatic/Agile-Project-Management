@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;APM/src/assets/redme.txt&apos; to &apos;readme.txt&apos;" description="Rename resource &apos;redme.txt&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/assets/redme.txt" name="readme.txt" stamp="1460016498041" updateReferences="true"/>
+</session>

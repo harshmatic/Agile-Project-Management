@@ -1,0 +1,5 @@
+from google.appengine.ext import ndb
+
+class User(ndb.Model):
+    project_name=ndb.StringProperty()
+    date = ndb.DateTimeProperty(auto_now_add=True)

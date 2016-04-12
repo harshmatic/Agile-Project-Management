@@ -1,0 +1,9 @@
+import webapp2
+import os
+from google.appengine.ext.webapp.template import render
+
+class Main(webapp2.RequestHandler):
+    def get(self):
+        tmpl = os.path.join(os.path.dirname(__file__), '../view/main.html')
+        context = {'user':      "asdad"}
+        self.response.write(render(tmpl, context))

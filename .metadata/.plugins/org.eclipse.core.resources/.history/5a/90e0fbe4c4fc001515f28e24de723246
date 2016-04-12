@@ -1,0 +1,9 @@
+from google.appengine.ext import ndb
+
+class User(ndb.Model):
+    first_name = ndb.StringProperty()
+    last_name = ndb.StringProperty()
+    designation = ndb.StringProperty()
+    email = ndb.StringProperty()
+    project_id = ndb.KeyProperty(repeated=True)
+    date = ndb.DateTimeProperty(auto_now_add=True)

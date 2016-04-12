@@ -1,0 +1,13 @@
+import webapp2
+import os
+from google.appengine.ext import ndb
+from google.appengine.api import users
+from google.appengine.ext.webapp.template import render
+from model.database import *
+from base64 import urlsafe_b64decode
+import logging
+    
+class Main(webapp2.RequestHandler):
+    def get(self):
+        self.response.write("Hello Admin")
+            

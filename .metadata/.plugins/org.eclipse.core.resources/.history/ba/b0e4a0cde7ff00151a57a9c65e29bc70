@@ -1,0 +1,166 @@
+<html>
+	<head>
+		<title>Registration</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+		<link rel="stylesheet" href="assets/css/style.css">
+		<link rel="stylesheet" href="assets/css/sidebar-test.css">
+		<link rel="stylesheet" href="assets/css/button.css">
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway">
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Montserrat">
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="assets/js/nice-scroll.js"></script>
+		<script src="assets/js/button.js"></script>
+		
+		<script>
+		
+		$(document).ready(function() {
+		
+			
+		});
+		
+		</script>
+	
+	
+	</head>
+	
+	<body>
+		<div id="wrapper">
+	
+		
+		
+	<!-- Page Content -->
+       <div id="page-content-wrapper">
+		
+						
+						
+						<section class="top-main-section">
+							 <!-- Static navbar -->
+							  <nav class="navbar navbar-default navbar-pro-management">
+								<div class="container-fluid">
+								  <div class="navbar-header">
+									
+									<a class="navbar-brand" href="#">
+										
+										<img src="img/eternus.png" class="logo-img">
+									</a>
+								  </div>
+								  
+								</div><!--/.container-fluid -->
+							  </nav>
+
+						</section>	
+					
+						<!-- Main Page content starts -->	
+						
+						<div class="container register-container">
+							<h3 class="register-main-heading">Register For An Account</h3>
+						
+							<p class="register-para">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+							</p>
+							<div class="register-box">
+					
+								<!--First Name -->
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">First Name</label>
+											</div>
+											<div class="col-md-8">
+												<input type="text" class="form-control project-management-textbox" name="first_name">
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<!--Last Name -->
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">Last Name</label>
+											</div>
+											<div class="col-md-8">
+												<input type="text" class="form-control project-management-textbox" name="last_name">
+											</div>
+										</div>
+									</div>
+								</div>
+													
+								<!--Email address -->
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">E-mail Address</label>
+											</div>
+											<div class="col-md-8">
+												<input type="text" class="form-control project-management-textbox" name="email_id">
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<!-- Department -->
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">Department</label>
+											</div>
+											<div class="col-md-5">
+												<input type="text" class="form-control project-management-textbox" name="city">
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								
+								<!-- Employee ID  -->
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">Employee ID</label>
+											</div>
+											<div class="col-md-3">
+												<input type="text" class="form-control project-management-textbox" name="address1">
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<!-- Contact NO -->
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">Contact NO</label>
+											</div>
+											<div class="col-md-3">
+												<input type="text" class="form-control project-management-textbox" name="address2">
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								
+								<div class="register-btn-box">
+									<button class="register-btn pro-button">Register</button>
+								</div>
+							</div>
+						
+						<!-- Main Page content ENDS -->	
+						
+		</div> <!-- Page content Wrapper ends -->		
+	</div> <!-- Wrapper ends -->	
+	</body>
+</html>

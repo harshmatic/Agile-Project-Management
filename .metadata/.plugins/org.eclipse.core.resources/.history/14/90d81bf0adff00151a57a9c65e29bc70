@@ -1,0 +1,11 @@
+import os
+import webapp2
+from google.appengine.ext.webapp.template import render
+from model.user import User
+
+
+class ProductSubCategory(webapp2.RequestHandler):
+    def get(self):
+        User.set()
+        tmpl = os.path.join(os.path.dirname(__file__), '../view/main.html')
+        self.response.write(render(tmpl, {}))

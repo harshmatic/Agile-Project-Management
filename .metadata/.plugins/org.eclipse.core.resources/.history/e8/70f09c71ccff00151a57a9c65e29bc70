@@ -1,0 +1,12 @@
+import os
+import webapp2
+from google.appengine.ext.webapp.template import render
+from model.user import User
+
+
+class Main(webapp2.RequestHandler):
+    def get(self):
+        user = User()
+        key=user.set(,first_name="a",last_name="a",designation="a",email="a")
+        tmpl = os.path.join(os.path.dirname(__file__), '../view/main.html')
+        self.response.write(render(tmpl, {'key':key.urlsafe()}))

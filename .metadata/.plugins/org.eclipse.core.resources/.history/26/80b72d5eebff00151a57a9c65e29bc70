@@ -1,0 +1,42 @@
+from google.appengine.api import users
+import webapp2
+from model.user import User
+import logging
+import os
+from google.appengine.ext import ndb
+from google.appengine.ext.webapp.template import render
+
+class Login(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        if user:
+            greeting = ('Welcome, %s! (<a href="%s">sign out</a>)' %
+                        (user.nickname(), users.create_logout_url('/')))
+        else:
+            greeting = ('<a href="%s">Sign in or register</a>.' %
+                        users.create_login_url('/register'))
+
+        self.response.out.write('<html><body>%s</body></html>' % greeting)
+
+class Register(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        logging.info(user.email())
+        if User.check(user.email()):
+            self.redirect("/")
+        else:
+            tmpl = os.path.join(os.path.dirname(__file__), '../view/registration.html')
+            self.response.write(render(tmpl, {}))
+            
+    def post(self):
+        user_reg=User()
+        '''user_reg.set(first_name=.get('first_name'),
+                     last_name=self.request.get('last_name'),
+                     designation=self.request.get('designation'),
+                 email=self.request.get('email'),'''
+        if User.check(self.request.get('email')):
+            
+            for field in self.request.arguments():
+                setattr(user_reg,field,self.request.get(field))
+            if user_reg.set():
+                self.redirect("/")

@@ -1,0 +1,6 @@
+import webapp2
+from controller.home import *
+app = webapp2.WSGIApplication([
+    ('/', Main),
+    ('/login', login)
+], debug=True)
