@@ -12,3 +12,5 @@ class ProjectMembersGroup(ndb.Model):
     group_id = ndb.KeyProperty(required=True)
     permissions = ndb.KeyProperty()
     date = ndb.DateTimeProperty(auto_now_add=True)
+    
+#test  comment
