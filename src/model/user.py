@@ -13,27 +13,8 @@ class User(ndb.Model):
     contact_no = ndb.StringProperty()
     emp_id= ndb.StringProperty(required=True)
     date = ndb.DateTimeProperty(auto_now_add=True)
-    
-    '''def set(self,**args):
-        if 'key' not in args:
-            try:
-                if args is not None:
-                    for key1, value in args.iteritems():
-                        setattr( self, key1, value )                
-                key_return= self.put()
-                return key_return
-            except db.Error:
-                return False
-        else:
-            update_key= args['key']
-            update_key1=ndb.Key(urlsafe=update_key)
-            user = update_key1.get()
-            for key1, value in args.iteritems():
-                if key1 != 'key':
-                    setattr( user, key1, value )
-            user.put()
-            return update_key1'''
-    
+    created_by = ndb.KeyProperty(required=True)
+        
     def set(self,**args):
         if 'key' in args:
             k=args['key']
@@ -62,7 +43,9 @@ class Groups(ndb.Model):
     role=ndb.StringProperty(required=True)
     permissions=ndb.KeyProperty(required=True)
     date = ndb.DateTimeProperty(auto_now_add=True)
+    created_by = ndb.KeyProperty(required=True)
     
 class Permissions(ndb.Model):
     permission = ndb.StringProperty(required=True)
     date = ndb.DateTimeProperty(auto_now_add=True)
+    created_by = ndb.KeyProperty(required=True)
