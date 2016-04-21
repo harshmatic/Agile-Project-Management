@@ -1,28 +1,21 @@
 <html>
 	<head>
 		<title>Registration</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-		
-		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
-		<link rel="stylesheet" href="assets/css/style.css">
-		<link rel="stylesheet" href="assets/css/sidebar-test.css">
-		<link rel="stylesheet" href="assets/css/button.css">
-		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway">
-		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Montserrat">
-		
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-		
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-		<script src="assets/js/bootstrap.min.js"></script>
-		<script src="assets/js/nice-scroll.js"></script>
-		<script src="assets/js/button.js"></script>
+		{% include "head.html" %}
 		
 		<script>
 		
 		$(document).ready(function() {
-		
-			
+			$("#submit").click(function(){
+				$.post( "/signup", $("#signup_form").serialize())
+			  		.done(function( data ) {
+			  			if (data!="true"){
+			  				alert(data);
+			  			} else {
+			  				alert("Email Sent");
+			  			}
+			  	});
+			});
 		});
 		
 		</script>
@@ -48,7 +41,7 @@
 									
 									<a class="navbar-brand" href="#">
 										
-										<img src="assets/img/eternus.png" class="logo-img">
+										<img src="/assets/img/eternus.png" class="logo-img">
 									</a>
 								  </div>
 								  
@@ -66,7 +59,8 @@
 								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 							</p>
 							<div class="register-box">
-					<form method="post" action="/register">
+					<form method="post" action="/signup" id="signup_form">
+					
 								<!--First Name -->
 								<div class="row row-register">
 									<div class="col-md-8">
@@ -151,10 +145,24 @@
 										</div>
 									</div>
 								</div>
-								
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">Assign Role</label>
+											</div>{% for role in roles %}
+											<div class="col-md-3">
+											
+											<input type="radio" name="role" class="form-control project-management-textbox" value="{{role.key.urlsafe}}" checked> {{role.role}}<br>
+											
+											</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
 								
 								<div class="register-btn-box">
-									<input type="submit" class="register-btn pro-button" value="Register">
+									<input type="button" id="submit" class="register-btn pro-button" value="Register">
 								</div>
 							</div>
 						</form>

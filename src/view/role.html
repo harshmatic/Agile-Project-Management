@@ -1,0 +1,13 @@
+
+<html>
+	<body>
+		<form method="post" action="role">
+			<input type="text" name="role">
+			{% for per in perm %}
+			
+			<input type="checkbox" name="permissions" value="{{per.key.urlsafe}}">{{per.url}}
+			{% endfor %}	
+			<input type="submit" value="Sumbit">	
+		</form>
+	</body>
+</html>

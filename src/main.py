@@ -1,8 +1,18 @@
 import webapp2
-from controller.home import *
 from controller.login import *
+from controller.permission import *
+
+
+
 app = webapp2.WSGIApplication([
-    ('/', Main),
-    ('/login', Login),
-    ('/register', Register)
-], debug=True)
+    webapp2.Route('/signup', SignupHandler),
+    webapp2.Route('/<type:v|p>/<user_id:\d+>-<signup_token:.+>',handler=VerificationHandler, name='verification'),
+    webapp2.Route('/password', SetPasswordHandler),
+    webapp2.Route('/login', LoginHandler, name='login'),
+    webapp2.Route('/', Main, name='home'),
+    webapp2.Route('/logout', LogoutHandler, name='logout'),
+    webapp2.Route('/forgot', ForgotPasswordHandler, name='forgot'),
+    webapp2.Route('/permission', AddPermission, name='permission'),
+    webapp2.Route('/role', AddRole, name='role'),
+    webapp2.Route('/authenticated', AuthenticatedHandler, name='authenticated')
+], debug=True, config=config)

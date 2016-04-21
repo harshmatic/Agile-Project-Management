@@ -1,5 +1,9 @@
 <html>
 	<body>
-		Hello {{key}}
+		{% if not user %}
+          <a href="/login">Login (and forgot password)</a>
+        {% else %}
+          Logged in as <span style="background-color: OldLace">{{ user.name }}</span> | <a href="/logout">Logout</a>
+        {% endif %}
 	</body>
 <html>
