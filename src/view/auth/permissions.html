@@ -1,0 +1,144 @@
+<html>
+	<head>
+		<head>
+		{% include "head.html" %}
+		<title>Login</title>
+		<script>
+		
+		$(document).ready(function() {
+		
+			
+		});
+		
+		</script>
+	
+	
+	
+		
+		<script>
+		
+		$(document).ready(function() {
+			$("#one").click(function(e) {
+				/*if($(this).is( ":checked" ) == false){
+					$(this).parent().siblings().find('[type=checkbox]').attr('checked','false');
+				}
+				if ($(this).is( ":checked" ) == true) {
+					$(this).parent().siblings().find('[type=checkbox]').attr('checked','true');
+				} 
+				*/
+				
+			});
+			
+			
+		});
+		
+		</script>
+	
+	
+	</head>
+	
+	<body>
+		<div id="wrapper">
+	
+		
+		
+	<!-- Page Content -->
+       <div id="page-content-wrapper">
+		
+						
+						<section class="top-main-section">
+							 <!-- Static navbar -->
+							  <nav class="navbar navbar-default navbar-pro-management">
+								<div class="container-fluid">
+								  <div class="navbar-header">
+									
+									<a class="navbar-brand" href="#">
+										
+										<img src="/assets/img/eternus.png" class="logo-img">
+									</a>
+								  </div>
+								  
+								</div><!--/.container-fluid -->
+							  </nav>
+
+						</section>	
+					
+						<!-- Main Page content starts -->	
+						
+						<div class="container permissions-container">
+							
+							<div class="col-md-12">
+								<div class="panel panel-default login-panel">
+									<div class="panel-heading main-box-panel-heading login-panel-heading red-panel-heading">
+										Permissions
+									</div>
+									
+									<div class="panel-body login-panel-body">
+									<form action="/admin/permissions" method="post">
+										<div class="table-responsive">
+										<form action="/admin/permissions" method="post">
+												<table class="table permission-table table-striped">
+													<thead>
+													  <tr>
+														
+														<th>Permission to</th>
+														{% for role in role %}
+														
+														<th>{{role.role}}</th>
+														{% endfor %}
+													  </tr>
+													</thead>
+													<tbody>
+													<tr>
+														<!--  <td>
+															<input type="checkbox" id="checkbox11" class="css-checkbox sme"/>
+															<label for="checkbox11" name="checkbox69_lbl" class="css-label sme depressed"></label>
+														</td>-->
+														<td>All</td>
+														{% for role in role %}
+														<td><input type="checkbox"  class="css-checkbox sme" value="{{role.key.urlsafe}}<!>All" name="permissions"/>
+															<label for="checkbox12" name="checkbox69_lbl" class="css-label sme depressed"></label>
+														</td>
+														
+														{% endfor %}
+													  </tr>	
+													{% for perm in perm %}
+													  <tr>
+														<!--  <td>
+															<input type="checkbox" id="checkbox11" class="css-checkbox sme"/>
+															<label for="checkbox11" name="checkbox69_lbl" class="css-label sme depressed"></label>
+														</td>-->
+														<td>{{perm.url}}</td>
+														{% for role in role %}
+														<td><input type="checkbox"  class="css-checkbox sme" value="{{perm.key.urlsafe}}<!>{{role.key.urlsafe}}" name="permissions"/>
+															<label for="checkbox12" name="checkbox69_lbl" class="css-label sme depressed"></label>
+														</td>
+														
+														{% endfor %}
+													  </tr>	
+													  {% endfor %}
+													  
+													  
+														
+													</tbody>
+												</table>
+												
+										</div>
+										
+										<div class="update-permission-box">
+											<input type="submit" class="update-permission-btn pro-button" value="Submit">
+										</div>
+										
+										</form>
+									</div> <!-- .login-panel-body ENDS -->
+								</div> <!-- .login-panel ENDS -->
+							</div> <!-- .col-md-10 ENDS -->
+							
+						</div>
+						
+						<!-- Main Page content ENDS -->	
+						
+		</div> <!-- Page content Wrapper ends -->		
+	</div> <!-- Wrapper ends -->	
+	</body>
+</html>

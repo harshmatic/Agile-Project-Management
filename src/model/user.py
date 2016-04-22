@@ -46,3 +46,10 @@ class Groups(ndb.Model):
     def get_all(self):
         res = self.query().fetch()
         return res
+    def get(self,**keyargs):
+        group =Groups()
+        for k, v in keyargs.iteritems():
+            setattr(group,k,v)
+        #group.query()
+        logging.info(group.query())
+        return group.query()

@@ -33,3 +33,23 @@ class AddRole(login.BaseHandler):
         u.permissions=url
         logging.info(url)
         u.set()
+        
+class EditPermissions(login.BaseHandler):
+    def get(self):
+        u=user.Groups()
+        role=u.get_all()
+        p=user.Permissions()
+        perm=p.get_all()
+        self.render_template("auth/permissions.html",{"perm":perm,"role":role})
+    '''def post(self):
+        p= user.Groups()
+        permission=self.request.get_all("permissions")
+        for index, item in enumerate(permission):
+            
+            permission[index] = ndb.Key(urlsafe=item)'''
+        
+        
+        
+        
+        
+        
