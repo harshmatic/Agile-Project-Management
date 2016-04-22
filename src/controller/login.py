@@ -6,7 +6,7 @@ import os.path
 import webapp2
 import time
 import model
-import webapp2_extras.appengine.auth.models
+import webapp2_extras.appengine.auth.models as auth_user
 from webapp2_extras import auth
 from webapp2_extras import sessions
 from webapp2_extras.auth import InvalidAuthIdError
@@ -14,29 +14,21 @@ from webapp2_extras.auth import InvalidPasswordError
 from google.appengine.api import mail
 from webapp2_extras import security
 
-def check_permission(self,*a,**we):
+def check_permission(self,*args,**kargs):
     auth = self.auth
     if not auth.get_user_by_session():
         self.redirect(self.uri_for('login'), abort=True)
     else:
-        return True
-class User(webapp2_extras.appengine.auth.models.User):
-    def set_password(self, raw_password):
-        self.password = security.generate_password_hash(raw_password, length=12)
+        u=model.user.OurUser()
+        uw = self.auth.get_user_by_session()
+        qry=u.query().filter(ndb.GenericProperty("auth_ids")==uw['auth_ids'])
+        for acct in qry.fetch():
+            for acct1 in acct.role.get().permissions:
+                #logging.info(acct1.get().url)
+                if acct1.get().url in (self.request.path.split('/', 1)[1],"/"):
+                    return True
+    return False
 
-    @classmethod
-    def get_by_auth_token(cls, user_id, token, subject='auth'):
-    
-        token_key = cls.token_model.get_key(user_id, subject, token)
-        user_key = ndb.Key(cls, user_id)
-        logging.info(user_key)
-        # Use get_multi() to save a RPC call.
-        valid_token, user = ndb.get_multi([token_key, user_key])
-        if valid_token and user:
-            timestamp = int(time.mktime(valid_token.created.timetuple()))
-            return user, timestamp
-    
-        return None, None
 
 def user_required(handler):
     def check_login(self, *args, **kwargs):
@@ -104,15 +96,21 @@ class BaseHandler(webapp2.RequestHandler):
             self.session_store.save_sessions(self.response)
 
 class Main(BaseHandler):
+    
     def get(self):
-        self.render_template('main.html')
+        if check_permission(self):
+            self.render_template('main.html')
+        else:
+            self.redirect(self.uri_for('login'), abort=True)
 class SignupHandler(BaseHandler):
     def get(self):
-        role=model.user.Groups()
-        roles=role.get_all()
-        logging.info(roles)
-        self.render_template('auth/registration.html',{'roles':roles})
-    
+        if check_permission(self):
+            role=model.user.Groups()
+            roles=role.get_all()
+            logging.info(roles)
+            self.render_template('auth/registration.html',{'roles':roles})
+        else:
+            self.response.write("you are not allowed")
     def post(self):
         user_name = self.request.get('email')
         email = self.request.get('email')
@@ -195,7 +193,7 @@ class VerificationHandler(BaseHandler):
         # self.auth.get_user_by_token(user_id, signup_token)
         # unfortunately the auth interface does not (yet) allow to manipulate
         # signup tokens concisely
-        user, ts = User.get_by_auth_token(int(user_id), signup_token,"signup")
+        user, ts =user, ts = self.user_model.get_by_auth_token(int(user_id), signup_token,'signup')
         if not user:
             logging.info('Could not find any user with id "%s" signup token "%s"',
                 user_id, signup_token)
@@ -278,7 +276,7 @@ class AuthenticatedHandler(BaseHandler):
         
 config = {
     'webapp2_extras.auth': {
-        #'user_model': 'User',
+        'user_model': 'model.user.OurUser',
         'user_attributes': ['name','auth_ids']
     },
     'webapp2_extras.sessions': {
