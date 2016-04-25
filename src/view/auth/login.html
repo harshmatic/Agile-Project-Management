@@ -18,7 +18,11 @@
 		<div id="wrapper">
 	<!-- Page Content -->
        <div id="page-content-wrapper">
-		
+		{%for param in params%}
+			{% if param.failed%}
+				Invalid Username Or Password
+			{% endif %}
+		{% endfor %}
 						
 						
 						<section class="top-main-section">

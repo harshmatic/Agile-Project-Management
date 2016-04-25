@@ -100,10 +100,18 @@ class BaseHandler(webapp2.RequestHandler):
 class Main(BaseHandler):
     
     def get(self):
-        if check_permission(self):
-            self.render_template('main.html')
+        if self.auth.get_user_by_session():
+            self.redirect(self.uri_for('dashboard'))
         else:
             self.redirect(self.uri_for('login'), abort=True)
+
+class DashboardHandler(BaseHandler):
+    def get(self):
+        if check_permission(self):
+            self.render_template("main.html")
+        else:
+            self.response.write("you are not allowed")
+            
 class SignupHandler(BaseHandler):
     def get(self):
         if check_permission(self):
@@ -138,26 +146,30 @@ class SignupHandler(BaseHandler):
         msg = """Hi """+name+""",
         Thank you for registering on APM. Please follow the below url to activate your account.
         Remeber to change your password.
-        You will be able to do so by visiting <a href="{url}">{url}</a>'"""
+        You will be able to do so by visiting{url}"""
         message = mail.EmailMessage(sender="harshmatic@gmail.com",
                             subject="Account Verification")
+        
         message.to = email
         message.body = msg.format(url=verification_url)
+        logging.info("to email:"+email)
+        logging.info("token:"+token)
         message.send()
+        logging.info("to email:"+email)
+        logging.info("token:"+token)
         self.response.write(msg.format(url=verification_url))
         
 class SignupAdminHandler(BaseHandler):
     def get(self):
         role=model.user.Groups()
-        roles=role.get(role="admin")
-        self.render_template('auth/registration.html',{'roles':roles})
+        roles=role.query(model.user.Groups.role=="admin")
+        self.render_template('auth/registration_admin.html',{'roles':roles})
     def post(self):
-        role=model.user.Groups()
-        role=role.get(role="admin")
+        #role=model.user.Groups()
+        role=ndb.Key(urlsafe=self.request.get('role'))
         user_name = self.request.get('email')
         email = self.request.get('email')
         name = self.request.get('first_name')
-        role= role.Key()
         last_name = self.request.get('last_name')
         designation = self.request.get('designation')
         empid=self.request.get('emp_id')
@@ -178,13 +190,15 @@ class SignupAdminHandler(BaseHandler):
         msg = """Hi """+name+""",
         Thank you for registering on APM. Please follow the below url to activate your account.
         Remeber to change your password.
-        You will be able to do so by visiting <a href="{url}">{url}</a>'"""
+        You will be able to do so by visiting {url}"""
         message = mail.EmailMessage(sender="harshmatic@gmail.com",
                             subject="Account Verification")
         message.to = email
         message.body = msg.format(url=verification_url)
         message.send()
+        logging.info("asdasdassda")
         self.response.write(msg.format(url=verification_url))        
+
 class ForgotPasswordHandler(BaseHandler):
     def get(self):
         self._serve_page()
@@ -250,7 +264,7 @@ class VerificationHandler(BaseHandler):
             if not user.verified:
                 user.verified = True
                 user.put()
-            self.display_message('User email address has been verified.')
+            self.render_template('change-password.html')
             return
         elif verification_type == 'p':
             # supply user to the page
@@ -262,6 +276,23 @@ class VerificationHandler(BaseHandler):
         else:
             logging.info('verification type not supported')
             self.abort(404)
+        
+    def post(self):
+        password = self.request.get('password')
+        old_token = self.request.get('t')
+
+        if not password or password != self.request.get('confirm_password'):
+            self.response.write('nomatch')
+            return
+
+        user = self.user
+        user.set_password(password)
+        user.put()
+
+        # remove signup token, we don't want users to come back with an old link
+        self.user_model.delete_signup_token(user.get_id(), old_token)
+        
+        self.response.write('true')    
             
 class SetPasswordHandler(BaseHandler):
 

@@ -74,9 +74,9 @@
 									</div>
 									
 									<div class="panel-body login-panel-body">
-									<form action="/admin/permissions" method="post">
+									<form action="/admin/editpermissions" method="post">
 										<div class="table-responsive">
-										<form action="/admin/permissions" method="post">
+										
 												<table class="table permission-table table-striped">
 													<thead>
 													  <tr>
@@ -110,7 +110,12 @@
 														</td>-->
 														<td>{{perm.url}}</td>
 														{% for role in role %}
-														<td><input type="checkbox"  class="css-checkbox sme" value="{{perm.key.urlsafe}}<!>{{role.key.urlsafe}}" name="permissions"/>
+														<td>
+														{% if perm.key in role.permissions%}
+														<input type="checkbox"  class="css-checkbox sme" value="{{perm.key.urlsafe}}<!>{{role.key.urlsafe}}" checked name="permissions"/>
+														{% else %}
+														<input type="checkbox"  class="css-checkbox sme" value="{{perm.key.urlsafe}}<!>{{role.key.urlsafe}}" name="permissions"/>
+														{%endif%}
 															<label for="checkbox12" name="checkbox69_lbl" class="css-label sme depressed"></label>
 														</td>
 														

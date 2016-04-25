@@ -5,7 +5,7 @@ from google.appengine.ext import ndb
 
 class AddPermission(login.BaseHandler):
     def get(self):
-        self.render_template("permission.html")
+        self.render_template("auth/permission.html")
         
     def post(self):
         url=self.request.get("perm")
@@ -41,12 +41,27 @@ class EditPermissions(login.BaseHandler):
         p=user.Permissions()
         perm=p.get_all()
         self.render_template("auth/permissions.html",{"perm":perm,"role":role})
-    '''def post(self):
-        p= user.Groups()
+    def post(self):
+        prev_role=""
+        #role=""
+        perm=[]
+        #p= user.Groups()
         permission=self.request.get_all("permissions")
+        permission.sort();
         for index, item in enumerate(permission):
-            
-            permission[index] = ndb.Key(urlsafe=item)'''
+            row=item.split("<!>")
+            role1 = ndb.Key(urlsafe=row[1])
+            perm1 = ndb.Key(urlsafe=row[0])
+            if prev_role==row[1]:
+                perm.append(perm1)
+            else:
+                if index==0:
+                    prev_role=row[1]
+                    group=role1.get()
+                    perm.append(perm1)
+                else:
+                    group.permissions=perm
+                    group.put()
         
         
         

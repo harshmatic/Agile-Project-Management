@@ -1,9 +1,500 @@
 <html>
+	<head>
+		<title>Dashboard</title>
+		{% include "head.html" %}
+		
+		<script>
+		
+		$(document).ready(function() {
+		
+			$(".messages-main-box").niceScroll();
+			
+			$("#menu-toggle").click(function(e) {
+				e.preventDefault();
+				$("#wrapper").toggleClass("toggled");
+			});
+			
+			
+			/******** For Hamburger & Close icon *****/
+				
+			$('#ham-side-icon').show();	
+			
+			$( "#menu-toggle" ).click(function() {
+				var toggle = $( "#wrapper" ).hasClass("toggled");
+					
+						if(toggle == true){
+							$('#close-side-icon').show();
+							$('#ham-side-icon').hide();
+							
+						} else {
+							$('#close-side-icon').hide();
+							$('#ham-side-icon').show();
+						}
+				
+			});
+			/******** For Hamburger & Close icon ends *****/
+			
+			if($( window ).width() >= 768) {
+				$( "#menu-toggle" ).click(function() {
+						var a = $( "#wrapper" ).hasClass("toggled");
+					
+						if(a == true){
+							
+							$('#sidebar-wrapper').css('width','250px');
+							$('#sidebar-wrapper').css('left','250px');
+							$('#wrapper.toggled').css('padding-left','250px');
+							
+						} else {
+							$('#sidebar-wrapper').css('width','0px');
+							$('#sidebar-wrapper').css('left','0px');
+							$('#wrapper').css('padding-left','0px');
+							
+						}
+						
+				});
+			}
+			
+			if($( window ).width() <= 767) {
+				$( "#menu-toggle" ).click(function() {
+						var a = $( "#wrapper" ).hasClass("toggled");
+						
+						if(a == true){
+							  
+							
+							$('#sidebar-wrapper').css('width','250px');
+							$('#sidebar-wrapper').css('left','250px');
+							$('#wrapper.toggled').css('padding-left','250px');
+							
+						} else {
+							$('#sidebar-wrapper').css('width','0px');
+							$('#sidebar-wrapper').css('left','0px');
+							$('#wrapper').css('padding-left','0px');
+							
+						}
+						
+				});
+			}
+			
+					
+			/********** For Chatbox **********/
+						
+			$('.chatbox-pro-management').css('bottom','-423px');
+			
+			$( ".online-user-name" ).click(function() {
+				$('.chatbox-pro-management').css('bottom','0px');
+				$('.chatbox-pro-management').css('transition','all .8s');
+				
+			});
+			$( ".close-chatbox" ).click(function() {
+				$('.chatbox-pro-management').css('bottom','-423px');
+				$('.chatbox-pro-management').css('transition','all .8s');
+			});
+		});
+		
+		</script>
+	
+	
+	</head>
+	
 	<body>
-		{% if not user %}
-          <a href="/login">Login (and forgot password)</a>
-        {% else %}
-          Logged in as <span style="background-color: OldLace">{{ user.name }}</span> | <a href="/logout">Logout</a>
-        {% endif %}
+		<div id="wrapper">
+	
+		  <!-- Sidebar -->
+			<div id="sidebar-wrapper">
+				<ul class="sidebar-nav">
+					<li class="sidebar-brand">
+						<a href="#">
+							Agile Project Management
+						</a>
+					</li>
+					<li>
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-th-large side-font-icons"></i> Dashboard</a>
+						
+					</li>
+					<li>
+						<a class="sidebar-main-list-name" data-toggle="collapse" data-parent="" href="#collapseOne"><i class="fa fa-list"></i> Project Planning <span class="caret sidebar-caret"></span></a>
+						<div id="collapseOne" class="panel-collapse collapse">
+							<div class="panel-body sidebar-list-panel">
+								<ul class="sidebar-list">
+									<li>
+										<a href="#" class="sidebar-list-sub-item">Projects</a>
+									</li>
+									<li>
+										<a href="#" class="sidebar-list-sub-item">Release</a>
+									</li>
+									<li>
+										<a href="#" class="sidebar-list-sub-item">Product Backlog</a>
+									</li>
+									<li>
+										<a href="#" class="sidebar-list-sub-item">Sprint Planning</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li>
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-file-text side-font-icons"></i> Document Management</a>
+					</li>
+					<li>
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-pie-chart side-font-icons"></i> Reports</a>
+					</li>
+					<li>
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-bell side-font-icons"></i> Alerts & Notifications</a>
+					</li>
+					
+				</ul>
+			</div>
+			<!-- /#sidebar-wrapper -->
+		
+	<!-- Page Content -->
+       <div id="page-content-wrapper">
+		
+						<!-- For mobile user menu starts -->
+						<ul class="nav-mobile">
+									
+									  <li class="dropdown">
+										<a href="#" class="dropdown-toggle user-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										<img src="assets/img/user.png">
+										<span class="caret"></span></a>
+										<ul class="dropdown-menu menu-user menu-responsive">
+										  <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+										  <li class="dropdown-submenu">
+													
+													<a href="#"><i class="fa fa-caret-left arrow-left"></i><i class="fa fa-cog"></i> Settings</a>
+													<ul class="dropdown-menu submenu-list">
+													  <li><a href="#"><i class="fa fa-bell"></i> Notifications</a></li>
+													  <li><a href="#"><i class="fa fa-link"></i> Linked Accounts</a></li>
+													  <li><a href="#"><i class="fa fa-trash"></i> Clear History</a></li>
+													  <li><a href="#"><i class="fa fa-share-square"></i> Share Query</a></li>
+													  <li><a href="#"><i class="fa fa-certificate"></i> Assistance</a></li>
+													</ul>
+										  </li>
+										  <li class="dropdown-submenu">
+													
+													<a href="#"><i class="fa fa-caret-left arrow-left"></i><i class="fa fa-comments"></i> Chats</a>
+													<ul class="dropdown-menu submenu-list">
+													  <li><a href="#"><i class="fa fa-comment"></i> Recent Chat</a></li>
+													  <li><a href="#"><i class="fa fa-users"></i> Group Chat</a></li>
+													  <li><a href="#"><i class="fa fa-black-tie"></i> Client Chat</a></li>
+													</ul>
+										  </li>
+										  
+										  <li><a href="#"><i class="fa fa-question-circle"></i> Help</a></li>
+										  <li role="separator" class="divider"></li>
+										  <li><a href="/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
+										</ul>
+									  </li>
+						</ul>
+						<!-- For mobile user menu Ends -->
+						
+						
+						<section class="top-main-section">
+							 <!-- Static navbar -->
+							  <nav class="navbar navbar-default navbar-pro-management">
+								<div class="container-fluid">
+								  <div class="navbar-header">
+									<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+									  <span class="sr-only">Toggle navigation</span>
+									  <span class="icon-bar"></span>
+									  <span class="icon-bar"></span>
+									  <span class="icon-bar"></span>
+									</button>
+									<a class="navbar-brand" href="#">
+										
+										<img src="assets/img/eternus.png" class="logo-img">
+									</a>
+								  </div>
+								  <div id="navbar" class="navbar-collapse collapse">
+									<ul class="nav navbar-nav">
+									  
+									  <li class="dropdown">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										<i class="fa fa-credit-card"></i> SALES
+										<span class="caret"></span></a>
+										<ul class="dropdown-menu">
+										  <li><a href="#"><i class="fa fa-cogs"></i> Sales 1</a></li>
+										  <li><a href="#"><i class="fa fa-cogs"></i> Sales 2</a></li>
+										  <li><a href="#"><i class="fa fa-cogs"></i> Sales 3</a></li>
+										</ul>
+									  </li>
+									  
+									  <li class="dropdown">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										<i class="fa fa-share-alt"></i> SOCIAL MEDIA
+										<span class="caret"></span></a>
+										<ul class="dropdown-menu">
+										  <li><a href="#"><i class="fa fa-facebook-official"></i> Facebook</a></li>
+										  <li><a href="#"><i class="fa fa-twitter"></i> Twitter</a></li>
+										  <li><a href="#"><i class="fa fa-instagram"></i> Instagram</a></li>
+										</ul>
+									  </li>
+									  
+									  
+									  <li class="dropdown">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										<i class="fa fa-sticky-note"></i> PROJECTS
+										<span class="caret"></span></a>
+										<ul class="dropdown-menu">
+										  <li><a href="#"><i class="fa fa-cog"></i> Project 1</a></li>
+										  <li><a href="#"><i class="fa fa-cog"></i> Project 2</a></li>
+										  <li><a href="#"><i class="fa fa-cog"></i> Project 3</a></li>
+										</ul>
+									  </li>
+									</ul>
+									
+									
+									<ul class="nav navbar-nav navbar-right nav-desktop">
+									  <li class="search-field-box"><i class="fa fa-search search-icon"></i><input type="text" class="form-control search-field project-management-textbox" placeholder="Search..."></li>
+									 
+ 									  <li class="dropdown">
+										<a href="#" class="dropdown-toggle user-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										
+										<img src="assets/img/user.png">
+										
+										<span class="caret"></span></a>
+										
+										<ul class="dropdown-menu multi-level menu-user">
+										  <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+									      <li class="dropdown-submenu">
+													<a href="#"><i class="fa fa-caret-left arrow-left"></i><i class="fa fa-cog"></i> Settings</a>
+													<ul class="dropdown-menu submenu-list">
+													  <li><a href="#"><i class="fa fa-bell"></i> Notifications</a></li>
+													  <li><a href="#"><i class="fa fa-link"></i> Linked Accounts</a></li>
+													  <li><a href="#"><i class="fa fa-trash"></i> Clear History</a></li>
+													  <li><a href="#"><i class="fa fa-share-square"></i> Share Query</a></li>
+													  <li><a href="#"><i class="fa fa-certificate"></i> Assistance</a></li>
+													</ul>
+										  </li>
+										  <li class="dropdown-submenu">
+													<a href="#"><i class="fa fa-caret-left arrow-left"></i><i class="fa fa-comments"></i> Chats</a>
+													<ul class="dropdown-menu submenu-list">
+													  <li><a href="#"><i class="fa fa-comment"></i> Recent Chat</a></li>
+													  <li><a href="#"><i class="fa fa-users"></i> Group Chat</a></li>
+													  <li><a href="#"><i class="fa fa-black-tie"></i> Client Chat</a></li>
+													</ul>
+										  </li>
+										  <li><a href="#"><i class="fa fa-question-circle"></i> Help</a></li>
+										  <li role="separator" class="divider"></li>
+										  <li><a href="/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
+										</ul>
+									  </li>
+									</ul>
+								  </div><!--/.nav-collapse -->
+								</div><!--/.container-fluid -->
+							  </nav>
+
+						</section>	
+						
+						<!-- Toggle Button -->
+							<!--<a href="#menu-toggle" class="btn btn-default pro-button" id="menu-toggle">MENUS</a>-->
+							
+							<div id="menu-toggle">
+								
+								<img src="assets/img/ham-side-icon.png" id="ham-side-icon">
+								<img src="assets/img/close-side-icon.png" id="close-side-icon" style="display:none;">
+							</div>
+							
+						<!-- Toggle Button ENDS -->
+		
+		
+						<!-- Main Page content starts -->	
+						
+						<div class="main-box">
+							<div class="col-md-6">
+								<div class="panel panel-default mainpage-panels">
+									<div class="panel-heading main-box-panel-heading">
+										Project progress chart
+									</div>
+									<div class="panel-body">
+										<img src="assets/img/bar-chart.png" class="img-responsive">
+										
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="panel panel-default mainpage-panels">
+									<div class="panel-heading main-box-panel-heading">
+										Total Milestone achieved
+									</div>
+									<div class="panel-body">
+										<table class="table billing-ex-table table-striped">
+											<thead>
+											  <tr>
+												<th>User</th>
+												<th>Milestones Achieved</th>
+												<th>Duration</th>
+											  </tr>
+											</thead>
+											<tbody>
+											  <tr>
+												<td>User 1</td>
+												<td>12</td>
+												<td>40 hours</td>
+											  </tr>
+											 <tr>
+												<td>User 2</td>
+												<td>8</td>
+												<td>21 hours</td>
+											  </tr>
+											 <tr>
+												<td>User 3</td>
+												<td>5</td>
+												<td>15 hours</td>
+											  </tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="panel panel-default mainpage-panels">
+									<div class="panel-heading main-box-panel-heading">
+										Total Tasks completed
+									</div>
+									<div class="panel-body">
+										<table class="table billing-ex-table table-striped">
+											<thead>
+											  <tr>
+												<th>User</th>
+												<th>Tasks Completed</th>
+												<th>Duration</th>
+											  </tr>
+											</thead>
+											<tbody>
+											  <tr>
+												<td>User 1</td>
+												<td>12</td>
+												<td>40 hours</td>
+											  </tr>
+											 <tr>
+												<td>User 2</td>
+												<td>8</td>
+												<td>21 hours</td>
+											  </tr>
+											 <tr>
+												<td>User 3</td>
+												<td>5</td>
+												<td>15 hours</td>
+											  </tr>
+											</tbody>
+										</table>
+									
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="panel panel-default mainpage-panels">
+									<div class="panel-heading main-box-panel-heading">
+										Project & employee activity
+									</div>
+									<div class="panel-body"></div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="panel panel-default mainpage-panels">
+									<div class="panel-heading main-box-panel-heading">
+										Billing Expenses
+									</div>
+									<div class="panel-body">
+										<table class="table billing-ex-table table-striped">
+											<thead>
+											  <tr>
+												<th>Bill Date</th>
+												<th>Due Date</th>
+												<th>Description</th>
+												<th>Total</th>
+											  </tr>
+											</thead>
+											<tbody>
+											  <tr>
+												<td>March 29 2016</td>
+												<td>Due in 2 days</td>
+												<td>Create Design of webpages.</td>
+												<td>$ 50</td>
+											  </tr>
+											  <tr>
+												<td>March 28 2016</td>
+												<td>Due in 16 days</td>
+												<td>Create payment gateway flow.</td>
+												<td>$ 60</td>
+											  </tr>
+											  <tr>
+												<td>March 10 2016</td>
+												<td>Due in 6 days</td>
+												<td>Create backend.</td>
+												<td>$ 70</td>
+											  </tr>
+											</tbody>
+										</table>
+									
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<!-- Main Page content ENDS -->	
+						
+						
+						<!-- CHATBOX STARTS -->
+
+							<div class="panel panel-default chatbox-pro-management">
+									<div class="panel-heading main-box-panel-heading chatbox-heading">
+										<span class="online-user-name"><i class="fa fa-user"></i>  Online User 1   <i class="fa fa-circle"></i></span>
+										<div class="chatbox-action">
+											<!--<a href="#" class="chatbox-action-link" id="minimize-chatbox"><i class="fa fa-minus"></i></a>-->
+											<a href="#" class="chatbox-action-link close-chatbox" id="close-chatbox"><i class="fa fa-times"></i></a>
+										</div>
+									</div>
+									
+									
+									<div class="panel-body chatbox-main-panel-body">
+										<div class="messages-main-box">
+												<div class="panel panel-default message-box-panel-sender">
+													Lorem ipsum dolor sit amet, consectetur adipiscing elit
+													
+													<div class="row time-row">
+														<span class="time-span">11:45:23 AM</span>
+													</div>
+												</div>
+												<div class="panel panel-default message-box-panel-reciever">
+													Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.
+													
+													<div class="row time-row">
+														<span class="time-span">06:26:40 PM</span>
+													</div>
+												</div>
+												<div class="panel panel-default message-box-panel-sender">
+													Lorem ipsum dolor sit amet.
+													
+													<div class="row time-row">
+														<span class="time-span">11:45:23 AM</span>
+													</div>
+												</div>
+												<div class="panel panel-default message-box-panel-reciever">
+													Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+													
+													<div class="row time-row">
+														<span class="time-span">06:26:40 PM</span>
+													</div>
+												</div>
+										</div>
+										
+										<hr/>
+										
+										<!-- Send Button & text area of message -->
+										<textarea class="form-control chatbox-textarea" rows="2" id="comment"></textarea>
+										<span class="chatbox-send-btn">
+											<i class="fa fa-paper-plane"></i>
+										</span>
+									
+									</div>
+							</div>
+								
+						<!-- CHATBOX ENDS -->	
+						
+						
+						
+		</div> <!-- Page content Wrapper ends -->		
+	</div> <!-- Wrapper ends -->	
 	</body>
-<html>
+</html>

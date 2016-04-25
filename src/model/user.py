@@ -48,8 +48,10 @@ class Groups(ndb.Model):
         return res
     def get(self,**keyargs):
         group =Groups()
+        logging.info(keyargs)
         for k, v in keyargs.iteritems():
-            setattr(group,k,v)
-        #group.query()
-        logging.info(group.query())
-        return group.query()
+            setattr(self,k,v)
+        qry = Groups.query()
+       # qry = self.query(self.role=)
+        logging.info(qry)
+        return qry

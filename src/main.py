@@ -5,6 +5,7 @@ from controller.permission import *
 
 
 app = webapp2.WSGIApplication([
+    webapp2.Route('/dashboard', DashboardHandler, name="dashboard"),                           
     webapp2.Route('/signup', SignupHandler),
     webapp2.Route('/signupadmin', SignupAdminHandler),
     webapp2.Route('/<type:v|p>/<user_id:\d+>-<signup_token:.+>',handler=VerificationHandler, name='verification'),
