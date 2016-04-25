@@ -21,7 +21,7 @@ def check_permission(self,*args,**kargs):
     else:
         u=model.user.OurUser()
         uw = self.auth.get_user_by_session()
-        qry=u.query().filter(ndb.GenericProperty("auth_ids")==uw['auth_ids'])
+        qry=u.query().filter(ndb.GenericProperty("email_address")==uw['email_address'])
         for acct in qry.fetch():
             #logging.info(acct)
             for acct1 in acct.role.get().permissions:
@@ -91,7 +91,7 @@ class BaseHandler(webapp2.RequestHandler):
     def dispatch(self):
             # Get a session store for this request.
         self.session_store = sessions.get_store(request=self.request)
-
+        logging.info(self.response)
         try:
             webapp2.RequestHandler.dispatch(self)
         finally:
@@ -152,17 +152,13 @@ class SignupHandler(BaseHandler):
         
         message.to = email
         message.body = msg.format(url=verification_url)
-        logging.info("to email:"+email)
-        logging.info("token:"+token)
         message.send()
-        logging.info("to email:"+email)
-        logging.info("token:"+token)
         self.response.write(msg.format(url=verification_url))
         
 class SignupAdminHandler(BaseHandler):
     def get(self):
         role=model.user.Groups()
-        roles=role.query(model.user.Groups.role=="admin")
+        roles=role.query(model.user.Groups.role=="Admin")
         self.render_template('auth/registration_admin.html',{'roles':roles})
     def post(self):
         #role=model.user.Groups()
@@ -196,7 +192,7 @@ class SignupAdminHandler(BaseHandler):
         message.to = email
         message.body = msg.format(url=verification_url)
         message.send()
-        logging.info("asdasdassda")
+        logging.info(msg.format(url=verification_url))
         self.response.write(msg.format(url=verification_url))        
 
 class ForgotPasswordHandler(BaseHandler):
@@ -236,19 +232,30 @@ class ForgotPasswordHandler(BaseHandler):
             'not_found': not_found
         }
         self.render_template('auth/forgot-password.html', params)
-
+class ver(BaseHandler):
+    def get(self, *args, **kwargs):
+        user = None
+        user_id = kwargs['user_id']
+        signup_token = kwargs['signup_token']
+        verification_type = kwargs['type']
+        user, ts= self.user_model.get_by_auth_token(int(user_id), signup_token,'signup')
+        logging.info(user)
+        self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
+        if not user.verified:
+            user.verified = True
+            user.put()
 class VerificationHandler(BaseHandler):
     def get(self, *args, **kwargs):
         user = None
         user_id = kwargs['user_id']
         signup_token = kwargs['signup_token']
         verification_type = kwargs['type']
-
+        
         # it should be something more concise like
         # self.auth.get_user_by_token(user_id, signup_token)
         # unfortunately the auth interface does not (yet) allow to manipulate
         # signup tokens concisely
-        user, ts =user, ts = self.user_model.get_by_auth_token(int(user_id), signup_token,'signup')
+        user, ts= self.user_model.get_by_auth_token(int(user_id), signup_token,'signup')
         if not user:
             logging.info('Could not find any user with id "%s" signup token "%s"',
                 user_id, signup_token)
@@ -260,12 +267,12 @@ class VerificationHandler(BaseHandler):
         if verification_type == 'v':
             # remove signup token, we don't want users to come back with an old link
             self.user_model.delete_signup_token(user.get_id(), signup_token)
-
+            logging.info("holaaaa")
             if not user.verified:
                 user.verified = True
                 user.put()
-            self.render_template('change-password.html')
-            return
+            self.render_template('auth/change-password.html')
+            #return
         elif verification_type == 'p':
             # supply user to the page
             params = {
@@ -277,22 +284,7 @@ class VerificationHandler(BaseHandler):
             logging.info('verification type not supported')
             self.abort(404)
         
-    def post(self):
-        password = self.request.get('password')
-        old_token = self.request.get('t')
-
-        if not password or password != self.request.get('confirm_password'):
-            self.response.write('nomatch')
-            return
-
-        user = self.user
-        user.set_password(password)
-        user.put()
-
-        # remove signup token, we don't want users to come back with an old link
-        self.user_model.delete_signup_token(user.get_id(), old_token)
-        
-        self.response.write('true')    
+       
             
 class SetPasswordHandler(BaseHandler):
 
@@ -349,7 +341,7 @@ class AuthenticatedHandler(BaseHandler):
 config = {
     'webapp2_extras.auth': {
         'user_model': 'model.user.OurUser',
-        'user_attributes': ['name','auth_ids']
+        'user_attributes': ['name','email_address']
     },
     'webapp2_extras.sessions': {
         'secret_key': 'AIzaSyCLBiLQ5B1QJ2BGlQXvUqJysqFjjc_lw00'
