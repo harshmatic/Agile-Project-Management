@@ -1,0 +1,334 @@
+.admin-label{
+	font-size: 18px;
+    background: #FF5B61!important;
+    letter-spacing: 2px!important;
+	padding-left: 15px!important;
+}
+
+
+/****************** User Management Styles starts ************************/
+.search-field-box-admin{
+	text-align:right;
+	margin-right: 0px!important;
+	margin-top: -6px!important;
+}
+.search-field-admin-textbox{
+	width: 200px;
+    height: 34px;
+    border: 1px solid #ccc;
+    font-size: 12px;
+    letter-spacing: 2px;
+    border-bottom: 3px solid #ccc;
+    box-shadow: none!important;
+    border-radius: 0!important;
+}
+.search-field-admin-textbox:focus, .search-field-admin-textbox:visited, .search-field-admin-textbox:active{
+	box-shadow:none!important;
+	outline:none!important;
+}
+.user-management-heading-box{
+	margin-bottom:22px;
+}
+.user-management-heading{
+	font-size: 26px;
+    margin-top: -5px;
+    letter-spacing: 2px;
+    font-weight: 800;
+	color:#FF5B61!important;
+	
+	margin-left: 71px;
+    margin-top: -36px;
+}
+.user-management-head-icon{
+	margin-right:10px;
+}
+.add-user-btn{
+	font-size:13px;
+    border: 2px solid #FF5B61!important;
+    letter-spacing: 1px;
+    padding: 5px 25px;
+    transition: all 0.3s ease-out;
+    background:#FF5B61!important;
+	color:#fff!important;
+	outline:none!important;
+	
+}
+@media (min-width: 500px){
+	.add-user-btn{
+		float: right;
+		margin-top: -40px;
+	}
+}
+.add-user-btn:before {
+    font-family: 'FontAwesome';
+    content: '\f067';
+    padding-right: 8px;
+    position: relative;
+    font-size: 90%;
+	color:#fff!important;
+}
+.user-management-edit-icon{
+	font-size:20px!important;
+	color:#FFC233;
+	cursor:pointer;
+}
+.user-management-delete-icon{
+	font-size:20px!important;
+	color:#FF363C;
+	cursor:pointer;
+}
+.user-management-table th{
+	padding: 12px 8px!important;
+    border: none!important;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: grey;
+	text-transform:uppercase;
+	font-weight:bold;
+}
+.user-management-table td{
+	padding: 16px 8px!important;
+    border-bottom: 1px solid #ccc!important;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: #000;
+	font-weight:bold;
+}
+.user-management-table .header-row:hover{
+	background:transparent!important;
+}
+.user-management-table tr:hover{
+	background:#f8f8f8;
+}
+.user-management-table td:first-child{
+	color:#FF5B61!important;
+}
+.user-management-table td:nth-last-child(1), .user-management-table td:nth-last-child(2) {
+    text-align:center!important;
+} 
+.user-management-table th:nth-last-child(1), .user-management-table th:nth-last-child(2) {
+    text-align:center!important;
+} 
+.menu-toggle-user-management{
+	margin-left:0!important;
+	padding-left:0!important;
+}
+.user-management-body{
+	padding-bottom:0!important;
+}
+.user-management-table td:nth-child(3){
+	color:#FF5B61!important;
+}
+.roll-td{
+	color:#FF5B61!important;
+	letter-spacing:2px;
+}
+/****************** User Management Styles ends ************************/
+
+/****************** Project Management Styles starts ************************/
+.pro-man-user-settings{
+	padding: 6px;
+    border: 1px solid #FF5B61;
+    border-radius: 15px;
+    font-size: 12px;
+	background-color:#FF5B61!important;
+	color:#fff!important;
+	margin-right:4px;
+	margin-bottom:15px;
+	margin:5px;
+	
+}
+.pro-man-user-dropdown{
+	margin-top: 8px;
+    margin-left: 4px;
+    min-width: 110px!important;
+}
+.pro-man-user-dropdown li a{
+	font-size:11px!important;
+	padding: 5px 12px!important;
+}
+.role-pro-man-user{
+	margin-right:3px;
+}
+.delete-pro-man-user{
+	margin-right:3px;
+}
+.pro-man-user-settings-dropdown{
+	line-height:2.8;
+}
+.pro-man-user-settings-box{
+	text-align:left!important;
+	padding:0;
+}
+.pro-management-table td:nth-child(3){
+	color:#000!important;
+}
+.view-project-team-link{
+	color:#FF5B61!important;
+	cursor:pointer;
+}
+.view-project-team-link:hover{
+	color:#FF5B61!important;
+	text-decoration:underline;
+}
+.project-team-list {
+    list-style-type: none!important;
+    padding: 0!important;
+}
+.project-team-list li {
+    padding: 10px;
+    border-bottom: 1px solid #F7EEEE;
+}
+.project-team-img {
+    width: 10%;
+}
+.project-team-list label{
+    font-size:13px;
+	font-weight:bold;
+	letter-spacing:2px;
+}
+/****************** Project Management Styles ends ************************/
+
+/************************ PERMISSIONS Screen styles Starts **************************/
+.permissions-container{
+	margin-top:2%;
+}
+@media (max-width: 600px){
+	.permissions-container{
+		margin-top:-14%;
+	}
+}
+.permission-table{
+	text-align:center!important;
+}
+.permission-table th{
+	color: #FF5B61!important;
+    text-align: center!important;
+    font-size: 13px;
+    letter-spacing: 2px;
+	padding: 15px 15px!important;
+}
+.permission-table td{
+	letter-spacing:2px!important;
+	font-weight:bold;
+	font-size: 12px;
+	padding: 15px 15px!important;
+}
+.update-permission-box{
+	text-align: right;
+    margin-top: 20px;
+    margin-bottom: -22px;
+}
+.update-permission-btn{
+    border: 2px solid #FF5B61!important;
+    letter-spacing: 1px;
+    padding: 8px 40px;
+    transition: all 0.3s ease-out;
+    background:#FF5B61!important;
+	color:#fff!important;
+	outline:none!important;
+}
+.update-permission-btn:hover{
+	
+}
+.permission-table input[type=checkbox]{
+	cursor:pointer!important;
+}
+.permission-table tr:last-child{
+     border-bottom:1px solid #ddd;
+}
+.permission-box{
+	padding:0;
+}
+.add-role-btn{
+	font-size:13px;
+    border: 2px solid #FF5B61!important;
+    letter-spacing: 1px;
+    padding: 5px 25px;
+    transition: all 0.3s ease-out;
+    background:#FF5B61!important;
+	color:#fff!important;
+	outline:none!important;
+	margin-right:185px;
+}
+.add-permission-btn{
+	font-size:13px;
+    border: 2px solid #FF5B61!important;
+    letter-spacing: 1px;
+    padding: 5px 25px;
+    transition: all 0.3s ease-out;
+    background:#FF5B61!important;
+	color:#fff!important;
+	outline:none!important;
+	
+}
+@media (min-width: 630px){
+	.add-role-btn, .add-permission-btn{
+		float: right;
+		margin-top: -40px;
+	}
+	
+}
+@media (max-width: 629px){
+	.add-role-btn{
+		margin-right:0px;
+		margin-top: 15px;
+	}
+}
+@media (max-width: 420px){
+	.add-permission-btn{
+		margin-top: 10px;
+		margin-bottom: 15px;
+	}
+}
+
+.add-role-btn:before, .add-permission-btn:before {
+    font-family: 'FontAwesome';
+    content: '\f067';
+    padding-right: 8px;
+    position: relative;
+    font-size: 90%;
+	color:#fff!important;
+}
+.add-role-modal-box{
+	margin-top: 8px;
+    margin-bottom: 10px;
+}
+.add-role-modal-box .checkbox label{
+	letter-spacing: 2px!important;
+    color: grey!important;
+    font-size: 12px!important;
+	font-weight:bold;
+}
+.add-role-modal-box input[type=checkbox]{
+	cursor:pointer;
+	margin-top:2px;
+}
+.permission-link{
+	color:#FF5B61!important;
+	font-size:13px;
+	font-weight:bold;
+}
+.permission-link:hover, .permission-link:visited, .permission-link:active, .permission-link:focus{
+	color:#FF5B61!important;
+}
+.roll-link{
+	color:#626262!important;
+	font-size:13px;
+	font-weight:bold;
+}
+.roll-link:hover, .roll-link:visited, .roll-link:active, .roll-link:focus{
+	color:#626262!important;
+}
+.save-roll-modal-btn, .delete-roll-modal-btn{
+	padding:5px 15px!important;
+}
+.delete-roll-modal-btn:before {
+    font-family: 'FontAwesome';
+    content: '\f00d';
+    padding-right: 8px;
+    position: relative;
+    font-size: 90%;
+	color:#fff!important;
+}
+/************************ PERMISSIONS Screen styles Ends **************************/

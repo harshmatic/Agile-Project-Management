@@ -22,7 +22,9 @@ class OurUser(auth_user.User):
             return user, timestamp
 
         return None, None
-        
+    def get_all(self):
+        res = self.query().fetch()
+        return res  
 
 class Permissions(ndb.Model):
     url = ndb.StringProperty(required=True)

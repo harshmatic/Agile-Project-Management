@@ -10,9 +10,12 @@
 				$.post( "/signupadmin", $("#signup_form").serialize())
 			  		.done(function( data ) {
 			  			if (data!="true"){
-			  				alert(data);
+			  				alert("Something Went Wrong");
+			  				return false
 			  			} else {
-			  				alert("Email Sent");
+			  				alert("Please check your mail.");
+			  				document.location.href = '/login';
+			  				return false
 			  			}
 			  	});
 			});

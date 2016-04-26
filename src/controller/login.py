@@ -77,6 +77,7 @@ class BaseHandler(webapp2.RequestHandler):
             params = {}
         user = self.user_info
         params['user'] = user
+        
         path = os.path.join(os.path.dirname(__file__), '../view', view_filename)
         self.response.out.write(template.render(path, params))
 
@@ -100,8 +101,12 @@ class BaseHandler(webapp2.RequestHandler):
 class Main(BaseHandler):
     
     def get(self):
-        if self.auth.get_user_by_session():
-            self.redirect(self.uri_for('dashboard'))
+        user1=self.auth.get_user_by_session()
+        if user1:
+            if self.user_model.get_by_id(user1['user_id']).role.get().role == "Admin":
+                self.redirect(self.uri_for('admindashboard'))
+            else:
+                self.redirect(self.uri_for('dashboard'))
         else:
             self.redirect(self.uri_for('login'), abort=True)
 
@@ -193,7 +198,7 @@ class SignupAdminHandler(BaseHandler):
         message.body = msg.format(url=verification_url)
         message.send()
         logging.info(msg.format(url=verification_url))
-        self.response.write(msg.format(url=verification_url))        
+        self.response.write("true")        
 
 class ForgotPasswordHandler(BaseHandler):
     def get(self):
@@ -232,18 +237,7 @@ class ForgotPasswordHandler(BaseHandler):
             'not_found': not_found
         }
         self.render_template('auth/forgot-password.html', params)
-class ver(BaseHandler):
-    def get(self, *args, **kwargs):
-        user = None
-        user_id = kwargs['user_id']
-        signup_token = kwargs['signup_token']
-        verification_type = kwargs['type']
-        user, ts= self.user_model.get_by_auth_token(int(user_id), signup_token,'signup')
-        logging.info(user)
-        self.auth.set_session(self.auth.store.user_to_dict(user), remember=True)
-        if not user.verified:
-            user.verified = True
-            user.put()
+
 class VerificationHandler(BaseHandler):
     def get(self, *args, **kwargs):
         user = None
@@ -304,7 +298,7 @@ class SetPasswordHandler(BaseHandler):
         # remove signup token, we don't want users to come back with an old link
         self.user_model.delete_signup_token(user.get_id(), old_token)
         
-        self.response.write('true')
+        self.redirect(self.uri_for('home'))
         
 class LoginHandler(BaseHandler):
     def get(self):

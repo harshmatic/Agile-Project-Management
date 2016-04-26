@@ -82,7 +82,7 @@
 }
 
 .sidebar-nav > .sidebar-brand {
-    font-size: 18px;
+    font-size: 15px;
     padding: 20px 0px;
     padding-bottom: 20px;
 	background: #FF5B61!important;
@@ -90,7 +90,7 @@
 
 .sidebar-nav > .sidebar-brand a {
     color: #fff!important;
-	padding-left:7px;
+	/*padding-left:7px;*/
 }
 
 .sidebar-nav > .sidebar-brand a:hover {

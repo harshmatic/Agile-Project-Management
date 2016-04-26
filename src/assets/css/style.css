@@ -103,14 +103,26 @@ body{
 	margin-top:20px;
 }
 #menu-toggle{
-	margin-left:15px;
+	/*margin-left:15px;
 	font-weight:bold;
 	background: #FF5B61!important;
 	color:#fff!important;
 	border-color:#FF5B61!important;
 	font-size:12px;
 	letter-spacing:1px;
-	border-radius:0!important;
+	border-radius:0!important;*/
+	
+	margin-left: 15px;
+    font-weight: bold;
+    color: #ADADAD!important;
+    border-color: #FF5B61!important;
+    font-size: 12px;
+    letter-spacing: 1px;
+    border-radius: 0!important;
+    width: 46px;
+    padding: 5px;
+	cursor:pointer;
+	transition:all .8s;
 }
 .sidebar-nav .fa{
 	display:inline!important;
@@ -355,7 +367,7 @@ body{
 .project-management-textbox{
 	font-size:12px;
 	letter-spacing:2px;
-	border-bottom:4px solid #ccc;
+	border-bottom:3px solid #ccc;
 	box-shadow:none!important;
 	border-radius:0!important;
 }
@@ -587,4 +599,158 @@ body{
 .red-panel-heading{
 	background:#FF5B61!important;
 	color:#fff!important;
+}
+
+/************************ TASKS Screen styles Starts **************************/
+
+.task-main-panel{
+	padding:25px 15px;
+}
+.add-task-box{
+	text-align:right;
+	margin-bottom: 25px;
+}
+.add-task-btn{
+	font-size:13px;
+    border: 2px solid #FF5B61!important;
+    letter-spacing: 1px;
+    padding: 5px 25px;
+    transition: all 0.3s ease-out;
+    background:#FF5B61!important;
+	color:#fff!important;
+	outline:none!important;
+}
+.add-task-btn:before {
+    font-family: 'FontAwesome';
+    content: '\f067';
+    padding-right: 8px;
+    position: relative;
+    font-size: 90%;
+	color:#fff!important;
+}
+.tasks-table th{
+	padding: 12px 8px!important;
+    border: none!important;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: grey;
+	text-transform:uppercase;
+	font-weight:bold;
+}
+.tasks-table td{
+	padding: 16px 8px!important;
+    border-bottom: 1px solid #ccc!important;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: #000;
+	font-weight:bold;
+}
+.tasks-table .header-row:hover{
+	background:transparent!important;
+}
+.tasks-table tr:hover{
+	background:#f5f5f5;
+}
+.tasks-table td:first-child{
+	color:#FF5B61!important;
+}
+.progress-pm {
+	
+	margin-bottom: 0px!important;
+}
+.progress-bar-pm {
+	font-size:9px!important;
+}
+div.Tokenize ul.Dropdown {
+	/*position:relative!important;*/
+	font-size:12px!important;
+}
+div.Tokenize {
+    display: block!important;
+}
+@media (min-width: 768px){
+	div.Tokenize ul.TokensContainer{
+		height:34px!important;
+	}
+}
+.Token{
+	padding: 3px 8px 0px 8px!important;
+	height: 25px!important;	
+	border-radius: 8px;
+	background:transparent!important;
+	letter-spacing:1px!important;
+	margin: 4px 0 0 4px!important;
+}
+.task-label{
+	font-size:13px;
+	letter-spacing:2px;
+}
+.task-form-group{
+	margin-bottom:26px!important;
+}
+.add-task-textbox{
+	box-shadow:none!important;
+	border-radius:0!important;
+	letter-spacing:1px;
+	font-size:13px;
+}
+.add-task-textbox:focus{
+	border-color:#000!important;
+}
+.add-task-modal-heading{
+	font-size: 18px;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+.add-task-modal-content{
+	border-radius:0!important;
+}
+.add-task-modal-footer{
+	background:#f7f7f7;
+}
+.add-task-modal-header{
+	background: -webkit-linear-gradient(top, rgb(254, 254, 253), rgb(249, 249, 249) 3%, rgb(229, 229, 229));
+    background: linear-gradient(top, rgb(254, 254, 253), rgb(249, 249, 249) 3%, rgb(229, 229, 229));
+ 
+}
+.close {
+    font-size: 45px!important;
+    line-height: 0.5!important;
+	outline:none!important;
+}	
+.datepicker-switch{
+	font-size: 13px!important;
+    letter-spacing: 2px!important;
+}
+.dow, .day{
+	font-size: 12px!important;
+    letter-spacing: 1px!important;
+}
+.fa-calendar{
+	margin-left:10px;
+}
+.datepicker table tr td.active, .datepicker table tr td.active:hover, .datepicker table tr td.active.disabled, .datepicker table tr td.active.disabled:hover{
+	background-color:#FF5B61!important;
+	background-image:none!important;
+}
+.add-task-btn-modal{
+    font-size: 13px;
+    border: 2px solid #FF5B61!important;
+    letter-spacing: 2px;
+    padding: 5px 25px;
+    transition: all 0.3s ease-out;
+    background: #FF5B61!important;
+    color: #fff!important;
+    outline: none!important;
+}
+.cancel-task-btn-modal{
+    margin-left:13px;
+	color:#FF5B61!important;
+	font-size:12px;
+	letter-spacing:1px;
+	font-weight:bold;
+}
+/************************ TASKS Screen styles Ends **************************/
+#menu-toggle img{
+	width:35px!important;
 }

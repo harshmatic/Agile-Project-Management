@@ -1,19 +1,63 @@
 <html>
 	<head>
-		<title>Dashboard</title>
-		{% include "head.html" %}
+		<title>User Management</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		
+		<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/assets/css/style.css">
+		<link rel="stylesheet" href="/assets/css/sidebar-test.css">
+		<link rel="stylesheet" href="/assets/css/button.css">
+		<link rel="stylesheet" href="/assets/css/jquery.tokenize.css">
+		<link rel="stylesheet" href="/assets/css/bootstrap-datepicker.min.css">
+		<link rel="stylesheet" href="/assets/css/style-admin.css">
+		
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway">
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Montserrat">
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="/assets/js/bootstrap.min.js"></script>
+		<script src="/assets/js/nice-scroll.js"></script>
+		<script src="/assets/js/button.js"></script>
+		<script src="/assets/js/main.js"></script>
+		<script src="/assets/js/jquery.tokenize.js"></script>
+		<script src="/assets/js/bootstrap-datepicker.min.js"></script>
+		
 		
 		<script>
 		
 		$(document).ready(function() {
 		
+			$('.datepicker').datepicker({
+				format: 'dd/mm/yyyy',
+				startDate: '0d'
+				
+			});
+
+		
+			/*********For Multiple select***************/
+			
+			$('#tokenize').tokenize({
+				displayDropdownOnFocus: true
+			});
+			
+			/*******For Multiple select ends **************/
+			
+			
+			
+			$(".add-user-btn").click(function(e) {
+				$('#add-user-modal').modal('show');
+			});
+			
+			
 			$(".messages-main-box").niceScroll();
 			
 			$("#menu-toggle").click(function(e) {
 				e.preventDefault();
 				$("#wrapper").toggleClass("toggled");
 			});
-			
 			
 			/******** For Hamburger & Close icon *****/
 				
@@ -33,6 +77,8 @@
 				
 			});
 			/******** For Hamburger & Close icon ends *****/
+			
+			
 			
 			if($( window ).width() >= 768) {
 				$( "#menu-toggle" ).click(function() {
@@ -98,51 +144,34 @@
 	
 	<body>
 		<div id="wrapper">
-		  <!-- Sidebar -->
-			<div id="sidebar-wrapper">
+		{% include "sidebar.html" %} 
+		 <!-- Sidebar -->
+			<!--  <div id="sidebar-wrapper">
 				<ul class="sidebar-nav">
 					<li class="sidebar-brand">
-						<a href="#">
-							Agile Project Management
+						<a href="#" class="admin-label">
+							ADMINISTRATION
 						</a>
 					</li>
 					<li>
-						<a href="#" class="sidebar-main-list-name"><i class="fa fa-th-large side-font-icons"></i> Dashboard</a>
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-user side-font-icons" aria-hidden="true"></i> User Management</a>
 						
 					</li>
 					<li>
-						<a class="sidebar-main-list-name" data-toggle="collapse" data-parent="" href="#collapseOne"><i class="fa fa-list"></i> Project Planning <span class="caret sidebar-caret"></span></a>
-						<div id="collapseOne" class="panel-collapse collapse">
-							<div class="panel-body sidebar-list-panel">
-								<ul class="sidebar-list">
-									<li>
-										<a href="#" class="sidebar-list-sub-item">Projects</a>
-									</li>
-									<li>
-										<a href="#" class="sidebar-list-sub-item">Release</a>
-									</li>
-									<li>
-										<a href="#" class="sidebar-list-sub-item">Product Backlog</a>
-									</li>
-									<li>
-										<a href="#" class="sidebar-list-sub-item">Sprint Planning</a>
-									</li>
-								</ul>
-							</div>
-						</div>
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-briefcase side-font-icons" aria-hidden="true"></i> Roles</a>
 					</li>
 					<li>
-						<a href="#" class="sidebar-main-list-name"><i class="fa fa-file-text side-font-icons"></i> Document Management</a>
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-bullseye side-font-icons" aria-hidden="true"></i> Project</a>
 					</li>
 					<li>
-						<a href="#" class="sidebar-main-list-name"><i class="fa fa-pie-chart side-font-icons"></i> Reports</a>
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-users side-font-icons" aria-hidden="true"></i> Groups</a>
 					</li>
 					<li>
-						<a href="#" class="sidebar-main-list-name"><i class="fa fa-bell side-font-icons"></i> Alerts & Notifications</a>
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-cogs side-font-icons" aria-hidden="true"></i> Permissions</a>
 					</li>
 					
 				</ul>
-			</div>
+			</div>-->
 			<!-- /#sidebar-wrapper -->
 		
 	<!-- Page Content -->
@@ -153,7 +182,7 @@
 									
 									  <li class="dropdown">
 										<a href="#" class="dropdown-toggle user-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-										<img src="assets/img/user.png" name="{{user.name}}">
+										<img src="../assets/img/user.png">
 										<span class="caret"></span></a>
 										<ul class="dropdown-menu menu-user menu-responsive">
 										  <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
@@ -180,7 +209,7 @@
 										  
 										  <li><a href="#"><i class="fa fa-question-circle"></i> Help</a></li>
 										  <li role="separator" class="divider"></li>
-										  <li><a href="/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
+										  <li><a href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
 										</ul>
 									  </li>
 						</ul>
@@ -200,7 +229,7 @@
 									</button>
 									<a class="navbar-brand" href="#">
 										
-										<img src="assets/img/eternus.png" class="logo-img">
+										<img src="../assets/img/eternus.png" class="logo-img">
 									</a>
 								  </div>
 								  <div id="navbar" class="navbar-collapse collapse">
@@ -243,12 +272,13 @@
 									
 									
 									<ul class="nav navbar-nav navbar-right nav-desktop">
-									  <li class="search-field-box"><i class="fa fa-search search-icon"></i><input type="text" class="form-control search-field project-management-textbox" placeholder="Search..."></li>
+									 
+									  <!--<li class="search-field-box"><i class="fa fa-search search-icon"></i><input type="text" class="form-control search-field project-management-textbox" placeholder="Search..."></li>-->
 									 
  									  <li class="dropdown">
 										<a href="#" class="dropdown-toggle user-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 										
-										<img src="assets/img/user.png">
+										<img src="../assets/img/user.png">
 										
 										<span class="caret"></span></a>
 										
@@ -274,7 +304,7 @@
 										  </li>
 										  <li><a href="#"><i class="fa fa-question-circle"></i> Help</a></li>
 										  <li role="separator" class="divider"></li>
-										  <li><a href="/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
+										  <li><a href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
 										</ul>
 									  </li>
 									</ul>
@@ -287,11 +317,7 @@
 						<!-- Toggle Button -->
 							<!--<a href="#menu-toggle" class="btn btn-default pro-button" id="menu-toggle">MENUS</a>-->
 							
-							<div id="menu-toggle">
-								
-								<img src="assets/img/ham-side-icon.png" id="ham-side-icon">
-								<img src="assets/img/close-side-icon.png" id="close-side-icon" style="display:none;">
-							</div>
+							
 							
 						<!-- Toggle Button ENDS -->
 		
@@ -299,201 +325,157 @@
 						<!-- Main Page content starts -->	
 						
 						<div class="main-box">
-							<div class="col-md-6">
-								<div class="panel panel-default mainpage-panels">
-									<div class="panel-heading main-box-panel-heading">
-										Project progress chart
+							<div class="col-md-12">
+							
+								<div class="user-management-heading-box">
+								
+									<!-- Menu Toggle Button -->
+									<div id="menu-toggle" class="menu-toggle-user-management">
+										<img src="/assets/img/ham-side-icon.png" id="ham-side-icon">
+										<img src="/assets/img/close-side-icon.png" id="close-side-icon" style="display:none;">
 									</div>
-									<div class="panel-body">
-										<img src="assets/img/bar-chart.png" class="img-responsive">
-										
-									</div>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="panel panel-default mainpage-panels">
-									<div class="panel-heading main-box-panel-heading">
-										Total Milestone achieved
-									</div>
-									<div class="panel-body">
-										<table class="table billing-ex-table table-striped">
-											<thead>
-											  <tr>
-												<th>User</th>
-												<th>Milestones Achieved</th>
-												<th>Duration</th>
-											  </tr>
-											</thead>
-											<tbody>
-											  <tr>
-												<td>User 1</td>
-												<td>12</td>
-												<td>40 hours</td>
-											  </tr>
-											 <tr>
-												<td>User 2</td>
-												<td>8</td>
-												<td>21 hours</td>
-											  </tr>
-											 <tr>
-												<td>User 3</td>
-												<td>5</td>
-												<td>15 hours</td>
-											  </tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="panel panel-default mainpage-panels">
-									<div class="panel-heading main-box-panel-heading">
-										Total Tasks completed
-									</div>
-									<div class="panel-body">
-										<table class="table billing-ex-table table-striped">
-											<thead>
-											  <tr>
-												<th>User</th>
-												<th>Tasks Completed</th>
-												<th>Duration</th>
-											  </tr>
-											</thead>
-											<tbody>
-											  <tr>
-												<td>User 1</td>
-												<td>12</td>
-												<td>40 hours</td>
-											  </tr>
-											 <tr>
-												<td>User 2</td>
-												<td>8</td>
-												<td>21 hours</td>
-											  </tr>
-											 <tr>
-												<td>User 3</td>
-												<td>5</td>
-												<td>15 hours</td>
-											  </tr>
-											</tbody>
-										</table>
+									<!-- Menu Toggle Button -->
 									
-									</div>
+									<h2 class="user-management-heading"><i class="fa fa-users user-management-head-icon"></i>User Management</h2>
+									
+									<button class="add-user-btn pro-button">Add user</button>
 								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="panel panel-default mainpage-panels">
-									<div class="panel-heading main-box-panel-heading">
-										Project & employee activity
-									</div>
-									<div class="panel-body"></div>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="panel panel-default mainpage-panels">
-									<div class="panel-heading main-box-panel-heading">
-										Billing Expenses
-									</div>
-									<div class="panel-body">
-										<table class="table billing-ex-table table-striped">
+								
+							
+								<div class="panel panel-default task-main-panel">
+									<div class="add-task-box">
+										<div class="search-field-box search-field-box-admin">
+											<i class="fa fa-search search-icon search-icon-admin"></i>
+											<input type="text" class="search-field project-management-textbox search-field-admin-textbox" placeholder="Search a user...">
+										</div>
+									</div>	
+										<div class="table-responsive">
+										<table class="table user-management-table">
 											<thead>
-											  <tr>
-												<th>Bill Date</th>
-												<th>Due Date</th>
-												<th>Description</th>
-												<th>Total</th>
+											  <tr class="header-row">
+												<th></th>
+												<th>First Name</th>
+												<th>Last Name</th>
+												<th>Email</th>
+												<th>Designation</th>
+												<th>Contact No.</th>
+												<th>Employee ID</th>
+												<th>Role</th>
+												<th>Verified</th>
+												<th>Edit user</th>
+												<th>Delete user</th>
 											  </tr>
 											</thead>
 											<tbody>
+											{%for user1 in user1%}
 											  <tr>
-												<td>March 29 2016</td>
-												<td>Due in 2 days</td>
-												<td>Create Design of webpages.</td>
-												<td>$ 50</td>
+												<td><i class="fa fa-user"></i></td>
+												<td>{{user1.name}}</td>
+												<td>{{user1.last_name}}</td>
+												<td>{{user1.email_address}}</td>
+												<td>{{user1.designation}}</td>
+												<td>{{user1.contact}}</td>
+												<td>{{user1.empid}}</td>
+												<td class="roll-td"><i>{{user1.role.get.role}}</i></td>
+												<td>{% if user1.verified%}Yes{%else%} No {%endif%}</td>
+												<td><i class="fa fa-pencil user-management-edit-icon" aria-hidden="true" title="Edit User"></i></td>
+												<td><i class="fa fa-trash user-management-delete-icon" aria-hidden="true" title="Delete User"></i></td>
 											  </tr>
-											  <tr>
-												<td>March 28 2016</td>
-												<td>Due in 16 days</td>
-												<td>Create payment gateway flow.</td>
-												<td>$ 60</td>
-											  </tr>
-											  <tr>
-												<td>March 10 2016</td>
-												<td>Due in 6 days</td>
-												<td>Create backend.</td>
-												<td>$ 70</td>
-											  </tr>
+											{%endfor%} 
 											</tbody>
 										</table>
-									
-									</div>
-								</div>
+										</div>
+									</div>		
 							</div>
+							
 						</div>
 						
 						<!-- Main Page content ENDS -->	
-						
-						
-						<!-- CHATBOX STARTS -->
-
-							<div class="panel panel-default chatbox-pro-management">
-									<div class="panel-heading main-box-panel-heading chatbox-heading">
-										<span class="online-user-name"><i class="fa fa-user"></i>  Online User 1   <i class="fa fa-circle"></i></span>
-										<div class="chatbox-action">
-											<!--<a href="#" class="chatbox-action-link" id="minimize-chatbox"><i class="fa fa-minus"></i></a>-->
-											<a href="#" class="chatbox-action-link close-chatbox" id="close-chatbox"><i class="fa fa-times"></i></a>
-										</div>
-									</div>
-									
-									
-									<div class="panel-body chatbox-main-panel-body">
-										<div class="messages-main-box">
-												<div class="panel panel-default message-box-panel-sender">
-													Lorem ipsum dolor sit amet, consectetur adipiscing elit
-													
-													<div class="row time-row">
-														<span class="time-span">11:45:23 AM</span>
-													</div>
-												</div>
-												<div class="panel panel-default message-box-panel-reciever">
-													Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.
-													
-													<div class="row time-row">
-														<span class="time-span">06:26:40 PM</span>
-													</div>
-												</div>
-												<div class="panel panel-default message-box-panel-sender">
-													Lorem ipsum dolor sit amet.
-													
-													<div class="row time-row">
-														<span class="time-span">11:45:23 AM</span>
-													</div>
-												</div>
-												<div class="panel panel-default message-box-panel-reciever">
-													Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-													
-													<div class="row time-row">
-														<span class="time-span">06:26:40 PM</span>
-													</div>
-												</div>
-										</div>
-										
-										<hr/>
-										
-										<!-- Send Button & text area of message -->
-										<textarea class="form-control chatbox-textarea" rows="2" id="comment"></textarea>
-										<span class="chatbox-send-btn">
-											<i class="fa fa-paper-plane"></i>
-										</span>
-									
-									</div>
-							</div>
-								
-						<!-- CHATBOX ENDS -->	
-						
-						
-						
+					
 		</div> <!-- Page content Wrapper ends -->		
 	</div> <!-- Wrapper ends -->	
+	
+	
+	
+	<!-- Add Task Modal Starts -->
+			<div id="add-user-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Add New User</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								
+								<div class="col-md-10">
+										<form role="form">
+											  <!-- Employee ID --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Employee ID</label>
+												<input type="text" class="form-control add-task-textbox">
+											  </div>
+											  
+											  <!-- Email --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Email</label>
+												<input type="text" class="form-control add-task-textbox">
+											  </div>
+											  
+											  <!-- First Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">First Name</label>
+												<input type="text" class="form-control add-task-textbox">
+											  </div>
+											  
+											  <!-- Last Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Last Name</label>
+												<input type="text" class="form-control add-task-textbox">
+											  </div>
+											  
+											  <!-- Designation --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Designation</label>
+												<input type="text" class="form-control add-task-textbox">
+											  </div>
+											  
+											  <!-- Contact No --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Contact No.</label>
+												<input type="text" class="form-control add-task-textbox">
+											  </div>
+											  
+											  <!-- Permissions/Role --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Permissions</label>
+												<select class="form-control add-task-textbox">
+													<option>Super Admin</option>
+													<option>Admin</option>
+													<option>User</option>
+												</select>
+											  </div>
+											  
+										</form>
+								</div>	
+								<div class="col-md-1">
+								</div>		
+							</div>
+							
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<button type="button" class="add-task-btn-modal" data-dismiss="modal">Add</button>
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</button>
+				  </div>
+				</div>
+
+			  </div>
+			</div>
+	<!-- Add Task Modal Ends -->
+
 	</body>
 </html>

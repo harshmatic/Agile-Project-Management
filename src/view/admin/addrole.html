@@ -1,0 +1,64 @@
+<script>
+		$("#submit").on("click",function(){
+			$.post( "/admin/addrole", $("#addrole").serialize())
+	  		.done(function( data ) {
+	  			if (data!="true"){
+	  				alert("Something Went Wrong");
+	  				return false
+	  			} else {
+	  				$('#add-role-modal').modal('toggle');
+	  				
+	  			}
+	  		});
+			$('#add-role-modal').on('hidden.bs.modal', function(e)
+				    { 
+				        $(this).removeData();
+				    }) ;
+			
+		})
+	</script>
+
+<div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Add Role</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								
+								<div class="col-md-10">
+										<form role="form" id="addrole">
+											  <!-- Role Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Roll Name</label>
+												<input type="text" class="form-control add-task-textbox" name="role">
+											  </div>
+											  
+											  <!-- Roll's Permissions --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Roll's Permissions</label>
+												<div class="row">
+												{% for per in perm %}
+													<div class="col-sm-4 add-role-modal-box">
+														<div class="checkbox">
+														  <label><input type="checkbox"  name="permissions" value="{{per.key.urlsafe}}">{{per.permission}} ({{per.url}})</label>
+														</div>
+													</div>
+			
+												{% endfor %}
+													
+												</div>
+											  </div>
+											
+										</form>
+								</div>	
+								<div class="col-md-1">
+								</div>		
+							</div>
+							
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<button type="button" class="add-task-btn-modal"  id="submit">Add</button>
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
+				  </div>
