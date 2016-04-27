@@ -1,0 +1,92 @@
+<html>
+	<head>
+		<title>Project</title>
+		{% include "head.html" %}
+	
+	</head>
+	
+	<body>
+		<div id="wrapper">
+	
+		   {% include "sidebar.html" %} 
+			<!-- /#sidebar-wrapper -->
+		
+	<!-- Page Content -->
+       <div id="page-content-wrapper">
+		
+			{% include "header.html" %} 
+		
+		
+						<!-- Main Page content starts -->	
+						
+						<div class="main-box">
+						<center style="color: red;">{{permission}}<center>
+							
+						</div>
+						
+						<!-- Main Page content ENDS -->	
+						
+						
+						<!-- CHATBOX STARTS -->
+
+							<div class="panel panel-default chatbox-pro-management">
+									<div class="panel-heading main-box-panel-heading chatbox-heading">
+										<span class="online-user-name"><i class="fa fa-user"></i>  Online User 1   <i class="fa fa-circle"></i></span>
+										<div class="chatbox-action">
+											<!--<a href="#" class="chatbox-action-link" id="minimize-chatbox"><i class="fa fa-minus"></i></a>-->
+											<a href="#" class="chatbox-action-link close-chatbox" id="close-chatbox"><i class="fa fa-times"></i></a>
+										</div>
+									</div>
+									
+									
+									<div class="panel-body chatbox-main-panel-body">
+										<div class="messages-main-box">
+												<div class="panel panel-default message-box-panel-sender">
+													Lorem ipsum dolor sit amet, consectetur adipiscing elit
+													
+													<div class="row time-row">
+														<span class="time-span">11:45:23 AM</span>
+													</div>
+												</div>
+												<div class="panel panel-default message-box-panel-reciever">
+													Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.
+													
+													<div class="row time-row">
+														<span class="time-span">06:26:40 PM</span>
+													</div>
+												</div>
+												<div class="panel panel-default message-box-panel-sender">
+													Lorem ipsum dolor sit amet.
+													
+													<div class="row time-row">
+														<span class="time-span">11:45:23 AM</span>
+													</div>
+												</div>
+												<div class="panel panel-default message-box-panel-reciever">
+													Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+													
+													<div class="row time-row">
+														<span class="time-span">06:26:40 PM</span>
+													</div>
+												</div>
+										</div>
+										
+										<hr/>
+										
+										<!-- Send Button & text area of message -->
+										<textarea class="form-control chatbox-textarea" rows="2" id="comment"></textarea>
+										<span class="chatbox-send-btn">
+											<i class="fa fa-paper-plane"></i>
+										</span>
+									
+									</div>
+							</div>
+								
+						<!-- CHATBOX ENDS -->	
+						
+						
+						
+		</div> <!-- Page content Wrapper ends -->		
+	</div> <!-- Wrapper ends -->	
+	</body>
+</html>
