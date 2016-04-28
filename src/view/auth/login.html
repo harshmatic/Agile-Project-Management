@@ -2,9 +2,29 @@
 	<head>
 		{% include "head.html" %}
 		<title>Login</title>
+		
+		<style>
+		label[for=username]
+			{
+    
+    			color: red;
+    			margin-top: -34px;
+			}
+			label[for=password]
+			{
+    
+    			color: red;
+    			margin-top: -31px;
+			}
+			#error
+			{
+			color: red;
+			}
+		</style>
+		
 		<script>
 		
-$(document).ready(function() {
+			$(document).ready(function() {
 			
 			
 			$("#login_form").validate({
@@ -31,7 +51,7 @@ $(document).ready(function() {
 				 
 				  }
 				});	
-			
+	
 			
 			
 		});
@@ -86,10 +106,12 @@ $(document).ready(function() {
 										</div>
 										
 										<div class="col-md-10">
-										
+										{%if error%}
+										<div id="error">{{error}}</div>
+										{%endif%}
 										<form method="post" action="/login" name="login_form" id="login_form">
 												<!-- Username -->
-												<i class="fa fa-user login-user-icon"></i><input type="text" name="username" class="form-control search-field project-management-textbox login-textbox" placeholder="Username">
+												<i class="fa fa-user login-user-icon" style="top: 0%;"></i><input type="text" name="username" class="form-control search-field project-management-textbox login-textbox" placeholder="Username">
 												
 												<!-- Password -->
 												<i class="fa fa-lock login-lock-icon"></i><input type="password" name="password" class="form-control search-field project-management-textbox login-textbox" placeholder="Password">
