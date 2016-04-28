@@ -8,6 +8,9 @@ handlers:
   static_dir: assets
 - url: /.*
   script: main.app
+- url: /superadmin/.*
+  login:admin
+  script: main.app
 
 libraries:
 - name: webapp2

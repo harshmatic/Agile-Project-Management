@@ -25,6 +25,8 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/admin/delete', DeleteEntity),
     webapp2.Route('/admin/dashboard', AdminHome,name="admindashboard"),
     webapp2.Route('/admin/usermanagment', AdminUserManagement),
+    webapp2.Route('/admin/verify', AdminVerify),
+    #webapp2.Route('/superadmin/editpermissions', SuperAdminUserManagement),
     webapp2.Route('/project', ProjectManagementHandler)
     #webapp2.Route('/admin/dasboard', AdminHome)
 ], debug=True, config=config)

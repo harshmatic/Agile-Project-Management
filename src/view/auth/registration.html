@@ -10,9 +10,9 @@
 				$.post( "/signup", $("#signup_form").serialize())
 			  		.done(function( data ) {
 			  			if (data!="true"){
-			  				alert(data);
+			  				alert("Something went wrong");
 			  			} else {
-			  				alert("Email Sent");
+			  				alert("A verification link hass been sent to your mail id.");
 			  			}
 			  	});
 			});
