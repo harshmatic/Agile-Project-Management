@@ -1,12 +1,70 @@
 <html>
 	<head>
-		<title>Registration</title>
+		<title>User Registration</title>
 		{% include "head.html" %}
 		
+		<style>
+		label[for=email]
+			{
+    
+    			color: red;
+    			
+			}
+			label[for=first_name]
+			{
+    
+    			color: red;
+    			
+			}
+			label[for=last_name]
+			{
+    
+    			color: red;
+    			
+			}
+		</style>
 		<script>
 		
+	
 		$(document).ready(function() {
+			
+			
+			$("#signup_form").validate({
+				  rules: {
+					  email: {
+				      required: true,
+				      email: true
+				    },
+				    
+				    first_name:{
+				    	required:true
+				    	
+				    },
+				    last_name:{
+				    	required:true
+				    	
+				    }
+				    
+				  },
+				  messages: {
+				    email: {
+				      required: "Please enter email address",
+				      email:"Please enter valid email address"
+				    },
+				    first_name:{
+					  required:"Please enter first name"
+				  },
+				  last_name:{
+					  required:"Please enter last name"
+				  }
+				 
+				  }
+				});	
+			
+			
 			$("#submit").click(function(){
+			
+				if ($("#signup_form").valid()) {
 				$.post( "/signup", $("#signup_form").serialize())
 			  		.done(function( data ) {
 			  			if (data!="true"){
@@ -15,10 +73,12 @@
 			  				alert("A verification link hass been sent to your mail id.");
 			  			}
 			  	});
+				}
 			});
 		});
 		
 		</script>
+	
 	
 	
 	</head>
