@@ -158,7 +158,9 @@ class SignupHandler(BaseHandler):
         message.to = email
         message.body = msg.format(url=verification_url)
         message.send()
-        self.response.write(msg.format(url=verification_url))
+      #  self.response.write(msg.format(url=verification_url))
+        logging.info(msg.format(url=verification_url))
+        self.response.write("true")        
         
 class SignupAdminHandler(BaseHandler):
     def get(self):

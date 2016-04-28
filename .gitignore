@@ -48,3 +48,4 @@ Temporary Items
 *.pyc
 *.pyc
 src/controller/login.pyc
+*.pyc

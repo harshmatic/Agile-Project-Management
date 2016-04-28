@@ -36,11 +36,17 @@ class Permissions(ndb.Model):
     def get_all(self):
         res = self.query().fetch()
         return res
-
+    @classmethod
+    def _post_delete_hook(cls, key, future):
+        groups = Groups.query(Groups.permissions==key).fetch()
+        for group in groups:
+            group.permissions.remove(key)
+            #group.permissions.pop(key)
+            group.put()
         
 class Groups(ndb.Model):
     role=ndb.StringProperty(required=True)
-    permissions=ndb.KeyProperty(Permissions,repeated=True)
+    permissions=ndb.KeyProperty(kind=Permissions,repeated=True)
     date = ndb.DateTimeProperty(auto_now_add=True)
     
     def set(self):
@@ -57,3 +63,10 @@ class Groups(ndb.Model):
        # qry = self.query(self.role=)
         logging.info(qry)
         return qry
+    @classmethod
+    def _post_delete_hook(cls, key, future):
+        users = OurUser.query(OurUser.role==key).fetch()
+        for user in users:
+            user.role.remove(key)
+            #group.permissions.pop(key)
+            user.put()

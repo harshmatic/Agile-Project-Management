@@ -29,8 +29,21 @@
 		<script>
 		
 		$(document).ready(function() {
-		
 			
+			
+		
+			$("#submit_permissions").click(function(e) {
+				$.post( "/admin/editpermissions", $("#edit_permissions").serialize())
+		  		.done(function( data ) {
+		  			if (data!="true"){
+		  				alert("Something Went Wrong");
+		  				return false
+		  			} else {
+		  				
+		  				location.reload();
+		  			}
+		  		});
+			});
 		/*********** Show Modals *****************/
 			
 			$(".add-user-btn").click(function(e) {
@@ -55,13 +68,15 @@
 			});
 			$(".add-role-btn").click(function(e) {
 				$('#add-role-modal').modal('show');
-			});*/
-			$(".roll-link").click(function(e) {
-				$('#edit-role-modal').modal('show');
 			});
 			$(".permission-link").click(function(e) {
 				$('#edit-permission-modal').modal('show');
 			});
+			
+			$(".roll-link").click(function(e) {
+				$('#edit-role-modal').modal('show');
+			});*/
+			
 		/*********** Show Modals ENDs *****************/	
 			
 			$("#menu-toggle").click(function(e) {
@@ -317,12 +332,13 @@
 											
 											<div class="panel-body login-panel-body">
 												<div class="table-responsive">
+												<form id="edit_permissions"> 
 														<table class="table permission-table table-striped">
 															<thead>
 															  <tr>	
 																<th></th>
 																{% for role in role %}
-																<th><a href="/admin/editrole/{{role.key.urlsafe}}" class="roll-link" >{{role.role}}</a></th>
+																<th><a href="/admin/editrole?key={{role.key.urlsafe}}" class="roll-link" data-toggle="modal" data-target="#edit-role-modal">{{role.role}}</a></th>
 																{% endfor %}
 															  </tr>
 															</thead>
@@ -341,15 +357,15 @@
 															  {% for perm in perm %}
 															  <tr>
 																<td>
-																	<a href="/edit/permissions/{{perm.key.urlsafe}}" class="permission-link">{{perm.permission}}</a>
+																	<a href="/admin/editpermission?key={{perm.key.urlsafe}}" class="permission-link" data-toggle="modal" data-target="#edit-permission-modal">{{perm.permission}} ({{perm.url}})</a>
 																</td>
 																{% for role in role %}
 																<td>
 																{% if perm.key in role.permissions%}
-																<input type="checkbox" id="checkbox22" class="css-checkbox sme" value="{{perm.key.urlsafe}}<!>{{role.key.urlsafe}}" checked name="permissions"/>
+																<input type="checkbox" id="checkbox22" class="css-checkbox sme" value="{{role.key.urlsafe}}<!>{{perm.key.urlsafe}}" checked name="permissions"/>
 																
 																{% else %}
-																<input type="checkbox" id="checkbox22" class="css-checkbox sme" value="{{perm.key.urlsafe}}<!>{{role.key.urlsafe}}" checked name="permissions"/>
+																<input type="checkbox" id="checkbox22" class="css-checkbox sme" value="{{role.key.urlsafe}}<!>{{perm.key.urlsafe}}" name="permissions"/>
 																{%endif%}
 																<label for="checkbox22" name="checkbox69_lbl" class="css-label sme depressed"></label>
 																</td>
@@ -360,9 +376,9 @@
 															</tbody>
 														</table>
 												</div>
-												
+												</form>
 												<div class="update-permission-box">
-													<button class="update-permission-btn pro-button">Submit</button>
+													<button class="update-permission-btn pro-button" id="submit_permissions">Submit</button>
 												</div>
 												
 												
