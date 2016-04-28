@@ -135,6 +135,24 @@
 				$('.chatbox-pro-management').css('bottom','-423px');
 				$('.chatbox-pro-management').css('transition','all .8s');
 			});
+			
+			
+			$("#add_user").click(function(){
+				
+				
+				$.post( "/admin/usermanagment", $("#user_form").serialize())
+			  		.done(function( data ) {
+			  			if (data!="true"){
+			  				alert(data);
+			  			} else {
+			  				alert("Email Sent");
+			  			}
+			  	});
+				
+			});
+			
+			
+			
 		});
 		
 		</script>
@@ -403,6 +421,8 @@
 
 				<!-- Modal content-->
 				<div class="modal-content add-task-modal-content">
+				<form role="form" id="user_form" enctype="multipart/form-data">
+				
 				  <div class="modal-header add-task-modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title add-task-modal-heading">Add New User</h4>
@@ -413,54 +433,63 @@
 								</div>
 								
 								<div class="col-md-10">
-										<form role="form">
+										
 											  <!-- Employee ID --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Employee ID</label>
-												<input type="text" class="form-control add-task-textbox">
+												<input type="text" class="form-control add-task-textbox" name="emp_id">
 											  </div>
 											  
 											  <!-- Email --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Email</label>
-												<input type="text" class="form-control add-task-textbox">
+												<input type="text" class="form-control add-task-textbox" name="email">
+											  </div>
+											   <!-- Profile Picture --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Upload File</label>
+											 <input type="file" name="file"><br>
 											  </div>
 											  
 											  <!-- First Name --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">First Name</label>
-												<input type="text" class="form-control add-task-textbox">
+												<input type="text" class="form-control add-task-textbox" name="first_name">
 											  </div>
 											  
 											  <!-- Last Name --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Last Name</label>
-												<input type="text" class="form-control add-task-textbox">
+												<input type="text" class="form-control add-task-textbox" name="last_name">
 											  </div>
-											  
+											 
 											  <!-- Designation --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Designation</label>
-												<input type="text" class="form-control add-task-textbox">
+												<input type="text" class="form-control add-task-textbox" name="designation">
 											  </div>
 											  
 											  <!-- Contact No --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Contact No.</label>
-												<input type="text" class="form-control add-task-textbox">
+												<input type="text" class="form-control add-task-textbox" name="contact_no">
 											  </div>
 											  
 											  <!-- Permissions/Role --> 
 											  <div class="form-group task-form-group">
-												<label class="task-label">Permissions</label>
-												<select class="form-control add-task-textbox">
-													<option>Super Admin</option>
-													<option>Admin</option>
-													<option>User</option>
+												<label class="task-label">Assign Role</label>
+												<select class="form-control add-task-textbox" name="role">
+													
+													{% for role in roles %}
+													<option value="{{role.key.urlsafe}}">{{role.role}}</option>
+													{% endfor %}
+												
+													<!-- <option>Admin</option>
+													<option>User</option>-->
 												</select>
 											  </div>
 											  
-										</form>
+									
 								</div>	
 								<div class="col-md-1">
 								</div>		
@@ -468,9 +497,10 @@
 							
 				  </div>
 				  <div class="modal-footer add-task-modal-footer">
-					<button type="button" class="add-task-btn-modal" data-dismiss="modal">Add</button>
+					<input type="submit" class="add-task-btn-modal" data-dismiss="modal" id="add_user" value="Add">
 					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</button>
 				  </div>
+				  	</form>
 				</div>
 
 			  </div>

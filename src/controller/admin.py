@@ -1,7 +1,9 @@
 from google.appengine.ext import ndb
 import logging
+import model
 from model import user
 from login import BaseHandler,check_permission
+from google.appengine.api import mail
 #from src.model.user import Groups
 
 class AdminHome(BaseHandler):
@@ -124,6 +126,47 @@ class EditPermissions(BaseHandler):
                     
 class AdminUserManagement(BaseHandler):
     def get(self):
+        
+        role=model.user.Groups()
+        roles=role.get_all()
+        
         user1 =user.OurUser().get_all()
         logging.info(user1)
-        self.render_template("admin/user-management.html",{"user1":user1})
+        self.render_template("admin/user-management.html",{"user1":user1,"roles":roles})
+        
+    def post(self):
+        user_name = self.request.get('email')
+        email = self.request.get('email')
+        name = self.request.get('first_name')
+        role= ndb.Key(urlsafe=self.request.get('role'))
+        logging.info(role)
+        last_name = self.request.get('last_name')
+        designation = self.request.get('designation')
+        empid=self.request.get('emp_id')
+        contact=self.request.get('contact_no')
+        password = name+empid
+        #unique_properties = ['email_address']
+        user_data = self.user_model.create_user(user_name,
+            email_address=email, name=name, password_raw=password,designation=designation,empid=empid,contact=contact,
+            last_name=last_name,role=role, verified=False)
+        if not user_data[0]: #user_data is a tuple
+            self.response.write('User already exists with the same name')
+            return
+
+        user = user_data[1]
+        user_id = user.get_id()
+        token = self.user_model.create_signup_token(user_id)
+        verification_url = self.uri_for('verification', type='v', user_id=user_id,signup_token=token, _full=True)
+        msg = """Hi """+name+""",
+        Thank you for registering on APM. Please follow the below url to activate your account.
+        Remeber to change your password.
+        You will be able to do so by visiting{url}"""
+        message = mail.EmailMessage(sender="harshmatic@gmail.com",
+                            subject="Account Verification")
+        
+        message.to = email
+        message.body = msg.format(url=verification_url)
+        message.send()
+      #  self.response.write(msg.format(url=verification_url))
+        logging.info(msg.format(url=verification_url))
+        self.response.write("true")        
