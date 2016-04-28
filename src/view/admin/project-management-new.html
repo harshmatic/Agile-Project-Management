@@ -27,9 +27,11 @@
 		
 		
 		<script>
+		var teamid = "";
 		
 		$(document).ready(function() {
 		
+			
 			$('.datepicker').datepicker({
 				format: 'dd/mm/yyyy',
 				startDate: '0d'
@@ -52,9 +54,17 @@
 			});
 			
 			// To show project team modal 
-			$(".view-project-team-link").click(function(e) {
+			/*$(".view-project-team-link").click(function(e) {
+				var project = "{{project}}";
+				console.log(project);
+				
+				var projId = $(this).data('id');
+				
+				console.log(projId);
+				teamid = projId ;
+				$("#teamid").val( projId );
 				$('#project-team-modal').modal('show');
-			});
+			});*/
 			
 			
 			
@@ -84,7 +94,29 @@
 			});
 			/******** For Hamburger & Close icon ends *****/
 			
+			$("#submit").on("click",function(){
+				 var ser = $("[name]").not("select").serialize();
+				 var s = $('#tokenize').tokenize().toArray();
+				 ser += (ser.length>0?"&":"") + "proj_team" + "=" + s;
+			       
+			$.post( "/user/addproject", ser)
+	  		.done(function( data ) {
+	  			if (data!="true"){
+	  				alert("Something Went Wrong");
+	  				return false
+	  			} else {
+	  				$('#add-permission-modal').modal('toggle');
+	  				
+	  			}
+	  		});
+			$('#add-permission-modal').on('hidden.bs.modal', function(e)
+				    { 
+				        $(this).removeData();
+				    }) ;
 			
+		})
+		
+  
 			
 			if($( window ).width() >= 768) {
 				$( "#menu-toggle" ).click(function() {
@@ -370,17 +402,19 @@
 											  </tr>
 											</thead>
 											<tbody>
+											{% for project in project %}
 											  <tr>
 												<td><i class="fa fa-cog"></i></td>
-												<td>Hospital Management System</td>
+												<td>{{ project.name }}</td>
 												<td>
-													Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+													{{ project.description }}
 												</td>
 												<td>
-													<a class="view-project-team-link">View Team</a>
+												<a href="/user/viewmembers?key={{project.key.urlsafe}}" data-toggle="modal" data-target="#project-team-modal">View Team</a>
+													<!-- <a class="view-project-team-link" data-id="{{project.name}}">View Team</a> -->
 												</td>
-												<td>12/01/2016</td>
-												<td>16/04/2016</td>
+												<td>{{ project.startDate }}</td>
+												<td>{{ project.endDate }}</td>
 												<td>
 													<i class="fa fa-pencil user-management-edit-icon" aria-hidden="true" title="Edit Project"></i>
 												</td>
@@ -388,7 +422,8 @@
 													<i class="fa fa-trash user-management-delete-icon" aria-hidden="true" title="Delete Project"></i>
 												</td>
 											  </tr>
-											  <tr>
+											  {%endfor%} 
+											  <!-- <tr>
 												<td><i class="fa fa-cog"></i></td>
 												<td>Summer Camp Guru</td>
 												<td>
@@ -459,7 +494,7 @@
 												<td>
 													<i class="fa fa-trash user-management-delete-icon" aria-hidden="true" title="Delete Project"></i>
 												</td>
-											  </tr>
+											  </tr> -->
 											</tbody>
 										</table>
 										</div>
@@ -491,43 +526,43 @@
 								</div>
 								
 								<div class="col-md-10">
-										<form role="form">
+										<form role="form" id="pro">
 											  <!-- Project Name --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Project Name</label>
-												<input type="text" class="form-control add-task-textbox">
+												<input name="proj_name" type="text" class="form-control add-task-textbox">
 											  </div>
 											  
 											  <!-- Project Description --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Project Description</label>
-												<input type="text" class="form-control add-task-textbox">
+												<input name="proj_desc" type="text" class="form-control add-task-textbox">
 											  </div>
 											  
 											  <!-- Project Team --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Project Team</label>
-												<select id="tokenize" multiple="multiple" class="tokenize-sample add-task-textbox">
-													<option value="1">Chaitanya</option>
-													<option value="2">Harshit</option>
-													<option value="3">Rushikesh</option>
-													<option value="4">Ram</option>
-													<option value="5">Atul</option>
+												
+												<select  id="tokenize" multiple="multiple" name="proj_team" class="tokenize-sample add-task-textbox">
+												{% for users in userslist %}
+													<option  value= "{{ users.name }}"> {{ users.name }}</option>
+													{%endfor%}
 												</select>
+												 
 											  </div>
 											  
 											  
 											  <!-- start date - end date --> 
 												<div class="form-group task-form-group row">
 													<div class="col-md-6 task-form-group">
-														<label class="task-label">Start Date</label>
+														<label  class="task-label">Start Date</label>
 														<i class="fa fa-calendar" aria-hidden="true"></i>
-														<input type="text" class="form-control add-task-textbox datepicker" readonly='true'>
+														<input name="proj_start" type="text" class="form-control add-task-textbox datepicker" readonly='true'>
 													</div>
 													<div class="col-md-6 task-form-group">
-														<label class="task-label">End Date</label>
+														<label  class="task-label">End Date</label>
 														<i class="fa fa-calendar" aria-hidden="true"></i>
-														<input type="text" class="form-control add-task-textbox datepicker" readonly='true'>
+														<input name="proj_end" type="text" class="form-control add-task-textbox datepicker" readonly='true'>
 													</div>
 													
 												</div>
@@ -540,7 +575,7 @@
 							
 				  </div>
 				  <div class="modal-footer add-task-modal-footer">
-					<button type="button" class="add-task-btn-modal" data-dismiss="modal">Create</button>
+					<button type="button" class="add-task-btn-modal" data-dismiss="modal" id="submit">Create</button>
 					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
 				  </div>
 				</div>
@@ -556,47 +591,8 @@
 			  <div class="modal-dialog">
 
 				<!-- Modal content-->
-				<div class="modal-content add-task-modal-content">
-					<div class="modal-header add-task-modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title add-task-modal-heading">Project Team</h4>
-					</div>
-					<div class="modal-body user-management-body">
-						<ul class="project-team-list">
-								<li>
-									<img src="../assets/img/team-member.png" class="project-team-img">
-									<label>Chaitanya Belsare</label>
-								</li>
-								<li>
-									<img src="../assets/img/team-member.png" class="project-team-img">
-									<label>Harshit Jyoti</label>
-								</li>
-								<li>
-									<img src="../assets/img/team-member.png" class="project-team-img">
-									<label>Chaitanya Belsare</label>
-								</li>
-								<li>
-									<img src="../assets/img/team-member.png" class="project-team-img">
-									<label>Harshit Jyoti</label>
-								</li>
-								<li>
-									<img src="../assets/img/team-member.png" class="project-team-img">
-									<label>Chaitanya Belsare</label>
-								</li>
-								<li>
-									<img src="../assets/img/team-member.png" class="project-team-img">
-									<label>Harshit Jyoti</label>
-								</li>
-								
-						</ul>	
-					</div>
-				  <div class="modal-footer add-task-modal-footer">
-					<button type="button" class="add-task-btn-modal" data-dismiss="modal">Dismiss</button>
-					
-				  </div>
-				</div>
-
-			  </div>
+				<div id="view-members-modal" class="modal-content add-task-modal-content"></div>
+			</div>
 			</div>
 	<!-- Project Team members Modal Ends -->
 

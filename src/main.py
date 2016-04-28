@@ -1,6 +1,7 @@
 import webapp2
 from controller.login import *
 from controller.admin import *
+from controller.project import *
 
 
 
@@ -21,6 +22,10 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/admin/addpermissions', AddPermissions),
     webapp2.Route('/admin/addrole', AddRole),
     webapp2.Route('/admin/dashboard', AdminHome,name="admindashboard"),
-    webapp2.Route('/admin/usermanagment', AdminUserManagement)
+    webapp2.Route('/admin/usermanagment', AdminUserManagement),
+    webapp2.Route('/user/projectmanagment', ProjectManagement),
+    webapp2.Route('/user/addproject', AddProject),
+    webapp2.Route('/user/viewmembers', GetTeamMembersForProject)
+    
     #webapp2.Route('/admin/dasboard', AdminHome)
 ], debug=True, config=config)

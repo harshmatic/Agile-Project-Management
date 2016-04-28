@@ -2,18 +2,16 @@ from google.appengine.ext import ndb
 
 from model.user import *
 
-class Projects(ndb.Model):
-    project_name=ndb.StringProperty(required=True)
-    start_date = ndb.DateTimeProperty(auto_now_add=True)
-    end_date = ndb.DateTimeProperty()
+class Project(ndb.Model):
+    name = ndb.StringProperty(required=True)
     description = ndb.StringProperty()
-    created_by = ndb.KeyProperty(required=True)
+    createdDate = ndb.DateTimeProperty(auto_now_add=True)
+    startDate = ndb.DateProperty()
+    endDate = ndb.DateProperty()
+    team = ndb.StringProperty(repeated=True)
     
-    
-    
-class ProjectMembersGroup(ndb.Model):
-    project_id = ndb.KeyProperty(required=True)
-    user_id = ndb.KeyProperty(required=True)
-    group_id = ndb.KeyProperty(required=True)
-    permissions = ndb.KeyProperty(repeated=True)
-    date = ndb.DateTimeProperty(auto_now_add=True)
+    def set(self):
+        self.put()
+    def get_all(self):
+        res = self.query().fetch()
+        return res
