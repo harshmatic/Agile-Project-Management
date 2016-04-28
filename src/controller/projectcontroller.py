@@ -22,7 +22,7 @@ class ProjectManagement(BaseHandler):
         projmodel=user.Project()
         proj=projmodel.get_all()
         usermodel = user.OurUser().get_all()
-        self.render_template("admin/project-management-new.html",{"project":proj,"userslist":usermodel})
+        self.render_template("project-management-new.html",{"project":proj,"userslist":usermodel})
         
 class AddProject(BaseHandler):
         
@@ -44,4 +44,4 @@ class GetTeamMembersForProject(BaseHandler):
         projectkey = ndb.Key(urlsafe=self.request.get("key"))
         project = projectkey.get()
         
-        self.render_template("admin/viewteammembers.html",{"project":project})
+        self.render_template("viewteammembers.html",{"project":project})

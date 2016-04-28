@@ -2,7 +2,94 @@
 	<head>
 		<title>Dashboard</title>
 		{% include "head.html" %}
+	<script>
 		
+		$(document).ready(function() {
+		
+			$(".messages-main-box").niceScroll();
+			
+			$("#menu-toggle").click(function(e) {
+				e.preventDefault();
+				$("#wrapper").toggleClass("toggled");
+			});
+			
+			/******** For Hamburger & Close icon *****/
+				
+			$('#ham-side-icon').show();	
+			
+			$( "#menu-toggle" ).click(function() {
+				var toggle = $( "#wrapper" ).hasClass("toggled");
+					
+						if(toggle == true){
+							$('#close-side-icon').show();
+							$('#ham-side-icon').hide();
+							
+						} else {
+							$('#close-side-icon').hide();
+							$('#ham-side-icon').show();
+						}
+				
+			});
+			/******** For Hamburger & Close icon ends *****/
+			
+			if($( window ).width() >= 768) {
+				$( "#menu-toggle" ).click(function() {
+						var a = $( "#wrapper" ).hasClass("toggled");
+					
+						if(a == true){
+							
+							$('#sidebar-wrapper').css('width','250px');
+							$('#sidebar-wrapper').css('left','250px');
+							$('#wrapper.toggled').css('padding-left','250px');
+							
+						} else {
+							$('#sidebar-wrapper').css('width','0px');
+							$('#sidebar-wrapper').css('left','0px');
+							$('#wrapper').css('padding-left','0px');
+							
+						}
+						
+				});
+			}
+			
+			if($( window ).width() <= 767) {
+				$( "#menu-toggle" ).click(function() {
+						var a = $( "#wrapper" ).hasClass("toggled");
+						
+						if(a == true){
+							  
+							
+							$('#sidebar-wrapper').css('width','250px');
+							$('#sidebar-wrapper').css('left','250px');
+							$('#wrapper.toggled').css('padding-left','250px');
+							
+						} else {
+							$('#sidebar-wrapper').css('width','0px');
+							$('#sidebar-wrapper').css('left','0px');
+							$('#wrapper').css('padding-left','0px');
+							
+						}
+						
+				});
+			}
+			
+					
+			/********** For Chatbox **********/
+						
+			$('.chatbox-pro-management').css('bottom','-423px');
+			
+			$( ".online-user-name" ).click(function() {
+				$('.chatbox-pro-management').css('bottom','0px');
+				$('.chatbox-pro-management').css('transition','all .8s');
+				
+			});
+			$( ".close-chatbox" ).click(function() {
+				$('.chatbox-pro-management').css('bottom','-423px');
+				$('.chatbox-pro-management').css('transition','all .8s');
+			});
+		});
+		
+		</script>	
 	</head>
 	
 	<body>
