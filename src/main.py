@@ -25,7 +25,7 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/admin/usermanagment', AdminUserManagement),
     webapp2.Route('/projectmanagment', ProjectManagement),
     webapp2.Route('/addproject', AddProject),
-    webapp2.Route('/viewmembers', GetTeamMembersForProject)
-    
+    webapp2.Route('/viewmembers', GetTeamMembersForProject),
+    webapp2.Route('/profile', EndUserProfile)
     #webapp2.Route('/admin/dasboard', AdminHome)
 ], debug=True, config=config)

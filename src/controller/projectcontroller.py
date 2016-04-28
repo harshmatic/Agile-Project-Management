@@ -19,11 +19,15 @@ from datetime import datetime
 
 class ProjectManagement(BaseHandler):
     def get(self):
-        projmodel=user.Project()
-        proj=projmodel.get_all()
-        usermodel = user.OurUser().get_all()
-        self.render_template("project-management-new.html",{"project":proj,"userslist":usermodel})
-        
+        if check_permission(self):
+            projmodel=user.Project()
+            proj=projmodel.get_all()
+            usermodel = user.OurUser().get_all()
+            self.render_template("project-management-new.html",{"project":proj,"userslist":usermodel,'permission':'success'})
+           
+        else:
+            #self.response.write("you are not allowed")
+            self.render_template("project-management-new.html",{'not_permitted':'You are not authorized to view this page'})    
 class AddProject(BaseHandler):
         
     

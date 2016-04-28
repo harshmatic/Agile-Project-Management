@@ -33,18 +33,30 @@ class EndUserDashboardHandler(BaseHandler):
             
           #  logging.info(type(current_user['user_id']))
             
-            user_db = OurUser.query().fetch()
+         #   user_db = OurUser.query().fetch()
             self.render_template("dashboard.html")
         else:
             self.response.write("you are not allowed")
             
             
             
-class ProjectManagementHandler(BaseHandler):
-    def get(self):
-        if check_permission(self):
+#class ProjectManagementHandler(BaseHandler):
+ #   def get(self):
+   #     if check_permission(self):
             
-            self.render_template("project.html",{'permission':'success'})
-        else:
+     #       self.render_template("project.html",{'permission':'success'})
+   #     else:
             #self.response.write("you are not allowed")
-            self.render_template("project.html",{'permission':'you are not authorized to view this page'})
+    #        self.render_template("project.html",{'permission':'you are not authorized to view this page'})
+            
+            
+            
+class EndUserProfile(BaseHandler):
+    def get(self):
+       
+            #current_user =self.auth.get_user_by_session()
+            user_db = OurUser.query().fetch()
+            user1=self.auth.get_user_by_session()
+            role=self.user_model.get_by_id(user1['user_id']).role.get().role
+            self.render_template("profile.html",{'permission':'success', 'user_db':user_db, 'role':role})
+       

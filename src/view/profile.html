@@ -1,0 +1,267 @@
+<html>
+	<head>
+		<title>Project Management</title>
+		{% include "head.html" %}
+		<link rel="stylesheet" href="/assets/css/jquery.tokenize.css">
+		<link rel="stylesheet" href="/assets/css/bootstrap-datepicker.min.css">
+		<link rel="stylesheet" href="/assets/css/style-admin.css">
+	
+		<script src="/assets/js/main.js"></script>
+		<script src="/assets/js/jquery.tokenize.js"></script>
+		<script src="/assets/js/bootstrap-datepicker.min.js"></script>
+		
+		
+		<script>
+		$(document).ready(function() {
+			
+			$(".messages-main-box").niceScroll();
+			
+			$("#menu-toggle").click(function(e) {
+				e.preventDefault();
+				$("#wrapper").toggleClass("toggled");
+			});
+			
+			/******** For Hamburger & Close icon *****/
+				
+			$('#ham-side-icon').show();	
+			
+			$( "#menu-toggle" ).click(function() {
+				var toggle = $( "#wrapper" ).hasClass("toggled");
+					
+						if(toggle == true){
+							$('#close-side-icon').show();
+							$('#ham-side-icon').hide();
+							
+						} else {
+							$('#close-side-icon').hide();
+							$('#ham-side-icon').show();
+						}
+				
+			});
+			/******** For Hamburger & Close icon ends *****/
+			
+			if($( window ).width() >= 768) {
+				$( "#menu-toggle" ).click(function() {
+						var a = $( "#wrapper" ).hasClass("toggled");
+					
+						if(a == true){
+							
+							$('#sidebar-wrapper').css('width','250px');
+							$('#sidebar-wrapper').css('left','250px');
+							$('#wrapper.toggled').css('padding-left','250px');
+							
+						} else {
+							$('#sidebar-wrapper').css('width','0px');
+							$('#sidebar-wrapper').css('left','0px');
+							$('#wrapper').css('padding-left','0px');
+							
+						}
+						
+				});
+			}
+			
+			if($( window ).width() <= 767) {
+				$( "#menu-toggle" ).click(function() {
+						var a = $( "#wrapper" ).hasClass("toggled");
+						
+						if(a == true){
+							  
+							
+							$('#sidebar-wrapper').css('width','250px');
+							$('#sidebar-wrapper').css('left','250px');
+							$('#wrapper.toggled').css('padding-left','250px');
+							
+						} else {
+							$('#sidebar-wrapper').css('width','0px');
+							$('#sidebar-wrapper').css('left','0px');
+							$('#wrapper').css('padding-left','0px');
+							
+						}
+						
+				});
+			}
+			
+					
+			/********** For Chatbox **********/
+						
+			$('.chatbox-pro-management').css('bottom','-423px');
+			
+			$( ".online-user-name" ).click(function() {
+				$('.chatbox-pro-management').css('bottom','0px');
+				$('.chatbox-pro-management').css('transition','all .8s');
+				
+			});
+			$( ".close-chatbox" ).click(function() {
+				$('.chatbox-pro-management').css('bottom','-423px');
+				$('.chatbox-pro-management').css('transition','all .8s');
+			});
+		});
+		
+		
+		</script>
+	
+	
+	</head>
+	
+	<body>
+		<div id="wrapper">
+	
+		 {% include "sidebar.html" %} 
+		
+	<!-- Page Content -->
+       <div id="page-content-wrapper">
+		
+		
+				{% include "header.html" %} 	
+		
+						<!-- Main Page content starts -->	
+						
+						<div class="main-box">
+						
+							<div class="col-md-12">
+							
+								<div class="user-management-heading-box">
+								
+									<!-- Menu Toggle Button -->
+								<!--  <div id="menu-toggle" class="menu-toggle-user-management">
+										<img src="../assets/img/ham-side-icon.png" id="ham-side-icon">
+										<img src="../assets/img/close-side-icon.png" id="close-side-icon" style="display:none;">
+									</div>
+									<!-- Menu Toggle Button -->
+									
+									<h2 class="user-management-heading"><i class="fa fa-user user-management-head-icon"></i>Profile</h2>
+									
+									
+								</div>
+										<div class="register-box">
+				
+							{%for i in user_db%}
+				
+							{% if i.email_address == user.email_address and i.name == user.name and i.key.id == user.user_id %}
+								<!--First Name -->
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">First Name :</label>
+											</div>
+											
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">{{i.name}}</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<!--Last Name -->
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">Last Name :</label>
+											</div>
+											
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">{{i.last_name}}</label>
+											</div>
+										</div>
+									</div>
+								</div>
+													
+								<!--Email address -->
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">Email address :</label>
+											</div>
+											
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">{{i.email_address}}</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<!-- Designation -->
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">Designation :</label>
+											</div>
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">{{i.designation}}</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								
+								<!-- Employee ID  -->
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">Employee ID :</label>
+											</div>
+											
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">{{i.empid}}</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<!-- Contact NO -->
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">Contact No :</label>
+											</div>
+											
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">{{i.contact}}</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<!-- Role -->
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">Role :</label>
+											</div>
+											
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">
+												{{role}}
+												</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								{%endif%}
+								{%endfor%}
+							</div>
+							
+							
+							</div>
+			
+						</div>
+						
+						<!-- Main Page content ENDS -->	
+					
+		</div> <!-- Page content Wrapper ends -->		
+	</div> <!-- Wrapper ends -->	
+	
+	
+	
+	
+	
+
+	</body>
+</html>

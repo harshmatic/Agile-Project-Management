@@ -179,6 +179,11 @@
 						<!-- Main Page content starts -->	
 						
 						<div class="main-box">
+						{%if not_permitted%}
+						
+						<center style="color: red;">{{not_permitted}}</center>
+						
+						{%else%}
 							<div class="col-md-12">
 							
 								<div class="user-management-heading-box">
@@ -316,6 +321,8 @@
 										</div>
 									</div>		
 							</div>
+							
+							{%endif%}
 							
 						</div>
 						
