@@ -1,11 +1,11 @@
 import webapp2
 from controller.login import *
 from controller.admin import *
-
+from controller.user import *
 
 
 app = webapp2.WSGIApplication([
-    webapp2.Route('/dashboard', DashboardHandler, name="dashboard"),                           
+    webapp2.Route('/dashboard', EndUserDashboardHandler, name="dashboard"),                           
     webapp2.Route('/signup', SignupHandler),
     webapp2.Route('/signupadmin', SignupAdminHandler),
     webapp2.Route('/<type:v|p>/<user_id:\d+>-<signup_token:.+>',handler=VerificationHandler, name='verification'),
@@ -24,6 +24,7 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/admin/editrole', EditRole),
     webapp2.Route('/admin/delete', DeleteEntity),
     webapp2.Route('/admin/dashboard', AdminHome,name="admindashboard"),
-    webapp2.Route('/admin/usermanagment', AdminUserManagement)
+    webapp2.Route('/admin/usermanagment', AdminUserManagement),
+    webapp2.Route('/project', ProjectManagementHandler)
     #webapp2.Route('/admin/dasboard', AdminHome)
 ], debug=True, config=config)
