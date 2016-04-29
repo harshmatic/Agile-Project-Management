@@ -222,9 +222,41 @@
 				
 			});
 			
+		
+	               
+			
+			   
+
+		
 			
 			
+			
+			});
+		
+		
+		$(function(){ 
+			
+			
+		    $("#file").change(function() {
+		    	readURL(this);
+		    });
 		});
+		
+		
+		
+		   
+		function readURL(input) {
+		    if (input.files && input.files[0]) {
+		        var reader = new FileReader();
+
+		        reader.onload = function (e) {
+		            $('#preview_image').attr('src', e.target.result);
+		        }
+
+		        reader.readAsDataURL(input.files[0]);
+		    }
+		}
+
 		
 		</script>
 	
@@ -491,12 +523,37 @@
 
 				<!-- Modal content-->
 				<div class="modal-content add-task-modal-content">
-				<form role="form" id="user_form" enctype="multipart/form-data">
-				{{upload_url}}
+				
+				
 				  <div class="modal-header add-task-modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title add-task-modal-heading">Add New User</h4>
 				  </div>
+				  
+				  <!-- for profile image -->
+				  <div class="modal-body user-management-body">
+				  	<div class="row">
+				  		   <div class="col-md-1">
+								</div>
+				  		<div class="col-md-10">
+				 			 <form action="{{upload_url}}" method="POST" enctype="multipart/form-data">
+  								<div class="form-group task-form-group">
+  									<label class="task-label">Upload File</label>
+  									<input type="file" id="file" name="file"><br>
+  									<input type="submit" id="upload" name="upload" value="upload">
+  								</div>
+  					
+				  			</form>
+				  		 <img id="preview_image" src="http://placehold.it/100x100" height="100" width="100">
+				  	  </div>
+				  	<div class="col-md-1">
+								</div>	
+				   </div>
+				  </div>
+				  
+				  
+				  <!-- for whole add user -->
+				  <form role="form" id="user_form"  method="post" enctype="multipart/form-data">
 					<div class="modal-body user-management-body">
 							<div class="row">
 								<div class="col-md-1">
@@ -515,12 +572,23 @@
 												<label class="task-label">Email</label>
 												<input type="text" class="form-control add-task-textbox" name="email">
 											  </div>
+											  
 											 
-											   <!-- Profile Picture --> 
-											  <div class="form-group task-form-group">
+										
+											  <!-- Profile Picture --> 
+											  
+										  <div class="form-group task-form-group">
 												<label class="task-label">Upload Profile Image</label>
-											 <input type="file" name="file"><br>
-											  </div>
+		 											<input type="file" id="file" name="file"><br>
+													<input type="submit" id="upload" name="upload" value="upload">
+													<input type="hidden" value="{{upload_url}}" id="image_url">
+											 </div>
+											 
+										
+										
+											  
+											  
+										  
 											  
 											  <!-- First Name --> 
 											  <div class="form-group task-form-group">
@@ -565,12 +633,12 @@
 								<div class="col-md-1">
 								</div>		
 							</div>
-							
-				  </div>
-				  <div class="modal-footer add-task-modal-footer">
-					<input type="submit" class="add-task-btn-modal" data-dismiss="modal" id="add_user" value="Add">
-					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</button>
-				  </div>
+						 		<div class="modal-footer add-task-modal-footer">
+								<input type="submit" class="add-task-btn-modal" data-dismiss="modal" name="add_user" id="add_user" value="Add">
+								<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</button>
+				  				</div>	
+				 		 </div>
+				 
 				  	</form>
 				</div>
 
