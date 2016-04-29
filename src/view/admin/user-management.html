@@ -29,7 +29,78 @@
 		<script>
 		
 		$(document).ready(function() {
-		
+			
+		//harshit 
+		 $("#search").keyup(function(){
+        _this = this;
+        // Show only matching TR, hide rest of them
+        $.each($("#users tbody tr"), function() {
+            if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+               $(this).hide();
+            else
+               $(this).show();                
+        });
+    	}); 
+		$(".delete").on("click",function(){
+			
+			var r = confirm("This will delete the user permenantly ?");
+			if(r){
+				key = $(this).attr("id");
+				$.post( "/admin/delete?key_permission="+key)
+		  		.done(function( data ) {
+		  			if (data!="true"){
+		  				alert("Something Went Wrong");
+		  				return false
+		  			} else {
+		  				console.log($("#"+key).closest("tr").remove())
+		  				 $("#"+key).closest("tr").remove();
+		  				
+		  			}
+		  		})
+			} else {
+				
+				return false
+			}
+			
+		})
+		$(".edit").on("click",function(){
+			
+			var r = confirm("This will delete the user permenantly ?");
+			if(r){
+				key = $(this).attr("id");
+				$.post( "/admin/edit?key_permission="+key)
+		  		.done(function( data ) {
+		  			if (data!="true"){
+		  				alert("Something Went Wrong");
+		  				return false
+		  			} else {
+		  				console.log($("#"+key).closest("tr").remove())
+		  				 $("#"+key).closest("tr").remove();
+		  				
+		  			}
+		  		})
+			} else {
+				
+				return false
+			}
+			
+		})
+		$(".verify").on("click",function(){
+			key = $(this).attr("id");
+				$.post("/admin/verify?key_user="+key)
+		  		.done(function( data ) {
+		  			if (data.indexOf('true')){
+		  				alert("Something Went Wrong");
+		  				return false
+		  			} else {
+		  				alert("User is verified. Password for the user is: '"+data.replace("true", "")+"'")
+		  				$(".verify#"+key).parent().html();
+	  					$(".verify#"+key).parent().html("Yes");
+	  					
+		  				
+		  			}
+		  		})
+			})
 			$('.datepicker').datepicker({
 				format: 'dd/mm/yyyy',
 				startDate: '0d'
@@ -358,17 +429,16 @@
 									
 									<button class="add-user-btn pro-button">Add user</button>
 								</div>
-								
 							
 								<div class="panel panel-default task-main-panel">
 									<div class="add-task-box">
 										<div class="search-field-box search-field-box-admin">
 											<i class="fa fa-search search-icon search-icon-admin"></i>
-											<input type="text" class="search-field project-management-textbox search-field-admin-textbox" placeholder="Search a user...">
+											<input type="text" class="search-field project-management-textbox search-field-admin-textbox" placeholder="Search a user..." id="search">
 										</div>
 									</div>	
 										<div class="table-responsive">
-										<table class="table user-management-table">
+										<table class="table user-management-table" id="users">
 											<thead>
 											  <tr class="header-row">
 												<th></th>
@@ -395,9 +465,9 @@
 												<td>{{user1.contact}}</td>
 												<td>{{user1.empid}}</td>
 												<td class="roll-td"><i>{{user1.role.get.role}}</i></td>
-												<td>{% if user1.verified%}Yes{%else%} No {%endif%}</td>
-												<td><i class="fa fa-pencil user-management-edit-icon" aria-hidden="true" title="Edit User"></i></td>
-												<td><i class="fa fa-trash user-management-delete-icon" aria-hidden="true" title="Delete User"></i></td>
+												<td>{% if user1.verified%}Yes{%else%} No <a href="#" id="{{user1.key.urlsafe}}" class="verify">Verify</a> {%endif%}</td>
+												<td><i class="fa fa-pencil user-management-edit-icon edit" aria-hidden="true" title="Edit User"  id="{{user1.key.urlsafe}}"></i></td>
+												<td><i class="fa fa-trash user-management-delete-icon delete" aria-hidden="true" title="Delete User"  id="{{user1.key.urlsafe}}"></i></td>
 											  </tr>
 											{%endfor%} 
 											</tbody>
@@ -422,7 +492,7 @@
 				<!-- Modal content-->
 				<div class="modal-content add-task-modal-content">
 				<form role="form" id="user_form" enctype="multipart/form-data">
-				
+				{{upload_url}}
 				  <div class="modal-header add-task-modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title add-task-modal-heading">Add New User</h4>
@@ -445,9 +515,10 @@
 												<label class="task-label">Email</label>
 												<input type="text" class="form-control add-task-textbox" name="email">
 											  </div>
+											 
 											   <!-- Profile Picture --> 
 											  <div class="form-group task-form-group">
-												<label class="task-label">Upload File</label>
+												<label class="task-label">Upload Profile Image</label>
 											 <input type="file" name="file"><br>
 											  </div>
 											  

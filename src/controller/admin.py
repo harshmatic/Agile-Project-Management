@@ -1,11 +1,38 @@
 from google.appengine.ext import ndb
 import logging
-import model
 from model import user
 from login import BaseHandler,check_permission
+#import simplejson as json
+import json as json
+import model
 from google.appengine.api import mail
+from google.appengine.ext.webapp import blobstore_handlers
+from google.appengine.ext import blobstore
 #from src.model.user import Groups
-
+class AdminVerify(BaseHandler):
+    def post(self):
+        key = ndb.Key(urlsafe=self.request.get('key_user'))
+        user=key.get()
+        if not user.verified:
+            user.verified=True
+            password=user.name+user.empid
+            user.put()
+            self.response.write("true"+password)
+        else:
+            self.response.write("User is already verified.")
+ 
+class Adminedit(BaseHandler):
+    def post(self):
+        key = ndb.Key(urlsafe=self.request.get('key_user'))
+        user=key.get()
+        if not user.verified:
+            user.verified=True
+            password=user.name+user.empid
+            user.put()
+            self.response.write("true"+password)
+        else:
+            self.response.write("User is already verified.")           
+        
 class AdminHome(BaseHandler):
     def get(self):
         if check_permission(self):
@@ -15,7 +42,9 @@ class AdminHome(BaseHandler):
 class DeleteEntity(BaseHandler):
     def post(self):
         key = ndb.Key(urlsafe=self.request.get('key_permission'))
+        
         key.delete()
+        self.response.write("true")
         #logging.info()
         #q=qry.filter(key in parent)
         #logging.info(qry)
@@ -129,10 +158,14 @@ class AdminUserManagement(BaseHandler):
         
         role=model.user.Groups()
         roles=role.get_all()
-        
         user1 =user.OurUser().get_all()
-        logging.info(user1)
-        self.render_template("admin/user-management.html",{"user1":user1,"roles":roles})
+       # logging.info(user1)
+        user_json = [row.to_dict() for row in user1]
+        #user_json.pop("datetime")
+        logging.info(user_json)
+        #user_json = json.dumps(user_json)
+        upload_url = blobstore.create_upload_url('/admin/user-management')
+        self.render_template("admin/user-management.html",{"user1":user1,"user_json":user_json,"roles":roles})
         
     def post(self):
         user_name = self.request.get('email')
