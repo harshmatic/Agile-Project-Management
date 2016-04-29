@@ -27,7 +27,9 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/admin/dashboard', AdminHome,name="admindashboard"),
     webapp2.Route('/admin/usermanagment', AdminUserManagement),
     webapp2.Route('/admin/verify', AdminVerify),
-    webapp2.Route('/project', ProjectManagement),
+    webapp2.Route('/viewmembers', GetTeamMembersForProject),
+    webapp2.Route('/addproject', AddProject),
+    webapp2.Route('/editproject', EditProject), 
     webapp2.Route('/admin/upload_photo', PhotoUploadHandler),
     webapp2.Route('/admin/view_photo', ViewPhotoHandler)
 
