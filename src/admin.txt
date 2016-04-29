@@ -1,4 +1,4 @@
-working admin from google.appengine.ext import ndb
+from google.appengine.ext import ndb
 import logging
 from model import user
 from login import BaseHandler,check_permission
@@ -178,9 +178,11 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
         
     def post(self):
         
-      db= self.request.get('add_user')
-      
-      if db:
+        
+        submit=self.request.get('add_user')
+        logging.info('submit:'+submit)
+        
+        
         user_name = self.request.get('email')
         email = self.request.get('email')
         name = self.request.get('first_name')
@@ -191,13 +193,19 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
         empid=self.request.get('emp_id')
         contact=self.request.get('contact_no')
         password = name+empid
-       # upload = self.get_uploads()[0]
-        #upload= upload[0]
        
         
-        logging.info("hello")
+        upload = self.get_uploads()[0]
+        #upload= upload[0]
+        
+       
+          
+          
+        self.response.write("true")    
+          
+      #  logging.info("hello")
      #   logging.info(upload)
-        logging.info("hi")
+     #   logging.info("hi")
         
         
      #   blob_key=upload.key()
@@ -208,7 +216,7 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
         #unique_properties = ['email_address']
         user_data = self.user_model.create_user(user_name,
             email_address=email, name=name, password_raw=password,designation=designation,empid=empid,contact=contact,
-            last_name=last_name,role=role, verified=False)
+            last_name=last_name,role=role,blob_key=upload.key(), verified=False)
         if not user_data[0]: #user_data is a tuple
             self.response.write('User already exists with the same name')
             return
@@ -234,7 +242,7 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
         
    #   else:
             
-class PhotoUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
+class PhotoUploadHandler(blobstore_handlers.BlobstoreUploadHandler,blobstore_handlers.BlobstoreDownloadHandler):
     def post(self):
         try:
             upload = self.get_uploads()[0]
@@ -247,9 +255,11 @@ class PhotoUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
                 )
             user_photo.put()
            # self.render_template("admin/user-management.html",{"view_image":blobstore.get(blob_key)})
-        
+            
+            
             self.redirect('/admin/view_photo?photo_key=%s' % upload.key())
-           
+          #  self.response.write("true")   
+          
         except:
            self.error(500)
             
