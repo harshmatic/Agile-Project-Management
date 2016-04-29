@@ -6,7 +6,9 @@
 	  				alert("Something Went Wrong");
 	  				return false
 	  			} else {
-	  				//$('#edit-permission-modal').modal('toggle');
+	  				$('#edit_permissions').load('/admin/editpermissions #edit_permissions', function(result) {
+	  				    var variable = $('#edit_permissions').html();
+	  				});
 	  				
 	  			}
 	  		});
@@ -20,6 +22,10 @@
 	  				alert("Something Went Wrong");
 	  				return false
 	  			} else {
+	  				$('#edit_permissions').load('/admin/editpermissions #edit_permissions', function(result) {
+	  				    var variable = $('#edit_permissions').html();
+	  				    console.log(variable)
+	  				});
 	  				//$('#edit-permission-modal').modal('toggle');
 	  				
 	  			}
@@ -29,7 +35,6 @@
 		})
 		$('#edit-permission-modal').on('hidden.bs.modal', function(e)
 				    { 
-						console.log("aaa");
 				        $(this).removeData('bs.modal');
 				    }) ;
 

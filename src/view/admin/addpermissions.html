@@ -8,6 +8,10 @@
 	  				return false
 	  			} else {
 	  				$('#add-permission-modal').modal('toggle');
+	  				$('#edit_permissions').load('/admin/editpermissions #edit_permissions', function(result) {
+	  				    var variable = $('#edit_permissions').html();
+	  				  
+	  				});
 	  				
 	  			}
 	  		});

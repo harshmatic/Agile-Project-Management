@@ -24,8 +24,15 @@ class OurUser(auth_user.User):
         return None, None
     def get_all(self):
         res = self.query().fetch()
-        return res  
-
+        return res
+    
+    @classmethod
+    def _pre_delete_hook(cls, key):
+        us=key.get()
+        auth_user.Unique.delete_multi(map(lambda s: '%s.auth_id:'  % (cls.__name__)+ s, us.auth_ids))
+        
+        
+        
 class Permissions(ndb.Model):
     url = ndb.StringProperty(required=True)
     permission = ndb.StringProperty()
