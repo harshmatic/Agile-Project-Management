@@ -1,0 +1,77 @@
+ <script>
+		$("#submit").on("click",function(){
+			$.post( "/admin/editpermission", $("#editpermission").serialize())
+	  		.done(function( data ) {
+	  			if (data!="true"){
+	  				alert("Something Went Wrong");
+	  				return false
+	  			} else {
+	  				$('#edit_permissions').load('/admin/editpermissions #edit_permissions', function(result) {
+	  				    var variable = $('#edit_permissions').html();
+	  				});
+	  				
+	  			}
+	  		});
+			
+			
+		})
+		$("#delete").on("click",function(){
+			$.post( "/admin/delete", $("#editpermission").serialize())
+	  		.done(function( data ) {
+	  			if (data!="true"){
+	  				alert("Something Went Wrong");
+	  				return false
+	  			} else {
+	  				$('#edit_permissions').load('/admin/editpermissions #edit_permissions', function(result) {
+	  				    var variable = $('#edit_permissions').html();
+	  				    console.log(variable)
+	  				});
+	  				//$('#edit-permission-modal').modal('toggle');
+	  				
+	  			}
+	  		});
+			
+			
+		})
+		$('#edit-permission-modal').on('hidden.bs.modal', function(e)
+				    { 
+				        $(this).removeData('bs.modal');
+				    }) ;
+
+	</script>
+ <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Edit Permission</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								
+								<div class="col-md-10">
+										<form role="form" id="editpermission">
+											  <!-- Permission Name --> 
+											  
+											  <div class="form-group task-form-group">
+												<label class="task-label">Permission Name</label>
+												<input type="text" class="form-control add-task-textbox" name="name_permission" value="{{permission.permission}}">
+											  </div>
+											  
+											  <!-- Permission URL --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Permission URL</label>
+												<input type="text" class="form-control add-task-textbox" name="url_permission" value="{{permission.url}}">
+											  </div>
+											  <input type="hidden" name="key_permission" value="{{permission.key.urlsafe}}">
+												
+										</form>
+								</div>	
+								<div class="col-md-1">
+								</div>		
+							</div>
+							
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<button type="button" class="add-task-btn-modal save-roll-modal-btn" data-dismiss="modal" id="submit">Save</button>
+					<button type="button" class="add-task-btn-modal delete-roll-modal-btn" data-dismiss="modal" id="delete" >Delete</button>
+				  </div>

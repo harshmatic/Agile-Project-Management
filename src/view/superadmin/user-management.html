@@ -1,0 +1,581 @@
+<html>
+	<head>
+		<title>User Management</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		
+		<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/assets/css/style.css">
+		<link rel="stylesheet" href="/assets/css/sidebar-test.css">
+		<link rel="stylesheet" href="/assets/css/button.css">
+		<link rel="stylesheet" href="/assets/css/jquery.tokenize.css">
+		<link rel="stylesheet" href="/assets/css/bootstrap-datepicker.min.css">
+		<link rel="stylesheet" href="/assets/css/style-admin.css">
+		
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway">
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Montserrat">
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="/assets/js/bootstrap.min.js"></script>
+		<script src="/assets/js/nice-scroll.js"></script>
+		<script src="/assets/js/button.js"></script>
+		<script src="/assets/js/main.js"></script>
+		<script src="/assets/js/jquery.tokenize.js"></script>
+		<script src="/assets/js/bootstrap-datepicker.min.js"></script>
+		
+		
+		<script>
+		
+		$(document).ready(function() {
+			
+		//harshit 
+		 $("#search").keyup(function(){
+        _this = this;
+        // Show only matching TR, hide rest of them
+        $.each($("#users tbody tr"), function() {
+            if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+               $(this).hide();
+            else
+               $(this).show();                
+        });
+    	}); 
+		$(".delete").on("click",function(){
+			
+			var r = confirm("This will delete the user permenantly ?");
+			if(r){
+				key = $(this).attr("id");
+				$.post( "/admin/delete?key_permission="+key)
+		  		.done(function( data ) {
+		  			if (data!="true"){
+		  				alert("Something Went Wrong");
+		  				return false
+		  			} else {
+		  				console.log($("#"+key).closest("tr").remove())
+		  				 $("#"+key).closest("tr").remove();
+		  				
+		  			}
+		  		})
+			} else {
+				
+				return false
+			}
+			
+		})
+		$(".edit").on("click",function(){
+			
+			var r = confirm("This will delete the user permenantly ?");
+			if(r){
+				key = $(this).attr("id");
+				$.post( "/admin/edit?key_permission="+key)
+		  		.done(function( data ) {
+		  			if (data!="true"){
+		  				alert("Something Went Wrong");
+		  				return false
+		  			} else {
+		  				console.log($("#"+key).closest("tr").remove())
+		  				 $("#"+key).closest("tr").remove();
+		  				
+		  			}
+		  		})
+			} else {
+				
+				return false
+			}
+			
+		})
+		$(".verify").on("click",function(){
+			key = $(this).attr("id");
+				$.post("/admin/verify?key_user="+key)
+		  		.done(function( data ) {
+		  			if (data.indexOf('true')){
+		  				alert("Something Went Wrong");
+		  				return false
+		  			} else {
+		  				alert("User is verified. Password for the user is: '"+data.replace("true", "")+"'")
+		  				$(".verify#"+key).parent().html();
+	  					$(".verify#"+key).parent().html("Yes");
+	  					
+		  				
+		  			}
+		  		})
+			})
+			$('.datepicker').datepicker({
+				format: 'dd/mm/yyyy',
+				startDate: '0d'
+				
+			});
+
+		
+			/*********For Multiple select***************/
+			
+			$('#tokenize').tokenize({
+				displayDropdownOnFocus: true
+			});
+			
+			/*******For Multiple select ends **************/
+			
+			
+			
+			$(".add-user-btn").click(function(e) {
+				$('#add-user-modal').modal('show');
+			});
+			
+			
+			$(".messages-main-box").niceScroll();
+			
+			$("#menu-toggle").click(function(e) {
+				e.preventDefault();
+				$("#wrapper").toggleClass("toggled");
+			});
+			
+			/******** For Hamburger & Close icon *****/
+				
+			$('#ham-side-icon').show();	
+			
+			$( "#menu-toggle" ).click(function() {
+				var toggle = $( "#wrapper" ).hasClass("toggled");
+					
+						if(toggle == true){
+							$('#close-side-icon').show();
+							$('#ham-side-icon').hide();
+							
+						} else {
+							$('#close-side-icon').hide();
+							$('#ham-side-icon').show();
+						}
+				
+			});
+			/******** For Hamburger & Close icon ends *****/
+			
+			
+			
+			if($( window ).width() >= 768) {
+				$( "#menu-toggle" ).click(function() {
+						var a = $( "#wrapper" ).hasClass("toggled");
+					
+						if(a == true){
+							
+							$('#sidebar-wrapper').css('width','250px');
+							$('#sidebar-wrapper').css('left','250px');
+							$('#wrapper.toggled').css('padding-left','250px');
+							
+						} else {
+							$('#sidebar-wrapper').css('width','0px');
+							$('#sidebar-wrapper').css('left','0px');
+							$('#wrapper').css('padding-left','0px');
+							
+						}
+						
+				});
+			}
+			
+			if($( window ).width() <= 767) {
+				$( "#menu-toggle" ).click(function() {
+						var a = $( "#wrapper" ).hasClass("toggled");
+						
+						if(a == true){
+							  
+							
+							$('#sidebar-wrapper').css('width','250px');
+							$('#sidebar-wrapper').css('left','250px');
+							$('#wrapper.toggled').css('padding-left','250px');
+							
+						} else {
+							$('#sidebar-wrapper').css('width','0px');
+							$('#sidebar-wrapper').css('left','0px');
+							$('#wrapper').css('padding-left','0px');
+							
+						}
+						
+				});
+			}
+			
+					
+			/********** For Chatbox **********/
+						
+			$('.chatbox-pro-management').css('bottom','-423px');
+			
+			$( ".online-user-name" ).click(function() {
+				$('.chatbox-pro-management').css('bottom','0px');
+				$('.chatbox-pro-management').css('transition','all .8s');
+				
+			});
+			$( ".close-chatbox" ).click(function() {
+				$('.chatbox-pro-management').css('bottom','-423px');
+				$('.chatbox-pro-management').css('transition','all .8s');
+			});
+			
+			
+			$("#add_user").click(function(){
+				
+				
+				$.post( "/admin/usermanagment", $("#user_form").serialize())
+			  		.done(function( data ) {
+			  			if (data!="true"){
+			  				alert(data);
+			  			} else {
+			  				alert("Email Sent");
+			  			}
+			  	});
+				
+			});
+			
+			
+			
+		});
+		
+		</script>
+	
+	
+	</head>
+	
+	<body>
+		<div id="wrapper">
+		{% include "sidebar.html" %} 
+		 <!-- Sidebar -->
+			<!--  <div id="sidebar-wrapper">
+				<ul class="sidebar-nav">
+					<li class="sidebar-brand">
+						<a href="#" class="admin-label">
+							ADMINISTRATION
+						</a>
+					</li>
+					<li>
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-user side-font-icons" aria-hidden="true"></i> User Management</a>
+						
+					</li>
+					<li>
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-briefcase side-font-icons" aria-hidden="true"></i> Roles</a>
+					</li>
+					<li>
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-bullseye side-font-icons" aria-hidden="true"></i> Project</a>
+					</li>
+					<li>
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-users side-font-icons" aria-hidden="true"></i> Groups</a>
+					</li>
+					<li>
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-cogs side-font-icons" aria-hidden="true"></i> Permissions</a>
+					</li>
+					
+				</ul>
+			</div>-->
+			<!-- /#sidebar-wrapper -->
+		
+	<!-- Page Content -->
+       <div id="page-content-wrapper">
+		
+						<!-- For mobile user menu starts -->
+						<ul class="nav-mobile">
+									
+									  <li class="dropdown">
+										<a href="#" class="dropdown-toggle user-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										<img src="../assets/img/user.png">
+										<span class="caret"></span></a>
+										<ul class="dropdown-menu menu-user menu-responsive">
+										  <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+										  <li class="dropdown-submenu">
+													
+													<a href="#"><i class="fa fa-caret-left arrow-left"></i><i class="fa fa-cog"></i> Settings</a>
+													<ul class="dropdown-menu submenu-list">
+													  <li><a href="#"><i class="fa fa-bell"></i> Notifications</a></li>
+													  <li><a href="#"><i class="fa fa-link"></i> Linked Accounts</a></li>
+													  <li><a href="#"><i class="fa fa-trash"></i> Clear History</a></li>
+													  <li><a href="#"><i class="fa fa-share-square"></i> Share Query</a></li>
+													  <li><a href="#"><i class="fa fa-certificate"></i> Assistance</a></li>
+													</ul>
+										  </li>
+										  <li class="dropdown-submenu">
+													
+													<a href="#"><i class="fa fa-caret-left arrow-left"></i><i class="fa fa-comments"></i> Chats</a>
+													<ul class="dropdown-menu submenu-list">
+													  <li><a href="#"><i class="fa fa-comment"></i> Recent Chat</a></li>
+													  <li><a href="#"><i class="fa fa-users"></i> Group Chat</a></li>
+													  <li><a href="#"><i class="fa fa-black-tie"></i> Client Chat</a></li>
+													</ul>
+										  </li>
+										  
+										  <li><a href="#"><i class="fa fa-question-circle"></i> Help</a></li>
+										  <li role="separator" class="divider"></li>
+										  <li><a href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
+										</ul>
+									  </li>
+						</ul>
+						<!-- For mobile user menu Ends -->
+						
+						
+						<section class="top-main-section">
+							 <!-- Static navbar -->
+							  <nav class="navbar navbar-default navbar-pro-management">
+								<div class="container-fluid">
+								  <div class="navbar-header">
+									<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+									  <span class="sr-only">Toggle navigation</span>
+									  <span class="icon-bar"></span>
+									  <span class="icon-bar"></span>
+									  <span class="icon-bar"></span>
+									</button>
+									<a class="navbar-brand" href="#">
+										
+										<img src="../assets/img/eternus.png" class="logo-img">
+									</a>
+								  </div>
+								  <div id="navbar" class="navbar-collapse collapse">
+									<ul class="nav navbar-nav">
+									  
+									  <li class="dropdown">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										<i class="fa fa-credit-card"></i> SALES
+										<span class="caret"></span></a>
+										<ul class="dropdown-menu">
+										  <li><a href="#"><i class="fa fa-cogs"></i> Sales 1</a></li>
+										  <li><a href="#"><i class="fa fa-cogs"></i> Sales 2</a></li>
+										  <li><a href="#"><i class="fa fa-cogs"></i> Sales 3</a></li>
+										</ul>
+									  </li>
+									  
+									  <li class="dropdown">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										<i class="fa fa-share-alt"></i> SOCIAL MEDIA
+										<span class="caret"></span></a>
+										<ul class="dropdown-menu">
+										  <li><a href="#"><i class="fa fa-facebook-official"></i> Facebook</a></li>
+										  <li><a href="#"><i class="fa fa-twitter"></i> Twitter</a></li>
+										  <li><a href="#"><i class="fa fa-instagram"></i> Instagram</a></li>
+										</ul>
+									  </li>
+									  
+									  
+									  <li class="dropdown">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										<i class="fa fa-sticky-note"></i> PROJECTS
+										<span class="caret"></span></a>
+										<ul class="dropdown-menu">
+										  <li><a href="#"><i class="fa fa-cog"></i> Project 1</a></li>
+										  <li><a href="#"><i class="fa fa-cog"></i> Project 2</a></li>
+										  <li><a href="#"><i class="fa fa-cog"></i> Project 3</a></li>
+										</ul>
+									  </li>
+									</ul>
+									
+									
+									<ul class="nav navbar-nav navbar-right nav-desktop">
+									 
+									  <!--<li class="search-field-box"><i class="fa fa-search search-icon"></i><input type="text" class="form-control search-field project-management-textbox" placeholder="Search..."></li>-->
+									 
+ 									  <li class="dropdown">
+										<a href="#" class="dropdown-toggle user-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										
+										<img src="../assets/img/user.png">
+										
+										<span class="caret"></span></a>
+										
+										<ul class="dropdown-menu multi-level menu-user">
+										  <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+									      <li class="dropdown-submenu">
+													<a href="#"><i class="fa fa-caret-left arrow-left"></i><i class="fa fa-cog"></i> Settings</a>
+													<ul class="dropdown-menu submenu-list">
+													  <li><a href="#"><i class="fa fa-bell"></i> Notifications</a></li>
+													  <li><a href="#"><i class="fa fa-link"></i> Linked Accounts</a></li>
+													  <li><a href="#"><i class="fa fa-trash"></i> Clear History</a></li>
+													  <li><a href="#"><i class="fa fa-share-square"></i> Share Query</a></li>
+													  <li><a href="#"><i class="fa fa-certificate"></i> Assistance</a></li>
+													</ul>
+										  </li>
+										  <li class="dropdown-submenu">
+													<a href="#"><i class="fa fa-caret-left arrow-left"></i><i class="fa fa-comments"></i> Chats</a>
+													<ul class="dropdown-menu submenu-list">
+													  <li><a href="#"><i class="fa fa-comment"></i> Recent Chat</a></li>
+													  <li><a href="#"><i class="fa fa-users"></i> Group Chat</a></li>
+													  <li><a href="#"><i class="fa fa-black-tie"></i> Client Chat</a></li>
+													</ul>
+										  </li>
+										  <li><a href="#"><i class="fa fa-question-circle"></i> Help</a></li>
+										  <li role="separator" class="divider"></li>
+										  <li><a href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
+										</ul>
+									  </li>
+									</ul>
+								  </div><!--/.nav-collapse -->
+								</div><!--/.container-fluid -->
+							  </nav>
+
+						</section>	
+						
+						<!-- Toggle Button -->
+							<!--<a href="#menu-toggle" class="btn btn-default pro-button" id="menu-toggle">MENUS</a>-->
+							
+							
+							
+						<!-- Toggle Button ENDS -->
+		
+		
+						<!-- Main Page content starts -->	
+						
+						<div class="main-box">
+							<div class="col-md-12">
+							
+								<div class="user-management-heading-box">
+								
+									<!-- Menu Toggle Button -->
+									<div id="menu-toggle" class="menu-toggle-user-management">
+										<img src="/assets/img/ham-side-icon.png" id="ham-side-icon">
+										<img src="/assets/img/close-side-icon.png" id="close-side-icon" style="display:none;">
+									</div>
+									<!-- Menu Toggle Button -->
+									
+									<h2 class="user-management-heading"><i class="fa fa-users user-management-head-icon"></i>User Management</h2>
+									
+									<button class="add-user-btn pro-button">Add user</button>
+								</div>
+							
+								<div class="panel panel-default task-main-panel">
+									<div class="add-task-box">
+										<div class="search-field-box search-field-box-admin">
+											<i class="fa fa-search search-icon search-icon-admin"></i>
+											<input type="text" class="search-field project-management-textbox search-field-admin-textbox" placeholder="Search a user..." id="search">
+										</div>
+									</div>	
+										<div class="table-responsive">
+										<table class="table user-management-table" id="users">
+											<thead>
+											  <tr class="header-row">
+												<th></th>
+												<th>First Name</th>
+												<th>Last Name</th>
+												<th>Email</th>
+												<th>Designation</th>
+												<th>Contact No.</th>
+												<th>Employee ID</th>
+												<th>Role</th>
+												<th>Verified</th>
+												<th>Edit user</th>
+												<th>Delete user</th>
+											  </tr>
+											</thead>
+											<tbody>
+											{%for user1 in user1%}
+											  <tr>
+												<td><i class="fa fa-user"></i></td>
+												<td>{{user1.name}}</td>
+												<td>{{user1.last_name}}</td>
+												<td>{{user1.email_address}}</td>
+												<td>{{user1.designation}}</td>
+												<td>{{user1.contact}}</td>
+												<td>{{user1.empid}}</td>
+												<td class="roll-td"><i>{{user1.role.get.role}}</i></td>
+												<td>{% if user1.verified%}Yes{%else%} No <a href="#" id="{{user1.key.urlsafe}}" class="verify">Verify</a> {%endif%}</td>
+												<td><i class="fa fa-pencil user-management-edit-icon edit" aria-hidden="true" title="Edit User"  id="{{user1.key.urlsafe}}"></i></td>
+												<td><i class="fa fa-trash user-management-delete-icon delete" aria-hidden="true" title="Delete User"  id="{{user1.key.urlsafe}}"></i></td>
+											  </tr>
+											{%endfor%} 
+											</tbody>
+										</table>
+										</div>
+									</div>		
+							</div>
+							
+						</div>
+						
+						<!-- Main Page content ENDS -->	
+					
+		</div> <!-- Page content Wrapper ends -->		
+	</div> <!-- Wrapper ends -->	
+	
+	
+	
+	<!-- Add Task Modal Starts -->
+			<div id="add-user-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				<form role="form" id="user_form" enctype="multipart/form-data">
+				
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Add New User</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								
+								<div class="col-md-10">
+										
+											  <!-- Employee ID --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Employee ID</label>
+												<input type="text" class="form-control add-task-textbox" name="emp_id">
+											  </div>
+											  
+											  <!-- Email --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Email</label>
+												<input type="text" class="form-control add-task-textbox" name="email">
+											  </div>
+											   <!-- Profile Picture --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Upload File</label>
+											 <input type="file" name="file"><br>
+											  </div>
+											  
+											  <!-- First Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">First Name</label>
+												<input type="text" class="form-control add-task-textbox" name="first_name">
+											  </div>
+											  
+											  <!-- Last Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Last Name</label>
+												<input type="text" class="form-control add-task-textbox" name="last_name">
+											  </div>
+											 
+											  <!-- Designation --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Designation</label>
+												<input type="text" class="form-control add-task-textbox" name="designation">
+											  </div>
+											  
+											  <!-- Contact No --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Contact No.</label>
+												<input type="text" class="form-control add-task-textbox" name="contact_no">
+											  </div>
+											  
+											  <!-- Permissions/Role --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Assign Role</label>
+												<select class="form-control add-task-textbox" name="role">
+													
+													{% for role in roles %}
+													<option value="{{role.key.urlsafe}}">{{role.role}}</option>
+													{% endfor %}
+												
+													<!-- <option>Admin</option>
+													<option>User</option>-->
+												</select>
+											  </div>
+											  
+									
+								</div>	
+								<div class="col-md-1">
+								</div>		
+							</div>
+							
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<input type="submit" class="add-task-btn-modal" data-dismiss="modal" id="add_user" value="Add">
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</button>
+				  </div>
+				  	</form>
+				</div>
+
+			  </div>
+			</div>
+	<!-- Add Task Modal Ends -->
+
+	</body>
+</html>

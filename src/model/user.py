@@ -7,8 +7,14 @@ import time
 import webapp2_extras.appengine.auth.models as auth_user
 from webapp2_extras import security
 
+class Tenant(ndb.Model):
+    name = ndb.StringProperty(required=True)
+    domain = ndb.StringProperty(required=True)
+    
 class OurUser(auth_user.User):
     role = ndb.KeyProperty()
+    tenant_domain = ndb.StringProperty()
+    tenant_key = ndb.KeyProperty(kind=Tenant)
     def set_password(self, raw_password):
         self.password = security.generate_password_hash(raw_password, length=12)
     @classmethod
@@ -55,6 +61,8 @@ class Groups(ndb.Model):
     role=ndb.StringProperty(required=True)
     permissions=ndb.KeyProperty(kind=Permissions,repeated=True)
     date = ndb.DateTimeProperty(auto_now_add=True)
+    tenant_domain = ndb.StringProperty()
+    tenant_key = ndb.KeyProperty(kind=Tenant)
     
     def set(self):
         self.put()
@@ -75,5 +83,4 @@ class Groups(ndb.Model):
         users = OurUser.query(OurUser.role==key).fetch()
         for user in users:
             user.role.remove(key)
-            #group.permissions.pop(key)
             user.put()

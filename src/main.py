@@ -2,6 +2,7 @@ import webapp2
 from controller.login import *
 from controller.admin import *
 from controller.user import *
+from controller.projectcontroller import *
 
 
 app = webapp2.WSGIApplication([
@@ -14,7 +15,6 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/', Main, name='home'),
     webapp2.Route('/logout', LogoutHandler, name='logout'),
     webapp2.Route('/forgot', ForgotPasswordHandler, name='forgot'),
-    #webapp2.Route('/permission', AddPermission, name='permission'),
     webapp2.Route('/role', AddRole, name='role'),
     webapp2.Route('/authenticated', AuthenticatedHandler, name='authenticated'),
     webapp2.Route('/admin/editpermissions', EditPermissions),
@@ -26,7 +26,5 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/admin/dashboard', AdminHome,name="admindashboard"),
     webapp2.Route('/admin/usermanagment', AdminUserManagement),
     webapp2.Route('/admin/verify', AdminVerify),
-    #webapp2.Route('/superadmin/editpermissions', SuperAdminUserManagement),
-    webapp2.Route('/project', ProjectManagementHandler)
-    #webapp2.Route('/admin/dasboard', AdminHome)
+    webapp2.Route('/project', ProjectManagement)
 ], debug=True, config=config)

@@ -6,11 +6,12 @@ threadsafe: yes
 handlers:
 - url: /assets
   static_dir: assets
+- url: /superadmin/.*
+  script: superadmin.app
+  login: admin
 - url: /.*
   script: main.app
-- url: /superadmin/.*
-  login:admin
-  script: main.app
+
 
 libraries:
 - name: webapp2

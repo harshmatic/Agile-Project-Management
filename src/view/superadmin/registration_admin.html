@@ -1,0 +1,200 @@
+<html>
+	<head>
+		<title>Registration</title>
+		{% include "head.html" %}
+		
+		<script>
+		
+		$(document).ready(function() {
+			$("#submit").click(function(){
+				$.post( "/signupadmin", $("#signup_form").serialize())
+			  		.done(function( data ) {
+			  			if (data!="true"){
+			  				alert("Something Went Wrong");
+			  				return false
+			  			} else {
+			  				alert("A verification link hass been sent to your mail id.");
+			  				document.location.href = '/login';
+			  				return false
+			  			}
+			  	});
+			});
+		});
+		
+		</script>
+	
+	
+	</head>
+	
+	<body>
+		<div id="wrapper">
+	
+		
+		
+	<!-- Page Content -->
+       <div id="page-content-wrapper">
+		
+						
+						
+						<section class="top-main-section">
+							 <!-- Static navbar -->
+							  <nav class="navbar navbar-default navbar-pro-management">
+								<div class="container-fluid">
+								  <div class="navbar-header">
+									
+									<a class="navbar-brand" href="#">
+										
+										<img src="/assets/img/eternus.png" class="logo-img">
+									</a>
+								  </div>
+								  
+								</div><!--/.container-fluid -->
+							  </nav>
+
+						</section>	
+					
+						<!-- Main Page content starts -->	
+						
+						<div class="container register-container">
+							<h3 class="register-main-heading">Register For An Account</h3>
+						
+							<p class="register-para">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+							</p>
+							<div class="register-box">
+					<form method="post" action="/signupadmin" id="signup_form">
+					
+								<!--First Name -->
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">First Name</label>
+											</div>
+											<div class="col-md-8">
+												<input type="text" class="form-control project-management-textbox" name="first_name">
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<!--Last Name -->
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">Last Name</label>
+											</div>
+											<div class="col-md-8">
+												<input type="text" class="form-control project-management-textbox" name="last_name">
+											</div>
+										</div>
+									</div>
+								</div>
+													
+								<!--Email address -->
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">E-mail Address</label>
+											</div>
+											<div class="col-md-8">
+												<input type="text" class="form-control project-management-textbox" name="email">
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<!-- Department -->
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">Designation</label>
+											</div>
+											<div class="col-md-5">
+												<input type="text" class="form-control project-management-textbox" name="designation">
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								
+								<!-- Employee ID  -->
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">Employee ID</label>
+											</div>
+											<div class="col-md-3">
+												<input type="text" class="form-control project-management-textbox" name="emp_id">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">Company Name</label>
+											</div>
+											<div class="col-md-3">
+												<input type="text" class="form-control project-management-textbox" name="comapny_name">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">Domain</label>
+											</div>
+											<div class="col-md-3">
+												<input type="text" class="form-control project-management-textbox" name="comapny_domain">
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- Contact NO -->
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">Contact NO</label>
+											</div>
+											<div class="col-md-3">
+												<input type="text" class="form-control project-management-textbox" name="contact_no">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-3 register-label-box">
+												<label class="register-label">Assign Role</label>
+											</div>{% for role in roles %}
+											<div class="col-md-3">
+											
+											<input type="hidden" name="role" class="form-control project-management-textbox" value="{{role.key.urlsafe}}" checked> {{role.role}}<br>
+											
+											</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+								
+								<div class="register-btn-box">
+									<input type="button" id="submit" class="register-btn pro-button" value="Register">
+								</div>
+							</div>
+						</form>
+						<!-- Main Page content ENDS -->	
+						
+		</div> <!-- Page content Wrapper ends -->		
+	</div> <!-- Wrapper ends -->	
+	</body>
+</html>

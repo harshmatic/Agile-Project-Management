@@ -1,0 +1,72 @@
+ <script>
+		$("#submit").on("click",function(){
+			$.post( "/admin/editrole", $("#editrole").serialize())
+	  		.done(function( data ) {
+	  			if (data!="true"){
+	  				alert("Something Went Wrong");
+	  				return false
+	  			} else {
+	  				$('#edit_permissions').load('/admin/editpermissions #edit_permissions', function(result) {
+	  				    var variable = $('#edit_permissions').html();
+	  				});
+	  				
+	  			}
+	  		});
+			
+			
+		})
+		$('#edit-role-modal').on('hidden.bs.modal', function(e)
+				    { 
+				        $(this).removeData('bs.modal');
+				    }) ;
+
+	</script>
+<div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Edit Role</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								
+								<div class="col-md-10">
+										<form role="form" id="editrole">
+												<input type="hidden" class="form-control add-task-textbox" value="{{role.key.urlsafe}}" name="key_role">
+											  <!-- Role Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Role Name</label>
+												<input type="text" class="form-control add-task-textbox" value="{{role.role}}" name="role">
+											  </div>
+											  
+											  <!-- Roll's Permissions --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Roll's Permissions</label>
+												<div class="row">
+												{% for permission in permission%}
+													<div class="col-sm-4 add-role-modal-box">
+														<div class="checkbox">
+														  <label>
+														  {%if permission.key in role.permissions%}
+														  <input type="checkbox" value="{{permission.key.urlsafe}}" checked name="permissions">{{permission.permission}} ({{permission.url}})
+														  {%else%}
+														  <input type="checkbox" value="{{permission.key.urlsafe}}" name="permissions">{{permission.permission}} ({{permission.url}})
+														  {%endif%}
+														  </label>
+														</div>
+													</div>
+												{% endfor %}	
+												</div>
+											  </div>
+											
+										</form>
+								</div>	
+								<div class="col-md-1">
+								</div>		
+							</div>
+							
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<button type="button" class="add-task-btn-modal save-roll-modal-btn" data-dismiss="modal" id="submit">Save</button>
+					<button type="button" class="add-task-btn-modal delete-roll-modal-btn" data-dismiss="modal">Delete</button>
+				  </div>
