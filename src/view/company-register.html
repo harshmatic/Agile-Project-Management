@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 		
-		<script src="assets/js/jquery.validate.min.js"></script>
+		
 		<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
 		<link rel="stylesheet" href="../assets/css/style.css">
 		<link rel="stylesheet" href="../assets/css/sidebar-test.css">
@@ -20,6 +20,7 @@
 		<script src="../assets/js/bootstrap.min.js"></script>
 		<script src="../assets/js/nice-scroll.js"></script>
 		<script src="../assets/js/button.js"></script>
+		<script src="../assets/js/jquery.validate.min.js"></script>
 		
 		<script>
 		
@@ -52,10 +53,10 @@ $(document).ready(function() {
 				});	
 	
 			$("#submit").click(function(){
-				$.post( "/signupadmin", $("#signup_form").serialize())
+				$.post( "/signupuser", $("#signup_user").serialize())
 			  		.done(function( data ) {
 			  			if (data!="true"){
-			  				alert("Something Went Wrong");
+			  				alert(data);
 			  				return false
 			  			} else {
 			  				alert("A verification link hass been sent to your mail id.");
@@ -111,29 +112,27 @@ $(document).ready(function() {
 							<div class="col-md-8 comp-reg-left-formbox">
 										<h2 class="comp-reg-login-heading">Register</h2>
 									
-										<form role="form">
+										<form role="form" id="signup_user">
 										  <div class="form-group comp-reg-grp">
 											<label class="comp-reg-label">Company Name</label>
-											<input type="text" class="form-control comp-reg-textbox">
+											<input type="text" class="form-control comp-reg-textbox" name="company_name">
 										  </div>
 										  
 										  <div class="form-group comp-reg-grp">
 											<label class="comp-reg-label">Sub-domain Name</label>
-											<input type="text" class="form-control check-subdom-ava-textbox comp-reg-textbox">
+											<input type="text" class="form-control check-subdom-ava-textbox comp-reg-textbox" name="company_domain">
 											<a href="#" class="check-subdom-ava-link">Check Availability</a> : 
 											<span class="success-dom-name">Sub-domain is available</span>
 										  </div>
 										  
 										 
 										  <div class="form-group comp-reg-grp">
-											<label class="comp-reg-label">Email Address</label>
-											<input type="text" class="form-control comp-reg-textbox">
+											<label class="comp-reg-label" name="">Email Address</label>
+											<input type="text" class="form-control comp-reg-textbox" name="email">
 										  </div>
-										   <div class="form-group comp-reg-grp">
-											<label class="comp-reg-label">Password</label>
-											<input type="password" class="form-control comp-reg-textbox">
-										  </div>
-										  
+										  {% for role in roles %}
+										   <input type="hidden" value="{{role.key.urlsafe}}" name="role">
+										  {%endfor%}
 										  
 										  <button type="button" class="comp-reg-btn" id="submit">Register</button>
 										</form>

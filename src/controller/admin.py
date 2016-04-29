@@ -119,7 +119,7 @@ class AddRole(BaseHandler):
         u=user.Groups()
         u.role=role
         u.tenant_domain=self.get_domain()
-        ten=user.Tenant.query(user.Tenant.name==self.get_domain()).fetch(keys_only=True)
+        ten=user.Tenant.query(user.Tenant.domain==self.get_domain()).fetch(keys_only=True)
         u.tenant_key=ten[0]
         u.permissions=url
         logging.info(url)

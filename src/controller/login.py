@@ -123,6 +123,7 @@ class DashboardHandler(BaseHandler):
             self.render_template("main.html")
         else:
             self.response.write("you are not allowed")
+
 class SignupUser(BaseHandler):
     def get(self):
         role=model.user.Groups()
@@ -144,12 +145,11 @@ class SignupUser(BaseHandler):
         role=ndb.Key(urlsafe=self.request.get('role'))
         user_name = self.request.get('email')
         email = self.request.get('email')
-        name = self.request.get('first_name')
-        last_name = self.request.get('last_name')
-        designation = self.request.get('designation')
-        empid=self.request.get('emp_id')
-        contact=self.request.get('contact_no')
-        
+        name = self.request.get('company_name')
+        last_name = self.request.get('company_name')
+        designation = ""
+        empid=""
+        contact=""
         tenant_key = tenant_key_added
         password = name+empid
         #unique_properties = ['email_address']
