@@ -187,6 +187,50 @@
 	font-weight:bold;
 	letter-spacing:2px;
 }
+.estimation-guidlines-link{
+	
+	cursor: pointer;
+    margin-top: -25px;
+    margin-bottom: 22px;
+    letter-spacing: 1px;
+    color: red;
+}
+.estimation-guidlines-link:hover{
+	text-decoration:underline;
+}
+.estimation-guidlines-table{
+	display:none;	
+	margin-top: 0px;
+}
+.estimation-guidlines-table th{
+	font-size:13px;
+	letter-spacing:1px;
+	color:grey; 	
+	text-align:center;
+}
+.estimation-guidlines-table td{
+	font-size:12px;
+	letter-spacing:1px;
+	color:#000; 	
+	font-weight:bold;
+}
+.estimation-guidlines-table td:first-child{
+	
+}
+@media (max-width: 420px){
+	.add-user-btn {
+		margin-top: 15px!important;
+	}
+	.user-management-heading {
+		font-size: 18px!important;
+	}
+}
+@media (max-width: 340px){
+	
+	.user-management-heading {
+		font-size: 15px!important;
+	}
+}
 /****************** Project Management Styles ends ************************/
 
 /************************ PERMISSIONS Screen styles Starts **************************/
@@ -332,3 +376,153 @@
 	color:#fff!important;
 }
 /************************ PERMISSIONS Screen styles Ends **************************/
+
+
+/************************ COMPANY REGISTRATION Screen styles Starts **************************/
+.comp-reg-login-section{
+	padding:20px;
+}
+.comp-reg-logo-section{
+	
+}
+.comp-reg-logo-img{
+	width: 245px;
+}
+.comp-reg-form-section{
+	padding-top:3%;
+}
+.comp-reg-left-heading{
+	text-align: center;
+    color: #FF5B61!important;
+    letter-spacing: 2px;
+    font-weight: 800;
+    margin-top: 25px;
+    margin-bottom: 20px;
+	line-height:1.2em;
+	font-size: 18px;
+}
+.comp-reg-left-para{
+	text-align: justify;
+    color: #000!important;
+    letter-spacing: 1px;
+    font-weight: 600;
+	line-height:2em;
+}
+.comp-reg-left-box{
+	
+}
+.check-subdom-ava-textbox{
+	margin-bottom:5px;
+}
+.check-subdom-ava-link{
+	letter-spacing:1px;
+	font-size:12px;
+	color:#3484C9;
+}
+.check-subdom-ava-link:hover, .check-subdom-ava-link:active, .check-subdom-ava-link:visited{
+	color:#3484C9;
+}
+.success-dom-name{
+	letter-spacing:1px;
+	font-size:12px;
+	color:green;
+}
+.fail-dom-name{
+	letter-spacing:1px;
+	font-size:12px;
+	color:red;
+}
+.comp-reg-textbox{
+	box-shadow:none!important;
+	border-radius:0px;
+	
+}
+.comp-reg-textbox:focus{
+	border-color:#000;
+}
+.comp-reg-label{
+	font-size:12px;
+	color:#525252;
+	letter-spacing:2px;
+	text-transform:uppercase;
+}
+.comp-reg-grp{
+	margin-bottom:15px;
+}
+.comp-reg-btn{
+	border:none!important;
+	background:#3773B1;
+	color:#fff;
+	padding:8px 30px;
+	letter-spacing:1px;
+	font-size:13px;
+	outline:none;
+}
+.comp-reg-btn:hover{
+	background:#4789CD;
+}
+
+@media (max-width: 991px){
+	.comp-reg-left-formbox{
+		padding-right:30px;
+	}
+	.comp-reg-left-imgbox{
+		padding-right:30px;
+		padding-left:30px;
+		margin-bottom:28px;
+		
+	}
+	.comp-reg-left-heading {
+		font-size:20px;
+	}
+	.comp-reg-left-para {
+		font-size:13px;
+	}
+}
+@media (max-width: 767px){
+	.comp-reg-left-formbox{
+		padding-left:30px;
+		padding-top:35px;
+		border-top:1px solid #ccc;
+	}
+	.comp-reg-left-heading {
+		font-size:18px;
+	}
+	.comp-reg-left-para {
+		font-size:12px;
+	}
+	.comp-reg-left-imgbox{
+		
+	}
+}
+.sub-row1{
+	border-left:1px solid #ccc;
+}
+.sub-row2{
+	border-right:1px solid #ccc;
+}
+.comp-reg-row1{
+	
+}
+.comp-reg-row2{
+	padding-top:30px;
+}
+.comp-reg-login-heading{
+	text-align: center;
+    color: #FF5B61!important;
+    letter-spacing: 2px;
+    font-weight: 800;
+    margin-top: 0px;
+    margin-bottom: 40px;
+	line-height:1.2em;
+	font-size: 18px;
+}
+
+@media (max-width: 767px){
+	.comp-reg-row2 {
+		padding-top:40px;
+	}
+}
+
+
+/************************ COMPANY REGISTRATION Screen styles Ends **************************/

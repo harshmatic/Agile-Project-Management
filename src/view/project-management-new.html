@@ -16,6 +16,18 @@
 		
 		$(document).ready(function() {
 		
+			var flag=0;
+			$(".estimation-guidlines-link").click(function(e) {
+				
+				if(flag==0){
+					$('.estimation-guidlines-table').show();
+					flag=1;
+				} else {
+					$('.estimation-guidlines-table').hide();
+					flag=0;
+				}
+				
+			});
 			
 			$('.datepicker').datepicker({
 				format: 'dd/mm/yyyy',
@@ -237,7 +249,7 @@
 												<td>{{ project.startDate }}</td>
 												<td>{{ project.endDate }}</td>
 												<td>
-													<i class="fa fa-pencil user-management-edit-icon" aria-hidden="true" title="Edit Project"></i>
+													<a href="/editproject?key={{project.key.urlsafe}}" data-toggle="modal" data-target="#project-modal"><i class="fa fa-pencil user-management-edit-icon" aria-hidden="true" title="Edit Project" ></i></a>
 												</td>
 												<td>
 													<i class="fa fa-trash user-management-delete-icon" aria-hidden="true" title="Delete Project"></i>
@@ -389,8 +401,52 @@
 													</div>
 													
 												</div>
+												
+												<!-- Estimation Deadline Block -->
+										<label class="estimation-guidlines-link">
+											Estimation Guidlines
+										</label>
+										
+										<table class="table table-bordered estimation-guidlines-table">
+											<thead>
+											  <tr>
+												<th>Complexity</th>
+												<th>Complexity Point</th>
+												<th>Estimated Efforts (Hrs.)</th>
+											  </tr>
+											</thead>
+											<tbody>
+											  <tr>
+												<td>Very simple </td>
+												<td><input type="text" name="VsPoint" class="form-control add-task-textbox" value="1"></td>
+												<td><input type="text" name="VsHour" class="form-control add-task-textbox" value="1.00"></td>
+											  </tr>
+											  <tr>
+												<td>Simple </td>
+												<td><input type="text" name="SPoint" class="form-control add-task-textbox" value="2"></td>
+												<td><input type="text" name="SHour" class="form-control add-task-textbox" value="2.00"></td>
+											  </tr>
+											 <tr>
+												<td>Medium</td>
+												<td><input type="text" name="MPoint" class="form-control add-task-textbox" value="3"></td>
+												<td><input type="text" name="MHour" class="form-control add-task-textbox" value="5.00"></td>
+											  </tr>
+											  <tr>
+												<td>Complex</td>
+												<td><input type="text"  name="CPoint" class="form-control add-task-textbox" value="4"></td>
+												<td><input type="text" name="CHour" class="form-control add-task-textbox" value="15.00"></td>
+											  </tr>
+											  <tr>
+												<td>Very Complex</td>
+												<td><input type="text" name="VcPoint" class="form-control add-task-textbox" value="5"></td>
+												<td><input type="text" name="VcHour" class="form-control add-task-textbox" value="25.00"></td>
+											  </tr>
+											</tbody>
+										</table>
+										<!-- Estimation Deadline Block ENDS-->
 											  
 										</form>
+										
 								</div>	
 								<div class="col-md-1">
 								</div>		
@@ -406,7 +462,20 @@
 			  </div>
 			</div>
 	<!-- Add Project Modal Ends -->
+	<!--  edit Project Modal Starts -->
+	<div id="project-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				  
+				</div>
+
+			  </div>
+			</div>
 	
+	
+	<!-- View Project Modal Ends -->
 	
 	
 	<!-- Project Team members Modal Starts -->

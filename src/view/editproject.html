@@ -1,0 +1,118 @@
+<html>
+<head>
+<script type="text/javascript">
+
+$(document).ready(function() {
+	
+	var flag=0;
+	$(".estimation-guidlines-link").click(function(e) {
+		
+		if(flag==0){
+			$('.estimation-guidlines-table').show();
+			flag=1;
+		} else {
+			$('.estimation-guidlines-table').hide();
+			flag=0;
+		}
+		
+	});
+	$('.datepicker').datepicker({
+		format: 'dd/mm/yyyy',
+		startDate: '0d'
+		
+	});
+	
+
+$('#project-modal').on('hidden.bs.modal', function(e)
+        { 
+            $(this).removeData('bs.modal');
+            
+        }) ;
+});
+</script>
+
+</head>
+
+<body>
+
+<div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Edit Project</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								
+								<div class="col-md-10">
+										<form role="form" id="pro">
+											  <!-- Project Name --> 
+											  <div class="form-group task-form-group">
+											  
+												<label class="task-label">Project </label>
+												<input name="proj_name" type="text" class="form-control add-task-textbox" value="{{project.name}}">
+											  </div>
+											  
+											  <!-- Project Description --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Project Description</label>
+												<input name="proj_desc" type="text" class="form-control add-task-textbox" value="{{project.description}}">
+											  </div>
+											  
+											  
+											  
+											  <!-- start date - end date --> 
+												<div class="form-group task-form-group row">
+													<div class="col-md-6 task-form-group">
+														<label  class="task-label">Start Date</label>
+														<i class="fa fa-calendar" aria-hidden="true"></i>
+														<input name="proj_start" type="text" class="form-control add-task-textbox datepicker" value="{{project.startDate}}" readonly='true'>
+													</div>
+													<div class="col-md-6 task-form-group">
+														<label  class="task-label">End Date</label>
+														<i class="fa fa-calendar" aria-hidden="true"></i>
+														<input name="proj_end" type="text" class="form-control add-task-textbox datepicker" value="{{project.endDate}}" readonly='true'>
+													</div>
+													
+												</div>
+												
+													<!-- Estimation Deadline Block -->
+										<label class="estimation-guidlines-link">
+											Estimation Guidlines
+										</label>
+										
+										<table class="table table-bordered estimation-guidlines-table">
+											<thead>
+											  <tr>
+												<th>Complexity</th>
+												<th>Complexity Point</th>
+												<th>Estimated Efforts (Hrs.)</th>
+											  </tr>
+											</thead>
+											<tbody>
+											{% for estimates in estimation %}
+											  <tr>
+											  
+												<td> {{estimates.estimationLevel}} </td>
+												<td><input type="text" name="VsPoint" class="form-control add-task-textbox" value="{{estimates.estimationPoint }}"></td>
+												<td><input type="text" name="VsHour" class="form-control add-task-textbox" value="{{estimates.estimationHours }}"></td>
+											  </tr>
+											  {%endfor%}
+											
+											</tbody>
+										</table>
+										<!-- Estimation Deadline Block ENDS-->
+											  
+										</form>
+								</div>	
+								<div class="col-md-1">
+								</div>		
+							</div>
+							
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<button type="button" class="add-task-btn-modal" data-dismiss="modal" >Edit</button>
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
+				  </div>
+				  </body>
+				  </html>
