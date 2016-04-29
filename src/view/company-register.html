@@ -4,6 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 		
+		<script src="assets/js/jquery.validate.min.js"></script>
 		<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
 		<link rel="stylesheet" href="../assets/css/style.css">
 		<link rel="stylesheet" href="../assets/css/sidebar-test.css">
@@ -22,7 +23,49 @@
 		
 		<script>
 		
-		$(document).ready(function() {});
+$(document).ready(function() {
+			
+			
+			$("#login_form").validate({
+				  rules: {
+					  username: {
+				      required: true,
+				      email: true
+				    },
+				    
+				    password:{
+				    	required:true
+				    	
+				    }
+				    
+				  },
+				  messages: {
+					  username: {
+						  required: "Please enter email id"
+				    
+				    },
+				    password:{
+					  required:"Please enter password"
+				  }
+				 
+				  }
+				});	
+	
+			$("#submit").click(function(){
+				$.post( "/signupadmin", $("#signup_form").serialize())
+			  		.done(function( data ) {
+			  			if (data!="true"){
+			  				alert("Something Went Wrong");
+			  				return false
+			  			} else {
+			  				alert("A verification link hass been sent to your mail id.");
+			  				document.location.href = '/login';
+			  				return false
+			  			}
+			  	});
+			});
+			
+		});
 		
 		</script>
 	
@@ -92,7 +135,7 @@
 										  </div>
 										  
 										  
-										  <button type="submit" class="comp-reg-btn">Register</button>
+										  <button type="button" class="comp-reg-btn" id="submit">Register</button>
 										</form>
 							</div>	
 							<div class="col-md-3">
@@ -116,19 +159,22 @@
 							</div>
 							<div class="col-md-8 comp-reg-left-formbox">
 										<h2 class="comp-reg-login-heading">Login</h2>
-										<form role="form">
+										<form role="form" id="login_form" method="post" action="/login" >
 										  <div class="form-group comp-reg-grp">
 											<label class="comp-reg-label">User Name</label>
-											<input type="text" class="form-control comp-reg-textbox">
+											<input type="text" class="form-control comp-reg-textbox" name="username" placeholder="Username">
 										  </div>
 										  
 										  <div class="form-group comp-reg-grp">
 											<label class="comp-reg-label">Password</label>
-											<input type="text" class="form-control comp-reg-textbox">
+											<input type="text" class="form-control comp-reg-textbox" type="password" placeholder="Password" name="password">
 										  </div>
 										 
 										  <button type="submit" class="comp-reg-btn">Login</button>
 										</form>
+										<div class="forget-pass-div">
+													<a href="/forgot">Forgot Password?</a>
+												</div>
 							</div>	
 							<div class="col-md-1">
 							</div>

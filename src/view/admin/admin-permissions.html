@@ -33,7 +33,7 @@
 			
 		
 			$("#submit_permissions").click(function(e) {
-				$.post( "/admin/editpermissions", $("#edit_permissions").serialize())
+				$.post( "/admin/permissions", $("#edit_permissions").serialize())
 		  		.done(function( data ) {
 		  			if (data!="true"){
 		  				alert("Something Went Wrong");

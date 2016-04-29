@@ -24,10 +24,8 @@ def check_permission(self,*args,**kargs):
         uw = self.auth.get_user_by_session()
         qry=u.query().filter(ndb.GenericProperty("email_address")==uw['email_address'])
         for acct in qry.fetch():
-            #logging.info(acct)
             for acct1 in acct.role.get().permissions:
-                #logging.info(acct1)
-                #logging.info(acct1.get().url)
+                logging.info(acct1.get().url)
                 if acct1.get().url in (self.request.path.split('/', 1)[1]):
                     return True
     return False
@@ -125,7 +123,58 @@ class DashboardHandler(BaseHandler):
             self.render_template("main.html")
         else:
             self.response.write("you are not allowed")
-            
+class SignupUser(BaseHandler):
+    def get(self):
+        role=model.user.Groups()
+        roles=role.query(model.user.Groups.role=="Admin")
+        self.render_template('company-register.html',{'roles':roles})
+    def post(self):
+        #role=model.user.Groups()
+        tenant_domain = self.request.get('company_domain')
+        tenant_name = self.request.get('company_name')
+        tenant = model.user.Tenant()
+        tenant.name = tenant_name
+        tenant.domain = tenant_domain
+        tenant.created_by = self.request.get('email')
+        tenant_key_added = tenant.put()
+        logging.info(tenant_key_added)
+        if not tenant_key_added: #user_data is a tuple
+            self.response.write('Domain already exists with the same name.')
+            return
+        role=ndb.Key(urlsafe=self.request.get('role'))
+        user_name = self.request.get('email')
+        email = self.request.get('email')
+        name = self.request.get('first_name')
+        last_name = self.request.get('last_name')
+        designation = self.request.get('designation')
+        empid=self.request.get('emp_id')
+        contact=self.request.get('contact_no')
+        
+        tenant_key = tenant_key_added
+        password = name+empid
+        #unique_properties = ['email_address']
+        user_data = self.user_model.create_user(user_name,
+            email_address=email, name=name, password_raw=password,designation=designation,empid=empid,contact=contact,
+            last_name=last_name,role=role,tenant_domain=tenant_domain,tenant_key=tenant_key, verified=False)
+        if not user_data[0]: #user_data is a tuple
+            self.response.write('User already exists with the same email.')
+            return
+
+        user = user_data[1]
+        user_id = user.get_id()
+        token = self.user_model.create_signup_token(user_id)
+        verification_url = self.uri_for('verification', type='v', user_id=user_id,signup_token=token, _full=True)
+        msg = """Hi """+name+""",
+        Thank you for registering on APM. Please follow the below url to activate your account.
+        Remeber to change your password.
+        You will be able to do so by visiting {url}"""
+        message = mail.EmailMessage(sender="harshmatic@gmail.com",
+                            subject="Account Verification")
+        message.to = email
+        message.body = msg.format(url=verification_url)
+        message.send()
+        logging.info(msg.format(url=verification_url))
+        self.response.write("true")           
 class SignupHandler(BaseHandler):
     def get(self):
         if check_permission(self):

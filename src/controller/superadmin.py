@@ -24,12 +24,40 @@ class SuperPermissionsHandler(webapp2.RequestHandler):
         perm=p.get_all()
         path = os.path.join(os.path.dirname(__file__), '../view/superadmin/admin-permissions.html')
         self.response.out.write(render(path,{"perm":perm,"role":role}))
-
-class AddPermissions(webapp2.RequestHandler):
+    def post(self):
+        prev_role=""
+        #role=""
+        perm=[]
+        #p= user.Groups()
+        permission=self.request.get_all("permissions")
+        permission.sort()
+        for index, item in enumerate(permission):
+            row=item.split("<!>")
+            role1 = ndb.Key(urlsafe=row[0])
+            perm1 = ndb.Key(urlsafe=row[1])
+            
+            if prev_role==row[0]:
+                perm.append(perm1)
+            else:
+                if index !=0:
+                    group=ndb.Key(urlsafe=prev_role).get()
+                    group.permissions=perm
+                    group.put()
+                    perm=[]
+                    prev_role=row[0]
+                    perm.append(perm1)
+                else:
+                    prev_role=row[0]
+                    perm.append(perm1) 
+            logging.info(prev_role)
+            logging.info(perm)      
+            
+        self.response.write("true")
+class SuperAddPermission(webapp2.RequestHandler):
     def get(self):
         path = os.path.join(os.path.dirname(__file__), '../view/superadmin/addpermissions.html')
         self.response.out.write(render(path,{}))
-        
+       
     def post(self):
         url=self.request.get("perm_url")
         name=self.request.get("perm_name")
@@ -38,13 +66,47 @@ class AddPermissions(webapp2.RequestHandler):
         permiss.permission=name
         permiss.set()
         self.response.write("true")
+
+class SuperEditRole(BaseHandler):
+    def get(self):
+        key = ndb.Key(urlsafe=self.request.get('key'))
+        role = key.get()
+        permiss=user.Permissions()
+        list_per=permiss.get_all()
+        self.render_template("superadmin/editrole.html",{"role":role,"permission":list_per})
         
-class AddRole(BaseHandler):
+    def post(self):
+        key = ndb.Key(urlsafe=self.request.get('key_role'))
+        role =key.get()
+        role.role=self.request.get("role")
+        perm=[]
+        array_permissions=self.request.get_all("permissions")
+        logging.info(array_permissions)
+        for permission in array_permissions:
+            perm.append(ndb.Key(urlsafe=permission))
+        role.permissions=perm
+        role.put()
+        self.response.write("true")
+               
+class SuperEditPermission(BaseHandler):
+    def get(self):
+        key = ndb.Key(urlsafe=self.request.get('key'))
+        permission = key.get()
+        self.render_template("admin/editpermission.html",{"permission":permission})
+        
+    def post(self):
+        key = ndb.Key(urlsafe=self.request.get('key_permission'))
+        permission =key.get()
+        permission.url=self.request.get("url_permission")
+        permission.permission=self.request.get("name_permission")
+        permission.put()
+        self.response.write("true")        
+class SuperAddRole(BaseHandler):
     def get(self):
         permiss=user.Permissions()
         list_per=permiss.get_all()
         param = {"perm":list_per}
-        path = os.path.join(os.path.dirname(__file__), '../view/superadmin/addpermissions.html')
+        path = os.path.join(os.path.dirname(__file__), '../view/superadmin/addrole.html')
         self.response.out.write(render(path,param))
         
     def post(self):
