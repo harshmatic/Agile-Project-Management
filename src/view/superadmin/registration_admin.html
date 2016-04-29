@@ -7,14 +7,14 @@
 		
 		$(document).ready(function() {
 			$("#submit").click(function(){
-				$.post( "/signupadmin", $("#signup_form").serialize())
+				$.post( "/superadmin/signupadmin", $("#signup_form").serialize())
 			  		.done(function( data ) {
 			  			if (data!="true"){
-			  				alert("Something Went Wrong");
+			  				alert(data);
 			  				return false
 			  			} else {
-			  				alert("A verification link hass been sent to your mail id.");
-			  				document.location.href = '/login';
+			  				alert("A verification link hass been sent to the tenant's mail id.");
+			  				document.location.href = '/superadmin/dashboard';
 			  				return false
 			  			}
 			  	});
@@ -141,7 +141,7 @@
 												<label class="register-label">Company Name</label>
 											</div>
 											<div class="col-md-3">
-												<input type="text" class="form-control project-management-textbox" name="comapny_name">
+												<input type="text" class="form-control project-management-textbox" name="company_name">
 											</div>
 										</div>
 									</div>
@@ -153,7 +153,7 @@
 												<label class="register-label">Domain</label>
 											</div>
 											<div class="col-md-3">
-												<input type="text" class="form-control project-management-textbox" name="comapny_domain">
+												<input type="text" class="form-control project-management-textbox" name="company_domain">
 											</div>
 										</div>
 									</div>
@@ -175,11 +175,10 @@
 									<div class="col-md-8">
 										<div class="row">
 											<div class="col-md-3 register-label-box">
-												<label class="register-label">Assign Role</label>
 											</div>{% for role in roles %}
 											<div class="col-md-3">
 											
-											<input type="hidden" name="role" class="form-control project-management-textbox" value="{{role.key.urlsafe}}" checked> {{role.role}}<br>
+											<input type="hidden" name="role" class="form-control project-management-textbox" value="{{role.key.urlsafe}}" checked>
 											
 											</div>
 											{% endfor %}

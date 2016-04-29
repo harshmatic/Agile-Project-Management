@@ -15,9 +15,10 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/', Main, name='home'),
     webapp2.Route('/logout', LogoutHandler, name='logout'),
     webapp2.Route('/forgot', ForgotPasswordHandler, name='forgot'),
+    webapp2.Route('/signupuser', SignupUser),
     webapp2.Route('/role', AddRole, name='role'),
     webapp2.Route('/authenticated', AuthenticatedHandler, name='authenticated'),
-    webapp2.Route('/admin/editpermissions', EditPermissions),
+    webapp2.Route('/admin/permissions', EditPermissions),
     webapp2.Route('/admin/editpermission', EditPermission),
     webapp2.Route('/admin/addpermissions', AddPermissions),
     webapp2.Route('/admin/addrole', AddRole),
@@ -27,8 +28,7 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/admin/usermanagment', AdminUserManagement),
     webapp2.Route('/admin/verify', AdminVerify),
     webapp2.Route('/project', ProjectManagement),
-    webapp2.Route('/viewmembers', GetTeamMembersForProject),
-    webapp2.Route('/addproject', AddProject),
-    webapp2.Route('/editproject', EditProject) 
-    
+    webapp2.Route('/admin/upload_photo', PhotoUploadHandler),
+    webapp2.Route('/admin/view_photo', ViewPhotoHandler)
+
 ], debug=True, config=config)

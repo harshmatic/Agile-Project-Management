@@ -33,7 +33,7 @@
 			
 		
 			$("#submit_permissions").click(function(e) {
-				$.post( "/admin/editpermissions", $("#edit_permissions").serialize())
+				$.post( "/superadmin/permissions", $("#edit_permissions").serialize())
 		  		.done(function( data ) {
 		  			if (data!="true"){
 		  				alert("Something Went Wrong");
@@ -315,10 +315,10 @@
 									<!-- Menu Toggle Button -->
 									
 									<h2 class="user-management-heading"><i class="fa fa-cog user-management-head-icon"></i>Permissions</h2>
-									<a href="/admin/addrole" data-toggle="modal" data-target="#add-role-modal">
+									<a href="/superadmin/addrole" data-toggle="modal" data-target="#add-role-modal">
 									<button class="add-role-btn pro-button">Add Role</button>
 									</a>
-									<a href="/admin/addpermissions" data-toggle="modal" data-target="#add-permission-modal">
+									<a href="/superadmin/addpermission" data-toggle="modal" data-target="#add-permission-modal">
 									<button class="add-permission-btn pro-button">Add Permission</button>
 									</a>
 								</div>
@@ -338,7 +338,7 @@
 															  <tr>	
 																<th></th>
 																{% for role in role %}
-																<th><a href="/admin/editrole?key={{role.key.urlsafe}}" class="roll-link" data-toggle="modal" data-target="#edit-role-modal">{{role.role}}</a></th>
+																<th><a href="/superadmin/editrole?key={{role.key.urlsafe}}" class="roll-link" data-toggle="modal" data-target="#edit-role-modal">{{role.role}}</a></th>
 																{% endfor %}
 															  </tr>
 															</thead>
@@ -357,7 +357,7 @@
 															  {% for perm in perm %}
 															  <tr>
 																<td>
-																	<a href="/admin/editpermission?key={{perm.key.urlsafe}}" class="permission-link" data-toggle="modal" data-target="#edit-permission-modal">{{perm.permission}} ({{perm.url}})</a>
+																	<a href="/superadmin/editpermission?key={{perm.key.urlsafe}}" class="permission-link" data-toggle="modal" data-target="#edit-permission-modal">{{perm.permission}} ({{perm.url}})</a>
 																</td>
 																{% for role in role %}
 																<td>
