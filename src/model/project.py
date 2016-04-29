@@ -9,7 +9,7 @@ class Project(ndb.Model):
     startDate = ndb.DateProperty()
     endDate = ndb.DateProperty()
     team = ndb.StringProperty(repeated=True)
-    companyid = ndb.KeyProperty(repeat=True)
+    companyid = ndb.KeyProperty(required=True)
     
     def set(self):
         return self.put()

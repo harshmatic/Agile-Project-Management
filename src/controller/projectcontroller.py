@@ -37,7 +37,10 @@ class AddProject(BaseHandler):
     
     def post(self):
         logging.info("it is here "+self.request.__str__())
+        currentUser=self.auth.get_user_by_session()
+        companyId=self.user_model.get_by_id(currentUser['user_id']).tenant_key
         projec=project.Project()
+        project.companyid = companyId
         projec.name = self.request.get("proj_name")
         projec.description = self.request.get("proj_desc")
         projec.startDate = datetime.strptime(self.request.get("proj_start"), '%d/%m/%Y').date()
