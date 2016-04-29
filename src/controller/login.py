@@ -14,6 +14,7 @@ from webapp2_extras.auth import InvalidPasswordError
 from google.appengine.api import mail
 from webapp2_extras import security
 
+
 def check_permission(self,*args,**kargs):
     auth = self.auth
     if not auth.get_user_by_session():
@@ -43,6 +44,14 @@ def user_required(handler):
     return check_login
 
 class BaseHandler(webapp2.RequestHandler):
+    
+    def get_domain(self):
+        domain = self.request.url.split("://",1)[1].split(".",1)
+        logging.info(domain)
+        if len(domain)==1:
+            return None
+        else:
+            return domain[0]
     @webapp2.cached_property
     def auth(self):
         """Shortcut to access the auth instance as a property."""

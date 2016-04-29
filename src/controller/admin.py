@@ -4,10 +4,6 @@ from model import user
 from login import BaseHandler,check_permission
 #import simplejson as json
 import json as json
-import model
-from google.appengine.api import mail
-from google.appengine.ext.webapp import blobstore_handlers
-from google.appengine.ext import blobstore
 #from src.model.user import Groups
 class AdminVerify(BaseHandler):
     def post(self):
@@ -111,6 +107,9 @@ class AddRole(BaseHandler):
         role=self.request.get("role")
         u=user.Groups()
         u.role=role
+        u.tenant_domain=self.get_domain()
+        ten=user.Tenant.query(user.Tenant.name==self.get_domain()).fetch(keys_only=True)
+        u.tenant_key=ten[0]
         u.permissions=url
         logging.info(url)
         u.put()
@@ -119,7 +118,8 @@ class AddRole(BaseHandler):
 class EditPermissions(BaseHandler):
     def get(self):
         u=user.Groups()
-        role=u.get_all()
+        role=u.query(user.Groups.tenant_domain==self.get_domain()).fetch()
+        logging.info(role)
         p=user.Permissions()
         perm=p.get_all()
         self.render_template("admin/admin-permissions.html",{"perm":perm,"role":role})
@@ -155,51 +155,10 @@ class EditPermissions(BaseHandler):
                     
 class AdminUserManagement(BaseHandler):
     def get(self):
-        
-        role=model.user.Groups()
-        roles=role.get_all()
         user1 =user.OurUser().get_all()
-       # logging.info(user1)
+        logging.info(user1)
         user_json = [row.to_dict() for row in user1]
         #user_json.pop("datetime")
         logging.info(user_json)
         #user_json = json.dumps(user_json)
-        upload_url = blobstore.create_upload_url('/admin/user-management')
-        self.render_template("admin/user-management.html",{"user1":user1,"user_json":user_json,"roles":roles})
-        
-    def post(self):
-        user_name = self.request.get('email')
-        email = self.request.get('email')
-        name = self.request.get('first_name')
-        role= ndb.Key(urlsafe=self.request.get('role'))
-        logging.info(role)
-        last_name = self.request.get('last_name')
-        designation = self.request.get('designation')
-        empid=self.request.get('emp_id')
-        contact=self.request.get('contact_no')
-        password = name+empid
-        #unique_properties = ['email_address']
-        user_data = self.user_model.create_user(user_name,
-            email_address=email, name=name, password_raw=password,designation=designation,empid=empid,contact=contact,
-            last_name=last_name,role=role, verified=False)
-        if not user_data[0]: #user_data is a tuple
-            self.response.write('User already exists with the same name')
-            return
-
-        user = user_data[1]
-        user_id = user.get_id()
-        token = self.user_model.create_signup_token(user_id)
-        verification_url = self.uri_for('verification', type='v', user_id=user_id,signup_token=token, _full=True)
-        msg = """Hi """+name+""",
-        Thank you for registering on APM. Please follow the below url to activate your account.
-        Remeber to change your password.
-        You will be able to do so by visiting{url}"""
-        message = mail.EmailMessage(sender="harshmatic@gmail.com",
-                            subject="Account Verification")
-        
-        message.to = email
-        message.body = msg.format(url=verification_url)
-        message.send()
-      #  self.response.write(msg.format(url=verification_url))
-        logging.info(msg.format(url=verification_url))
-        self.response.write("true")        
+        self.render_template("admin/user-management.html",{"user1":user1,"user_json":user_json})

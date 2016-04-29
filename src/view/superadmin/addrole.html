@@ -1,13 +1,13 @@
 <script>
 		$("#submit").on("click",function(){
-			$.post( "/admin/addrole", $("#addrole").serialize())
+			$.post( "/superadmin/addrole", $("#addrole").serialize())
 	  		.done(function( data ) {
 	  			if (data!="true"){
 	  				alert("Something Went Wrong");
 	  				return false
 	  			} else {
 	  				$('#add-role-modal').modal('toggle');
-	  				$('#edit_permissions').load('/admin/editpermissions #edit_permissions', function(result) {
+	  				$('#edit_permissions').load('/superadmin/editpermissions #edit_permissions', function(result) {
 	  				    var variable = $('#edit_permissions').html();
 	  				});
 	  				

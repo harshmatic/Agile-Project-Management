@@ -1,14 +1,14 @@
 <!-- Modal content-->
 	<script>
 		$("#submit").on("click",function(){
-			$.post( "/admin/addpermissions", $("#addpermission").serialize())
+			$.post( "/superadmin/addpermissions", $("#addpermission").serialize())
 	  		.done(function( data ) {
 	  			if (data!="true"){
 	  				alert("Something Went Wrong");
 	  				return false
 	  			} else {
 	  				$('#add-permission-modal').modal('toggle');
-	  				$('#edit_permissions').load('/admin/editpermissions #edit_permissions', function(result) {
+	  				$('#edit_permissions').load('/superadmin/editpermissions #edit_permissions', function(result) {
 	  				    var variable = $('#edit_permissions').html();
 	  				  
 	  				});

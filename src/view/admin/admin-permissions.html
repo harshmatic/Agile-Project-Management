@@ -318,9 +318,7 @@
 									<a href="/admin/addrole" data-toggle="modal" data-target="#add-role-modal">
 									<button class="add-role-btn pro-button">Add Role</button>
 									</a>
-									<a href="/admin/addpermissions" data-toggle="modal" data-target="#add-permission-modal">
-									<button class="add-permission-btn pro-button">Add Permission</button>
-									</a>
+									
 								</div>
 								
 							
@@ -357,7 +355,7 @@
 															  {% for perm in perm %}
 															  <tr>
 																<td>
-																	<a href="/admin/editpermission?key={{perm.key.urlsafe}}" class="permission-link" data-toggle="modal" data-target="#edit-permission-modal">{{perm.permission}} ({{perm.url}})</a>
+																	{{perm.permission}} ({{perm.url}})
 																</td>
 																{% for role in role %}
 																<td>

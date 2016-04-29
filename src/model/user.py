@@ -10,6 +10,7 @@ from webapp2_extras import security
 class Tenant(ndb.Model):
     name = ndb.StringProperty(required=True)
     domain = ndb.StringProperty(required=True)
+    created_by = ndb.StringProperty()
     
 class OurUser(auth_user.User):
     role = ndb.KeyProperty()
@@ -71,12 +72,9 @@ class Groups(ndb.Model):
         return res
     def get(self,**keyargs):
         group =Groups()
-        logging.info(keyargs)
         for k, v in keyargs.iteritems():
             setattr(self,k,v)
         qry = Groups.query()
-       # qry = self.query(self.role=)
-        logging.info(qry)
         return qry
     @classmethod
     def _post_delete_hook(cls, key, future):
