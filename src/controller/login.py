@@ -13,6 +13,8 @@ from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
 from google.appengine.api import mail
 from webapp2_extras import security
+import urlparse
+import urllib
 
 
 def check_permission(self,*args,**kargs):
@@ -25,8 +27,8 @@ def check_permission(self,*args,**kargs):
         qry=u.query().filter(ndb.GenericProperty("email_address")==uw['email_address'])
         for acct in qry.fetch():
             for acct1 in acct.role.get().permissions:
-                logging.info(acct1.get().url)
-                if acct1.get().url in (self.request.path.split('/', 1)[1]):
+                logging.info(self.request.path.split('/')[1])
+                if acct1.get().url in (self.request.path.split('/')[1]):
                     return True
     return False
 
@@ -107,12 +109,16 @@ class BaseHandler(webapp2.RequestHandler):
 
 class Main(BaseHandler):
     
-    def get(self):
+    def get(self,*args,**kargs):
         user1=self.auth.get_user_by_session()
         if user1:
+            domain=str(self.user_model.get_by_id(user1['user_id']).tenant_domain)
+            domain=urlparse.urlparse(domain).path
             if self.user_model.get_by_id(user1['user_id']).role.get().role == "Admin":
+                #logging.info(domain+"."+urlparse.urlparse(self.request.url).netloc+self.uri_for('admindashboard'))
                 self.redirect(self.uri_for('admindashboard'))
             else:
+                #logging.info(domain+"."+urlparse.urlparse(self.request.url).netloc+self.uri_for('admindashboard'))
                 self.redirect(self.uri_for('dashboard'))
         else:
             self.redirect(self.uri_for('login'), abort=True)
@@ -185,6 +191,7 @@ class SignupHandler(BaseHandler):
         else:
             self.response.write("you are not allowed")
     def post(self):
+        currentUser=self.auth.get_user_by_session()
         user_name = self.request.get('email')
         email = self.request.get('email')
         name = self.request.get('first_name')
@@ -194,10 +201,12 @@ class SignupHandler(BaseHandler):
         empid=self.request.get('emp_id')
         contact=self.request.get('contact_no')
         password = name+empid
+        company_domain=self.user_model.get_by_id(currentUser['user_id']).tenant_domain
+        company_key=self.user_model.get_by_id(currentUser['user_id']).tenant_key
         #unique_properties = ['email_address']
         user_data = self.user_model.create_user(user_name,
             email_address=email, name=name, password_raw=password,designation=designation,empid=empid,contact=contact,
-            last_name=last_name,role=role, verified=False)
+            last_name=last_name,role=role,tenant_key=company_key,tenant_domain=company_domain, verified=False)
         if not user_data[0]: #user_data is a tuple
             self.response.write('User already exists with the same name')
             return

@@ -170,7 +170,10 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
         
         role=model.user.Groups()
         roles=role.get_all()
-        user1 =user.OurUser().get_all()
+        u=user.OurUser()
+        user1=u.query(user.OurUser.tenant_domain==self.get_domain()).fetch()
+        
+        #user1 =user.OurUser().get_all()
        # logging.info(user1)
         user_json = [row.to_dict() for row in user1]
         #user_json.pop("datetime")

@@ -67,6 +67,15 @@ class SuperAddPermission(webapp2.RequestHandler):
         permiss.set()
         self.response.write("true")
 
+class SuperUsers(BaseHandler):
+    def get(self):
+        
+        role=model.user.Groups()
+        roles=role.query(user.Groups.role=="Admin").fetch(keys_only=True)
+        u=user.OurUser()
+        user1=u.query(user.OurUser.role==roles[0]).fetch()
+        self.render_template("superadmin/user-management.html",{"user1":user1})
+        
 class SuperEditRole(BaseHandler):
     def get(self):
         key = ndb.Key(urlsafe=self.request.get('key'))

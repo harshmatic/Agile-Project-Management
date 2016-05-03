@@ -96,7 +96,7 @@
 				 var s = $('#tokenize').tokenize().toArray();
 				 ser += (ser.length>0?"&":"") + "proj_team" + "=" + s;
 			       
-			$.post( "/addproject", ser)
+			$.post( "/project/addproject", ser)
 	  		.done(function( data ) {
 	  			if (data!="true"){
 	  				alert("Something Went Wrong");
@@ -243,13 +243,13 @@
 													{{ project.description }}
 												</td>
 												<td>
-												<a href="/viewmembers?key={{project.key.urlsafe}}" data-toggle="modal" data-target="#project-team-modal">View Team</a>
+												<a href="/project/viewmembers?key={{project.key.urlsafe}}" data-toggle="modal" data-target="#project-team-modal">View Team</a>
 													<!-- <a class="view-project-team-link" data-id="{{project.name}}">View Team</a> -->
 												</td>
 												<td>{{ project.startDate }}</td>
 												<td>{{ project.endDate }}</td>
 												<td>
-													<a href="/editproject?key={{project.key.urlsafe}}" data-toggle="modal" data-target="#project-modal"><i class="fa fa-pencil user-management-edit-icon" aria-hidden="true" title="Edit Project" ></i></a>
+													<a href="/project/editproject?key={{project.key.urlsafe}}" data-toggle="modal" data-target="#project-modal"><i class="fa fa-pencil user-management-edit-icon" aria-hidden="true" title="Edit Project" ></i></a>
 												</td>
 												<td>
 													<i class="fa fa-trash user-management-delete-icon" aria-hidden="true" title="Delete Project"></i>
