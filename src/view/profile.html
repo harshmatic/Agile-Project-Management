@@ -244,6 +244,21 @@
 										</div>
 									</div>
 								</div>
+								
+								<div id="profile_image">
+									<form role="form" id="user_form" action="{{upload_url}}"  method="post" enctype="multipart/form-data">
+									<label class="register-label">Add Profile Image :</label>	<br>
+										<input type="file" id="file" name="file">
+								
+								<input type="submit" name="add_user" id="add_user" value="Add">
+								
+								</form>
+									</div>
+		
+								<img id="preview_image" src="http://placehold.it/100x100" height="100" width="100" value="{{i.blob_key}}"> 
+								
+								
+								
 								{%endif%}
 								{%endfor%}
 							</div>
@@ -258,10 +273,34 @@
 		</div> <!-- Page content Wrapper ends -->		
 	</div> <!-- Wrapper ends -->	
 	
-	
-	
-	
-	
+	<script>
+		
+		$(function(){ 
+			
+			
+		    $("#file").change(function() {
+		    	readURL(this);
+		    });
+		});
+		
+		
+		
+		   
+		function readURL(input) {
+		    if (input.files && input.files[0]) {
+		        var reader = new FileReader();
+
+		        reader.onload = function (e) {
+		            $('#preview_image').attr('src', e.target.result);
+		        }
+
+		        reader.readAsDataURL(input.files[0]);
+		    }
+		}
+
+		
+		</script>
+		
 
 	</body>
 </html>

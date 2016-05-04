@@ -20,6 +20,10 @@ import model
 from google.appengine.api import users
 from webapp2_extras.appengine.auth.models import User
 
+from google.appengine.api import mail
+from google.appengine.ext.webapp import blobstore_handlers
+from google.appengine.ext import blobstore
+import webapp2
 
 
 class EndUserDashboardHandler(BaseHandler):
@@ -51,12 +55,36 @@ class EndUserDashboardHandler(BaseHandler):
             
             
             
-class EndUserProfile(BaseHandler):
+class EndUserProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobstore_handlers.BlobstoreDownloadHandler):
     def get(self):
        
             #current_user =self.auth.get_user_by_session()
             user_db = OurUser.query().fetch()
             user1=self.auth.get_user_by_session()
             role=self.user_model.get_by_id(user1['user_id']).role.get().role
-            self.render_template("profile.html",{'permission':'success', 'user_db':user_db, 'role':role})
-       
+            
+         #   image_key=self.send_blob(self.OurUser.)
+            
+            upload_url = blobstore.create_upload_url('/profile') 
+            self.render_template("profile.html",{'permission':'success', 'user_db':user_db, 'role':role,"upload_url":upload_url})
+            
+    def post(self):
+            user_db = OurUser.query().fetch()
+            
+            id=self.request.get('user_id')
+            upload = self.get_uploads()[0]
+            
+            user = self.user
+            user.blob_key=upload.key()
+            user.put()
+            
+           
+             #current_user =self.auth.get_user_by_session()
+            user_db = OurUser.query().fetch()
+            user1=self.auth.get_user_by_session()
+            role=self.user_model.get_by_id(user1['user_id']).role.get().role
+            upload_url = blobstore.create_upload_url('/profile') 
+           # self.render_template("profile.html",{'permission':'success', 'user_db':user_db, 'role':role,"upload_url":upload_url})
+            
+            self.redirect("/profile")
+            

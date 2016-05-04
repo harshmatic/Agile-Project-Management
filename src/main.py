@@ -36,6 +36,7 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/project/editproject', EditProject), 
     webapp2.Route('/admin/upload_photo', PhotoUploadHandler),
     webapp2.Route('/project', ProjectManagement),
-    webapp2.Route('/admin/view_photo', ViewPhotoHandler)
-
+    webapp2.Route('/admin/view_photo', ViewPhotoHandler),
+    webapp2.Route('/profile', EndUserProfile)
+    
 ], debug=True, config=config)
