@@ -14,8 +14,11 @@
 		<script>
 		$(document).ready(function() {
 			
-			
-			$(".get_profile_image").attr('src', '/view_photo?photo_key={{user_image}}');
+			if ('{{user_image}}') {
+				$(".get_profile_image").attr('src', '/view_photo?photo_key={{user_image}}');
+			}
+
+	
 			
 			
 			$(".messages-main-box").niceScroll();
