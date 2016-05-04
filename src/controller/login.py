@@ -174,11 +174,14 @@ class SignupUser(BaseHandler):
         Thank you for registering on APM. Please follow the below url to activate your account.
         Remeber to change your password.
         You will be able to do so by visiting {url}"""
-        message = mail.EmailMessage(sender="harshmatic@gmail.com",
-                            subject="Account Verification")
-        message.to = email
-        message.body = msg.format(url=verification_url)
-        message.send()
+        body = msg.format(url=verification_url)
+        mail.send_mail(sender="harshmatic@gmail.com",
+                            subject="Account Verification",
+                            to=email,
+                            body=body)
+        #message.to = email
+        #message.
+        #message.send()
         logging.info(msg.format(url=verification_url))
         self.response.write("true")           
 class SignupHandler(BaseHandler):
