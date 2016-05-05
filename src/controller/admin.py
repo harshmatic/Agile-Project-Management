@@ -10,12 +10,6 @@ from google.appengine.ext.webapp import blobstore_handlers
 from google.appengine.ext import blobstore
 import webapp2
 
-
-class UserPhoto(ndb.Model):
-    user = ndb.StringProperty()
-    blob_key = ndb.BlobKeyProperty()
-    
-#from src.model.user import Groups
 class AdminVerify(BaseHandler):
     def post(self,*args,**kargs):
         key = ndb.Key(urlsafe=self.request.get('key_user'))
@@ -251,27 +245,7 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
         
    #   else:
             
-class PhotoUploadHandler(blobstore_handlers.BlobstoreUploadHandler,blobstore_handlers.BlobstoreDownloadHandler):
-    def post(self,*args,**kargs):
-        try:
-            upload = self.get_uploads()[0]
-            #logging.info(upload)
-            logging.info(upload.key())
-           
-            user_photo = UserPhoto(
-                user="ABC",
-            blob_key=upload.key()
-                )
-            user_photo.put()
-           # self.render_template("admin/user-management.html",{"view_image":blobstore.get(blob_key)})
-            
-            
-            self.redirect('/admin/view_photo?photo_key=%s' % upload.key())
-          #  self.response.write("true")   
-          
-        except:
-           self.error(500)
-            
+
             
 class ViewPhotoHandler(blobstore_handlers.BlobstoreDownloadHandler):
     def get(self,*args,**kargs):
