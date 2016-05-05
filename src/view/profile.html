@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Project Management</title>
+		<title>Profile</title>
 		{% include "head.html" %}
 		<link rel="stylesheet" href="/assets/css/jquery.tokenize.css">
 		<link rel="stylesheet" href="/assets/css/bootstrap-datepicker.min.css">
@@ -13,6 +13,13 @@
 		
 		<script>
 		$(document).ready(function() {
+			
+			if ('{{user_image}}') {
+				$(".get_profile_image").attr('src', '/view_photo?photo_key={{user_image}}');
+			}
+
+	
+			
 			
 			$(".messages-main-box").niceScroll();
 			
@@ -98,6 +105,9 @@
 		});
 		
 		
+		
+		
+		
 		</script>
 	
 	
@@ -137,17 +147,44 @@
 				
 							{%for i in user_db%}
 				
-							{% if i.email_address == user.email_address and i.name == user.name and i.key.id == user.user_id %}
+							{% if i.email_address == user.email_address and i.key.id == user.user_id %}
+								
+								<div class="col-md-4" >
+								{%if not i.blob_key%}	
+								
+								
+									<img id="preview_image" src="http://placehold.it/240x240" height="240" width="240" value="img?entity_id={{ i.blob_key }}"> 
+									
+										{%else%}
+								<img id="preview_image" src="/view_photo?photo_key={{i.blob_key}}" height="240" width="240" > 
+								{%endif%}
+						
+						</div>
+						
+							<!-- 	<div id="profile_image"> -->
+									<form role="form" id="user_form" action="{{upload_url}}"  method="post" enctype="multipart/form-data">
+									<label class="register-label">Add Profile Image :</label>	<br><br>
+										<input type="file" id="file" name="file">
+								<br>
+							
+								
+								
+								<!-- 	</div>-->
+		
+		
+								
+								
+								<div class="col-md-8" >
 								<!--First Name -->
 								<div class="row row-register">
 									<div class="col-md-8">
 										<div class="row">
-											<div class="col-md-3 register-label-box">
+											<div class="col-md-4 register-label-box">
 												<label class="register-label">First Name :</label>
 											</div>
 											
-											<div class="col-md-3 register-label-box">
-												<label class="register-label">{{i.name}}</label>
+											<div class="col-md-8 register-label-box">
+													<input type="text" class="form-control project-management-textbox" name="first_name" value="{{i.name}}">
 											</div>
 										</div>
 									</div>
@@ -157,12 +194,14 @@
 								<div class="row row-register">
 									<div class="col-md-8">
 										<div class="row">
-											<div class="col-md-3 register-label-box">
+											<div class="col-md-4 register-label-box">
 												<label class="register-label">Last Name :</label>
 											</div>
 											
-											<div class="col-md-3 register-label-box">
-												<label class="register-label">{{i.last_name}}</label>
+											<div class="col-md-8 register-label-box">
+												<input type="text" class="form-control project-management-textbox" name="last_name" value="{{i.last_name}}">
+										
+												
 											</div>
 										</div>
 									</div>
@@ -172,12 +211,14 @@
 								<div class="row row-register">
 									<div class="col-md-8">
 										<div class="row">
-											<div class="col-md-3 register-label-box">
+											<div class="col-md-4 register-label-box">
 												<label class="register-label">Email address :</label>
 											</div>
 											
-											<div class="col-md-3 register-label-box">
-												<label class="register-label">{{i.email_address}}</label>
+											<div class="col-md-8 register-label-box">
+												<input type="text" class="form-control project-management-textbox" name="email" value="{{i.email_address}}">
+											
+												
 											</div>
 										</div>
 									</div>
@@ -187,11 +228,12 @@
 								<div class="row row-register">
 									<div class="col-md-8">
 										<div class="row">
-											<div class="col-md-3 register-label-box">
+											<div class="col-md-4 register-label-box">
 												<label class="register-label">Designation :</label>
 											</div>
-											<div class="col-md-3 register-label-box">
-												<label class="register-label">{{i.designation}}</label>
+											<div class="col-md-8 register-label-box">
+												<input type="text" class="form-control project-management-textbox" name="designation" value="{{i.designation}}">
+										
 											</div>
 										</div>
 									</div>
@@ -202,12 +244,14 @@
 								<div class="row row-register">
 									<div class="col-md-8">
 										<div class="row">
-											<div class="col-md-3 register-label-box">
+											<div class="col-md-4 register-label-box">
 												<label class="register-label">Employee ID :</label>
 											</div>
 											
-											<div class="col-md-3 register-label-box">
-												<label class="register-label">{{i.empid}}</label>
+											<div class="col-md-8 register-label-box">
+												<input type="text" class="form-control project-management-textbox" name="emp_id" value="{{i.empid}}">
+										
+											
 											</div>
 										</div>
 									</div>
@@ -217,12 +261,14 @@
 								<div class="row row-register">
 									<div class="col-md-8">
 										<div class="row">
-											<div class="col-md-3 register-label-box">
+											<div class="col-md-4 register-label-box">
 												<label class="register-label">Contact No :</label>
 											</div>
 											
-											<div class="col-md-3 register-label-box">
-												<label class="register-label">{{i.contact}}</label>
+											<div class="col-md-8 register-label-box">
+												<input type="text" class="form-control project-management-textbox" name="contact_no" value="{{i.contact}}">
+										
+												
 											</div>
 										</div>
 									</div>
@@ -232,11 +278,11 @@
 								<div class="row row-register">
 									<div class="col-md-8">
 										<div class="row">
-											<div class="col-md-3 register-label-box">
+											<div class="col-md-4 register-label-box">
 												<label class="register-label">Role :</label>
 											</div>
 											
-											<div class="col-md-3 register-label-box">
+											<div class="col-md-8 register-label-box">
 												<label class="register-label">
 												{{role}}
 												</label>
@@ -245,23 +291,15 @@
 									</div>
 								</div>
 								
-								<div id="profile_image">
-									<form role="form" id="user_form" action="{{upload_url}}"  method="post" enctype="multipart/form-data">
-									<label class="register-label">Add Profile Image :</label>	<br>
-										<input type="file" id="file" name="file">
-								
-								<input type="submit" name="add_user" id="add_user" value="Add">
-								
+								<input type="submit" name="add_user" id="add_user" value="Update" class="register-btn pro-button">
+								</div>
+									
 								</form>
-									</div>
-		
-								<img id="preview_image" src="http://placehold.it/100x100" height="100" width="100" value="{{i.blob_key}}"> 
-								
 								
 								
 								{%endif%}
 								{%endfor%}
-							</div>
+							
 							
 							
 							</div>
