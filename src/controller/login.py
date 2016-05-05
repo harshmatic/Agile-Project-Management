@@ -333,7 +333,6 @@ class VerificationHandler(BaseHandler):
         if verification_type == 'v':
             # remove signup token, we don't want users to come back with an old link
             self.user_model.delete_signup_token(user.get_id(), signup_token)
-            logging.info("holaaaa")
             if not user.verified:
                 user.verified = True
                 user.put()
@@ -355,7 +354,7 @@ class VerificationHandler(BaseHandler):
 class SetPasswordHandler(BaseHandler):
 
     @user_required
-    def post(self):
+    def post(self,*args,**kargs):
         password = self.request.get('password')
         old_token = self.request.get('t')
 
@@ -369,8 +368,8 @@ class SetPasswordHandler(BaseHandler):
 
         # remove signup token, we don't want users to come back with an old link
         self.user_model.delete_signup_token(user.get_id(), old_token)
-        
-        self.redirect(self.uri_for('home'))
+        domain=user['tenant_domain']
+        self.redirect(self.uri_for('home',_netloc=str(domain+"."+urlparse.urlparse(self.request.url).netloc)))
         
 class LoginHandler(BaseHandler):
     def get(self,*args,**kargs):
@@ -381,9 +380,8 @@ class LoginHandler(BaseHandler):
         password = self.request.get('password')
         try:
             u = self.auth.get_user_by_password(username, password, remember=True,save_session=True)
-            
-            logging.info(self.uri_for('home',_netloc=domain+".apm-eternus.appspot.com"))
-            self.redirect(self.uri_for('home'))
+            domain=u['tenant_domain']
+            self.redirect(self.uri_for('home',_netloc=str(domain+"."+urlparse.urlparse(self.request.url).netloc)))
         except (InvalidAuthIdError, InvalidPasswordError) as e:
             logging.info('Login failed for user %s because of %s', username, type(e))
             self._serve_page(True)
@@ -404,7 +402,6 @@ class LoginBaseHandler(BaseHandler):
         try:
             u = self.auth.get_user_by_password(username, password, remember=True,save_session=True)
             domain=u['tenant_domain']
-            #logging.info(self.uri_for('home',_netloc=domain+"."+urlparse.urlparse(self.request.url).netloc))
             self.redirect(self.uri_for('home',_netloc=str(domain+"."+urlparse.urlparse(self.request.url).netloc)))
         except (InvalidAuthIdError, InvalidPasswordError) as e:
             logging.info('Login failed for user %s because of %s', username, type(e))
