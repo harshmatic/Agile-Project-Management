@@ -23,7 +23,8 @@ class ProjectManagement(BaseHandler):
         if check_permission(self):
             projmodel=project.Project()
             proj=projmodel.get_all()
-            usermodel = user.OurUser().get_all()
+            currentUser=self.auth.get_user_by_session()
+            usermodel = user.OurUser().query(user.OurUser.tenant_key==self.user_model.get_by_id(currentUser['user_id']).tenant_key)
             self.render_template("project-management-new.html",{"project":proj,"userslist":usermodel,'permission':'success'})
            
         else:

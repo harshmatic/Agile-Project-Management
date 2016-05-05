@@ -170,16 +170,19 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
         
         role=model.user.Groups()
         roles=role.get_all()
-        user1 =user.OurUser().get_all()
+        u=user.OurUser()
+        user1=u.query(user.OurUser.tenant_domain==self.get_domain()).fetch()
+        
+        #user1 =user.OurUser().get_all()
        # logging.info(user1)
         user_json = [row.to_dict() for row in user1]
         #user_json.pop("datetime")
         logging.info(user_json)
         #user_json = json.dumps(user_json)
-        upload_url = blobstore.create_upload_url('/admin/upload_photo')        
+     #   upload_url = blobstore.create_upload_url('/admin/upload_photo')        
      #   logging.info(upload_url)
     
-        self.render_template("admin/user-management.html",{"user1":user1,"user_json":user_json,"roles":roles,"upload_url":upload_url})
+        self.render_template("admin/user-management.html",{"user1":user1,"user_json":user_json,"roles":roles})
         
     def post(self):
         
@@ -200,7 +203,7 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
         password = name+empid
        
         
-        upload = self.get_uploads()[0]
+     #   upload = self.get_uploads()[0]
         #upload= upload[0]
         
        
@@ -221,7 +224,7 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
         #unique_properties = ['email_address']
         user_data = self.user_model.create_user(user_name,
             email_address=email, name=name, password_raw=password,designation=designation,empid=empid,contact=contact,
-            last_name=last_name,role=role,blob_key=upload.key(), verified=False)
+            last_name=last_name,role=role, verified=False)
         if not user_data[0]: #user_data is a tuple
             self.response.write('User already exists with the same name')
             return

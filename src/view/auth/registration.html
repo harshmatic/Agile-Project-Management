@@ -65,12 +65,14 @@
 			$("#submit").click(function(){
 			
 				if ($("#signup_form").valid()) {
-				$.post( "/signup", $("#signup_form").serialize())
+				$.post( "/admin/signup", $("#signup_form").serialize())
 			  		.done(function( data ) {
 			  			if (data!="true"){
-			  				alert("Something went wrong");
+			  				alert(data);
 			  			} else {
 			  				alert("A verification link hass been sent to your mail id.");
+			  				document.location.href = '/admin/usermanagment';
+			  				return false
 			  			}
 			  	});
 				}
@@ -210,13 +212,21 @@
 										<div class="row">
 											<div class="col-md-3 register-label-box">
 												<label class="register-label">Assign Role</label>
-											</div>{% for role in roles %}
+											</div>
 											<div class="col-md-3">
 											
-											<input type="radio" name="role" class="form-control project-management-textbox" value="{{role.key.urlsafe}}" checked> {{role.role}}<br>
+											<select class="form-control add-task-textbox" name="role">
+													
+													{% for role in roles %}
+													<option value="{{role.key.urlsafe}}">{{role.role}}</option>
+													{% endfor %}
+												
+													<!-- <option>Admin</option>
+													<option>User</option>-->
+												</select>
 											
 											</div>
-											{% endfor %}
+											
 										</div>
 									</div>
 								</div>

@@ -1,5 +1,5 @@
 application: apm-eternus
-version: 1
+version: 2
 runtime: python27
 api_version: 1
 threadsafe: yes
@@ -11,8 +11,12 @@ handlers:
   login: admin
 - url: /.*
   script: main.app
-
+- url: /_ah/bounce
+  script: handle_bounced_email.app
+  login: admin
 
 libraries:
 - name: webapp2
   version: "2.5.2"
+inbound_services:
+- mail_bounce

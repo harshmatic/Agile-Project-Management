@@ -117,10 +117,11 @@
 			/*******For Multiple select ends **************/
 			
 			
-			
+			/*
 			$(".add-user-btn").click(function(e) {
 				$('#add-user-modal').modal('show');
 			});
+			*/
 			
 			
 			$(".messages-main-box").niceScroll();
@@ -303,7 +304,7 @@
 									
 									  <li class="dropdown">
 										<a href="#" class="dropdown-toggle user-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-										<img src="../assets/img/user.png">
+										<img src="../assets/img/user.png" name="{{user.name}}>
 										<span class="caret"></span></a>
 										<ul class="dropdown-menu menu-user menu-responsive">
 										  <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
@@ -459,7 +460,7 @@
 									
 									<h2 class="user-management-heading"><i class="fa fa-users user-management-head-icon"></i>User Management</h2>
 									
-									<button class="add-user-btn pro-button">Add user</button>
+									<a href="/admin/signup"><button class="add-user-btn pro-button">Add user</button></a>
 								</div>
 							
 								<div class="panel panel-default task-main-panel">
