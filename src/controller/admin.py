@@ -11,13 +11,10 @@ from google.appengine.ext import blobstore
 import webapp2
 
 
-class UserPhoto(ndb.Model):
-    user = ndb.StringProperty()
-    blob_key = ndb.BlobKeyProperty()
     
 #from src.model.user import Groups
 class AdminVerify(BaseHandler):
-    def post(self):
+    def post(self,*args,**kargs):
         key = ndb.Key(urlsafe=self.request.get('key_user'))
         user=key.get()
         if not user.verified:
@@ -29,7 +26,7 @@ class AdminVerify(BaseHandler):
             self.response.write("User is already verified.")
  
 class Adminedit(BaseHandler):
-    def post(self):
+    def post(self,*args,**kargs):
         key = ndb.Key(urlsafe=self.request.get('key_user'))
         user=key.get()
         if not user.verified:
@@ -48,7 +45,7 @@ class AdminHome(BaseHandler):
         else:
             self.response.write("you are not allowed")
 class DeleteEntity(BaseHandler):
-    def post(self):
+    def post(self,*args,**kargs):
         key = ndb.Key(urlsafe=self.request.get('key_permission'))
         
         key.delete()
@@ -57,14 +54,14 @@ class DeleteEntity(BaseHandler):
         #q=qry.filter(key in parent)
         #logging.info(qry)
 class EditRole(BaseHandler):
-    def get(self):
+    def get(self,*args,**kargs):
         key = ndb.Key(urlsafe=self.request.get('key'))
         role = key.get()
         permiss=user.Permissions()
         list_per=permiss.get_all()
         self.render_template("admin/editrole.html",{"role":role,"permission":list_per})
         
-    def post(self):
+    def post(self,*args,**kargs):
         key = ndb.Key(urlsafe=self.request.get('key_role'))
         role =key.get()
         role.role=self.request.get("role")
@@ -78,12 +75,12 @@ class EditRole(BaseHandler):
         self.response.write("true")
 
 class EditPermission(BaseHandler):
-    def get(self):
+    def get(self,*args,**kargs):
         key = ndb.Key(urlsafe=self.request.get('key'))
         permission = key.get()
         self.render_template("admin/editpermission.html",{"permission":permission})
         
-    def post(self):
+    def post(self,*args,**kargs):
         key = ndb.Key(urlsafe=self.request.get('key_permission'))
         permission =key.get()
         permission.url=self.request.get("url_permission")
@@ -92,10 +89,10 @@ class EditPermission(BaseHandler):
         self.response.write("true")
         
 class AddPermissions(BaseHandler):
-    def get(self):
+    def get(self,*args,**kargs):
         self.render_template("admin/addpermissions.html")
         
-    def post(self):
+    def post(self,*args,**kargs):
         url=self.request.get("perm_url")
         name=self.request.get("perm_name")
         permiss=user.Permissions()
@@ -105,13 +102,13 @@ class AddPermissions(BaseHandler):
         self.response.write("true")
 
 class AddRole(BaseHandler):
-    def get(self):
+    def get(self,*args,**kargs):
         permiss=user.Permissions()
         list_per=permiss.get_all()
         param = {"perm":list_per}
         self.render_template("admin/addrole.html",param)
         
-    def post(self):
+    def post(self,*args,**kargs):
         url=self.request.get_all("permissions")
         logging.info(url)
         for index, item in enumerate(url):
@@ -128,7 +125,7 @@ class AddRole(BaseHandler):
         self.response.write("true")
         
 class EditPermissions(BaseHandler):
-    def get(self):
+    def get(self,*args,**kargs):
         u=user.Groups()
         role=u.query(user.Groups.tenant_domain==self.get_domain()).fetch()
         logging.info(role)
@@ -136,7 +133,7 @@ class EditPermissions(BaseHandler):
         p=user.Permissions()
         perm=p.get_all()
         self.render_template("admin/admin-permissions.html",{"perm":perm,"role":role})
-    def post(self):
+    def post(self,*args,**kargs):
         prev_role=""
         #role=""
         perm=[]
@@ -167,7 +164,7 @@ class EditPermissions(BaseHandler):
         self.response.write("true")
                     
 class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobstore_handlers.BlobstoreDownloadHandler):
-    def get(self):
+    def get(self,*args,**kargs):
         
         role=model.user.Groups()
         roles=role.get_all()
@@ -185,7 +182,7 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
     
         self.render_template("admin/user-management.html",{"user1":user1,"user_json":user_json,"roles":roles})
         
-    def post(self):
+    def post(self,*args,**kargs):
         
         
         submit=self.request.get('add_user')
@@ -251,30 +248,30 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
         
    #   else:
             
-class PhotoUploadHandler(blobstore_handlers.BlobstoreUploadHandler,blobstore_handlers.BlobstoreDownloadHandler):
-    def post(self):
-        try:
-            upload = self.get_uploads()[0]
-            #logging.info(upload)
-            logging.info(upload.key())
-           
-            user_photo = UserPhoto(
-                user="ABC",
-            blob_key=upload.key()
-                )
-            user_photo.put()
-           # self.render_template("admin/user-management.html",{"view_image":blobstore.get(blob_key)})
-            
-            
-            self.redirect('/admin/view_photo?photo_key=%s' % upload.key())
-          #  self.response.write("true")   
-          
-        except:
-           self.error(500)
+# class PhotoUploadHandler(blobstore_handlers.BlobstoreUploadHandler,blobstore_handlers.BlobstoreDownloadHandler):
+#     def post(self,*args,**kargs):
+#         try:
+#             upload = self.get_uploads()[0]
+#             #logging.info(upload)
+#             logging.info(upload.key())
+#            
+#             user_photo = UserPhoto(
+#                 user="ABC",
+#             blob_key=upload.key()
+#                 )
+#             user_photo.put()
+#            # self.render_template("admin/user-management.html",{"view_image":blobstore.get(blob_key)})
+#             
+#             
+#             self.redirect('/admin/view_photo?photo_key=%s' % upload.key())
+#           #  self.response.write("true")   
+#           
+#         except:
+#            self.error(500)
             
             
 class ViewPhotoHandler(blobstore_handlers.BlobstoreDownloadHandler):
-    def get(self):
+    def get(self,*args,**kargs):
         
         if not blobstore.get(self.request.get('photo_key')):
             self.error(404)
