@@ -8,6 +8,7 @@
 	
 		<script src="/assets/js/main.js"></script>
 		<script src="/assets/js/jquery.tokenize.js"></script>
+		<script src="/assets/js/jquery.tabletojson.min.js"></script>
 		<script src="/assets/js/bootstrap-datepicker.min.js"></script>
 		
 		
@@ -92,7 +93,9 @@
 			/******** For Hamburger & Close icon ends *****/
 			
 			$("#submit").on("click",function(){
-				 var ser = $("[name]").not("select").serialize();
+				
+				 
+				var ser = $("[name]").not("select").serialize();
 				 var s = $('#tokenize').tokenize().toArray();
 				 ser += (ser.length>0?"&":"") + "proj_team" + "=" + s;
 			       
@@ -109,11 +112,11 @@
 			$('#add-permission-modal').on('hidden.bs.modal', function(e)
 				    { 
 				        $(this).removeData();
-				    }) ;
+				    }) ; 
 			
 		})
 		
-  
+
 			
 			if($( window ).width() >= 768) {
 				$( "#menu-toggle" ).click(function() {
@@ -407,7 +410,7 @@
 											Estimation Guidlines
 										</label>
 										
-										<table class="table table-bordered estimation-guidlines-table">
+										<table id='example-table' class="table table-bordered estimation-guidlines-table">
 											<thead>
 											  <tr>
 												<th>Complexity</th>
