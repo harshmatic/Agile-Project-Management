@@ -484,9 +484,9 @@
 												<td>{{user1.tenant_key.name}}</td>
 												<td class="roll-td"><i>{{user1.role.get.role}}</i></td>
 												<td>{% if user1.verified%}Yes{%else%} No <a href="#" id="{{user1.key.urlsafe}}" class="verify">Verify</a> {%endif%}</td>
-												<td><a href="/superadmin/edit?edit_key='{{user1.key.urlsafe}}" data-toggle="modal" data-target="#edit-user-modal">
+												<td><a href="/superadmin/edit?edit_key={{user1.key.urlsafe}}" data-toggle="modal" data-target="#edit-user-modal">
 													<i class="edit-user-btn fa fa-pencil user-management-edit-icon edit" aria-hidden="true" title="Edit User"  id="{{user1.key.urlsafe}}"></a></i></td>
-												<td><a href="/superadmin/delete?delete_key='{{user1.key.urlsafe}}" data-toggle="modal" data-target="#delete-user-modal">
+												<td><a href="/superadmin/delete?delete_key={{user1.key.urlsafe}}" data-toggle="modal" data-target="#delete-user-modal">
 												<i class="delete-user-btn fa fa-trash user-management-delete-icon delete" aria-hidden="true" title="Delete User"  id="{{user1.key.urlsafe}}"></a></i></td>
 											  </tr>
 											{%endfor%} 

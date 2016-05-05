@@ -207,24 +207,10 @@ class SuperSignupAdminHandler(BaseHandler):
 
 class SuperAdminEditUser(BaseHandler):
         def get(self):
-             key = ndb.Key(urlsafe=self.request.get('edit_key'))
-             user_info=key.get()
-             logging.info(user_info)
-             
-           
-          #   user_db=user.OurUser().query().fetch()
-             
-                
-            
-            
-           #  if user_info:
-                # user.verified=True
-                 #password=user.name+user.empid
-                 #user.put()
-               #  self.response.write(user_info)
-             
-           
-             self.render_template("superadmin/edit_user.html",{"user_info":user_info})
+            key = ndb.Key(urlsafe=self.request.get('edit_key'))
+            user_info=key.get()
+            logging.info(user_info)
+            self.render_template("superadmin/edit_user.html",{"user_info":user_info})
 
             
             
