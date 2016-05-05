@@ -3,6 +3,7 @@ from controller.login import *
 from controller.admin import *
 from controller.user import *
 from controller.projectcontroller import *
+from controller.product_backlog_controller import *
 from webapp2_extras import routes
 from webapp2_extras.routes import DomainRoute
 
@@ -35,7 +36,11 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/project', ProjectManagement,name='project'),
         webapp2.Route('/admin/view_photo', ViewPhotoHandler,name='viewphoto'),
         webapp2.Route('/logout', LogoutHandler, name='logout'),
-        webapp2.Route('/profile', EndUserProfile,name='profile')
+        webapp2.Route('/profile', EndUserProfile,name='profile'),
+        webapp2.Route('/backlog/addbacklog', AddBacklog),
+        webapp2.Route('/backlog/getallbacklog', AllBacklogs),
+        webapp2.Route('/backlog/getbacklog', Backlog),
+        webapp2.Route('/backlog/deletebacklog', DeleteBacklog)
         
     ]),
         webapp2.Route('/login', LoginBaseHandler, name='loginbase'),
