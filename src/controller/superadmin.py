@@ -10,6 +10,21 @@ from google.appengine.api import mail
 import logging
 
 
+
+
+class SuperAdminVerify(BaseHandler):
+    def post(self):
+        key = ndb.Key(urlsafe=self.request.get('key_user'))
+        user=key.get()
+        if not user.verified:
+            user.verified=True
+            password=user.name+user.empid
+            user.put()
+            self.response.write("true"+password)
+        else:
+            self.response.write("User is already verified.")
+
+
 class SuperDashboardHandler(webapp2.RequestHandler):
     def get(self):
         logging.info(self.request.url.split("://",1)[1].split(".",1)[0])
@@ -74,7 +89,12 @@ class SuperUsers(BaseHandler):
         roles=role.query(user.Groups.role=="Admin").fetch(keys_only=True)
         u=user.OurUser()
         user1=u.query(user.OurUser.role==roles[0]).fetch()
-        self.render_template("superadmin/user-management.html",{"user1":user1})
+        
+        role1=user.Groups()
+        roles1=role1.query(user.Groups.role=="Admin")
+        self.render_template("superadmin/user-management.html",{"user1":user1,'roles':roles1})
+        
+        
         
 class SuperEditRole(BaseHandler):
     def get(self):
@@ -184,6 +204,90 @@ class SuperSignupAdminHandler(BaseHandler):
         logging.info(msg.format(url=verification_url))
         self.response.write("true")
         
+
+class SuperAdminEditUser(BaseHandler):
+        def get(self):
+             key = ndb.Key(urlsafe=self.request.get('edit_key'))
+             user_info=key.get()
+             logging.info(user_info)
+             
+           
+          #   user_db=user.OurUser().query().fetch()
+             
+                
+            
+            
+           #  if user_info:
+                # user.verified=True
+                 #password=user.name+user.empid
+                 #user.put()
+               #  self.response.write(user_info)
+             
+           
+             self.render_template("superadmin/edit_user.html",{"user_info":user_info})
+
+            
+            
+        def post(self):
+            
+            tenant_domain = self.request.get('company_domain')
+            tenant_name = self.request.get('company_name')
+            tenant = model.user.Tenant()
+            tenant.name = tenant_name
+            tenant.domain = tenant_domain
+            tenant.created_by = self.request.get('email')
+            tenant_key_added = tenant.put()
+            
+            key= ndb.Key(urlsafe=self.request.get('key'))
+            user_key=key.get()
+            
+            user_key.user_name = self.request.get('email')
+            user_key.email = self.request.get('email')
+            user_key.name = self.request.get('first_name')
+            user_key.last_name = self.request.get('last_name')
+            user_key.designation = self.request.get('designation')
+            user_key.empid=self.request.get('emp_id')
+            user_key.contact=self.request.get('contact_no') 
+            
+            user_key.put()
+                        
+            self.response.write("true")            
+                        
+            
+#             user_db=user.OurUser()
+#             user_db.
+#             logging.info(key)
+#             
+#             for user_key in user_db:
+#                # logging.info(user_key.key.urlsafe)
+#           
+#                 
+#                 if user_key.key.urlsafe ==  key:
+#                         user_key.user_name = self.request.get('email')
+#                         user_key.email = self.request.get('email')
+#                         user_key.name = self.request.get('first_name')
+#                         user_key.last_name = self.request.get('last_name')
+#                         user_key.designation = self.request.get('designation')
+#                         user_key.empid=self.request.get('emp_id')
+#                         user_key.contact=self.request.get('contact_no') 
+#             
+#                         user_key.put()
+#              
+#                         self.response.write("true")
+#              
+ 
+ 
+class SuperAdminDeleteUser (BaseHandler):  
+     def get(self):
+         key = ndb.Key(urlsafe=self.request.get('delete_key'))
+         user_info=key.get()
+         logging.info(user_info)
+         self.render_template("superadmin/delete_user.html",{"user_info":user_info})
+         
+     def post(self):
+         user_key= ndb.Key(urlsafe=self.request.get('delete_key'))
+         user_key.delete()  
+         self.response.write("true")  
         
 config = {
     'webapp2_extras.auth': {
