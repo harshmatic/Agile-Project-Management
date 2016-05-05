@@ -8,7 +8,7 @@ from webapp2_extras import routes
 from webapp2_extras.routes import DomainRoute
 
 app = webapp2.WSGIApplication([
-    DomainRoute('<subdomain>.localhost:20080', [
+    DomainRoute('<subdomain>.apm-eternus.appspot.com', [
         webapp2.Route('/', handler=Main, name='subdomain-home'),
         webapp2.Route('/dashboard', EndUserDashboardHandler, name='dashboard'),                           
         webapp2.Route('/admin/signup', SignupHandler, name='adminsignup'),

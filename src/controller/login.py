@@ -431,6 +431,6 @@ config = {
     },
     'webapp2_extras.sessions': {
         'secret_key': 'AIzaSyCLBiLQ5B1QJ2BGlQXvUqJysqFjjc_lw00',
-        'cookie_args':  {'domain':'.localhost:20080'}
+        'cookie_args':  {'domain':'.apm-eternus.appspot.com'}
     }
 }
