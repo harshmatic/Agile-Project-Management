@@ -46,12 +46,14 @@ def user_required(handler):
 class BaseHandler(webapp2.RequestHandler):
     
     def get_domain(self):
-        domain = self.request.url.split("://",1)[1].split(".",1)
-        logging.info(domain)
-        if len(domain)==1:
+        domain = self.request.url
+        domain=urlparse.urlparse(domain)
+        logging.info(self.request.get('subdomain'))
+        return domain
+        '''if domain:
             return None
         else:
-            return domain[0]
+            return domain'''
     @webapp2.cached_property
     def auth(self):
         """Shortcut to access the auth instance as a property."""
@@ -101,18 +103,24 @@ class BaseHandler(webapp2.RequestHandler):
     def dispatch(self):
             # Get a session store for this request.
         self.session_store = sessions.get_store(request=self.request)
+        
         try:
             webapp2.RequestHandler.dispatch(self)
         finally:
             self.session_store.save_sessions(self.response)
-
+class Domain(BaseHandler):
+    def get(self,*args,**kargs):
+        #logging.info(self.user_info())
+        logging.info(kargs['subdomain'])
+        logging.info(self.get_domain())
 class Main(BaseHandler):
     
     def get(self,*args,**kargs):
         user1=self.auth.get_user_by_session()
-        logging.info(self.uri_for('login', _full=True))
+        logging.info(user1)
         if user1:
             domain=str(self.user_model.get_by_id(user1['user_id']).tenant_domain)
+            logging.info(domain)
             domain=urlparse.urlparse(domain).path
             if self.user_model.get_by_id(user1['user_id']).role.get().role == "Admin":
                 #logging.info(domain+"."+urlparse.urlparse(self.request.url).netloc+self.uri_for('admindashboard'))
@@ -291,8 +299,7 @@ class ForgotPasswordHandler(BaseHandler):
             signup_token=token, _full=True)
 
         msg = """Hi """+username+""",
-        Thank you for registering on APM. Please follow the below url to activate your account.
-        Remeber to change your password.
+       Follow the ;ink to reset your password
         You will be able to do so by visiting<a href="{url}">{url}</a>'"""
         
         message = mail.EmailMessage(sender="harshmatic@gmail.com",
@@ -368,8 +375,8 @@ class SetPasswordHandler(BaseHandler):
 
         # remove signup token, we don't want users to come back with an old link
         self.user_model.delete_signup_token(user.get_id(), old_token)
-        domain=user['tenant_domain']
-        self.redirect(self.uri_for('home',_netloc=str(domain+"."+urlparse.urlparse(self.request.url).netloc)))
+        domain=str(user.tenant_domain)
+        self.redirect(self.uri_for('subdomain-home',_netloc=str(domain+"."+urlparse.urlparse(self.request.url).netloc)))
         
 class LoginHandler(BaseHandler):
     def get(self,*args,**kargs):
@@ -380,8 +387,9 @@ class LoginHandler(BaseHandler):
         password = self.request.get('password')
         try:
             u = self.auth.get_user_by_password(username, password, remember=True,save_session=True)
-            domain=u['tenant_domain']
-            self.redirect(self.uri_for('home',_netloc=str(domain+"."+urlparse.urlparse(self.request.url).netloc)))
+            domain=str(self.user_model.get_by_id(u['user_id']).tenant_domain)
+            logging.info(u)
+            self.redirect(self.uri_for('subdomain-home'))
         except (InvalidAuthIdError, InvalidPasswordError) as e:
             logging.info('Login failed for user %s because of %s', username, type(e))
             self._serve_page(True)
@@ -401,8 +409,10 @@ class LoginBaseHandler(BaseHandler):
         password = self.request.get('password')
         try:
             u = self.auth.get_user_by_password(username, password, remember=True,save_session=True)
-            domain=u['tenant_domain']
-            self.redirect(self.uri_for('home',_netloc=str(domain+"."+urlparse.urlparse(self.request.url).netloc)))
+            domain=str(self.user_model.get_by_id(u['user_id']).tenant_domain)
+            logging.info(u)
+            #domain=u['tenant_domain']
+            self.redirect(self.uri_for('subdomain-home',_netloc=str(domain+"."+urlparse.urlparse(self.request.url).netloc)))
         except (InvalidAuthIdError, InvalidPasswordError) as e:
             logging.info('Login failed for user %s because of %s', username, type(e))
             self._serve_page(True)
@@ -427,7 +437,7 @@ class AuthenticatedHandler(BaseHandler):
 config = {
     'webapp2_extras.auth': {
         'user_model': 'model.user.OurUser',
-        'user_attributes': ['name','email_address','tenant_domain']
+        'user_attributes': ['name','email_address']
     },
     'webapp2_extras.sessions': {
         'secret_key': 'AIzaSyCLBiLQ5B1QJ2BGlQXvUqJysqFjjc_lw00',

@@ -9,14 +9,14 @@ from webapp2_extras.routes import DomainRoute
 
 app = webapp2.WSGIApplication([
     DomainRoute('<subdomain>.apm-eternus.appspot.com', [
-        webapp2.Route('/', handler=Main, name='subdomain-home'),
+        webapp2.Route('/', Main, name='subdomain-home'),
         webapp2.Route('/dashboard', EndUserDashboardHandler, name='dashboard'),                           
         webapp2.Route('/admin/signup', SignupHandler, name='adminsignup'),
         webapp2.Route('/signupadmin', SignupAdminHandler, name='signupadmin'),
-        webapp2.Route('/<type:v|p>/<user_id:\d+>-<signup_token:.+>',handler=VerificationHandler, name='verification'),
-        webapp2.Route('/password', SetPasswordHandler, name="setpassword"),
+        
+        
         webapp2.Route('/login', LoginHandler, name='login'),
-        webapp2.Route('/signupuser', SignupUser, name='usersignup'),
+        
         webapp2.Route('/role', AddRole, name='role'),
         webapp2.Route('/authenticated', AuthenticatedHandler, name='authenticated'),
         webapp2.Route('/admin/permissions', EditPermissions, name='permissions'),
@@ -37,16 +37,20 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/admin/view_photo', ViewPhotoHandler,name='viewphoto'),
         webapp2.Route('/logout', LogoutHandler, name='logout'),
         webapp2.Route('/profile', EndUserProfile,name='profile'),
-        webapp2.Route('/backlog/addbacklog', AddBacklog),
-        webapp2.Route('/backlog/getallbacklog', AllBacklogs),
-        webapp2.Route('/backlog/getbacklog', Backlog),
-        webapp2.Route('/backlog/deletebacklog', DeleteBacklog)
-        
+        webapp2.Route('/backlog/addbacklog', AddBacklog,name='addbackloog'),
+        webapp2.Route('/backlog/getallbacklog', AllBacklogs,name='getbacklog'),
+        webapp2.Route('/backlog/getbacklog', Backlog,name='getbacklog'),
+        webapp2.Route('/backlog/deletebacklog', DeleteBacklog,name='deletebacklg'),
+        webapp2.Route('/checkdomain', Domain,name="checkdomain")
     ]),
         webapp2.Route('/login', LoginBaseHandler, name='loginbase'),
         webapp2.Route('/logout', LogoutHandler, name='logout'),
         webapp2.Route('/', SignupUser, name='home'),
+        webapp2.Route('/password', SetPasswordHandler, name="setpassword"),
+        webapp2.Route('/signupuser', SignupUser, name='usersignup'),
+        webapp2.Route('/<type:v|p>/<user_id:\d+>-<signup_token:.+>',handler=VerificationHandler, name='verification'),
         webapp2.Route('/forgot', ForgotPasswordHandler, name='forgot')
+        #webapp2.Route('/checkdomain', handler=Domain,name="checkdomain")
         
     
 ], debug=True, config=config)
