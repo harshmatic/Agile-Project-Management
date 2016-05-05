@@ -11,7 +11,7 @@ from webapp2_extras import auth
 from webapp2_extras import sessions
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
-from google.appengine.api import mail
+from google.appengine.api import mail,mail_errors
 from webapp2_extras import security
 import urlparse
 import urllib
@@ -101,7 +101,6 @@ class BaseHandler(webapp2.RequestHandler):
     def dispatch(self):
             # Get a session store for this request.
         self.session_store = sessions.get_store(request=self.request)
-        logging.info(self.response)
         try:
             webapp2.RequestHandler.dispatch(self)
         finally:
@@ -111,6 +110,7 @@ class Main(BaseHandler):
     
     def get(self,*args,**kargs):
         user1=self.auth.get_user_by_session()
+        logging.info(self.uri_for('login', _full=True))
         if user1:
             domain=str(self.user_model.get_by_id(user1['user_id']).tenant_domain)
             domain=urlparse.urlparse(domain).path
@@ -124,18 +124,18 @@ class Main(BaseHandler):
             self.redirect(self.uri_for('login'), abort=True)
 
 class DashboardHandler(BaseHandler):
-    def get(self):
+    def get(self,*args,**kargs):
         if check_permission(self):
             self.render_template("main.html")
         else:
             self.response.write("you are not allowed")
 
 class SignupUser(BaseHandler):
-    def get(self):
+    def get(self,*args,**kargs):
         role=model.user.Groups()
         roles=role.query(model.user.Groups.role=="Admin")
         self.render_template('company-register.html',{'roles':roles})
-    def post(self):
+    def post(self,*args,**kargs):
         #role=model.user.Groups()
         tenant_domain = self.request.get('company_domain')
         tenant_name = self.request.get('company_name')
@@ -175,17 +175,17 @@ class SignupUser(BaseHandler):
         Remeber to change your password.
         You will be able to do so by visiting {url}"""
         body = msg.format(url=verification_url)
-        mail.send_mail(sender="harshmatic@gmail.com",
-                            subject="Account Verification",
+        try:
+            mail.send_mail(sender="harshmatic@gmail.com",
+                            subject="Account Verification new",
                             to=email,
                             body=body)
-        #message.to = email
-        #message.
-        #message.send()
+        except:
+            logging.info("Unexpected error")
         logging.info(msg.format(url=verification_url))
         self.response.write("true")           
 class SignupHandler(BaseHandler):
-    def get(self):
+    def get(self,*args,**kargs):
         if check_permission(self):
             role=model.user.Groups()
             roles=role.get_all()
@@ -193,7 +193,7 @@ class SignupHandler(BaseHandler):
             self.render_template('auth/registration.html',{'roles':roles})
         else:
             self.response.write("you are not allowed")
-    def post(self):
+    def post(self,*args,**kargs):
         currentUser=self.auth.get_user_by_session()
         user_name = self.request.get('email')
         email = self.request.get('email')
@@ -233,11 +233,11 @@ class SignupHandler(BaseHandler):
         self.response.write("true")        
         
 class SignupAdminHandler(BaseHandler):
-    def get(self):
+    def get(self,*args,**kargs):
         role=model.user.Groups()
         roles=role.query(model.user.Groups.role=="Admin")
         self.render_template('auth/registration_admin.html',{'roles':roles})
-    def post(self):
+    def post(self,*args,**kargs):
         #role=model.user.Groups()
         role=ndb.Key(urlsafe=self.request.get('role'))
         user_name = self.request.get('email')
@@ -273,10 +273,10 @@ class SignupAdminHandler(BaseHandler):
         self.response.write("true")        
 
 class ForgotPasswordHandler(BaseHandler):
-    def get(self):
+    def get(self,*args,**kargs):
         self._serve_page()
 
-    def post(self):
+    def post(self,*args,**kargs):
         username = self.request.get('username')
 
         user = self.user_model.get_by_auth_id(username)
@@ -373,14 +373,16 @@ class SetPasswordHandler(BaseHandler):
         self.redirect(self.uri_for('home'))
         
 class LoginHandler(BaseHandler):
-    def get(self):
+    def get(self,*args,**kargs):
         self._serve_page()
 
-    def post(self):
+    def post(self,*args,**kargs):
         username = self.request.get('username')
         password = self.request.get('password')
         try:
             u = self.auth.get_user_by_password(username, password, remember=True,save_session=True)
+            
+            logging.info(self.uri_for('home',_netloc=domain+".apm-eternus.appspot.com"))
             self.redirect(self.uri_for('home'))
         except (InvalidAuthIdError, InvalidPasswordError) as e:
             logging.info('Login failed for user %s because of %s', username, type(e))
@@ -393,9 +395,30 @@ class LoginHandler(BaseHandler):
             'failed': failed
         }
         self.render_template('auth/login.html', params)
-        
+
+class LoginBaseHandler(BaseHandler):
+
+    def post(self,*args,**kargs):
+        username = self.request.get('username')
+        password = self.request.get('password')
+        try:
+            u = self.auth.get_user_by_password(username, password, remember=True,save_session=True)
+            domain=u['tenant_domain']
+            #logging.info(self.uri_for('home',_netloc=domain+"."+urlparse.urlparse(self.request.url).netloc))
+            self.redirect(self.uri_for('home',_netloc=str(domain+"."+urlparse.urlparse(self.request.url).netloc)))
+        except (InvalidAuthIdError, InvalidPasswordError) as e:
+            logging.info('Login failed for user %s because of %s', username, type(e))
+            self._serve_page(True)
+
+    def _serve_page(self, failed=False):
+        username = self.request.get('username')
+        params = {
+            'username': username,
+            'failed': failed
+        }
+        self.render_template('auth/login.html', params)       
 class LogoutHandler(BaseHandler):
-    def get(self):
+    def get(self,*args,**kargs):
         self.auth.unset_session()
         self.redirect(self.uri_for('home'))
 
@@ -407,9 +430,10 @@ class AuthenticatedHandler(BaseHandler):
 config = {
     'webapp2_extras.auth': {
         'user_model': 'model.user.OurUser',
-        'user_attributes': ['name','email_address']
+        'user_attributes': ['name','email_address','tenant_domain']
     },
     'webapp2_extras.sessions': {
-        'secret_key': 'AIzaSyCLBiLQ5B1QJ2BGlQXvUqJysqFjjc_lw00'
+        'secret_key': 'AIzaSyCLBiLQ5B1QJ2BGlQXvUqJysqFjjc_lw00',
+        'cookie_args':  {'domain':'.apm-eternus.appspot.com'}
     }
 }

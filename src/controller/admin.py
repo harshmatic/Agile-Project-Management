@@ -41,7 +41,8 @@ class Adminedit(BaseHandler):
             self.response.write("User is already verified.")           
         
 class AdminHome(BaseHandler):
-    def get(self):
+    def get(self,*args,**kargs):
+        
         if check_permission(self):
             self.render_template("admin/admin-dashboard.html")
         else:
