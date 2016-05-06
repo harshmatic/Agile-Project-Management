@@ -66,6 +66,13 @@ $(document).ready(function() {
 			  	});
 			});
 			
+			$("#checkdomain").click(function(){
+				$.post( "/checkdomain", $("#signup_user").serialize())
+			  		.done(function( data ) {
+			  			$(".success-dom-name").text(data)
+			  	});
+			});
+			
 		});
 		
 		</script>
@@ -121,8 +128,8 @@ $(document).ready(function() {
 										  <div class="form-group comp-reg-grp">
 											<label class="comp-reg-label">Sub-domain Name</label>
 											<input type="text" class="form-control check-subdom-ava-textbox comp-reg-textbox" name="company_domain">
-											<a href="#" class="check-subdom-ava-link">Check Availability</a> : 
-											<span class="success-dom-name">Sub-domain is available</span>
+											<a href="#" class="check-subdom-ava-link" id="checkdomain">Check Availability</a> : 
+											<span class="success-dom-name"></span>
 										  </div>
 										  
 										 

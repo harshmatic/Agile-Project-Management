@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<title>APM - Admin Dashboard</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		
+		<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../assets/css/style.css">
+		<link rel="stylesheet" href="../assets/css/sidebar.css">
+		<link rel="stylesheet" href="../assets/css/button.css">
+		
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Signika">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+		
+		<style>
+			.apm-nav-brand{
+				padding-top: 14px;
+				margin-left: 10px;
+				letter-spacing: 1px;
+				font-size: 18px;
+				color:#fff!important;
+			}
+			#menu-toggle-2{
+				float: left;
+				margin: 11px 12px;
+				color: #fff;
+				cursor:pointer;
+			}
+			.nav-apm{
+				background:#3978BF;
+				border:none;
+				border-radius:0;
+			}
+			.nav-pills>li>a {
+				border-radius: 0;
+			}
+			.apm-search-textbox{
+				padding-top:8px;
+			}
+			.apm-panel-heading{
+				padding:5px 15px;
+				background:#3978BF!important;
+				color:#fff!important;
+				border-radius:0!important;
+			}
+			.apm-para{
+				margin:0;
+				padding:10px 0px;
+			}
+			.apm-all-reports-heading{
+				margin-top: 10px;
+				margin-bottom: 10px;
+				font-size: 20px;
+				letter-spacing: 1px;
+				line-height: 1.2em;
+			}
+			.apm-numbox-dashboard{
+				padding:20px;
+				height:150px;
+				border:1px solid transparent;
+				text-align:right;
+			}
+			.apm-numbox-1{
+				background:#3598DC;
+			}
+			.apm-numbox-2{
+				background:#E7505A;
+			}
+			.apm-numbox-3{
+				background:#32C5D2;
+			}
+			.apm-numbox-4{
+				background:#8E44AD;
+			}
+			.apm-numbox-row{
+				margin-bottom:30px;
+			}
+			.apm-panel-body{
+				background:#f8f8f8;
+			}
+			.apm-numbox-heading{
+				font-size: 50px;
+				color:#fff;
+			}
+			.apm-numbox-label{
+				color:#fff;
+				font-size: 18px;
+				letter-spacing:1px;
+				font-weight: 500;
+			}
+			@media (max-width: 767px){
+				.apm-numbox-dashboard{
+					margin-bottom:20px;
+				}
+			}
+		</style>
+		
+		
+	</head>
+<body>
+    <nav class="navbar navbar-default no-margin nav-apm">
+    <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header fixed-brand">
+                    
+					<!-- Menu Toggle -->
+					<i class="fa fa-bars fa-2x collapse in" data-toggle="collapse" id="menu-toggle-2" aria-hidden="true"></i>
+				
+                    <a class="navbar-brand apm-nav-brand" href="#">APM</a>
+					
+                </div><!-- navbar-header-->
+ 
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="dropdown">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										<i class="fa fa-share-alt"></i> SOCIAL MEDIA
+										<span class="caret"></span></a>
+										<ul class="dropdown-menu">
+										  <li><a href="#"><i class="fa fa-facebook-official"></i> Facebook</a></li>
+										  <li><a href="#"><i class="fa fa-twitter"></i> Twitter</a></li>
+										  <li><a href="#"><i class="fa fa-instagram"></i> Instagram</a></li>
+										</ul>
+									  </li>
+									  
+									  
+									  <li class="dropdown">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										<i class="fa fa-sticky-note"></i> PROJECTS
+										<span class="caret"></span></a>
+										<ul class="dropdown-menu">
+										  <li><a href="#"><i class="fa fa-cog"></i> Project 1</a></li>
+										  <li><a href="#"><i class="fa fa-cog"></i> Project 2</a></li>
+										  <li><a href="#"><i class="fa fa-cog"></i> Project 3</a></li>
+										</ul>
+									  </li>
+									  
+									  <li class="dropdown">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> ISSUES
+										<span class="caret"></span></a>
+										<ul class="dropdown-menu">
+										  <li><a href="#"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Issue 1</a></li>
+										  <li><a href="#"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Issue 2</a></li>
+										  <li><a href="#"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Issue 3</a></li>
+										</ul>
+									  </li>
+									  
+                            </ul>
+							
+							
+							
+							<ul class="nav navbar-nav navbar-right nav-desktop">
+									<li class="search-field-box">
+										<i class="fa fa-search search-icon"></i><input type="text" class="form-control search-field" placeholder="Search...">
+									</li>
+									 
+ 									  <li class="dropdown">
+										<a href="#" class="dropdown-toggle user-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										
+										<i class="fa fa-user fa-3x"></i></a>
+										
+										<ul class="dropdown-menu multi-level menu-user">
+										  <li><a href="#"><i class="fa fa-refresh"></i> Switch Role</a></li>
+										  <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+									      <li class="dropdown-submenu">
+													<a href="#"><i class="fa fa-caret-left arrow-left"></i><i class="fa fa-cog"></i> Settings</a>
+													<ul class="dropdown-menu submenu-list">
+													  <li><a href="#"><i class="fa fa-bell"></i> Notifications</a></li>
+													  <li><a href="#"><i class="fa fa-link"></i> Linked Accounts</a></li>
+													  <li><a href="#"><i class="fa fa-trash"></i> Clear History</a></li>
+													  <li><a href="#"><i class="fa fa-share-square"></i> Share Query</a></li>
+													  <li><a href="#"><i class="fa fa-certificate"></i> Assistance</a></li>
+													</ul>
+										  </li>
+										  <li><a href="#"><i class="fa fa-question-circle"></i> Help</a></li>
+										  <li role="separator" class="divider"></li>
+										  <li><a href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
+										</ul>
+									  </li>
+									</ul>
+							
+                </div><!-- bs-example-navbar-collapse-1 -->
+    </nav>
+	
+	
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+ 
+					<li class="active">
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-th-large side-font-icons"></i> Dashboard</a>
+						
+					</li>
+					<li>
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-user side-font-icons" aria-hidden="true"></i> User Management</a>
+						
+					</li>
+					<li>
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-briefcase side-font-icons" aria-hidden="true"></i> Roles</a>
+					</li>
+					<li>
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-users side-font-icons" aria-hidden="true"></i> Groups</a>
+					</li>
+					<li>
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-cogs side-font-icons" aria-hidden="true"></i> Permissions</a>
+					</li>
+               
+            </ul>
+        </div><!-- /#sidebar-wrapper -->
+		
+		
+		
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+					
+						<h2 class="apm-all-reports-heading">All Reports</h2>
+						
+						<hr>
+						
+						<!-- Number Boxes -->
+						<div class="row apm-numbox-row">
+							<div class="col-md-3 col-sm-3">
+								<div class="apm-numbox-dashboard apm-numbox-1">
+									<h2 class="apm-numbox-heading">20</h2>
+									<label class="apm-numbox-label">Pending Tasks</label>
+								</div>	
+							</div>
+							<div class="col-md-3 col-sm-3">
+								<div class="apm-numbox-dashboard apm-numbox-2">
+									<h2 class="apm-numbox-heading">14</h2>
+									<label class="apm-numbox-label">Pending Sprints</label>
+								</div>	
+							</div>
+							<div class="col-md-3 col-sm-3">
+								<div class="apm-numbox-dashboard apm-numbox-3">
+									<h2 class="apm-numbox-heading">26</h2>
+									<label class="apm-numbox-label">Ongoing Tasks</label>
+								</div>	
+							</div>
+							<div class="col-md-3 col-sm-3">
+								<div class="apm-numbox-dashboard apm-numbox-4">
+									<h2 class="apm-numbox-heading">44</h2>
+									<label class="apm-numbox-label">Completed Tasks</label>
+								</div>	
+							</div>
+						</div>
+						<!-- Number Boxes ENDS -->
+						
+						<div class="row">
+							<div class="col-md-3 col-sm-3">
+								<div class="panel panel-default">
+									<div class="panel-heading apm-panel-heading">
+										Burndown Chart
+									</div>
+									<div class="panel-body apm-panel-body">
+										<img src="assets/img/barchart.png" class="img-responsive" style="width: 70%;">
+										<p class="apm-para">
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3 col-sm-3">
+								<div class="panel panel-default">
+									<div class="panel-heading apm-panel-heading">
+										Sprint Chart
+									</div>
+									<div class="panel-body apm-panel-body">
+										<img src="assets/img/pie.png" class="img-responsive" style="width: 55%;">
+										<p class="apm-para">
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3 col-sm-3">
+								<div class="panel panel-default">
+									<div class="panel-heading apm-panel-heading">
+										Velocity Chart
+									</div>
+									<div class="panel-body apm-panel-body">
+										<img src="assets/img/barchart.png" class="img-responsive" style="width: 70%;">
+										<p class="apm-para">
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3 col-sm-3">
+								<div class="panel panel-default">
+									<div class="panel-heading apm-panel-heading">
+										Control Chart
+									</div>
+									<div class="panel-body apm-panel-body">
+										<img src="assets/img/pie.png" class="img-responsive" style="width: 55%;">
+										<p class="apm-para">
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-3 col-sm-3">
+								<div class="panel panel-default">
+									<div class="panel-heading apm-panel-heading">
+										Burndown Chart
+									</div>
+									<div class="panel-body apm-panel-body">
+										<img src="assets/img/barchart.png" class="img-responsive" style="width: 70%;">
+										<p class="apm-para">
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3 col-sm-3">
+								<div class="panel panel-default">
+									<div class="panel-heading apm-panel-heading">
+										Epic Report
+									</div>
+									<div class="panel-body apm-panel-body">
+										<img src="assets/img/pie.png" class="img-responsive" style="width: 55%;">
+										<p class="apm-para">
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3 col-sm-3">
+								<div class="panel panel-default">
+									<div class="panel-heading apm-panel-heading">
+										Annual Report
+									</div>
+									<div class="panel-body apm-panel-body">
+										<img src="assets/img/barchart.png" class="img-responsive" style="width: 70%;">
+										<p class="apm-para">
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3 col-sm-3">
+								<div class="panel panel-default">
+									<div class="panel-heading apm-panel-heading">
+										Average Age Report
+									</div>
+									<div class="panel-body apm-panel-body">
+										<img src="assets/img/pie.png" class="img-responsive" style="width: 55%;">
+										<p class="apm-para">
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+										</p>
+									</div>
+								</div>
+							</div>
+						</div> <!-- Row ends -->
+						
+						<!--<div class="row">
+							<div class="col-md-6 col-sm-6">
+								<div class="table-responsive">
+									<table class="table table-condensed table-bordered">
+										<thead>
+										  <tr>
+											<th>Firstname</th>
+											<th>Lastname</th>
+											<th>Email</th>
+										  </tr>
+										</thead>
+										<tbody>
+										  <tr>
+											<td>John</td>
+											<td>Doe</td>
+											<td>john@example.com</td>
+										  </tr>
+										  <tr>
+											<td>Mary</td>
+											<td>Moe</td>
+											<td>mary@example.com</td>
+										  </tr>
+										  <tr>
+											<td>July</td>
+											<td>Dooley</td>
+											<td>july@example.com</td>
+										  </tr>
+										</tbody>
+									</table>
+								</div>	
+							</div>
+						</div> -->
+						
+						
+                    </div> <!-- .col-lg-12 ends -->
+                </div>
+            </div> <!-- .container ends -->
+        </div>
+        <!-- /#page-content-wrapper ENDS -->
+		
+		
+		
+    </div>
+    <!-- /#wrapper -->
+  
+		<script src="../assets/js/jquery.js"></script>
+		<script src="../assets/js/bootstrap.min.js"></script>
+		<script src="../assets/js/side-menu.js"></script>
+</body>
+</html>

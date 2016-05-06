@@ -108,11 +108,15 @@ class BaseHandler(webapp2.RequestHandler):
             webapp2.RequestHandler.dispatch(self)
         finally:
             self.session_store.save_sessions(self.response)
-class Domain(BaseHandler):
-    def get(self,*args,**kargs):
-        #logging.info(self.user_info())
-        logging.info(kargs['subdomain'])
-        logging.info(self.get_domain())
+class CheckDomain(BaseHandler):
+    def post(self,*args,**kargs):
+        tenant_domain=self.request.get('domain')
+        tenant=model.user.Tenant()
+        if tenant.query(model.user.Tenant.domain==tenant_domain):
+            self.response.write('Domain is not available')
+            
+        else:
+            self.response.write('Domain is available')
 class Main(BaseHandler):
     
     def get(self,*args,**kargs):
@@ -151,11 +155,13 @@ class SignupUser(BaseHandler):
         tenant.name = tenant_name
         tenant.domain = tenant_domain
         tenant.created_by = self.request.get('email')
-        tenant_key_added = tenant.put()
-        logging.info(tenant_key_added)
-        if not tenant_key_added: #user_data is a tuple
+        logging.info(tenant.query(model.user.Tenant.domain==tenant_domain).fetch())
+        if tenant.query(model.user.Tenant.domain==tenant_domain).fetch():
             self.response.write('Domain already exists with the same name.')
             return
+        else:
+            tenant_key_added = tenant.put()
+        logging.info(tenant_key_added)
         role=ndb.Key(urlsafe=self.request.get('role'))
         user_name = self.request.get('email')
         email = self.request.get('email')
