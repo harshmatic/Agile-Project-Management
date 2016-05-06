@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 		<title>{% block title%}Admin-Dashboard{% endblock %}</title>
-		{% block header_links%}
+		
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 		
@@ -101,7 +101,7 @@
 			}
 		</style>
 		
-		{% endblock %}
+		{% block header_links%}{% endblock %}
 	</head>
 <body>
     <nav class="navbar navbar-default no-margin nav-apm">
@@ -193,7 +193,7 @@
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
- 					{% block sidebar%}
+ 					
 					<li class="active">
 						<a href="#" class="sidebar-main-list-name"><i class="fa fa-th-large side-font-icons"></i> Dashboard</a>
 						
@@ -211,6 +211,7 @@
 					<li>
 						<a href="#" class="sidebar-main-list-name"><i class="fa fa-cogs side-font-icons" aria-hidden="true"></i> Permissions</a>
 					</li>
+					{% block sidebar%}
 					{% endblock %}
                
             </ul>
