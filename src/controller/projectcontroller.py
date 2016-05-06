@@ -106,7 +106,7 @@ class EditProject(BaseHandler):
         project_list = projectkey.get()
         
    
-        
+        logging.info("test")
         estimation = project.Estimation()
         esti = estimation.query(project.Estimation.projectid == projectkey ).fetch()
         
