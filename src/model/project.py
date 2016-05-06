@@ -8,8 +8,8 @@ class Project(ndb.Model):
     createdDate = ndb.DateTimeProperty(auto_now_add=True)
     startDate = ndb.DateProperty()
     endDate = ndb.DateProperty()
-    team = ndb.StringProperty(repeated=True)
-    companyid = ndb.KeyProperty(required=True)
+    #team = ndb.StringProperty(repeated=True)
+    companyid = ndb.IntegerProperty(required=True)
     
     def set(self):
         return self.put()

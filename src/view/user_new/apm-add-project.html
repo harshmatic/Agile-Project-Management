@@ -5,11 +5,11 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 		
-		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
-		<link rel="stylesheet" href="assets/css/style.css">
-		<link rel="stylesheet" href="assets/css/sidebar.css">
-		<link rel="stylesheet" href="assets/css/button.css">
-		<link rel="stylesheet" href="assets/css/bootstrap-datepicker.min.css">
+		<link rel="stylesheet" href="/assets_new/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/assets_new/css/style.css">
+		<link rel="stylesheet" href="/assets_new/css/sidebar.css">
+		<link rel="stylesheet" href="/assets_new/css/button.css">
+		<link rel="stylesheet" href="/assets_new/css/bootstrap-datepicker.min.css">
 		
 		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -31,6 +31,7 @@
 			
 		</style>
 		
+	
 		
 	</head>
 <body>
@@ -202,26 +203,26 @@
 							<!-- Project Details -->
 							<div id="proj-details" class="tab-pane fade in active">
 								<div class="row">
-									<div class="col-md-3">
-										<form role="form">
+									<div  class="col-md-3">
+										<form role="form" id="prj">
 										
 											<!-- Project Title -->
-											<div class="form-group">
+											<div  class="form-group">
 												<label class="apm-landing-reg-label">Project Title</label>
-												<input type="text" class="form-control apm-landing-textbox-reg">
+												<input name="proj_name" type="text" class="form-control apm-landing-textbox-reg">
 											</div>
 											
 											<!-- Project Description -->
 											<div class="form-group">
 												<label class="apm-landing-reg-label">Project Description</label>
-												<textarea class="form-control apm-landing-textbox-reg apm-text-area" rows="4"></textarea>
+												<textarea name="proj_desc" class="form-control apm-landing-textbox-reg apm-text-area" rows="4"></textarea>
 											</div>
 											<div class="row">
 												<!-- Start Date -->
 												<div class="col-md-6">
 													<div class="form-group">
 														<label class="apm-landing-reg-label">Start Date</label>
-														<input type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true">
+														<input name="proj_start" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true">
 														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
 													</div>
 												</div>
@@ -230,7 +231,7 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<label class="apm-landing-reg-label">End Date</label>
-														<input type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true">
+														<input name="proj_end" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true">
 														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
 													</div>
 												</div>
@@ -241,6 +242,10 @@
 									<div class="col-md-9">
 									</div>
 								</div>
+								<div class="apm-add-proj-btnbox">
+							<button class="apm-add-proj-btn" id="submit">ADD</button>
+							<button class="apm-add-proj-btn">CANCEL</button>
+						</div>
 							</div>
 							<!-- Project Details ENDS-->
 							
@@ -393,10 +398,7 @@
 						
 						<hr>
 						
-						<div class="apm-add-proj-btnbox">
-							<button class="apm-add-proj-btn">ADD</button>
-							<button class="apm-add-proj-btn">CANCEL</button>
-						</div>
+						
 					<!-- Main add project content ENDS-->
 						
 						
@@ -432,10 +434,9 @@
 												<label class="apm-landing-reg-label">Member Name</label>
 												<select class="form-control apm-landing-textbox-reg apm-modal-textbox">
 													<option>- Select -</option>
-													<option>Atul</option>
-													<option>Harshit</option>
-													<option>Ram</option>
-													<option>Kajal</option>
+													{% for users in userslist %}
+													<option  value= "{{ users.name }}"> {{ users.name }}</option>
+													{%endfor%}
 												</select>
 											  </div>
 											  
@@ -523,11 +524,11 @@
 			</div>
 	<!-- Add Estimation Timelines Modal Ends -->
 		
-		<script src="assets/js/jquery.js"></script>
-		<script src="assets/js/bootstrap.min.js"></script>
-		<script src="assets/js/side-menu.js"></script>
-		<script src="assets/js/bootstrap-datepicker.min.js"></script>
-		<script src="assets/js/main.js"></script>
+		<script src="/assets_new/js/jquery.js"></script>
+		<script src="/assets_new/js/bootstrap.min.js"></script>
+		<script src="/assets_new/js/side-menu.js"></script>
+		<script src="/assets_new/js/bootstrap-datepicker.min.js"></script>
+		<script src="/assets_new/js/main.js"></script>
 		
 		
 		<script>
@@ -551,6 +552,25 @@
 						$('#add-estimation-timeline-modal').modal('show');
 					});
 					
+					$("#submit").on("click",function(){
+						
+						 
+						var ser = $("#prj").serialize();
+						 
+					       
+					$.post( "/project/addproject", ser)
+			  		.done(function( data ) {
+			  			if (data!="true"){
+			  				alert("Something Went Wrong");
+			  				return false
+			  			} else {
+			  				
+			  				
+			  			}
+			  		});
+					
+					
+				})
 
 				});
 		</script>

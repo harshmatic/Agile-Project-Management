@@ -25,14 +25,17 @@ class ProjectManagement(BaseHandler):
             proj=projmodel.get_all()
             currentUser=self.auth.get_user_by_session()
             usermodel = user.OurUser().query(user.OurUser.tenant_key==self.user_model.get_by_id(currentUser['user_id']).tenant_key)
-            self.render_template("project-management-new.html",{"project":proj,"userslist":usermodel,'permission':'success'})
+            self.render_template("user_new/apm-add-project.html",{"project":proj,"userslist":usermodel,'permission':'success'})
+            #self.render_template("user_new/apm-add-project.html")
            
         else:
             #self.response.write("you are not allowed")
-            self.render_template("project-management-new.html",{'not_permitted':'You are not authorized to view this page'})    
+            #self.render_template("apm-add-project.html",{'not_permitted':'You are not authorized to view this page'})    
+            self.render_template("user_new/apm-add-project.html")
 
 
-
+        
+        
 class AddProject(BaseHandler):
         
     
@@ -42,51 +45,51 @@ class AddProject(BaseHandler):
         companyId=self.user_model.get_by_id(currentUser['user_id']).tenant_key
         logging.info(currentUser)
         logging.info(companyId)
-        
+        logging.info(self.request.get("proj_start"))
         projec=project.Project()
-        projec.companyid = companyId
+        projec.companyid = companyId.id()
         projec.name = self.request.get("proj_name")
         projec.description = self.request.get("proj_desc")
         projec.startDate = datetime.strptime(self.request.get("proj_start"), '%d/%m/%Y').date()
         projec.endDate = datetime.strptime(self.request.get("proj_end"), '%d/%m/%Y').date()
-        projec.team = (self.request.get("proj_team")).split(",")
+        #projec.team = (self.request.get("proj_team")).split(",")
         projkey = projec.set()
         #logging.info(projkey)
-        
         estimation = project.Estimation()
         estimation.projectid=projkey
         estimation.estimationLevel="Very Simple"
-        estimation.estimationPoint=int(self.request.get("VsPoint"))
-        estimation.estimationHours=float(self.request.get("VsHour"))
+        estimation.estimationPoint= 1
+        estimation.estimationHours= 1.0
         estimation.set()
         
         estimation = project.Estimation()
         estimation.projectid=projkey
         estimation.estimationLevel="Simple"
-        estimation.estimationPoint=int(self.request.get("SPoint"))
-        estimation.estimationHours=float(self.request.get("SHour"))
+        estimation.estimationPoint= 1
+        estimation.estimationHours= 1.0
         estimation.set()
         
         estimation = project.Estimation()
         estimation.projectid=projkey
         estimation.estimationLevel ="Medium"
-        estimation.estimationPoint=int(self.request.get("MPoint"))
-        estimation.estimationHours=float(self.request.get("MHour"))
+        estimation.estimationPoint= 1
+        estimation.estimationHours= 1.0
         estimation.set()
         
         estimation = project.Estimation()
         estimation.projectid=projkey
         estimation.estimationLevel="Complex"
-        estimation.estimationPoint=int(self.request.get("CPoint"))
-        estimation.estimationHours=float(self.request.get("CHour"))
+        estimation.estimationPoint= 1
+        estimation.estimationHours= 1.0
         estimation.set()
         
         estimation = project.Estimation()
         estimation.projectid=projkey
         estimation.estimationLevel="Very Complex"
-        estimation.estimationPoint=int(self.request.get("VcPoint"))
-        estimation.estimationHours=float(self.request.get("VcHour"))
+        estimation.estimationPoint= 1
+        estimation.estimationHours= 1.0
         estimation.set()
+        
         
         self.response.write("true")
         
