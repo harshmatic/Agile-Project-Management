@@ -55,3 +55,8 @@ src/controller/login.pyc
 *.pyc
 *.pyc
 *.pyc
+*.pyc
+src/controller/login.pyc
+src/controller/__init__.pyc
+*.pyc
+src/model/__init__.pyc
