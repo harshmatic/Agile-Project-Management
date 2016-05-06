@@ -11,7 +11,7 @@ from login import BaseHandler,check_permission
 
 
 class AllBacklogs(BaseHandler):
-    def get(self):
+    def get(self,*args,**kargs):
         
         productBacklog = product_backlog.ProductBacklog()
         productBacklog = productBacklog.get_all()
@@ -31,7 +31,7 @@ class AllBacklogs(BaseHandler):
         self.response.write(json.dumps(list, ensure_ascii=False))
         
 class Backlog(BaseHandler):
-    def get(self):
+    def get(self,*args,**kargs):
         
         id = self.request.get("id")
         productBacklog = product_backlog.ProductBacklog()
@@ -52,7 +52,7 @@ class Backlog(BaseHandler):
         
 class AddBacklog(BaseHandler):
     
-    def get(self):
+    def get(self,*args,**kargs):
         backlog = product_backlog.ProductBacklog()
         backlog.sprintId = self.request.get("spId")
         backlog.storyDesc = self.request.get("spD")
@@ -63,7 +63,7 @@ class AddBacklog(BaseHandler):
         self.response.write(projkey)
         
 class DeleteBacklog(BaseHandler):
-    def get(self):
+    def get(self,*args,**kargs):
         
         id = self.request.get("id")
         pb = product_backlog.ProductBacklog()

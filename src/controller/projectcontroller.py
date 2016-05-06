@@ -19,7 +19,7 @@ from google.appengine.ext import ndb
 from datetime import datetime
 
 class ProjectManagement(BaseHandler):
-    def get(self):
+    def get(self,*args,**kargs):
         if check_permission(self):
             projmodel=project.Project()
             proj=projmodel.get_all()
@@ -36,7 +36,7 @@ class ProjectManagement(BaseHandler):
 class AddProject(BaseHandler):
         
     
-    def post(self):
+    def post(self,*args,**kargs):
         logging.info("it is here "+self.request.__str__())
         currentUser=self.auth.get_user_by_session()
         companyId=self.user_model.get_by_id(currentUser['user_id']).tenant_key
@@ -91,7 +91,7 @@ class AddProject(BaseHandler):
         self.response.write("true")
         
 class GetTeamMembersForProject(BaseHandler):
-    def get(self):
+    def get(self,*args,**kargs):
        
         projectkey = ndb.Key(urlsafe=self.request.get("key"))
         project = projectkey.get()
@@ -99,7 +99,7 @@ class GetTeamMembersForProject(BaseHandler):
         self.render_template("viewteammembers.html",{"project":project})
         
 class EditProject(BaseHandler):
-    def get(self):
+    def get(self,*args,**kargs):
        
       
         projectkey = ndb.Key(urlsafe=self.request.get("key"))
