@@ -40,8 +40,9 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/backlog/getallbacklog', AllBacklogs,name='getbacklog'),
         webapp2.Route('/backlog/getbacklog', Backlog,name='getbacklog'),
         webapp2.Route('/backlog/deletebacklog', DeleteBacklog,name='deletebacklg'),
-        webapp2.Route('/checkdomain', Domain,name="checkdomain")
+        
     ]),
+        webapp2.Route('/checkdomain', CheckDomain,name="checkdomain"),
         webapp2.Route('/login', LoginBaseHandler, name='loginbase'),
         webapp2.Route('/logout', LogoutHandler, name='logout'),
         webapp2.Route('/', SignupUser, name='home'),
