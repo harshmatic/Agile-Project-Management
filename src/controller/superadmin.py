@@ -239,29 +239,7 @@ class SuperAdminEditUser(BaseHandler):
                         
             self.response.write("true")            
                         
-            
-#             user_db=user.OurUser()
-#             user_db.
-#             logging.info(key)
-#             
-#             for user_key in user_db:
-#                # logging.info(user_key.key.urlsafe)
-#           
-#                 
-#                 if user_key.key.urlsafe ==  key:
-#                         user_key.user_name = self.request.get('email')
-#                         user_key.email = self.request.get('email')
-#                         user_key.name = self.request.get('first_name')
-#                         user_key.last_name = self.request.get('last_name')
-#                         user_key.designation = self.request.get('designation')
-#                         user_key.empid=self.request.get('emp_id')
-#                         user_key.contact=self.request.get('contact_no') 
-#             
-#                         user_key.put()
-#              
-#                         self.response.write("true")
-#              
- 
+
  
 class SuperAdminDeleteUser (BaseHandler):  
      def get(self):

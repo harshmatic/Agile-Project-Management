@@ -181,7 +181,7 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
         
     def post(self,*args,**kargs):
         
-        
+        currentUser=self.auth.get_user_by_session()
         submit=self.request.get('add_user')
         logging.info('submit:'+submit)
         
@@ -197,29 +197,12 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
         contact=self.request.get('contact_no')
         password = name+empid
        
-        
-     #   upload = self.get_uploads()[0]
-        #upload= upload[0]
-        
-       
-          
-          
-        self.response.write("true")    
-          
-      #  logging.info("hello")
-     #   logging.info(upload)
-     #   logging.info("hi")
-        
-        
-     #   blob_key=upload.key()
-        
-        #logging.info(upload)
-        
-        
+        company_domain=self.user_model.get_by_id(currentUser['user_id']).tenant_domain
+        company_key=self.user_model.get_by_id(currentUser['user_id']).tenant_key
         #unique_properties = ['email_address']
         user_data = self.user_model.create_user(user_name,
-            email_address=email, name=name, password_raw=password,designation=designation,empid=empid,contact=contact,
-            last_name=last_name,role=role, verified=False)
+        email_address=email, name=name, password_raw=password,designation=designation,empid=empid,contact=contact,
+        last_name=last_name,role=role,tenant_key=company_key,tenant_domain=company_domain, verified=False)
         if not user_data[0]: #user_data is a tuple
             self.response.write('User already exists with the same name')
             return
@@ -256,4 +239,50 @@ class ViewPhotoHandler(blobstore_handlers.BlobstoreDownloadHandler):
             self.send_blob(self.request.get('photo_key'))
 
 
-        
+class AdminEditUser(BaseHandler):
+        def get(self,*args,**kargs):
+            key = ndb.Key(urlsafe=self.request.get('edit_key'))
+            user_info=key.get()
+            logging.info(user_info)
+            self.render_template("admin/edit_user.html",{"user_info":user_info})
+
+            
+            
+        def post(self,*args,**kargs):
+            
+#             tenant_domain = self.request.get('company_domain')
+#             tenant_name = self.request.get('company_name')
+#             tenant = model.user.Tenant()
+#             tenant.name = tenant_name
+#             tenant.domain = tenant_domain
+#             tenant.created_by = self.request.get('email')
+#             tenant_key_added = tenant.put()
+            
+            key= ndb.Key(urlsafe=self.request.get('key'))
+            user_key=key.get()
+            
+            user_key.user_name = self.request.get('email')
+            user_key.email = self.request.get('email')
+            user_key.name = self.request.get('first_name')
+            user_key.last_name = self.request.get('last_name')
+            user_key.designation = self.request.get('designation')
+            user_key.empid=self.request.get('emp_id')
+            user_key.contact=self.request.get('contact_no') 
+            
+            user_key.put()
+                        
+            self.response.write("true")            
+                        
+
+ 
+class AdminDeleteUser(BaseHandler):  
+        def get(self,*args,**kargs):
+            key = ndb.Key(urlsafe=self.request.get('delete_key'))
+            user_info = key.get()
+            logging.info(user_info)
+            self.render_template("admin/delete_user.html",{"user_info":user_info})
+         
+        def post(self,*args,**kargs):
+            user_key= ndb.Key(urlsafe=self.request.get('delete_key'))
+            user_key.delete()  
+            self.response.write("true")                 

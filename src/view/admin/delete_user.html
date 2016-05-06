@@ -1,0 +1,118 @@
+<script>
+		
+$("#delete_user").on("click",function(){
+	$.post( "/admin/deleteuser", $("#delete_form").serialize())
+		.done(function( data ) {
+			if (data!="true"){
+				alert("User cannot be deleted");
+				return false
+			} else {
+				
+				alert("User deleted successfully");
+				
+			}
+		});
+		
+		
+			
+		})
+	</script>			
+
+
+	<form role="form" id="delete_form" enctype="multipart/form-data">
+				
+				
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading" style="color:black;">Edit User</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								
+								<div class="col-md-10">
+										
+									
+										
+											<!-- First Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">First Name :</label>
+												<label class="task-label">{{user_info.name}}</label>
+											  </div>
+										
+										    <!-- Last Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Last Name :</label>
+												<label class="task-label">{{user_info.last_name}}</label>
+												  </div>
+											  
+											   <!-- Email --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Email :</label>
+												<label class="task-label">{{user_info.email_address}}</label>
+													  </div>
+											  
+											   <!-- Designation --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Designation :</label>
+													<label class="task-label">{{user_info.designation}}</label>
+												
+											  </div>
+											  
+											  <!-- Employee ID --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Employee ID :</label>
+													<label class="task-label">{{user_info.empid}}</label>
+												
+											  </div>
+											  
+											 <!-- Company Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Company Name :</label>
+												<label class="task-label">{{user_info.tenant_key.get.name}}</label>
+												
+											  </div>
+											  
+											  
+											  <!-- Domain --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Domain :</label>
+												<label class="task-label">{{user_info.tenant_key.get.domain}}</label>
+																					  </div> 
+											  
+											 
+											 
+											  
+											  <!-- Contact No --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Contact No. : </label>
+												<label class="task-label">{{user_info.contact}}</label>
+											 </div>
+											  
+											  <!-- Permissions/Role --> 
+											<!--   <div class="form-group task-form-group">
+												<label class="task-label">Assign Role</label>
+												<select class="form-control add-task-textbox" name="role">
+													
+													{% for role in roles %}
+													<option value="{{role.key.urlsafe}}">{{role.role}}</option>
+													{% endfor %}
+												
+													<!-- <option>Admin</option>
+													<option>User</option>
+												</select>
+											  </div>
+											-->  
+											<input type="hidden" id="key" name="delete_key" value="{{user_info.key.urlsafe}}">
+								</div>	
+								<div class="col-md-1">
+								</div>		
+							</div>
+						
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<input type="submit" class="add-task-btn-modal" data-dismiss="modal" id="delete_user" value="Delete">
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</button>
+				  </div>
+	</form>			

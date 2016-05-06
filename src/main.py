@@ -41,6 +41,12 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/backlog/getbacklog', Backlog,name='getbacklog'),
         webapp2.Route('/backlog/deletebacklog', DeleteBacklog,name='deletebacklg'),
         
+        webapp2.Route('/admin/edit', AdminEditUser),
+        webapp2.Route('/admin/deleteuser', AdminDeleteUser),
+        webapp2.Route('/profile', EndUserProfile),
+        webapp2.Route('/img', EndUserProfile),
+        webapp2.Route('/view_photo', UserViewPhotoHandler)
+        
     ]),
         webapp2.Route('/checkdomain', CheckDomain,name="checkdomain"),
         webapp2.Route('/login', LoginBaseHandler, name='loginbase'),

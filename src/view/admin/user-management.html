@@ -41,7 +41,7 @@
                $(this).show();                
         });
     	}); 
-		$(".delete").on("click",function(){
+	/* 	$(".delete").on("click",function(){
 			
 			var r = confirm("This will delete the user permenantly ?");
 			if(r){
@@ -84,7 +84,7 @@
 				return false
 			}
 			
-		})
+		}) */
 		$(".verify").on("click",function(){
 			key = $(this).attr("id");
 				$.post("/admin/verify?key_user="+key)
@@ -117,11 +117,11 @@
 			/*******For Multiple select ends **************/
 			
 			
-			/*
+		
 			$(".add-user-btn").click(function(e) {
 				$('#add-user-modal').modal('show');
 			});
-			*/
+			
 			
 			
 			$(".messages-main-box").niceScroll();
@@ -307,7 +307,7 @@
 										<img src="../assets/img/user.png" name="{{user.name}}>
 										<span class="caret"></span></a>
 										<ul class="dropdown-menu menu-user menu-responsive">
-										  <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+										  <li><a href="/profile"><i class="fa fa-user"></i> Profile</a></li>
 										  <li class="dropdown-submenu">
 													
 													<a href="#"><i class="fa fa-caret-left arrow-left"></i><i class="fa fa-cog"></i> Settings</a>
@@ -405,7 +405,7 @@
 										<span class="caret"></span></a>
 										
 										<ul class="dropdown-menu multi-level menu-user">
-										  <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+										  <li><a href="/profile"><i class="fa fa-user"></i> Profile</a></li>
 									      <li class="dropdown-submenu">
 													<a href="#"><i class="fa fa-caret-left arrow-left"></i><i class="fa fa-cog"></i> Settings</a>
 													<ul class="dropdown-menu submenu-list">
@@ -460,7 +460,9 @@
 									
 									<h2 class="user-management-heading"><i class="fa fa-users user-management-head-icon"></i>User Management</h2>
 									
-									<a href="/admin/signup"><button class="add-user-btn pro-button">Add user</button></a>
+									<!-- <a href="/admin/signup"></a>-->
+									<button class="add-user-btn pro-button">Add user</button>
+								
 								</div>
 							
 								<div class="panel panel-default task-main-panel">
@@ -499,8 +501,9 @@
 												<td>{{user1.empid}}</td>
 												<td class="roll-td"><i>{{user1.role.get.role}}</i></td>
 												<td>{% if user1.verified%}Yes{%else%} No <a href="#" id="{{user1.key.urlsafe}}" class="verify">Verify</a> {%endif%}</td>
-												<td><i class="fa fa-pencil user-management-edit-icon edit" aria-hidden="true" title="Edit User"  id="{{user1.key.urlsafe}}"></i></td>
-												<td><i class="fa fa-trash user-management-delete-icon delete" aria-hidden="true" title="Delete User"  id="{{user1.key.urlsafe}}"></i></td>
+												<td><a href="/admin/edit?edit_key={{user1.key.urlsafe}}" data-toggle="modal" data-target="#edit-user-modal"><i class="fa fa-pencil user-management-edit-icon edit" aria-hidden="true" title="Edit User"  id="{{user1.key.urlsafe}}"></i></a></td>
+												<td><a href="/admin/deleteuser?delete_key={{user1.key.urlsafe}}" data-toggle="modal" data-target="#delete-user-modal"><i class="fa fa-trash user-management-delete-icon delete" aria-hidden="true" title="Delete User"  id="{{user1.key.urlsafe}}"></i></a></td>
+
 											  </tr>
 											{%endfor%} 
 											</tbody>
@@ -532,7 +535,7 @@
 				  </div>
 				  
 				  <!-- for profile image -->
-				  <div class="modal-body user-management-body">
+				<!--   <div class="modal-body user-management-body">
 				  	<div class="row">
 				  		   <div class="col-md-1">
 								</div>
@@ -550,7 +553,7 @@
 				  	<div class="col-md-1">
 								</div>	
 				   </div>
-				  </div>
+				  </div> -->
 				  
 				  
 				  <!-- for whole add user -->
@@ -574,22 +577,6 @@
 												<input type="text" class="form-control add-task-textbox" name="email">
 											  </div>
 											  
-											 
-										
-											  <!-- Profile Picture --> 
-											  
-										  <div class="form-group task-form-group">
-												<label class="task-label">Upload Profile Image</label>
-		 											<input type="file" id="file" name="file"><br>
-													<input type="submit" id="upload" name="upload" value="upload">
-													<input type="hidden" value="{{upload_url}}" id="image_url">
-											 </div>
-											 
-										
-										
-											  
-											  
-										  
 											  
 											  <!-- First Name --> 
 											  <div class="form-group task-form-group">
@@ -621,7 +608,9 @@
 												<select class="form-control add-task-textbox" name="role">
 													
 													{% for role in roles %}
+													
 													<option value="{{role.key.urlsafe}}">{{role.role}}</option>
+												
 													{% endfor %}
 												
 													<!-- <option>Admin</option>
@@ -646,6 +635,37 @@
 			  </div>
 			</div>
 	<!-- Add Task Modal Ends -->
+	
+	
+	<!-- Edit Task Modal Starts -->
+			<div id="edit-user-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				
+				</div>
+
+			  </div>
+			</div>
+	<!-- Edit Task Modal Ends -->
+	
+	
+	<!-- Delete Task Modal Starts -->
+			<div id="delete-user-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				
+				
+				
+				 
+				</div>
+
+			  </div>
+			</div>
+	<!-- Delete Task Modal Ends -->
 
 	</body>
 </html>
