@@ -141,7 +141,12 @@ class DashboardHandler(BaseHandler):
             self.render_template("main.html")
         else:
             self.response.write("you are not allowed")
-
+class BaseHtml(BaseHandler):
+    def get(self,*args,**kargs):
+            self.render_template("admin_new/base.html")
+class BaseHtmlTest(BaseHandler):
+    def get(self,*args,**kargs):
+            self.render_template("admin_new/test_base.html")
 class SignupUser(BaseHandler):
     def get(self,*args,**kargs):
         role=model.user.Groups()

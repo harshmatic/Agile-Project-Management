@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Admin|Test{% endblock %}
+
+{% block content %}
+<!-- Main Page content starts -->	
+						
+						<div class="main-box">
+							<div class="col-md-12">
+							
+								
+							
+								<!-- Admin permissions table starts -->
+								<div class="permissions-container" id="permissions_container">
+							
+									<div class="col-md-12 permission-box">
+										<div class="panel panel-default login-panel">
+											
+											<div class="panel-body login-panel-body">
+												<div class="table-responsive">
+												<form id="edit_permissions" > 
+														<table class="table permission-table table-striped">
+															<thead>
+															  <tr>	
+																<th></th>
+																{% for role in role %}
+																<th><a href="/admin/editrole?key={{role.key.urlsafe}}" class="roll-link" data-toggle="modal" data-target="#edit-role-modal">{{role.role}}</a></th>
+																{% endfor %}
+															  </tr>
+															</thead>
+															<tbody>
+															  <tr>
+																<td>
+																	<a href="#" class="permission-link">All</a>
+																</td>
+																{% for role in role %}
+																<td><input type="checkbox" id="checkbox12" class="css-checkbox sme" value="{{role.key.urlsafe}}<!>All" name="permissions"/>
+																	<label for="checkbox12" name="checkbox69_lbl" class="css-label sme depressed"></label>
+																</td>
+																{% endfor %}
+																
+															  </tr>	
+															  {% for perm in perm %}
+															  <tr>
+																<td>
+																	{{perm.permission}} ({{perm.url}})
+																</td>
+																{% for role in role %}
+																<td>
+																{% if perm.key in role.permissions%}
+																<input type="checkbox" id="checkbox22" class="css-checkbox sme" value="{{role.key.urlsafe}}<!>{{perm.key.urlsafe}}" checked name="permissions"/>
+																
+																{% else %}
+																<input type="checkbox" id="checkbox22" class="css-checkbox sme" value="{{role.key.urlsafe}}<!>{{perm.key.urlsafe}}" name="permissions"/>
+																{%endif%}
+																<label for="checkbox22" name="checkbox69_lbl" class="css-label sme depressed"></label>
+																</td>
+																{% endfor %}
+													  </tr>	
+													  {% endfor %}
+															 
+															</tbody>
+														</table>
+												</div>
+												</form>
+												<div class="update-permission-box">
+													<button class="update-permission-btn pro-button" id="submit_permissions">Submit</button>
+												</div>
+												
+												
+											</div> <!-- .login-panel-body ENDS -->
+										</div> <!-- .login-panel ENDS -->
+									</div> <!-- .col-md-10 ENDS -->
+							
+								</div>	
+							<!-- Admin permissions table ENDS -->
+								
+							</div>
+							
+						</div>
+						
+						<!-- Main Page content ENDS -->	
+
+{% endblock %}

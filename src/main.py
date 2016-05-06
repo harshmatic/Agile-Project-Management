@@ -49,6 +49,8 @@ app = webapp2.WSGIApplication([
         
     ]),
         webapp2.Route('/checkdomain', CheckDomain,name="checkdomain"),
+        webapp2.Route('/basehtml', BaseHtml,name="basehtml"),
+        webapp2.Route('/basehtmltest', BaseHtmlTest,name="basehtmltest"),
         webapp2.Route('/login', LoginBaseHandler, name='loginbase'),
         webapp2.Route('/logout', LogoutHandler, name='logout'),
         webapp2.Route('/', SignupUser, name='home'),

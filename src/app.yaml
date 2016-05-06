@@ -6,6 +6,8 @@ threadsafe: yes
 handlers:
 - url: /assets
   static_dir: assets
+- url: /assets_new
+  static_dir: assets_new
 - url: /superadmin/.*
   script: superadmin.app
   login: admin
