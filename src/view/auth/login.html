@@ -1,5 +1,174 @@
 <html>
 	<head>
+		<title>Login</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		
+		<link rel="stylesheet" href="../assets_new/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../assets_new/css/style.css">
+		<link rel="stylesheet" href="../assets_new/css/sidebar-test.css">
+		<link rel="stylesheet" href="../assets_new/css/button.css">
+		
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway">
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="../assets_new/js/bootstrap.min.js"></script>
+		<script src="../assets_new/js/nice-scroll.js"></script>
+		<script src="../assets_new/js/button.js"></script>
+		<script src="../assets_new/js/jquery.validate.min.js"></script>
+		
+
+		
+		<script>
+		
+		$(document).ready(function() {
+		
+			$("#login_form").validate({
+				  rules: {
+					  username: {
+				      required: true,
+				      email: true
+				    },
+				    
+				    password:{
+				    	required:true
+				    	
+				    }
+				    
+				  },
+				  messages: {
+					  username: {
+						  required: "Please enter email id"
+				    
+				    },
+				    password:{
+					  required:"Please enter password"
+				  }
+				 
+				  }
+				});	
+	
+			
+		});
+		
+		</script>
+		<style>
+			.login-textbox{
+				font-family: FontAwesome, "Raleway";
+				
+			}
+			
+			
+		label[for=username]
+			{
+    
+    			color: red;
+    			margin-top: -34px;
+			}
+			label[for=password]
+			{
+    
+    			color: red;
+    			margin-top: -31px;
+			}
+			#error
+			{
+			color: red;
+			}
+	
+			
+		</style>
+	
+	</head>
+	
+	<body>
+		<div id="wrapper">
+	
+		
+		
+	<!-- Page Content -->
+       <div id="page-content-wrapper">
+		
+						
+						
+						<section class="top-main-section">
+							 <!-- Static navbar -->
+							  <nav class="navbar navbar-default navbar-pro-management">
+								<div class="container-fluid">
+								  <div class="navbar-header">
+									
+									<a class="navbar-brand" href="#">
+										
+										<img src="../assets_new/img/eternus.png" class="logo-img">
+									</a>
+								  </div>
+								  
+								</div><!--/.container-fluid -->
+							  </nav>
+
+						</section>	
+					
+						<!-- Main Page content starts -->	
+						
+						<div class="container login-container">
+							<div class="col-md-3">
+							</div>
+							<div class="col-md-6">
+								<div class="panel panel-default login-panel">
+									<div class="panel-heading main-box-panel-heading login-panel-heading red-panel-heading">
+										Login
+									</div>
+									<div class="panel-body login-panel-body">
+										<div class="col-md-1">
+										</div>
+										
+										<div class="col-md-10">
+										
+										<form method="post" action="/login" name="login_form" id="login_form">
+																			
+										
+												<!-- Username -->
+												<input type="text" class="form-control search-field project-management-textbox login-textbox" name="username" placeholder="&#xf007 Username">
+											
+												<!-- Password -->
+												<input type="password" class="form-control search-field project-management-textbox login-textbox" name="password" placeholder="&#xf13e; Password">
+											<input type="submit" class="login-btn pro-button"value="Login">
+											<!-- 	<button class="login-btn pro-button">Login</button>-->
+										</form>			
+												<!-- Forgot Password -->
+												<div class="forget-pass-div">
+													<a href="/forgot">Forgot Password?</a>
+												</div>
+										
+										</div>
+										
+										<div class="col-md-1">
+										</div>
+										
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3">
+							</div>
+						</div>
+						
+						<!-- Main Page content ENDS -->	
+						
+		</div> <!-- Page content Wrapper ends -->		
+	</div> <!-- Wrapper ends -->	
+	</body>
+</html>
+
+
+
+
+
+
+
+<!-- <html>
+	<head>
 		{% include "head.html" %}
 		<title>Login</title>
 		
@@ -64,7 +233,7 @@
 	
 	<body>
 		<div id="wrapper">
-	<!-- Page Content -->
+	Page Content
        <div id="page-content-wrapper">
 		{%for param in params%}
 			{% if param.failed%}
@@ -74,7 +243,7 @@
 						
 						
 						<section class="top-main-section">
-							 <!-- Static navbar -->
+							 Static navbar
 							  <nav class="navbar navbar-default navbar-pro-management">
 								<div class="container-fluid">
 								  <div class="navbar-header">
@@ -85,12 +254,12 @@
 									</a>
 								  </div>
 								  
-								</div><!--/.container-fluid -->
+								</div>/.container-fluid
 							  </nav>
 
 						</section>	
 					
-						<!-- Main Page content starts -->	
+						Main Page content starts	
 						
 						<div class="container login-container">
 							<div class="col-md-3">
@@ -110,17 +279,17 @@
 										<div id="error"></div>
 										
 										<form method="post" action="/login" name="login_form" id="login_form">
-												<!-- Username -->
+												Username
 												<i class="fa fa-user login-user-icon" style="top: 0%;"></i><input type="text" name="username" class="form-control search-field project-management-textbox login-textbox" placeholder="Username">
 												
-												<!-- Password -->
+												Password
 												<i class="fa fa-lock login-lock-icon"></i><input type="password" name="password" class="form-control search-field project-management-textbox login-textbox" placeholder="Password">
 												
 												
 												<input type="submit" class="login-btn pro-button" value="Login">
 											
 										</form>	
-												<!-- Forgot Password -->
+												Forgot Password
 												<div class="forget-pass-div">
 													<a href="/forgot">Forgot Password ??</a>
 												</div>
@@ -138,9 +307,9 @@
 							</div>
 						</div>
 						
-						<!-- Main Page content ENDS -->	
+						Main Page content ENDS	
 						
-		</div> <!-- Page content Wrapper ends -->		
-	</div> <!-- Wrapper ends -->	
+		</div> Page content Wrapper ends		
+	</div> Wrapper ends	
 	</body>
-</html>
+</html> -->
