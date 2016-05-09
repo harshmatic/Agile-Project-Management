@@ -415,7 +415,7 @@
     padding: 15px;
 }
 .apm-all-proj-table a{
-	color:#3978BF!important;
+	color:#3978BF;
 	font-weight:600!important;
 }
 .apm-all-proj-table a:focus, .apm-all-proj-table a:active, .apm-all-proj-table a:visited{
@@ -440,14 +440,104 @@
 	text-align:right;
 	margin-bottom:20px;
 }
+
 /************** For All Projects page ENDS *****************/
+
+
+/************** For Project Details page STARTS *****************/
+.apm-proj-detail-label{
+	font-size: 13px;
+    color: #000;
+    font-family: Raleway;
+    font-weight: 600;
+    letter-spacing: 1px;
+    
+}
+.apm-proj-detail-info{
+	font-size: 13px;
+    color: #000;
+    font-family: Raleway;
+    font-weight: 500;
+    letter-spacing: 1px;
+    
+}
+@media (max-width: 767px){
+	.apm-all-reports-heading {
+        font-size: 16px;
+	}	
+}
+.apm-backbtn-pro-details{
+	font-family: Raleway;
+    font-weight: 600;
+    letter-spacing: 1px;
+	font-size:13px;
+}
+/************** For Project Details page ENDS *****************/
+
+/************** For Admin Project permission page starts *****************/
+.apm-admin-permission-table input[type=checkbox]{
+	cursor:pointer;
+}
+.add-role-modal-box .checkbox{
+	font-family: Raleway;
+}
+.apm-modal-textbox{
+	font-size: 12px!important;
+    height: 28px!important;
+}
+.roll-link, .roll-link:visited, .roll-link:active, .roll-link:focus{
+	color:#fff!important;
+	cursor:pointer;
+}
+.permission-link, .permission-link:visited, .permission-link:active, .permission-link:focus{
+	color:#000!important;
+	cursor:pointer;
+}
+/************** For Admin Project permission page ENDS *****************/
+
+
+/************** For Admin User Management page starts *****************/
+.apm-listing-add-user-box{
+	margin-top: -38px;
+	margin-bottom:0!important;
+}
+/************** For Admin User Management page ENDS *****************/
+
+
+/************** For BACKLOGS page STARTS *****************/
+.backlog-filter-icon{
+	margin-right:6px;
+}
+.apm-backlog-filter-box{
+	float: right;
+    margin-top: -34px;
+}
+.apm-backlog-filter-dropdown{
+	display:inline;
+}
+@media (max-width: 600px){
+	.apm-backlog-filter-box{
+		float: none;
+		margin-top: 0px;
+	}
+}
+.apm-backlog-filter-dropdown .dropdown-menu {
+    margin-left: 0px!important;
+    margin-top: 11px!important;
+}
+.apm-backlog-filter-dropdown button{
+	border-color:transparent!important;
+	outline:none;
+}
+/************** For BACKLOGS page ENDS *****************/
+
 
 
 
 /************************ Styles according to new designs ENDS *******************************/
 
 body{
-	font-family: ProximaNova-Regular,helvetica,arial,sans-serif;
+	font-family: Arial;
 	overflow-x:hidden;
 	font-weight:normal;
 }
@@ -455,16 +545,15 @@ body{
 	background:#fff;
 }
 .navbar-pro-management{
-	min-height:80px;
-	padding:15px;
+	/*min-height:80px;
+	padding:15px;*/
 	border-radius:0!important;
 	border-top:0px;
 	border-right:0px;
 	border-left:0px;
-	/*border-bottom:1px solid #f5f5f5;*/
 	box-shadow: -4px -3px 12px 0px rgb(161, 161, 161);
 	-webkit-box-shadow: -4px -3px 12px 0px rgb(161, 161, 161);
-	background:#fff!important;
+	background:#3978BF!important
 }
 .navbar-brand {
 	padding:0;
@@ -827,14 +916,14 @@ body{
 .project-management-textbox{
 	font-size:12px;
 	letter-spacing:2px;
-	border-bottom:3px solid #ccc;
+	border-bottom:2px solid #ccc;
 	box-shadow:none!important;
 	border-radius:0!important;
 }
 .project-management-textbox:focus{
 	
 	/*border-bottom:4px solid #ED1B23!important;*/
-	border-color:#FF5B61!important;
+	border-color:#3978BF!important
 }
 
 /************************ LOGIN Screen styles starts **************************/
@@ -852,8 +941,8 @@ body{
 	}	
 }
 .login-panel-heading{
-	text-align:center;
-	font-size: 18px;
+	text-align: center;
+    font-size: 15px;
     letter-spacing: 3px;
 }
 .login-textbox{
@@ -864,13 +953,13 @@ body{
 	position: absolute;
     margin-top: 30px;
     margin-left: 9px;
-    color: #FF5B61!important;
+    color: #3978BF!important
 }
 .login-lock-icon{
 	position: absolute;
     margin-top: 12px;
     margin-left: 10px;
-    color: #FF5B61!important;
+    color: #3978BF!important
 }
 @media (max-width: 991px){
 	.login-user-icon {
@@ -883,19 +972,19 @@ body{
 	
 }
 .forget-pass-div a{
-	color: #FF5B61!important;
+	color: #3978BF!important;
 	font-weight:bold;
 	letter-spacing:1px;
 	font-size:13px;
 }
 .login-btn{
     width: 100%;
-	border: 2px solid #FF5B61!important;
+	border: 2px solid #3978BF!important;
 	color:#fff!important;
 	letter-spacing:1px;
 	padding: 10px;
 	transition: all 0.3s ease-out;
-	background:#FF5B61!important;
+	background:#3978BF!important;
 	outline:none!important;
 }
 .login-btn:hover{
@@ -911,11 +1000,11 @@ body{
 .change-pass-btn {
     margin-top: -3px;
     width: 100%;
-    border: 2px solid #FF5B61!important;
+    border: 2px solid #3978BF!important;
     letter-spacing: 1px;
     padding: 10px;
     transition: all 0.3s ease-out;
-    background:#FF5B61!important;
+    background:#3978BF!important;
 	color:#fff!important;
 	outline:none!important;
 }
@@ -954,7 +1043,7 @@ body{
     margin-bottom: 25px;
 }
 .register-main-heading{
-	color:#FF5B61;
+	color:#3978BF!important;
 	font-weight:bold;
 	letter-spacing:2px;
 	margin-bottom: 30px;
@@ -974,11 +1063,11 @@ body{
     line-height: 1.8em;
 }
 .register-btn{
-    border: 2px solid #FF5B61!important;
+    border: 2px solid #3978BF!important;
     letter-spacing: 1px;
     padding: 8px 40px;
     transition: all 0.3s ease-out;
-    background:#FF5B61!important;
+    background:#3978BF!important;
 	color:#fff!important;
 	outline:none!important;
 	margin-bottom:40px;
@@ -1057,7 +1146,7 @@ body{
 
 /************************ PERMISSIONS Screen styles Ends **************************/
 .red-panel-heading{
-	background:#FF5B61!important;
+	background:#3978BF!important;
 	color:#fff!important;
 }
 
@@ -1144,9 +1233,10 @@ div.Tokenize {
 .task-label{
 	font-size:13px;
 	letter-spacing:2px;
+	font-family:raleway;
 }
 .task-form-group{
-	margin-bottom:26px!important;
+	margin-bottom:12px!important;
 }
 .add-task-textbox{
 	box-shadow:none!important;
@@ -1155,7 +1245,7 @@ div.Tokenize {
 	font-size:13px;
 }
 .add-task-textbox:focus{
-	border-color:#000!important;
+	border-color:grey!important;
 }
 .add-task-modal-heading{
 	font-size: 16px;
@@ -1208,6 +1298,7 @@ div.Tokenize {
     background: #3978BF!important;
     color: #fff!important;
     outline: none!important;
+	font-family: Raleway;
 }
 .cancel-task-btn-modal{
     margin-left:13px;
@@ -1215,6 +1306,7 @@ div.Tokenize {
 	font-size:12px;
 	letter-spacing:1px;
 	font-weight:bold;
+	font-family: Raleway;
 }
 /************************ TASKS Screen styles Ends **************************/
 #menu-toggle img{

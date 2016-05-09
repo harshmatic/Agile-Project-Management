@@ -1,6 +1,6 @@
 body{
-	font-family:Muli;
-	font-weight:bold;
+	font-family:Arial;
+	
 }
 .admin-label{
 	font-size: 18px;
@@ -12,9 +12,11 @@ body{
 
 /****************** User Management Styles starts ************************/
 .search-field-box-admin{
-	text-align:right;
-	margin-right: 0px!important;
-	margin-top: -6px!important;
+	text-align: right;
+    margin-right: 0px!important;
+    margin-top: 2px!important;
+    margin-bottom: 20px;
+	font-family:Raleway;
 }
 .search-field-admin-textbox{
 	width: 200px;
