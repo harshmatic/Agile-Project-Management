@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>{% block title%}Admin- Dashboard {% endblock %}</title>
+		<title>{% block title%}User- Dashboard {% endblock %}</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 		
@@ -16,89 +16,10 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 		
 		<style>
-			.apm-nav-brand{
-				padding-top: 14px;
-				margin-left: 10px;
-				letter-spacing: 1px;
-				font-size: 18px;
-				color:#fff!important;
-			}
-			#menu-toggle-2{
-				float: left;
-				margin: 11px 12px;
-				color: #fff;
-				cursor:pointer;
-			}
-			.nav-apm{
-				background:#3978BF;
-				border:none;
-				border-radius:0;
-			}
-			.nav-pills>li>a {
-				border-radius: 0;
-			}
-			.apm-search-textbox{
-				padding-top:8px;
-			}
-			.apm-panel-heading{
-				padding:5px 15px;
-				background:#3978BF!important;
-				color:#fff!important;
-				border-radius:0!important;
-			}
-			.apm-para{
-				margin:0;
-				padding:10px 0px;
-			}
-			.apm-all-reports-heading{
-				margin-top: 10px;
-				margin-bottom: 10px;
-				font-size: 20px;
-				letter-spacing: 1px;
-				line-height: 1.2em;
-			}
-			.apm-numbox-dashboard{
-				padding:20px;
-				height:150px;
-				border:1px solid transparent;
-				text-align:right;
-			}
-			.apm-numbox-1{
-				background:#3598DC;
-			}
-			.apm-numbox-2{
-				background:#E7505A;
-			}
-			.apm-numbox-3{
-				background:#32C5D2;
-			}
-			.apm-numbox-4{
-				background:#8E44AD;
-			}
-			.apm-numbox-row{
-				margin-bottom:30px;
-			}
-			.apm-panel-body{
-				background:#f8f8f8;
-			}
-			.apm-numbox-heading{
-				font-size: 50px;
-				color:#fff;
-			}
-			.apm-numbox-label{
-				color:#fff;
-				font-size: 18px;
-				letter-spacing:1px;
-				font-weight: 500;
-			}
-			@media (max-width: 767px){
-				.apm-numbox-dashboard{
-					margin-bottom:20px;
-				}
-			}
+			
 		</style>
 		
-	{% block header_links%}{% endblock %}	
+		{% block header_links%}{% endblock %}
 	</head>
 <body>
     <nav class="navbar navbar-default no-margin nav-apm">
@@ -107,12 +28,18 @@
                     
 					<!-- Menu Toggle -->
 					<i class="fa fa-bars fa-2x collapse in" data-toggle="collapse" id="menu-toggle-2" aria-hidden="true"></i>
-				
+					
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".apm-navbar" aria-expanded="false" aria-controls="navbar">
+					  <span class="sr-only">Toggle navigation</span>
+					  <span class="icon-bar"></span>
+					  <span class="icon-bar"></span>
+					  <span class="icon-bar"></span>
+					</button>
                     <a class="navbar-brand apm-nav-brand" href="#">APM</a>
 					
                 </div><!-- navbar-header-->
  
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <div class="collapse navbar-collapse apm-navbar" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
                                 <li class="dropdown">
 										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -163,6 +90,7 @@
 										<i class="fa fa-user fa-3x"></i></a>
 										
 										<ul class="dropdown-menu multi-level menu-user">
+										  <li><a href="#"><i class="fa fa-user"></i> Hi , {{user.name}}</a></li>
 										  <li><a href="#"><i class="fa fa-refresh"></i> Switch Role</a></li>
 										  <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
 									      <li class="dropdown-submenu">
@@ -196,32 +124,61 @@
 						
 					</li>
 					<li>
-						<a href="#" class="sidebar-main-list-name"><i class="fa fa-user side-font-icons" aria-hidden="true"></i> User Management</a>
-						
+						<a class="sidebar-main-list-name pro-planning-link" data-toggle="collapse" data-parent="" href="#collapseOne"><i class="fa fa-list"></i> Project Planning <span class="caret sidebar-caret"></span></a>
+						<div id="collapseOne" class="panel-collapse collapse">
+							<div class="panel-body sidebar-list-panel">
+								<ul class="sidebar-list" style="display:block!important;">
+									<li>
+										<a href="#" class="sidebar-list-sub-item">Projects</a>
+									</li>
+									<li>
+										<a href="#" class="sidebar-list-sub-item">Release</a>
+									</li>
+									<li>
+										<a href="#" class="sidebar-list-sub-item">Backlog</a>
+									</li>
+								</ul>
+							</div>
+						</div>
 					</li>
 					<li>
-						<a href="#" class="sidebar-main-list-name"><i class="fa fa-briefcase side-font-icons" aria-hidden="true"></i> Roles</a>
+						<a class="sidebar-main-list-name pro-planning-link" data-toggle="collapse" data-parent="" href="#collapseTwo"><i class="fa fa-list"></i> Sprint Planning <span class="caret sidebar-caret"></span></a>
+						<div id="collapseTwo" class="panel-collapse collapse">
+							<div class="panel-body sidebar-list-panel">
+								<ul class="sidebar-list" style="display:block!important;">
+									<li>
+										<a href="#" class="sidebar-list-sub-item">Effort Estimation</a>
+									</li>
+									<li>
+										<a href="#" class="sidebar-list-sub-item">Sprint Items</a>
+									</li>
+								</ul>
+							</div>
+						</div>
 					</li>
 					<li>
-						<a href="#" class="sidebar-main-list-name"><i class="fa fa-users side-font-icons" aria-hidden="true"></i> Groups</a>
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-file-text side-font-icons"></i> Document Management</a>
 					</li>
 					<li>
-						<a href="#" class="sidebar-main-list-name"><i class="fa fa-cogs side-font-icons" aria-hidden="true"></i> Permissions</a>
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-pie-chart side-font-icons"></i> Reports</a>
 					</li>
-               
-               	{% block sidebar%}
+					<li>
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-bell side-font-icons"></i> Alerts & Notifications</a>
+					</li>
+					
+					
+					{% block sidebar%}
 					{% endblock %}
                
             </ul>
         </div><!-- /#sidebar-wrapper -->
 		
-			{%block content%}
+		{%block content%}
 		
      
         
 		{%endblock%}
-		
-       
+	
 		
 		
 		

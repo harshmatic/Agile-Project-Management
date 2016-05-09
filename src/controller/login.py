@@ -144,6 +144,16 @@ class DashboardHandler(BaseHandler):
 class BaseHtml(BaseHandler):
     def get(self,*args,**kargs):
             self.render_template("admin_new/base.html")
+            
+class UserBaseHtml(BaseHandler):
+    def get(self,*args,**kargs):
+            self.render_template("user_new/base.html")
+
+class UserBaseHtmlTest(BaseHandler):
+    def get(self,*args,**kargs):
+            self.render_template("user_new/test_base.html")
+
+                        
 class BaseHtmlTest(BaseHandler):
     def get(self,*args,**kargs):
             self.render_template("admin_new/test_base.html")
