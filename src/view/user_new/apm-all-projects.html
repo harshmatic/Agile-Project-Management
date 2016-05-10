@@ -221,7 +221,7 @@
 															<td>{{ proje.endDate }}</td>
 															<td>
 																<a href="/project/viewproject?proj_id={{proje.key.id}}"> <i  class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i></a>
-															    <i  id="deleteproj" class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i>
+															    <i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i>
 															</td>
 														</tr>
 														 {%endfor%}
@@ -393,7 +393,7 @@
 						$('#add-estimation-timeline-modal').modal('show');
 					});
 					
-					$("#deleteproj").on("click",function(){
+					$(".apm-add-proj-delete").on("click",function(){
 						
 						console.log("comes here"); 
 						var ser =  $(this).closest('tr').attr('id');
