@@ -88,7 +88,9 @@ class BaseHandler(webapp2.RequestHandler):
             params = {}
         user = self.user_info
         params['user'] = user
+        params['blob'] = self.user_model.get_by_id(user['user_id']).blob_key
         
+        logging.info(params)
         path = os.path.join(os.path.dirname(__file__), '../view', view_filename)
         self.response.out.write(template.render(path, params))
 
@@ -159,6 +161,7 @@ class BaseHtmlTest(BaseHandler):
             self.render_template("admin_new/test_base.html")
 class SignupUser(BaseHandler):
     def get(self,*args,**kargs):
+        
         role=model.user.Groups()
         roles=role.query(model.user.Groups.role=="Admin")
         self.render_template('company-register.html',{'roles':roles})
@@ -205,7 +208,7 @@ class SignupUser(BaseHandler):
         You will be able to do so by visiting {url}"""
         body = msg.format(url=verification_url)
         try:
-            mail.send_mail(sender="harshmatic@gmail.com",
+            mail.send_mail(sender="support@apm-eternus.appspotmail.com",
                             subject="Account Verification new",
                             to=email,
                             body=body)
@@ -251,7 +254,7 @@ class SignupHandler(BaseHandler):
         Thank you for registering on APM. Please follow the below url to activate your account.
         Remeber to change your password.
         You will be able to do so by visiting{url}"""
-        message = mail.EmailMessage(sender="harshmatic@gmail.com",
+        message = mail.EmailMessage(sender="support@apm-eternus.appspotmail.com",
                             subject="Account Verification")
         
         message.to = email
@@ -293,7 +296,7 @@ class SignupAdminHandler(BaseHandler):
         Thank you for registering on APM. Please follow the below url to activate your account.
         Remeber to change your password.
         You will be able to do so by visiting {url}"""
-        message = mail.EmailMessage(sender="harshmatic@gmail.com",
+        message = mail.EmailMessage(sender="support@apm-eternus.appspotmail.com",
                             subject="Account Verification")
         message.to = email
         message.body = msg.format(url=verification_url)
@@ -323,7 +326,7 @@ class ForgotPasswordHandler(BaseHandler):
        Follow the ;ink to reset your password
         You will be able to do so by visiting<a href="{url}">{url}</a>'"""
         
-        message = mail.EmailMessage(sender="harshmatic@gmail.com",
+        message = mail.EmailMessage(sender="support@apm-eternus.appspotmail.com",
                             subject="Reset Password")
         message.to = username
         message.body = msg.format(url=verification_url)

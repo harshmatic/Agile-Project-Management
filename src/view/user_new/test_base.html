@@ -1,189 +1,247 @@
 {% extends "base.html" %}
 
-{% block title %}User|Test{% endblock %}
+{% block title %}User | Profile{% endblock %}
+		
+{% block header_links%}
+		<link rel="stylesheet" href="../assets_new/css/bootstrap-datepicker.min.css">
+		
+		
+		<style>
+			.apm-nav-brand-1{
+				padding: 15px!important;
+				font-size: 15px!important;
+				margin: 0!important;
+				padding-left: 8px!important;
+			}
+			.apm-dropdown-projects{
+				margin-left: -98px!important;
+				margin-top: 50px!important;
+				z-index:99999999;
+			}
+			
+		</style>
+		
+		
+		<script src="../assets_new/js/bootstrap-datepicker.min.js"></script>
+		<script src="../assets_new/js/main.js"></script>
+		
+			
+		<script>
+				$(document).ready(function(){
+					 $(".edit_my_profile_fields").hide();
+					 
+					$( "#edit_my_profile_button" ).click(function() {
+						  $(".edit_my_profile_fields").show();
+						  
+						  $(".label_my_profile_fields").hide();
+						  
+						});
+					
+					//for image
+					if ('{{user_image}}') {
+					$(".get_profile_image").attr('src', '/view_photo?photo_key={{user_image}}');
+				}
+					
+					
+				});
+		</script>
+		
+{% endblock %}	
+	
 
-{% block content %}
-   <!-- Page Content -->
-<div id="page-content-wrapper">
+
+     
+{%block content%}	
+		
+		
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
 					
-						<h2 class="apm-all-reports-heading">All Reports</h2>
+						<h2 class="apm-all-reports-heading">My Profile</h2>
 						
 						<hr>
 						
-						<!-- Number Boxes -->
-						<div class="row apm-numbox-row">
-							<div class="col-md-3 col-sm-3">
-								<div class="apm-numbox-dashboard apm-numbox-1">
-									<h2 class="apm-numbox-heading">20</h2>
-									<label class="apm-numbox-label">Pending Tasks</label>
-								</div>	
+						<div class="apm-user-profile-box">
+							<div class="row">
+								<div class="col-md-10 apm-profile-container">
+									<div class="row" style="border: 1px solid #eee;">
+								{%for i in user_db%}
+				
+										{% if i.email_address == user.email_address and i.key.id == user.user_id %}
+										
+										<!-- User Profile Image -->
+										<div class="col-md-3 col-sm-3 apm-profile-img-box">
+										
+											{%if not i.blob_key%}	
+								
+								<img id="preview_image" src="http://placehold.it/100x100" class="edit_my_profile_fields img-responsive" value="img?entity_id={{ i.blob_key }}">
+									<!-- <img id="preview_image" src="http://placehold.it/240x240" height="240" width="240" value="img?entity_id={{ i.blob_key }}"> 
+									 -->
+										{%else%}
+									<img id="preview_image"  class="edit_my_profile_fields img-responsive" src="/view_photo?photo_key={{i.blob_key}}" > 
+								{%endif%}
+										
+										
+											
+											
+											<div class="apm-profile-edit-box">
+												<button id="edit_my_profile_button" class="apm-listing-add-proj-btn apm-edit-pro-btn">Edit My Profile</button>
+											</div>
+										</div>
+										
+											<form role="form" id="user_form" action="{{upload_url}}"  method="post" enctype="multipart/form-data">
+									
+										
+										
+										<!-- User Profile Information -->
+										<div class="col-md-9 col-sm-9 apm-profile-info-box">
+											<div class="row" style="padding-left: 15px;">
+											
+													<h2 class="apm-profile-page-main-heading">{{i.name}}, <span>{{role}}</span></h2>
+													
+													<hr class="apm-profile-hr">
+													
+													<!-- Profile image -->
+													<div class="form-group">
+														<div class="row">
+															<div class="col-md-3 col-xs-6">
+																<label class="edit_my_profile_fields apm-user-info-label">Profile Image:</label>
+															</div>
+															<div class="col-md-6 col-xs-6">
+															<!-- 	<label class="label_my_profile_fields apm-user-info-label2">{{i.empid}}</label> -->
+																
+																	<!-- <input type="text" class="edit_my_profile_fields form-control project-management-textbox" name="emp_id" value="{{i.empid}}">-->
+																<input type="file" class="edit_my_profile_fields" id="file" name="file">
+																
+																
+															</div>
+														</div>
+													</div>
+													
+													
+													<!-- Employee ID -->
+													<div class="form-group">
+														<div class="row">
+															<div class="col-md-3 col-xs-6">
+																<label class="apm-user-info-label">Employee ID:</label>
+															</div>
+															<div class="col-md-6 col-xs-6">
+																<label class="label_my_profile_fields apm-user-info-label2">{{i.empid}}</label>
+																
+																	<input type="text" class="edit_my_profile_fields form-control project-management-textbox" name="emp_id" value="{{i.empid}}">
+										
+																
+																
+															</div>
+														</div>
+													</div>
+													
+													<!-- First Name -->
+													<div class="form-group">
+														<div class="row">
+															<div class="col-md-3 col-xs-6">
+																<label class="apm-user-info-label">First Name:</label>
+															</div>
+															<div class="col-md-6 col-xs-6">
+																<label class="label_my_profile_fields apm-user-info-label2">{{i.name}}</label>
+																
+																<input type="text" class="edit_my_profile_fields form-control project-management-textbox" name="first_name" value="{{i.name}}">
+										
+																
+															</div>
+														</div>
+													</div>
+													
+													<!-- Last Name -->
+													<div class="form-group">
+														<div class="row">
+															<div class="col-md-3 col-xs-6">
+																<label class="apm-user-info-label">Last Name:</label>
+															</div>
+															<div class="col-md-6 col-xs-6">
+																<label class="label_my_profile_fields apm-user-info-label2">{{i.last_name}}</label>
+																
+																<input type="text" class="edit_my_profile_fields form-control project-management-textbox" name="last_name" value="{{i.last_name}}">
+											
+																
+															</div>
+														</div>
+													</div>
+													
+													<!-- Email ID -->
+													<div class="form-group">
+														<div class="row">
+															<div class="col-md-3 col-xs-6">
+																<label class="apm-user-info-label">Designation:</label>
+															</div>
+															<div class="col-md-6 col-xs-6">
+																<label class="label_my_profile_fields apm-user-info-label2">{{i.designation}}</label>
+																<input type="text" class="edit_my_profile_fields form-control project-management-textbox" name="designation" value="{{i.designation}}">
+										
+															</div>
+														</div>
+													</div>
+													
+													<!-- Designation -->
+													<div class="form-group">
+														<div class="row">
+															<div class="col-md-3 col-xs-6">
+																<label class="apm-user-info-label">Email ID:</label>
+															</div>
+															<div class="col-md-6 col-xs-6">
+																<label class="label_my_profile_fields apm-user-info-label2">{{i.email_address}}</label>
+																
+																<input type="text" class="edit_my_profile_fields form-control project-management-textbox" name="email" value="{{i.email_address}}" readonly>
+										
+																
+															</div>
+														</div>
+													</div>
+													
+													<!-- Contact No. -->
+													<div class="form-group">
+														<div class="row">
+															<div class="col-md-3 col-xs-6">
+																<label class="apm-user-info-label">Contact No.:</label>
+															</div>
+															<div class="col-md-6 col-xs-6">
+																<label class="label_my_profile_fields apm-user-info-label2">{{i.contact}}</label>
+																<input type="text" class="edit_my_profile_fields form-control project-management-textbox" name="contact_no" value="{{i.contact}}">
+										
+															</div>
+														</div>
+													</div>
+													
+													<!-- Role -->
+													<div class="form-group">
+														<div class="row">
+															<div class="col-md-3 col-xs-6">
+																<label class="apm-user-info-label">Role:</label>
+															</div>
+															<div class="col-md-6 col-xs-6">
+																<label class="apm-user-info-label2">{{role}}</label>
+															</div>
+														</div>
+													</div>
+											
+												</form>
+								<input type="submit" name="my_profile" id="my_profile" value="Update" class="edit_my_profile_fields register-btn pro-button">
+								
+								
+								{%endif%}
+								{%endfor%}
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-2">
+								</div>
 							</div>
-							<div class="col-md-3 col-sm-3">
-								<div class="apm-numbox-dashboard apm-numbox-2">
-									<h2 class="apm-numbox-heading">14</h2>
-									<label class="apm-numbox-label">Pending Sprints</label>
-								</div>	
-							</div>
-							<div class="col-md-3 col-sm-3">
-								<div class="apm-numbox-dashboard apm-numbox-3">
-									<h2 class="apm-numbox-heading">26</h2>
-									<label class="apm-numbox-label">Ongoing Tasks</label>
-								</div>	
-							</div>
-							<div class="col-md-3 col-sm-3">
-								<div class="apm-numbox-dashboard apm-numbox-4">
-									<h2 class="apm-numbox-heading">44</h2>
-									<label class="apm-numbox-label">Completed Tasks</label>
-								</div>	
-							</div>
+							
 						</div>
-						<!-- Number Boxes ENDS -->
-						
-						<div class="row">
-							<div class="col-md-3 col-sm-3">
-								<div class="panel panel-default">
-									<div class="panel-heading apm-panel-heading">
-										Burndown Chart
-									</div>
-									<div class="panel-body apm-panel-body">
-										<img src="assets_new/img/barchart.png" class="img-responsive" style="width: 70%;">
-										<p class="apm-para">
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-										</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3 col-sm-3">
-								<div class="panel panel-default">
-									<div class="panel-heading apm-panel-heading">
-										Sprint Chart
-									</div>
-									<div class="panel-body apm-panel-body">
-										<img src="assets_new/img/pie.png" class="img-responsive" style="width: 55%;">
-										<p class="apm-para">
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-										</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3 col-sm-3">
-								<div class="panel panel-default">
-									<div class="panel-heading apm-panel-heading">
-										Velocity Chart
-									</div>
-									<div class="panel-body apm-panel-body">
-										<img src="assets_new/img/barchart.png" class="img-responsive" style="width: 70%;">
-										<p class="apm-para">
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-										</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3 col-sm-3">
-								<div class="panel panel-default">
-									<div class="panel-heading apm-panel-heading">
-										Control Chart
-									</div>
-									<div class="panel-body apm-panel-body">
-										<img src="assets_new/img/pie.png" class="img-responsive" style="width: 55%;">
-										<p class="apm-para">
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						
-						<div class="row">
-							<div class="col-md-3 col-sm-3">
-								<div class="panel panel-default">
-									<div class="panel-heading apm-panel-heading">
-										Burndown Chart
-									</div>
-									<div class="panel-body apm-panel-body">
-										<img src="assets_new/img/barchart.png" class="img-responsive" style="width: 70%;">
-										<p class="apm-para">
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-										</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3 col-sm-3">
-								<div class="panel panel-default">
-									<div class="panel-heading apm-panel-heading">
-										Epic Report
-									</div>
-									<div class="panel-body apm-panel-body">
-										<img src="assets_new/img/pie.png" class="img-responsive" style="width: 55%;">
-										<p class="apm-para">
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-										</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3 col-sm-3">
-								<div class="panel panel-default">
-									<div class="panel-heading apm-panel-heading">
-										Annual Report
-									</div>
-									<div class="panel-body apm-panel-body">
-										<img src="assets_new/img/barchart.png" class="img-responsive" style="width: 70%;">
-										<p class="apm-para">
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-										</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3 col-sm-3">
-								<div class="panel panel-default">
-									<div class="panel-heading apm-panel-heading">
-										Average Age Report
-									</div>
-									<div class="panel-body apm-panel-body">
-										<img src="assets_new/img/pie.png" class="img-responsive" style="width: 55%;">
-										<p class="apm-para">
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-										</p>
-									</div>
-								</div>
-							</div>
-						</div> <!-- Row ends -->
-						
-						<!--<div class="row">
-							<div class="col-md-6 col-sm-6">
-								<div class="table-responsive">
-									<table class="table table-condensed table-bordered">
-										<thead>
-										  <tr>
-											<th>Firstname</th>
-											<th>Lastname</th>
-											<th>Email</th>
-										  </tr>
-										</thead>
-										<tbody>
-										  <tr>
-											<td>John</td>
-											<td>Doe</td>
-											<td>john@example.com</td>
-										  </tr>
-										  <tr>
-											<td>Mary</td>
-											<td>Moe</td>
-											<td>mary@example.com</td>
-										  </tr>
-										  <tr>
-											<td>July</td>
-											<td>Dooley</td>
-											<td>july@example.com</td>
-										  </tr>
-										</tbody>
-									</table>
-								</div>	
-							</div>
-						</div> -->
 						
 						
                     </div> <!-- .col-lg-12 ends -->
@@ -191,4 +249,8 @@
             </div> <!-- .container ends -->
         </div>
         <!-- /#page-content-wrapper ENDS -->
-        {% endblock %}
+				{%endblock%}
+   
+  
+		
+	

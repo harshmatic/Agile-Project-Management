@@ -68,13 +68,16 @@
 }
 .apm-numbox-heading{
 	font-size: 50px;
-	color:#fff;
+    color: #fff;
+    font-family: Raleway;
+    font-weight: 400;
 }
 .apm-numbox-label{
-	color:#fff;
-	font-size: 18px;
-	letter-spacing:1px;
-	font-weight: 500;
+	color: #fff;
+    font-size: 15px;
+    letter-spacing: 1px;
+    font-weight: 500;
+    font-family: Raleway;
 }
 @media (max-width: 767px){
 	.apm-numbox-dashboard{
@@ -524,10 +527,20 @@
 }
 .apm-backlog-filter-box{
 	float: right;
-    margin-top: -34px;
+    margin-top: -46px;
 }
 .apm-backlog-filter-dropdown{
 	display:inline;
+	font-family:Raleway;
+	font-size:12px!important;
+}
+.apm-backlog-filter-dropdown button{
+	font-size: 12px!important;
+    letter-spacing: 1px;
+	font-weight:600;
+    padding: 4px 12px;
+    border-radius: 0;
+	background: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#FEFEFD),color-stop(3%,#F9F9F9),color-stop(100%,#E6E6E6));
 }
 @media (max-width: 600px){
 	.apm-backlog-filter-box{
@@ -539,13 +552,179 @@
     margin-left: 0px!important;
     margin-top: 11px!important;
 }
+@media (max-width: 767px){
+	.apm-backlog-filter-dropdown .dropdown-menu  a{
+		color:#000!important;
+	}
+	.apm-backlog-filter-dropdown .dropdown-menu  a:hover{
+		color:#3978BF!important;
+	}
+}
 .apm-backlog-filter-dropdown button{
-	border-color:transparent!important;
 	outline:none;
+}
+.apm-sprint-panel{
+	font-family:Raleway;
+	font-weight:600;
+	font-size:12px;
+	letter-spacing:1px;
+}
+.apm-subpanel-body{
+	background:#FAFAFA;
+}
+
+.apm-sprint-panel .panel-heading{
+	padding:5px 15px!important;
+	background:#3978BF;
+	color:#fff;
+	border-radius:0;
+}
+.apm-sprint-table{
+	margin:0;
+}
+.apm-sprint-table td{
+	padding: 8px 10px!important;
+	font-family:Raleway;
+}
+.apm-sprint-table tr{
+	padding: 4px 4px!important;
+	background: linear-gradient(#FEFEFD,#F9F9F9 3%,#E6E6E6);
+    background: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#FEFEFD),color-stop(3%,#F9F9F9),color-stop(100%,#E6E6E6));
+	margin-bottom:5px;
+	font-family:Raleway;
+	font-size:11px;
+	font-weight:600;
+	letter-spacing:1px;
+	border:1px solid #ccc;
+	border-left:4px solid #3978BF;
+	color:#000;
+}
+table tr.separator { height: 5px; }
+
+.apm-sprint-detail-list{
+	padding:0;
+	list-style-type:none;
+}
+.apm-sprint-detail-list li{
+	font-size: 12px;
+    font-weight: 500;
+    padding: 10px 0px;
+    border-bottom: 1px solid #D9D6D6;
+	line-height:2em;
+	letter-spacing:1px;
+}
+.apm-add-sprint-btn{
+	margin-left:20px;
+}
+@media (max-width: 620px){
+	.apm-add-sprint-btn{
+		margin-left:0px!important;
+	}
 }
 /************** For BACKLOGS page ENDS *****************/
 
+/************** For USER PROFILE page STARTS *****************/
+.apm-user-profile-box{
+	padding:15px;
+}
 
+.apm-profile-container{
+
+}
+.apm-profile-edit-box{
+	text-align: center;
+    padding: 15px 5px;
+    font-size: 13px;
+    font-family: Raleway;
+    font-weight: 600;
+    letter-spacing: 1px;
+	text-transform:uppercase;
+	
+}
+.apm-user-info-label{
+	font-size: 16px;
+    font-family: Raleway;
+    font-weight: 500;
+    letter-spacing: 1px;
+	color:#3978BF;
+	text-shadow: 1px 1px #C9C9C9;
+}
+.apm-user-info-label2{
+	font-size: 16px;
+    color: #000;
+    font-family: Raleway;
+    font-weight: 500;
+    letter-spacing: 1px;
+	color:#000;
+	
+}
+.apm-profile-img-box{
+	padding: 15px;
+    /*border: 1px solid #f2f2f2;*/
+}
+.apm-profile-info-box{
+	padding: 15px;
+    padding-left: 15px;
+	border-left:1px solid #eee;
+}
+.apm-profile-page-main-heading{
+	margin:0;
+	font-family: Raleway;
+	font-size:28px;
+	letter-spacing:2px;
+	line-height:1.5em;
+	padding-left: 20px;
+}
+@media (max-width: 767px){
+	.apm-profile-page-main-heading{
+		font-size:20px;
+		margin-bottom:20px;
+	}
+	.apm-profile-info-box{
+		border-left:none!important;
+	}
+}
+@media (max-width: 450px){
+	.apm-profile-page-main-heading{
+		font-size:16px;
+		margin-top: 12px;
+	}
+	.apm-profile-info-box {
+		padding-left: 15px;
+	}
+}
+.apm-profile-hr{
+	margin-bottom:30px;
+	margin-top: 10px!important;
+}	
+.apm-profile-page-main-heading span{
+	color: #3978BF;
+    font-size: 20px;
+}
+
+@media (min-width:768px) and (max-width: 991px){
+	.apm-edit-pro-btn{
+		padding: 6px 15px!important;
+	}
+	.apm-profile-page-main-heading {
+        font-size: 22px;
+	}
+	.apm-user-info-label, .apm-user-info-label2 {
+		font-size: 14px;
+	}
+}
+@media (max-width: 500px){
+	.apm-profile-page-main-heading span {
+		font-size: 15px;
+	}
+	.apm-user-info-label, .apm-user-info-label2 {
+		font-size: 13px;
+	}
+}
+.apm-profile-info-box .form-group{
+	padding-left: 25px;
+}
+/************** For USER PROFILE page ENDS *****************/
 
 
 /************************ Styles according to new designs ENDS *******************************/
@@ -621,10 +800,11 @@ body{
 	font-weight:bold;
 }
 .user-link{
-	padding:10px 20px 0 0!important;
+	padding:8px 10px 0 0!important;
 }
 .user-link img{
 	width:35px!important;
+	border-radius: 50%;
 }
 @media (min-width: 768px){
 		.nav-desktop{
@@ -911,8 +1091,12 @@ body{
 	}
 }
 .search-field-box{
-	margin-right: 30px;
-    margin-top: 9px;
+	margin-right: 20px;
+    margin-top: 10px;
+}
+.search-field-box .search-field{
+	height:30px!important;
+	
 }
 .search-field{
 	box-shadow:none!important;
@@ -1058,9 +1242,10 @@ body{
 }
 .register-main-heading{
 	color:#3978BF!important;
-	font-weight:bold;
+	font-weight:500;
 	letter-spacing:2px;
 	margin-bottom: 30px;
+	font-family:Raleway;
 }
 .register-label-box{
 	padding-top: 8px;
@@ -1068,13 +1253,16 @@ body{
 .register-label{
 	font-size: 13px;
     letter-spacing: 2px;
-    font-weight: bold;
+    font-weight: 600;
+	font-family:Raleway;
 }
 .register-para{
 	margin-bottom: 40px;
     letter-spacing: 2px;
     font-size: 13px;
     line-height: 1.8em;
+	font-family:Raleway;
+	font-weight:600;
 }
 .register-btn{
     border: 2px solid #3978BF!important;

@@ -14,7 +14,7 @@
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<style>
 			
 		</style>
@@ -87,12 +87,12 @@
  									  <li class="dropdown">
 										<a href="#" class="dropdown-toggle user-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 										
-										<i class="fa fa-user fa-3x"></i></a>
+										Hi , {{user.name}}
+										<img src="../assets_new/img/profile.jpg" class="apm-profile-thumb"> </a>
 										
 										<ul class="dropdown-menu multi-level menu-user">
-										  <li><a href="#"><i class="fa fa-user"></i> Hi , {{user.name}}</a></li>
 										  <li><a href="#"><i class="fa fa-refresh"></i> Switch Role</a></li>
-										  <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+										  <li><a href="/profile"><i class="fa fa-user"></i> Profile</a></li>
 									      <li class="dropdown-submenu">
 													<a href="#"><i class="fa fa-caret-left arrow-left"></i><i class="fa fa-cog"></i> Settings</a>
 													<ul class="dropdown-menu submenu-list">
