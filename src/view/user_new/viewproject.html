@@ -328,7 +328,7 @@
 														<td>{{ esti.estimationPoint }}</td>
 														<td>{{ esti.estimationHours }}</td>
 														<td>
-															<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>
+															<i class="fa fa-pencil apm-add-esti-edit" aria-hidden="true" title="Edit"></i>
 															<i id="delestimate" class="fa fa-trash apm-add-esti-delete" aria-hidden="true" title="Delete"></i>
 														</td>
 													  </tr>
@@ -533,6 +533,60 @@
 			  </div>
 			</div>
 	<!-- Add Estimation Timelines Modal Ends -->
+	
+	
+	<!-- Edit Estimation Timelines Starts -->
+			<div id="edit-estimation-timeline-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Add Estimation Guidelines</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-2">
+								</div>
+								
+								<div class="col-md-8">
+										<form role="form">
+											  <!-- Complexity --> 
+											  <div class="form-group task-form-group">
+												<label class="apm-landing-reg-label">Complexity</label>
+												<input id="editcomplexity" type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
+											  </div>
+											  
+											  <!-- Complexity Points --> 
+											  <div class="form-group task-form-group">
+												<label class="apm-landing-reg-label">Complexity Points</label>
+												<input id="editpoints" type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
+											  </div>
+											  
+											  <!-- Estimated Efforts --> 
+											  <div class="form-group task-form-group">
+												<label class="apm-landing-reg-label">Estimated Efforts</label>
+												<input id="editefforts" type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
+											  </div>
+											
+										</form>
+										
+								</div>	
+								<div class="col-md-2">
+								</div>		
+							</div>
+							
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<button type="button" class="add-task-btn-modal" data-dismiss="modal" id="editestimates" >Edit</button>
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
+				  </div>
+				</div>
+
+			  </div>
+			</div>
+	<!-- Edit Estimation Timelines Modal Ends -->
 		
 		<script src="/assets_new/js/jquery.js"></script>
 		<script src="/assets_new/js/bootstrap.min.js"></script>
@@ -573,6 +627,24 @@
 						var optionsAsString1 = "<option selected>" + cells[1] + "</option>";
 						$( 'select[id ="editmemrole"]' ).append( optionsAsString1 );
 						$('#edit-member-modal').modal('show');
+					});
+					
+					
+                  $(".apm-add-esti-edit").click(function(e) {
+						
+						    var cells = [];
+					        var id = $(this).closest('tr').attr('id')
+						   
+						    $('td', $(this).closest('tr')).each(function() {
+						        cells.push($(this).html());
+						    });
+						console.log("the value is"+cells[0])
+						$('#editcomplexity').attr('name',id );
+						$('#editcomplexity').val(cells[0]);
+						$('#editpoints').val(cells[1]);
+						$('#editefforts').val(cells[2]);
+						
+						$('#edit-estimation-timeline-modal').modal('show');
 					});
 					
 					$("#apm-addmember-btn2").click(function(e) {
@@ -620,7 +692,7 @@
 			  			console.log("the data is"+data);
 			  			var d = JSON.parse(data);
 		                
-			  			$('#' +d.id).remove();
+			  			
 			  			$("#memlist").append('<tr id='+d.id+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i> <i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
 			  			
 			  			
@@ -652,7 +724,7 @@
 			  			console.log("the data is"+data);
 			  			var d = JSON.parse(data);
 			  			
-		            
+			  			$('#' +d.id).remove();
 			  			$("#memlist").append('<tr id='+d.userid+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i> <i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
 			  			
 			  			
@@ -688,6 +760,41 @@
 			  			console.log("the data is"+data);
 		                var d = data ;
 		                var esti = JSON.parse(data);
+		                $('#' +d.id).remove();
+		                $("#estilist").append('<tr id='+esti.id+'> <td>'+esti.estimationLevel+'</td> <td>'+esti.estimationPoint+'</td> <td>'+esti.estimationHours+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i> <i id="delestimate" class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
+			  				
+			  			
+			  		}); 
+					
+					
+				})
+				
+				$("#editestimates").on("click",function(){
+						
+						var e = document.getElementById("editcomplexity");
+						var strComplexity = e.value;
+						var strId = e.name;
+						console.log("the members are"+strComplexity)
+						 
+						var r = document.getElementById("editpoints");
+						var strPoints = r.value ;
+						console.log("the role are"+strPoints) 
+						
+						var p = document.getElementById("editefforts");
+						var strEfforts = p.value;
+						console.log("the role are"+strEfforts) 
+						
+						var projid = {{ project.key.id }}
+						console.log("the projid are"+projid) 
+						
+						var parameters = "complexity="+strComplexity+"&projid="+projid+"&points="+strPoints+"&estid="+strId+"&efforts="+strEfforts+""
+					    console.log("the param are"+parameters);   
+					$.post( "/project/editestimatetoproj", parameters)
+			  		.done(function( data ) {
+			  			console.log("the data is"+data);
+		                var d = data ;
+		                var esti = JSON.parse(data);
+		                $('#'+esti.id).remove();
 		                $("#estilist").append('<tr id='+esti.id+'> <td>'+esti.estimationLevel+'</td> <td>'+esti.estimationPoint+'</td> <td>'+esti.estimationHours+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i> <i id="delestimate" class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
 			  				
 			  			

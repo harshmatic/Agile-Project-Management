@@ -8,7 +8,7 @@ from webapp2_extras import routes
 from webapp2_extras.routes import DomainRoute
 
 app = webapp2.WSGIApplication([
-    DomainRoute('<subdomain>.localhost', [
+    DomainRoute('<subdomain>.apm-eternus.appspot.com', [
         webapp2.Route('/', Main, name='subdomain-home'),
         webapp2.Route('/dashboard', EndUserDashboardHandler, name='dashboard'),                           
         webapp2.Route('/admin/signup', SignupHandler, name='adminsignup'),
@@ -47,6 +47,7 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/img', EndUserProfile),
         webapp2.Route('/view_photo', UserViewPhotoHandler),
         
+        webapp2.Route('/project/addnewproject', AddProjectView,name='addnewproject'),
         webapp2.Route('/project/viewproject', ViewProject,name='viewproject'),
         webapp2.Route('/project/addmembertoproj', AddProjectMembers,name='addmembertoproj'),
         webapp2.Route('/project/addestimatetoproj', AddProjectEstimates,name='addestimatetoproj'),
@@ -54,7 +55,8 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/project/deleteMember', DeleteProjectMember,name='deleteMember'),
         webapp2.Route('/project/deleteEstimate', DeleteEstimates,name='deleteEstimate'),
         webapp2.Route('/project/editproj', EditProj,name='editproj'),
-        webapp2.Route('/project/editmembertoproj', EditProjMem,name='editmembertoproj'),
+        webapp2.Route('/project/editmembertoproj', EditProjMem,name='editestimatetoproj'),
+        webapp2.Route('/project/editestimatetoproj', EditEstimates,name='project'),
         webapp2.Route('/project', ProjectManagement,name='project'),
         
       #  webapp2.Route('/userbasehtml', UserBaseHtml,name="userbasehtml"),
