@@ -351,6 +351,13 @@
 	cursor:pointer;
 	color:#F04D50;
 }
+
+.apm-add-esti-delete{
+	font-size:18px!important;
+	margin: 0 5px;
+	cursor:pointer;
+	color:#F04D50;
+}
 .nav-tabs>li a{
 	border:none!important;
 	margin:0!important;

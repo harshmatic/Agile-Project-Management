@@ -5,11 +5,11 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 		
-		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
-		<link rel="stylesheet" href="assets/css/style.css">
-		<link rel="stylesheet" href="assets/css/sidebar.css">
-		<link rel="stylesheet" href="assets/css/button.css">
-		<link rel="stylesheet" href="assets/css/bootstrap-datepicker.min.css">
+		<link rel="stylesheet" href="assets_new/css/bootstrap.min.css">
+		<link rel="stylesheet" href="assets_new/css/style.css">
+		<link rel="stylesheet" href="assets_new/css/sidebar.css">
+		<link rel="stylesheet" href="assets_new/css/button.css">
+		<link rel="stylesheet" href="assets_new/css/bootstrap-datepicker.min.css">
 		
 		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -195,7 +195,7 @@
 								<div class="col-md-10">
 									<div class="">
 											<div class="apm-listing-add-proj-box">
-												<a href="apm-add-project.html"><button class="apm-listing-add-proj-btn">Add Project</button></a>
+												<a href="/project/addnewproject"><button class="apm-listing-add-proj-btn">Add Project</button></a>
 											</div>
 											<div class="table-responsive">
 												<table class="table table-bordered apm-member-listing-table apm-all-proj-table">
@@ -210,58 +210,21 @@
 														</tr>
 													</thead>
 													<tbody>
-														<tr>
+													{% for proje in project %}
+														<tr id="{{proje.key.id}}">
 															<td><i class="fa fa-cogs" aria-hidden="true"></i></td>
-															<td><a href="#">Summer Camp Guru</a></td>
+															<td><a href="/project/viewproject?proj_id={{proje.key.id}}">{{ proje.name }}</a></td>
 															<td>
-																Lorem ipsum dolor sit amet, consectetur adipiscing elit
+																{{proje.description}}
 															</td>
-															<td>04/05/2016</td>
-															<td>14/05/2016</td>
+															<td>{{ proje.startDate }}</td>
+															<td>{{ proje.endDate }}</td>
 															<td>
-																<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>
-																<i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i>
+																<a href="/project/viewproject?proj_id={{proje.key.id}}"> <i  class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i></a>
+															    <i  id="deleteproj" class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i>
 															</td>
 														</tr>
-														<tr>
-															<td><i class="fa fa-cogs" aria-hidden="true"></i></td>
-															<td><a href="#">Culp Home Fashions</a></td>
-															<td>
-																Lorem ipsum dolor sit amet, consectetur adipiscing elit
-															</td>
-															<td>04/05/2016</td>
-															<td>14/05/2016</td>
-															<td>
-																<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>
-																<i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i>
-															</td>
-														</tr>
-														<tr>
-															<td><i class="fa fa-cogs" aria-hidden="true"></i></td>
-															<td><a href="#">CULP Contract</a></td>
-															<td>
-																Lorem ipsum dolor sit amet, consectetur adipiscing elit consectetur adipiscing elit
-															</td>
-															<td>04/05/2016</td>
-															<td>14/05/2016</td>
-															<td>
-																<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>
-																<i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i>
-															</td>
-														</tr>
-														<tr>
-															<td><i class="fa fa-cogs" aria-hidden="true"></i></td>
-															<td><a href="#">CHF Final Cut</a></td>
-															<td>
-																Lorem ipsum dolor sit amet, consectetur adipiscing elit
-															</td>
-															<td>04/05/2016</td>
-															<td>14/05/2016</td>
-															<td>
-																<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>
-																<i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i>
-															</td>
-														</tr>
+														 {%endfor%}
 													</tbody>
 												</table>
 											</div>
@@ -402,11 +365,11 @@
 			</div>
 	<!-- Add Estimation Timelines Modal Ends -->
 		
-		<script src="assets/js/jquery.js"></script>
-		<script src="assets/js/bootstrap.min.js"></script>
-		<script src="assets/js/side-menu.js"></script>
-		<script src="assets/js/bootstrap-datepicker.min.js"></script>
-		<script src="assets/js/main.js"></script>
+		<script src="assets_new/js/jquery.js"></script>
+		<script src="assets_new/js/bootstrap.min.js"></script>
+		<script src="assets_new/js/side-menu.js"></script>
+		<script src="assets_new/js/bootstrap-datepicker.min.js"></script>
+		<script src="assets_new/js/main.js"></script>
 		
 		
 		<script>
@@ -429,6 +392,27 @@
 					$("#apm-addestimates-btn").click(function(e) {
 						$('#add-estimation-timeline-modal').modal('show');
 					});
+					
+					$("#deleteproj").on("click",function(){
+						
+						console.log("comes here"); 
+						var ser =  $(this).closest('tr').attr('id');
+						console.log("comes here"+ser); 
+						var parameters = "id="+ser+""
+					$.post( "/project/deleteproject", parameters)
+			  		.done(function( data ) {
+			  			if (data =="success"){
+			  				
+			  				$("#"+ser).remove() ;
+			  				
+			  			} else {
+			  				
+			  				
+			  			}
+			  		});
+					
+					
+				})
 					
 
 				});
