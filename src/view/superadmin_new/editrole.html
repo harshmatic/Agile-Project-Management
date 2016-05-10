@@ -1,3 +1,27 @@
+ <script>
+		$("#submit_edit_role").on("click",function(){
+			$.post( "/superadmin/editrole", $("#editrole").serialize())
+	  		.done(function( data ) {
+	  			if (data!="true"){
+	  				alert("Something Went Wrong");
+	  				return false
+	  			} else {
+	  				
+	  				
+	  			}
+	  		});
+			
+			
+		})
+		$('#edit-role-modal').on('hidden.bs.modal', function(e)
+				    { 
+				        $(this).removeData('bs.modal');
+				        $('#edit_permissions').load('/superadmin/permissions #edit_permissions', function(result) {
+		  				    var variable = $('#edit_permissions').html();
+		  				});
+				    }) ;
+
+	</script>
 <div class="modal-header add-task-modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title add-task-modal-heading">Edit Role</h4>
@@ -8,47 +32,32 @@
 								</div>
 								
 								<div class="col-md-10">
-										<form role="form">
+										<form role="form" id="editrole">
 											  <!-- Role Name --> 
+											  <input type="hidden" class="form-control add-task-textbox" value="{{role.key.urlsafe}}" name="key_role">
 											  <div class="form-group task-form-group">
 												<label class="task-label">Roll Name</label>
-												<input type="text" class="form-control add-task-textbox apm-modal-textbox">
+												<input type="text" class="form-control add-task-textbox apm-modal-textbox" value="{{role.role}}" name="role">
 											  </div>
 											  
 											  <!-- Roll's Permissions --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Roll's Permissions</label>
 												<div class="row">
+													{% for permission in permission%}
 													<div class="col-sm-4 add-role-modal-box">
 														<div class="checkbox">
-														  <label><input type="checkbox" value="">Add</label>
+														  <label>
+														  {%if permission.key in role.permissions%}
+														  <input type="checkbox" value="{{permission.key.urlsafe}}" checked name="permissions">{{permission.permission}} ({{permission.url}})
+														  {%else%}
+														  <input type="checkbox" value="{{permission.key.urlsafe}}" name="permissions">{{permission.permission}} ({{permission.url}})
+														  {%endif%}
+														  </label>
 														</div>
 													</div>
-													<div class="col-sm-4 add-role-modal-box">
-														<div class="checkbox">
-														  <label><input type="checkbox" value="">Update</label>
-														</div>
-													</div>
-													<div class="col-sm-4 add-role-modal-box">
-														<div class="checkbox">
-														  <label><input type="checkbox" value="">Delete</label>
-														</div>
-													</div>
-													<div class="col-sm-4 add-role-modal-box">
-														<div class="checkbox">
-														  <label><input type="checkbox" value="">Permission 1</label>
-														</div>
-													</div>
-													<div class="col-sm-4 add-role-modal-box">
-														<div class="checkbox">
-														  <label><input type="checkbox" value="">Permission 2</label>
-														</div>
-													</div>
-													<div class="col-sm-4 add-role-modal-box">
-														<div class="checkbox">
-														  <label><input type="checkbox" value="">Permission 3</label>
-														</div>
-													</div>
+												{% endfor %}	
+													
 												</div>
 											  </div>
 											
@@ -60,6 +69,6 @@
 							
 				  </div>
 				  <div class="modal-footer add-task-modal-footer">
-					<button type="button" class="add-task-btn-modal save-roll-modal-btn" data-dismiss="modal">Save</button>
-					<button type="button" class="add-task-btn-modal delete-roll-modal-btn" data-dismiss="modal">Delete</button>
+					<button type="button" class="add-task-btn-modal save-roll-modal-btn" data-dismiss="modal" id="submit_edit_role">Save</button>
+					<button type="button" class="add-task-btn-modal delete-roll-modal-btn" data-dismiss="modal" id="delete_edit_role">Delete</button>
 				  </div>
