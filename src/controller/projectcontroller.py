@@ -189,6 +189,37 @@ class EditProjMem(BaseHandler):
         data['userRole'] = projmemmodel.userRole
         
         self.response.write(json.dumps(data, ensure_ascii=False))
+
+class EditEstimates(BaseHandler):
+        
+    
+    def post(self,*args,**kargs):
+        logging.info("it is here "+self.request.__str__())
+        estikey = ndb.Key('Estimation',int(self.request.get("estid")))
+        logging.info("it is here "+self.request.__str__())
+        complexity = self.request.get("complexity")
+        points = self.request.get("points")
+        efforts   = self.request.get("efforts")
+        est =  estikey.get()
+        
+       
+        est.estimationLevel=  complexity
+        est.estimationPoint= int(points)
+        est.estimationHours= float(efforts)
+        estresp = est.set()
+        #projec.team = (self.request.get("proj_team")).split(",")
+        
+        estimatesmodel = estresp.get()
+        
+        data = {}
+        data['id'] = estimatesmodel.key.id()
+        data['projectid'] = estimatesmodel.projectid
+        data['companyid'] = estimatesmodel.companyid
+        data['estimationLevel'] = estimatesmodel.estimationLevel
+        data['estimationPoint'] = estimatesmodel.estimationPoint
+        data['estimationHours'] = estimatesmodel.estimationHours
+        
+        self.response.write(json.dumps(data, ensure_ascii=False))
         
         
 class AddProjectEstimates(BaseHandler):

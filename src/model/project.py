@@ -52,3 +52,19 @@ class ProjectMembers(ndb.Model):
         return res
     def delete_entity(self,id):
         ndb.Key(ProjectMembers, int(id)).delete()
+        
+class ProjectRelease(ndb.Model):
+    projectid =        ndb.IntegerProperty(required=True)
+    companyid =       ndb.IntegerProperty(required=True)
+    releaseName = ndb.StringProperty(required=True)
+    createdDate = ndb.DateTimeProperty(auto_now_add=True)
+    releaseStartDate = ndb.DateProperty()
+    releaseendDate = ndb.DateProperty()
+    
+    def set(self):
+        return self.put()
+    def get_all(self,projId):
+        res = self.query(ProjectRelease.projectid == projId).fetch()
+        return res
+    def delete_entity(self,id):
+        ndb.Key(ProjectRelease, int(id)).delete()

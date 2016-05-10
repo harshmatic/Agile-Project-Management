@@ -16,7 +16,7 @@
 		$('#edit-role-modal').on('hidden.bs.modal', function(e)
 				    { 
 				        $(this).removeData('bs.modal');
-				        $('#edit_permissions').load('/superadmin/permissions #edit_permissions', function(result) {
+				        $('.table').load('/superadmin/edit .table', function(result) {
 		  				    var variable = $('#edit_permissions').html();
 		  				});
 				    }) ;
