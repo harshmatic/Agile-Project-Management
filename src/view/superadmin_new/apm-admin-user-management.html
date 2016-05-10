@@ -1,4 +1,39 @@
+{% extends "base.html" %}
 
+{% block title %}Super Admin - Roles Management{% endblock %}
+{% block header_links%}
+		
+
+		
+		<script>
+				$(document).ready(function(){
+					$(".nav-tabs a").click(function(){
+						$(this).tab('show');
+					});
+					$('.datepicker').datepicker({
+						format: 'dd/mm/yyyy',
+						startDate: '0d'
+					});
+					
+					
+					$("#apm-addmember-btn").click(function(e) {
+						$('#add-member-modal').modal('show');
+					});
+					$("#apm-addmember-btn2").click(function(e) {
+						$('#add-member-modal').modal('show');
+					});
+					$("#apm-addestimates-btn").click(function(e) {
+						$('#add-estimation-timeline-modal').modal('show');
+					});
+					$("#add-user").click(function(e) {
+						$('#add-user-modal').modal('show');
+					});
+					
+				});
+		</script>
+{% endblock %}
+{% block content %}
+		
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid">
@@ -33,17 +68,42 @@
 													<thead>
 														<tr>
 															<th></th>
-															<th>Employee ID</th>
-															<th>Email</th>
 															<th>First Name</th>
 															<th>Last Name</th>
+															<th>Email</th>
 															<th>Designation</th>
 															<th>Contact No.</th>
+															<th>Employee ID</th>
+															<th>Company</th>
 															<th>Role</th>
+															<th>Verified</th>
 															<th>Action</th>
 														</tr>
 													</thead>
 													<tbody>
+													{%for user1 in user1%}
+													  <tr>
+														<td><i class="fa fa-user" aria-hidden="true"></i></td>
+														<td>{{user1.name}}</td>
+														<td>{{user1.last_name}}</td>
+														<td>{{user1.email_address}}</td>
+														<td>{{user1.designation}}</td>
+														<td>{{user1.contact}}</td>
+														<td>{{user1.empid}}</td>
+														
+														<td>{{user1.tenant_key.name}}</td>
+														<td >{{user1.role.get.role}}</td>
+														<td>{% if user1.verified%}Yes{%else%} No <a href="#" id="{{user1.key.urlsafe}}" class="verify">Verify</a> {%endif%}</td>
+														<td>
+															<a href="/superadmin/edit?edit_key={{user1.key.urlsafe}}" data-toggle="modal" data-target="#edit-user-modal">
+																<i class="edit-user-btn fa fa-pencil user-management-edit-icon edit" aria-hidden="true" title="Edit User"  id="{{user1.key.urlsafe}}"></i>
+															</a>
+															<a href="/superadmin/delete?delete_key={{user1.key.urlsafe}}" data-toggle="modal" data-target="#delete-user-modal">
+																<i class="delete-user-btn fa fa-trash user-management-delete-icon delete" aria-hidden="true" title="Delete User"  id="{{user1.key.urlsafe}}"></i>
+															</a>
+														</td>
+													  </tr>
+													{%endfor%} 
 														<tr>
 															<td><i class="fa fa-user" aria-hidden="true"></i></td>
 															<td>101</td>
@@ -190,7 +250,7 @@
 											  
 											  <!-- Permissions/Role --> 
 											  <div class="form-group task-form-group">
-												<label class="task-label">Role</label>
+												<label class="task-label">Permissions</label>
 												<select class="form-control add-task-textbox apm-modal-textbox">
 													<option>Super Admin</option>
 													<option>Admin</option>
@@ -217,33 +277,4 @@
 	
 	
 <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
-
-		
-		<script>
-				$(document).ready(function(){
-					$(".nav-tabs a").click(function(){
-						$(this).tab('show');
-					});
-					$('.datepicker').datepicker({
-						format: 'dd/mm/yyyy',
-						startDate: '0d'
-					});
-					
-					
-					$("#apm-addmember-btn").click(function(e) {
-						$('#add-member-modal').modal('show');
-					});
-					$("#apm-addmember-btn2").click(function(e) {
-						$('#add-member-modal').modal('show');
-					});
-					$("#apm-addestimates-btn").click(function(e) {
-						$('#add-estimation-timeline-modal').modal('show');
-					});
-					$("#add-user").click(function(e) {
-						$('#add-user-modal').modal('show');
-					});
-					
-				});
-		</script>
-</body>
-</html>
+{%endblock%}

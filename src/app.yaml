@@ -8,7 +8,7 @@ handlers:
   static_dir: assets
 - url: /assets_new
   static_dir: assets_new
-- url: /superadmin/.*
+- url: /superadmin.*
   script: superadmin.app
   login: admin
 - url: /.*

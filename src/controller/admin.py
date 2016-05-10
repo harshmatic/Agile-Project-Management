@@ -124,12 +124,13 @@ class AddRole(BaseHandler):
 class EditPermissions(BaseHandler):
     def get(self,*args,**kargs):
         u=user.Groups()
-        role=u.query(user.Groups.tenant_domain==kargs['subdomain']).fetch()
+        #user.Groups.tenant_domain==kargs['subdomain']
+        role=u.query().fetch()
         logging.info(role)
         #role=u.get_all()
         p=user.Permissions()
         perm=p.get_all()
-        self.render_template("admin/admin-permissions.html",{"perm":perm,"role":role})
+        self.render_template("admin_new/apm-admin-permissions.html",{"perm":perm,"role":role})
     def post(self,*args,**kargs):
         prev_role=""
         #role=""

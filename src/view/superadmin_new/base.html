@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>{% block title%}Admin- Dashboard {% endblock %}</title>
+		<title>{% block title%}Super Admin- Dashboard {% endblock %}</title>
+		
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 		
@@ -10,17 +11,15 @@
 		<link rel="stylesheet" href="../assets_new/css/sidebar.css">
 		<link rel="stylesheet" href="../assets_new/css/button.css">
 		
-		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway">
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Signika">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-
 		<script src="../assets_new/js/jquery.js"></script>
 		<script src="../assets_new/js/bootstrap.min.js"></script>
 		<script src="../assets_new/js/side-menu.js"></script>
 		<script src="../assets_new/js/bootstrap-datepicker.min.js"></script>
 		<script src="../assets_new/js/main.js"></script>
-
 		<style>
 			.apm-nav-brand{
 				padding-top: 14px;
@@ -104,7 +103,7 @@
 			}
 		</style>
 		
-	{% block header_links%}{% endblock %}	
+		{% block header_links%}{% endblock %}
 	</head>
 <body>
     <nav class="navbar navbar-default no-margin nav-apm">
@@ -196,42 +195,36 @@
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
- 
+ 					
 					<li class="active">
 						<a href="#" class="sidebar-main-list-name"><i class="fa fa-th-large side-font-icons"></i> Dashboard</a>
 						
 					</li>
 					<li>
-						<a href="#" class="sidebar-main-list-name"><i class="fa fa-user side-font-icons" aria-hidden="true"></i> User Management</a>
+						<a href="/superadmin/usermanagment" class="sidebar-main-list-name"><i class="fa fa-user side-font-icons" aria-hidden="true"></i> User Management</a>
 						
 					</li>
 					<li>
-						<a href="#" class="sidebar-main-list-name"><i class="fa fa-briefcase side-font-icons" aria-hidden="true"></i> Roles Management</a>
+						<a href="/superadmin/permissions" class="sidebar-main-list-name"><i class="fa fa-briefcase side-font-icons" aria-hidden="true"></i> Roles Management</a>
 					</li>
-					<li>
-						<a href="#" class="sidebar-main-list-name"><i class="fa fa-users side-font-icons" aria-hidden="true"></i> Groups</a>
-					</li>
-					<li>
-						<a href="#" class="sidebar-main-list-name"><i class="fa fa-cogs side-font-icons" aria-hidden="true"></i> Permissions</a>
-					</li>
-               
-               	{% block sidebar%}
+					
+					{% block sidebar%}
 					{% endblock %}
                
             </ul>
         </div><!-- /#sidebar-wrapper -->
 		
-			{%block content%}
+		
+		{%block content%}
 		
      
         
 		{%endblock%}
 		
-       
-		
-		
 		
     </div>
     <!-- /#wrapper -->
+  
+
 </body>
 </html>

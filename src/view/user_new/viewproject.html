@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-		<title>APM - Add Project</title>
+		<title>APM - Project</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 		
@@ -151,7 +151,7 @@
 							<div class="panel-body sidebar-list-panel">
 								<ul class="sidebar-list" style="display:block!important;">
 									<li>
-										<a href="#" class="sidebar-list-sub-item">Projects</a>
+										<a href="/project" class="sidebar-list-sub-item">Projects</a>
 									</li>
 									<li>
 										<a href="#" class="sidebar-list-sub-item">Release</a>
@@ -187,7 +187,7 @@
                 <div class="row">
                     <div class="col-lg-12">
 					
-						<h2 class="apm-all-reports-heading">Add Project</h2>
+						<h2 class="apm-all-reports-heading">Project</h2>
 						
 						<hr>
 						
@@ -209,20 +209,21 @@
 											<!-- Project Title -->
 											<div  class="form-group">
 												<label class="apm-landing-reg-label">Project Title</label>
-												<input name="proj_name" type="text" class="form-control apm-landing-textbox-reg">
+											
+												<input name="proj_name" type="text" class="form-control apm-landing-textbox-reg" value= {{ project.name }}>
 											</div>
 											
 											<!-- Project Description -->
 											<div class="form-group">
 												<label class="apm-landing-reg-label">Project Description</label>
-												<textarea name="proj_desc" class="form-control apm-landing-textbox-reg apm-text-area" rows="4"></textarea>
+												<textarea name="proj_desc" class="form-control apm-landing-textbox-reg apm-text-area" rows="4"> {{project.description}} </textarea>
 											</div>
 											<div class="row">
 												<!-- Start Date -->
 												<div class="col-md-6">
 													<div class="form-group">
 														<label class="apm-landing-reg-label">Start Date</label>
-														<input name="proj_start" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true">
+														<input name="proj_start" type="text" class="form-control apm-landing-textbox-reg datepicker" value="{{project.startDate}}" readonly="true" >
 														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
 													</div>
 												</div>
@@ -231,7 +232,7 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<label class="apm-landing-reg-label">End Date</label>
-														<input name="proj_end" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true">
+														<input name="proj_end" type="text" class="form-control apm-landing-textbox-reg datepicker" value = "{{project.endDate}}" readonly="true">
 														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
 													</div>
 												</div>
@@ -243,7 +244,7 @@
 									</div>
 								</div>
 								<div class="apm-add-proj-btnbox">
-							<button class="apm-add-proj-btn" id="submit">ADD</button>
+							<button class="apm-add-proj-btn" id="submit">SAVE</button>
 							<button class="apm-add-proj-btn">CANCEL</button>
 						</div>
 							</div>
@@ -262,11 +263,11 @@
 										<div class="col-md-5">
 											
 											<div class="apm-nomember-box-listing">
-												<button class="apm-addmember-btn" id="apm-addmember-btn2" disabled>Add Member</button>
+												<button class="apm-addmember-btn" id="apm-addmember-btn2">Add Member</button>
 											</div>
 											
 											<div class="table-responsive">
-												<table class="table table-bordered apm-member-listing-table">
+												<table id="memlist" class="table table-bordered apm-member-listing-table">
 													<thead>
 													  <tr>
 														<th>Member Name</th>
@@ -275,18 +276,16 @@
 													  </tr>
 													</thead>
 													<tbody>
-													  <tr >
-														<td colspan="3">
-														
-														 Create Project to Add Members
-														 
-														 </td> 
-															
-														</tr>	
-														
-													  
-													
-													  
+													{% for mem in projmem %}
+													  <tr id="{{mem.key.id}}">
+														<td>{{ mem.userName }}</td>
+														<td>{{ mem.userRole }}</td>
+														<td>
+															<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>
+															<i id="deletemember" class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i>
+														</td>
+													  </tr>
+													   {%endfor%}
 													</tbody>
 												</table>
 											</div>
@@ -309,11 +308,11 @@
 										<div class="col-md-5">
 											
 											<div class="apm-nomember-box-listing">
-												<button class="apm-addmember-btn" id="apm-addestimates-btn" disabled>Add Estimates</button>
+												<button class="apm-addmember-btn" id="apm-addestimates-btn">Add Estimates</button>
 											</div>
 											
 											<div class="table-responsive">
-												<table class="table table-bordered apm-member-listing-table">
+												<table id="estilist" class="table table-bordered apm-member-listing-table">
 													<thead>
 													  <tr>
 														<th>Complexity</th>
@@ -323,17 +322,18 @@
 													  </tr>
 													</thead>
 													<tbody>
-													  
-														<tr>
-														<td colspan="3">
-														
-															 Creat Project to Add Estimates 
-															</td>
-															</tr>
-														
-													  
-													  
-													
+													{% for esti in estimation %}
+													  <tr id="{{esti.key.id}}">
+														<td>{{ esti.estimationLevel }}</td>
+														<td>{{ esti.estimationPoint }}</td>
+														<td>{{ esti.estimationHours }}</td>
+														<td>
+															<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>
+															<i id="delestimate" class="fa fa-trash apm-add-esti-delete" aria-hidden="true" title="Delete"></i>
+														</td>
+													  </tr>
+													  {%endfor%}
+													 
 													</tbody>
 												</table>
 											</div>
@@ -382,14 +382,14 @@
 								</div>
 								
 								<div class="col-md-8">
-										<form role="form">
+										<form role="form" id="members">
 											  <!-- Team Mamber Name --> 
-											  <div class="form-group task-form-group">
+											  <div  class="form-group task-form-group">
 												<label class="apm-landing-reg-label">Member Name</label>
-												<select class="form-control apm-landing-textbox-reg apm-modal-textbox">
+												<select id="memselect" class="form-control apm-landing-textbox-reg apm-modal-textbox">
 													<option>- Select -</option>
 													{% for users in userslist %}
-													<option  value= "{{ users.name }}"> {{ users.name }}</option>
+													<option  value= "{{ users.key.id }}"> {{ users.name }}</option>
 													{%endfor%}
 												</select>
 											  </div>
@@ -397,11 +397,11 @@
 											  <!-- Team Mamber Role --> 
 											  <div class="form-group task-form-group">
 												<label class="apm-landing-reg-label">Role</label>
-												<select class="form-control apm-landing-textbox-reg apm-modal-textbox">
+												<select id="memrole" class="form-control apm-landing-textbox-reg apm-modal-textbox">
 													<option>- Select -</option>
-													<option>Software Developer</option>
-													<option>Software Tester</option>
-													<option>UI/UX developer</option>
+													{% for role in roles %}
+													<option  value= "{{ role.key.id }}"> {{ role.role }}</option>
+													{%endfor%}
 												</select>
 											  </div>
 											  
@@ -415,7 +415,7 @@
 							
 				  </div>
 				  <div class="modal-footer add-task-modal-footer">
-					<button type="button" class="add-task-btn-modal" data-dismiss="modal">Add</button>
+					<button type="button" class="add-task-btn-modal" data-dismiss="modal" id="addmember">Add</button>
 					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
 				  </div>
 				</div>
@@ -423,6 +423,62 @@
 			  </div>
 			</div>
 	<!-- Add Team Members Modal Ends -->
+	
+	
+	<!-- Edit Team Members Starts -->
+			<div id="edit-member-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Edit Team Member</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-2">
+								</div>
+								
+								<div class="col-md-8">
+										<form role="form" id="editmembers">
+											  <!-- Team Mamber Name --> 
+											  <div  class="form-group task-form-group">
+												<label class="apm-landing-reg-label">Member Name</label>
+												<select name="memsel"id="editmemselect" class="form-control apm-landing-textbox-reg apm-modal-textbox" disabled>
+													
+												</select>
+											  </div>
+											  
+											  <!-- Team Mamber Role --> 
+											  <div class="form-group task-form-group">
+												<label class="apm-landing-reg-label">Role</label>
+												<select id="editmemrole" class="form-control apm-landing-textbox-reg apm-modal-textbox">
+													
+													{% for role in roles %}
+													<option  value= "{{ role.key.id }}"> {{ role.role }}</option>
+													{%endfor%}
+												</select>
+											  </div>
+											  
+											
+										</form>
+										
+								</div>	
+								<div class="col-md-2">
+								</div>		
+							</div>
+							
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<button type="button" class="add-task-btn-modal" data-dismiss="modal" id="editmember">Edit</button>
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
+				  </div>
+				</div>
+
+			  </div>
+			</div>
+	<!-- Edit Team Members Modal Ends -->
 	
 	
 	<!-- Add Estimation Timelines Starts -->
@@ -445,19 +501,19 @@
 											  <!-- Complexity --> 
 											  <div class="form-group task-form-group">
 												<label class="apm-landing-reg-label">Complexity</label>
-												<input type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
+												<input id="complexity" type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
 											  </div>
 											  
 											  <!-- Complexity Points --> 
 											  <div class="form-group task-form-group">
 												<label class="apm-landing-reg-label">Complexity Points</label>
-												<input type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
+												<input id="points" type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
 											  </div>
 											  
 											  <!-- Estimated Efforts --> 
 											  <div class="form-group task-form-group">
 												<label class="apm-landing-reg-label">Estimated Efforts</label>
-												<input type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
+												<input id="efforts" type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
 											  </div>
 											
 										</form>
@@ -469,7 +525,7 @@
 							
 				  </div>
 				  <div class="modal-footer add-task-modal-footer">
-					<button type="button" class="add-task-btn-modal" data-dismiss="modal">Add</button>
+					<button type="button" class="add-task-btn-modal" data-dismiss="modal" id="addestimates" >Add</button>
 					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
 				  </div>
 				</div>
@@ -499,6 +555,26 @@
 					$("#apm-addmember-btn").click(function(e) {
 						$('#add-member-modal').modal('show');
 					});
+					
+					$(".apm-add-proj-edit").click(function(e) {
+						
+						
+						var cells = [];
+					
+						   
+						    $('td', $(this).closest('tr')).each(function() {
+						        cells.push($(this).html());
+						    });
+						console.log("the value is"+cells[0])
+						
+						var optionsAsString = "<option value='" + $(this).closest('tr').attr('id') + "' selected>" + cells[0] + "</option>";
+						$( 'select[name ="memsel"]' ).append( optionsAsString );
+						
+						var optionsAsString1 = "<option selected>" + cells[1] + "</option>";
+						$( 'select[id ="editmemrole"]' ).append( optionsAsString1 );
+						$('#edit-member-modal').modal('show');
+					});
+					
 					$("#apm-addmember-btn2").click(function(e) {
 						$('#add-member-modal').modal('show');
 					});
@@ -510,15 +586,153 @@
 						
 						 
 						var ser = $("#prj").serialize();
-						 
+						ser += "&projid" + "=" +{{ project.key.id }} 
 					       
-					$.post( "/project/addproject", ser)
+					$.post( "/project/editproj", ser)
 			  		.done(function( data ) {
-			  			
+			  		
 			  				console.log("the data is"+data);
 			  				window.location.href = "/project/viewproject?proj_id="+data;
 			  				
+			  		
+			  		});
+					
+					
+				})
+				
+					$("#addmember").on("click",function(){
+						
+						var e = document.getElementById("memselect");
+						var strUser = e.options[e.selectedIndex].value;
+						console.log("the members are"+strUser)
+						 
+						var r = document.getElementById("memrole");
+						var strRole = r.options[r.selectedIndex].text;
+						console.log("the role are"+strRole) 
+						
+						var projid = {{ project.key.id }}
+						console.log("the projid are"+projid) 
+						
+						var parameters = "role="+strRole+"&projid="+projid+"&userid="+strUser+""
+					    console.log("the param are"+parameters);   
+					$.post( "/project/addmembertoproj", parameters)
+			  		.done(function( data ) {
+			  			console.log("the data is"+data);
+			  			var d = JSON.parse(data);
+		                
+			  			$('#' +d.id).remove();
+			  			$("#memlist").append('<tr id='+d.id+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i> <i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
 			  			
+			  			
+			  				
+			  			
+			  		}); 
+					
+					
+				})
+				
+				
+				$("#editmember").on("click",function(){
+						
+						var e = document.getElementById("editmemselect");
+						var strUser = e.options[e.selectedIndex].value;
+						console.log("the members are"+strUser)
+						 
+						var r = document.getElementById("editmemrole");
+						var strRole = r.options[r.selectedIndex].text;
+						console.log("the role are"+strRole) 
+						
+						var projid = {{ project.key.id }}
+						console.log("the projid are"+projid) 
+						
+						var parameters = "role="+strRole+"&projid="+projid+"&userid="+strUser+""
+					    console.log("the param are"+parameters);   
+					$.post( "/project/editmembertoproj", parameters)
+			  		.done(function( data ) {
+			  			console.log("the data is"+data);
+			  			var d = JSON.parse(data);
+			  			
+		            
+			  			$("#memlist").append('<tr id='+d.userid+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i> <i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
+			  			
+			  			
+			  				
+			  			
+			  		}); 
+					
+					
+				})
+				
+				
+				$("#addestimates").on("click",function(){
+						
+						var e = document.getElementById("complexity");
+						var strComplexity = e.value;
+						console.log("the members are"+strComplexity)
+						 
+						var r = document.getElementById("points");
+						var strPoints = r.value ;
+						console.log("the role are"+strPoints) 
+						
+						var p = document.getElementById("efforts");
+						var strEfforts = p.value;
+						console.log("the role are"+strEfforts) 
+						
+						var projid = {{ project.key.id }}
+						console.log("the projid are"+projid) 
+						
+						var parameters = "complexity="+strComplexity+"&projid="+projid+"&points="+strPoints+"&efforts="+strEfforts+""
+					    console.log("the param are"+parameters);   
+					$.post( "/project/addestimatetoproj", parameters)
+			  		.done(function( data ) {
+			  			console.log("the data is"+data);
+		                var d = data ;
+		                var esti = JSON.parse(data);
+		                $("#estilist").append('<tr id='+esti.id+'> <td>'+esti.estimationLevel+'</td> <td>'+esti.estimationPoint+'</td> <td>'+esti.estimationHours+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i> <i id="delestimate" class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
+			  				
+			  			
+			  		}); 
+					
+					
+				})
+				
+					$(".apm-add-esti-delete").on("click",function(){
+						
+						console.log("comes here"); 
+						var ser =  $(this).closest('tr').attr('id');
+						console.log("comes here"+ser); 
+						var parameters = "id="+ser+""
+					$.post( "/project/deleteEstimate", parameters)
+			  		.done(function( data ) {
+			  			if (data =="success"){
+			  				
+			  				$("#"+ser).remove() ;
+			  				
+			  			} else {
+			  				
+			  				
+			  			}
+			  		});
+					
+					
+				})
+				
+				$(".apm-add-proj-delete").on("click",function(){
+						
+						console.log("comes here"); 
+						var ser =  $(this).closest('tr').attr('id');
+						console.log("comes here"+ser); 
+						var parameters = "id="+ser+""
+					$.post( "/project/deleteMember", parameters)
+			  		.done(function( data ) {
+			  			if (data =="success"){
+			  				
+			  				$("#"+ser).remove() ;
+			  				
+			  			} else {
+			  				
+			  				
+			  			}
 			  		});
 					
 					

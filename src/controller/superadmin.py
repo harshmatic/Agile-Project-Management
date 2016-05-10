@@ -28,7 +28,7 @@ class SuperAdminVerify(BaseHandler):
 class SuperDashboardHandler(webapp2.RequestHandler):
     def get(self):
         logging.info(self.request.url.split("://",1)[1].split(".",1)[0])
-        path = os.path.join(os.path.dirname(__file__), '../view/superadmin/admin-dashboard.html')
+        path = os.path.join(os.path.dirname(__file__), '../view/superadmin_new/apm-admin-dashboard.html')
         self.response.out.write(render(path,{}))
         
 class SuperPermissionsHandler(webapp2.RequestHandler):
@@ -37,7 +37,7 @@ class SuperPermissionsHandler(webapp2.RequestHandler):
         role=u.query(user.Groups.tenant_key==None).fetch()
         p=user.Permissions()
         perm=p.get_all()
-        path = os.path.join(os.path.dirname(__file__), '../view/superadmin/admin-permissions.html')
+        path = os.path.join(os.path.dirname(__file__), '../view/superadmin_new/apm-admin-permissions.html')
         self.response.out.write(render(path,{"perm":perm,"role":role}))
     def post(self):
         prev_role=""
@@ -70,7 +70,7 @@ class SuperPermissionsHandler(webapp2.RequestHandler):
         self.response.write("true")
 class SuperAddPermission(webapp2.RequestHandler):
     def get(self):
-        path = os.path.join(os.path.dirname(__file__), '../view/superadmin/addpermissions.html')
+        path = os.path.join(os.path.dirname(__file__), '../view/superadmin_new/addpermission.html')
         self.response.out.write(render(path,{}))
        
     def post(self):
@@ -92,7 +92,7 @@ class SuperUsers(BaseHandler):
         
         role1=user.Groups()
         roles1=role1.query(user.Groups.role=="Admin")
-        self.render_template("superadmin/user-management.html",{"user1":user1,'roles':roles1})
+        self.render_template("superadmin_new/apm-admin-user-management.html",{"user1":user1,'roles':roles1})
         
         
         
@@ -102,7 +102,7 @@ class SuperEditRole(BaseHandler):
         role = key.get()
         permiss=user.Permissions()
         list_per=permiss.get_all()
-        self.render_template("superadmin/editrole.html",{"role":role,"permission":list_per})
+        self.render_template("superadmin_new/editrole.html",{"role":role,"permission":list_per})
         
     def post(self):
         key = ndb.Key(urlsafe=self.request.get('key_role'))
@@ -121,7 +121,7 @@ class SuperEditPermission(BaseHandler):
     def get(self):
         key = ndb.Key(urlsafe=self.request.get('key'))
         permission = key.get()
-        self.render_template("admin/editpermission.html",{"permission":permission})
+        self.render_template("superadmin_new/editpermission.html",{"permission":permission})
         
     def post(self):
         key = ndb.Key(urlsafe=self.request.get('key_permission'))
@@ -135,7 +135,7 @@ class SuperAddRole(BaseHandler):
         permiss=user.Permissions()
         list_per=permiss.get_all()
         param = {"perm":list_per}
-        path = os.path.join(os.path.dirname(__file__), '../view/superadmin/addrole.html')
+        path = os.path.join(os.path.dirname(__file__), '../view/superadmin_new/addrole.html')
         self.response.out.write(render(path,param))
         
     def post(self):
@@ -164,11 +164,12 @@ class SuperSignupAdminHandler(BaseHandler):
         tenant.name = tenant_name
         tenant.domain = tenant_domain
         tenant.created_by = self.request.get('email')
-        tenant_key_added = tenant.put()
-        logging.info(tenant_key_added)
-        if not tenant_key_added: #user_data is a tuple
+        if tenant.query(model.user.Tenant.domain==tenant_domain).fetch():
             self.response.write('Domain already exists with the same name.')
             return
+        else:
+            tenant_key_added = tenant.put()
+            logging.info(tenant_key_added)
         role=ndb.Key(urlsafe=self.request.get('role'))
         user_name = self.request.get('email')
         email = self.request.get('email')
@@ -196,7 +197,7 @@ class SuperSignupAdminHandler(BaseHandler):
         Thank you for registering on APM. Please follow the below url to activate your account.
         Remeber to change your password.
         You will be able to do so by visiting {url}"""
-        message = mail.EmailMessage(sender="harshmatic@gmail.com",
+        message = mail.EmailMessage(sender="support@apm-eternus.appspotmail.com",
                             subject="Account Verification")
         message.to = email
         message.body = msg.format(url=verification_url)

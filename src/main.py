@@ -47,9 +47,20 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/img', EndUserProfile),
         webapp2.Route('/view_photo', UserViewPhotoHandler),
         
+        webapp2.Route('/project/viewproject', ViewProject,name='viewproject'),
+        webapp2.Route('/project/addmembertoproj', AddProjectMembers,name='addmembertoproj'),
+        webapp2.Route('/project/addestimatetoproj', AddProjectEstimates,name='addestimatetoproj'),
+        webapp2.Route('/project/deleteproject', DeleteProject,name='deleteproject'),
+        webapp2.Route('/project/deleteMember', DeleteProjectMember,name='deleteMember'),
+        webapp2.Route('/project/deleteEstimate', DeleteEstimates,name='deleteEstimate'),
+        webapp2.Route('/project/editproj', EditProj,name='editproj'),
+        webapp2.Route('/project/editmembertoproj', EditProjMem,name='editmembertoproj'),
+        webapp2.Route('/project', ProjectManagement,name='project'),
+        
       #  webapp2.Route('/userbasehtml', UserBaseHtml,name="userbasehtml"),
         
     ]),
+        webapp2.Route('/admin/permissions', EditPermissions, name='permissions'),
         webapp2.Route('/checkdomain', CheckDomain,name="checkdomain"),
         webapp2.Route('/basehtml', BaseHtml,name="basehtml"),
         webapp2.Route('/userbasehtml', UserBaseHtml,name="userbasehtml"),
