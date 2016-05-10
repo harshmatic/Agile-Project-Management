@@ -1,7 +1,7 @@
 <script>
 		
 $("#edit_user").on("click",function(){
-	$.post( "/admin/edit", $("#edit_form").serialize())
+	$.post( '/admin/edit', $("#edit_form").serialize())
 		.done(function( data ) {
 			if (data!="true"){
 				alert("User not updated");
