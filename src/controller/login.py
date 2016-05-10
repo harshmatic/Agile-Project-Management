@@ -88,7 +88,9 @@ class BaseHandler(webapp2.RequestHandler):
             params = {}
         user = self.user_info
         params['user'] = user
+        params['blob'] = self.user_model.get_by_id(user['user_id']).blob_key
         
+        logging.info(params)
         path = os.path.join(os.path.dirname(__file__), '../view', view_filename)
         self.response.out.write(template.render(path, params))
 
@@ -159,6 +161,7 @@ class BaseHtmlTest(BaseHandler):
             self.render_template("admin_new/test_base.html")
 class SignupUser(BaseHandler):
     def get(self,*args,**kargs):
+        
         role=model.user.Groups()
         roles=role.query(model.user.Groups.role=="Admin")
         self.render_template('company-register.html',{'roles':roles})
@@ -462,6 +465,6 @@ config = {
     },
     'webapp2_extras.sessions': {
         'secret_key': 'AIzaSyCLBiLQ5B1QJ2BGlQXvUqJysqFjjc_lw00',
-        'cookie_args':  {'domain':'.localhost'}
+        'cookie_args':  {'domain':'.apm-eternus.appspot.com'}
     }
 }

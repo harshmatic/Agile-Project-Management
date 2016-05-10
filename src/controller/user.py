@@ -39,7 +39,7 @@ class EndUserDashboardHandler(BaseHandler):
           #  logging.info(type(current_user['user_id']))
             
          #   user_db = OurUser.query().fetch()
-            self.render_template("dashboard.html")
+            self.render_template("user_new/apm-user-dashboard.html")
         else:
             self.response.write("you are not allowed")
             
@@ -91,7 +91,7 @@ class EndUserProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobs
          user = self.user
           
        #  logging.info(self.request.get('file'))  
-         if self.request.get('file'):
+         if (self.request.get('file') == ""):
                 
             upload = self.get_uploads()[0]
             user.blob_key=upload.key()
