@@ -8,7 +8,7 @@ from webapp2_extras import routes
 from webapp2_extras.routes import DomainRoute
 
 app = webapp2.WSGIApplication([
-    DomainRoute('<subdomain>.apm-eternus.appspot.com', [
+    DomainRoute('<subdomain>.localhost', [
         webapp2.Route('/', Main, name='subdomain-home'),
         webapp2.Route('/dashboard', EndUserDashboardHandler, name='dashboard'),                           
         webapp2.Route('/admin/signup', SignupHandler, name='adminsignup'),
@@ -45,13 +45,17 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/admin/deleteuser', AdminDeleteUser),
         webapp2.Route('/profile', EndUserProfile),
         webapp2.Route('/img', EndUserProfile),
-        webapp2.Route('/view_photo', UserViewPhotoHandler)
+        webapp2.Route('/view_photo', UserViewPhotoHandler),
+        
+      #  webapp2.Route('/userbasehtml', UserBaseHtml,name="userbasehtml"),
         
     ]),
         webapp2.Route('/admin/permissions', EditPermissions, name='permissions'),
         webapp2.Route('/checkdomain', CheckDomain,name="checkdomain"),
         webapp2.Route('/basehtml', BaseHtml,name="basehtml"),
+        webapp2.Route('/userbasehtml', UserBaseHtml,name="userbasehtml"),
         webapp2.Route('/basehtmltest', BaseHtmlTest,name="basehtmltest"),
+        webapp2.Route('/userbasehtmltest', UserBaseHtmlTest,name="userbasehtmltest"),
         webapp2.Route('/login', LoginBaseHandler, name='loginbase'),
         webapp2.Route('/logout', LogoutHandler, name='logout'),
         webapp2.Route('/', SignupUser, name='home'),

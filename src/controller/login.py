@@ -144,6 +144,16 @@ class DashboardHandler(BaseHandler):
 class BaseHtml(BaseHandler):
     def get(self,*args,**kargs):
             self.render_template("admin_new/base.html")
+            
+class UserBaseHtml(BaseHandler):
+    def get(self,*args,**kargs):
+            self.render_template("user_new/base.html")
+
+class UserBaseHtmlTest(BaseHandler):
+    def get(self,*args,**kargs):
+            self.render_template("user_new/test_base.html")
+
+                        
 class BaseHtmlTest(BaseHandler):
     def get(self,*args,**kargs):
             self.render_template("admin_new/test_base.html")
@@ -452,6 +462,6 @@ config = {
     },
     'webapp2_extras.sessions': {
         'secret_key': 'AIzaSyCLBiLQ5B1QJ2BGlQXvUqJysqFjjc_lw00',
-        'cookie_args':  {'domain':'.apm-eternus.appspot.com'}
+        'cookie_args':  {'domain':'.localhost'}
     }
 }
