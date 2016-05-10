@@ -48,6 +48,7 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/view_photo', UserViewPhotoHandler)
         
     ]),
+        webapp2.Route('/admin/permissions', EditPermissions, name='permissions'),
         webapp2.Route('/checkdomain', CheckDomain,name="checkdomain"),
         webapp2.Route('/basehtml', BaseHtml,name="basehtml"),
         webapp2.Route('/basehtmltest', BaseHtmlTest,name="basehtmltest"),
