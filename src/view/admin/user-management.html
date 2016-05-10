@@ -220,7 +220,13 @@
 			  				alert("Email Sent");
 			  			}
 			  	});
-				
+			$('#add-role-modal').on('hidden.bs.modal', function(e)
+				{ 
+					$(this).removeData();
+					$('#edit_permissions').load('/admin/permissions #edit_permissions', function(result) {
+	  				    var variable = $('#edit_permissions').html();
+	  				});
+		    	}) ;
 			});
 			
 		

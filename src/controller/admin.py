@@ -38,7 +38,7 @@ class AdminHome(BaseHandler):
     def get(self,*args,**kargs):
         
         if check_permission(self):
-            self.render_template("admin/admin-dashboard.html")
+            self.render_template("admin_new/apm-admin-dashboard.html")
         else:
             self.response.write("you are not allowed")
 class DeleteEntity(BaseHandler):
@@ -56,7 +56,7 @@ class EditRole(BaseHandler):
         role = key.get()
         permiss=user.Permissions()
         list_per=permiss.get_all()
-        self.render_template("admin/editrole.html",{"role":role,"permission":list_per})
+        self.render_template("admin_new/editrole.html",{"role":role,"permission":list_per})
         
     def post(self,*args,**kargs):
         key = ndb.Key(urlsafe=self.request.get('key_role'))
@@ -103,7 +103,7 @@ class AddRole(BaseHandler):
         permiss=user.Permissions()
         list_per=permiss.get_all()
         param = {"perm":list_per}
-        self.render_template("admin/addrole.html",param)
+        self.render_template("admin_new/addrole.html",param)
         
     def post(self,*args,**kargs):
         url=self.request.get_all("permissions")
@@ -123,14 +123,14 @@ class AddRole(BaseHandler):
         
 class EditPermissions(BaseHandler):
     def get(self,*args,**kargs):
-        u=user.Groups()
-        #user.Groups.tenant_domain==kargs['subdomain']
-        role=u.query().fetch()
+        role=model.user.Groups()
+        roles=role.query(user.Groups.tenant_domain==kargs['subdomain']).fetch()
+        admin_roles = role.query(user.Groups.tenant_domain == None).fetch()
         logging.info(role)
         #role=u.get_all()
         p=user.Permissions()
         perm=p.get_all()
-        self.render_template("admin_new/apm-admin-permissions.html",{"perm":perm,"role":role})
+        self.render_template("admin_new/apm-admin-permissions.html",{"perm":perm,"role":roles,'admin':admin_roles})
     def post(self,*args,**kargs):
         prev_role=""
         #role=""
@@ -165,20 +165,13 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
     def get(self,*args,**kargs):
         
         role=model.user.Groups()
-        roles=role.get_all()
+        roles=role.query(user.Groups.tenant_domain==kargs['subdomain']).fetch()
         u=user.OurUser()
         user1=u.query(user.OurUser.tenant_domain==kargs['subdomain']).fetch()
-        
-        #user1 =user.OurUser().get_all()
-       # logging.info(user1)
         user_json = [row.to_dict() for row in user1]
-        #user_json.pop("datetime")
         logging.info(user_json)
-        #user_json = json.dumps(user_json)
-     #   upload_url = blobstore.create_upload_url('/admin/upload_photo')        
-     #   logging.info(upload_url)
     
-        self.render_template("admin/user-management.html",{"user1":user1,"user_json":user_json,"roles":roles})
+        self.render_template("admin_new/apm-admin-user-management.html",{"user1":user1,"user_json":user_json,"roles":roles})
         
     def post(self,*args,**kargs):
         
@@ -205,7 +198,7 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
         email_address=email, name=name, password_raw=password,designation=designation,empid=empid,contact=contact,
         last_name=last_name,role=role,tenant_key=company_key,tenant_domain=company_domain, verified=False)
         if not user_data[0]: #user_data is a tuple
-            self.response.write('User already exists with the same name')
+            self.response.write('User already exists with the same email')
             return
 
         user = user_data[1]
@@ -216,18 +209,15 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
         Thank you for registering on APM. Please follow the below url to activate your account.
         Remeber to change your password.
         You will be able to do so by visiting{url}"""
-        message = mail.EmailMessage(sender="harshmatic@gmail.com",
+        message = mail.EmailMessage(sender="support@apm-eternus.appspotmail.com",
                             subject="Account Verification")
         
         message.to = email
         message.body = msg.format(url=verification_url)
         message.send()
-      #  self.response.write(msg.format(url=verification_url))
         logging.info(msg.format(url=verification_url))
         self.response.write("true")        
         
-        
-   #   else:
             
 
             

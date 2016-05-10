@@ -110,11 +110,11 @@ class BaseHandler(webapp2.RequestHandler):
             self.session_store.save_sessions(self.response)
 class CheckDomain(BaseHandler):
     def post(self,*args,**kargs):
-        tenant_domain=self.request.get('domain')
+        tenant_domain=self.request.get('company_domain')
         tenant=model.user.Tenant()
-        if tenant.query(model.user.Tenant.domain==tenant_domain):
+        a=tenant.query(model.user.Tenant.domain==tenant_domain).fetch()
+        if a:
             self.response.write('Domain is not available')
-            
         else:
             self.response.write('Domain is available')
 class Main(BaseHandler):

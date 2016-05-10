@@ -1,4 +1,59 @@
+{% extends "base.html" %}
+{% block title%}Admin - User Management {% endblock %}
 
+
+{% block header_links%}
+		<script>
+				$(document).ready(function(){
+					$(".nav-tabs a").click(function(){
+						$(this).tab('show');
+					});
+					$('.datepicker').datepicker({
+						format: 'dd/mm/yyyy',
+						startDate: '0d'
+					});
+					
+					
+					$("#apm-addmember-btn").click(function(e) {
+						$('#add-member-modal').modal('show');
+					});
+					$("#apm-addmember-btn2").click(function(e) {
+						$('#add-member-modal').modal('show');
+					});
+					$("#apm-addestimates-btn").click(function(e) {
+						$('#add-estimation-timeline-modal').modal('show');
+					});
+					$("#add-user").click(function(e) {
+						$('#add-user-modal').modal('show');
+					});
+				
+				// harshit 
+				
+					$("#add_user").click(function(){
+						
+						
+						$.post( "/admin/usermanagment", $("#user_form").serialize())
+					  		.done(function( data ) {
+					  			if (data!="true"){
+					  				alert(data);
+					  				return false;
+					  			} else {
+					  				alert("A verification mail has been sent to the user's email id");
+					  			}
+					  	});
+						
+					});
+					$('#add-user-modal').on('hidden.bs.modal', function(e)
+							{ 
+								$(this).removeData();
+								$('.table').load('/admin/usermanagment .table', function(result) {
+				  				    var variable = $('#edit_permissions').html();
+				  				});
+					    	}) ;
+				});
+		</script>
+{% endblock %}			
+{% block content %}	
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid">
@@ -32,74 +87,38 @@
 												<table class="table table-bordered apm-member-listing-table apm-all-proj-table">
 													<thead>
 														<tr>
-															<th></th>
-															<th>Employee ID</th>
-															<th>Email</th>
-															<th>First Name</th>
-															<th>Last Name</th>
-															<th>Designation</th>
-															<th>Contact No.</th>
-															<th>Role</th>
-															<th>Action</th>
+														<th></th>
+														<th>First Name</th>
+														<th>Last Name</th>
+														<th>Email</th>
+														<th>Designation</th>
+														<th>Contact No.</th>
+														<th>Employee ID</th>
+														<th>Role</th>
+														<th>Verified</th>
+														<th>Action</th>
+															
+															
 														</tr>
 													</thead>
 													<tbody>
-														<tr>
-															<td><i class="fa fa-user" aria-hidden="true"></i></td>
-															<td>101</td>
-															<td>abcc@gmail.com</td>
-															<td>Chaitanya</td>
-															<td>Belsare</td>
-															<td>UI/UX Designer</td>
-															<td>8542154875</td>
-															<td>Admin</td>
-															<td>
-																<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>
-																<i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i>
-															</td>
-														</tr>
-														<tr>
-															<td><i class="fa fa-user" aria-hidden="true"></i></td>
-															<td>102</td>
-															<td>asddcss@gmail.com</td>
-															<td>Atul</td>
-															<td>Sharma</td>
-															<td>Software Developer</td>
-															<td>8542154875</td>
-															<td>Super-Admin</td>
-															<td>
-																<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>
-																<i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i>
-															</td>
-														</tr>
-														<tr>
-															<td><i class="fa fa-user" aria-hidden="true"></i></td>
-															<td>103</td>
-															<td>ngfnfgn@gmail.com</td>
-															<td>Harshit</td>
-															<td>Jyoti</td>
-															<td>Software Tester</td>
-															<td>6985475214</td>
-															<td>User</td>
-															<td>
-																<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>
-																<i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i>
-															</td>
-														</tr>
-														<tr>
-															<td><i class="fa fa-user" aria-hidden="true"></i></td>
-															<td>104</td>
-															<td>wereew@gmail.com</td>
-															<td>Kajal</td>
-															<td>Singh</td>
-															<td>Software Developer</td>
-															<td>9854215025</td>
-															<td>Super-Admin</td>
-															<td>
-																<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>
-																<i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i>
-															</td>
-														</tr>
+													{%for user1 in user1%}
+													  <tr>
+														<td><i class="fa fa-user"></i></td>
+														<td>{{user1.name}}</td>
+														<td>{{user1.last_name}}</td>
+														<td>{{user1.email_address}}</td>
+														<td>{{user1.designation}}</td>
+														<td>{{user1.contact}}</td>
+														<td>{{user1.empid}}</td>
+														<td class="roll-td"><i>{{user1.role.get.role}}</i></td>
+														<td>{% if user1.verified%}Yes{%else%} No <a href="#" id="{{user1.key.urlsafe}}" class="verify">Verify</a> {%endif%}</td>
+														<td><a href="/admin/edit?edit_key={{user1.key.urlsafe}}" data-toggle="modal" data-target="#edit-user-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit User"  id="{{user1.key.urlsafe}}"></i></a>
+														<a href="/admin/deleteuser?delete_key={{user1.key.urlsafe}}" data-toggle="modal" data-target="#delete-user-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete User"  id="{{user1.key.urlsafe}}"></i></a></td>
+		
+													  </tr>
+													{%endfor%} 
+														
 													</tbody>
 												</table>
 											</div>
@@ -139,17 +158,17 @@
 								<div class="col-md-1">
 								</div>
 								<div class="col-md-10">
-										<form role="form">
+										<form role="form" id="user_form">
 											  <!-- Employee ID --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Employee ID</label>
-												<input type="text" class="form-control add-task-textbox apm-modal-textbox">
+												<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="emp_id">
 											  </div>
 											  
 											  <!-- Email --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Email</label>
-												<input type="text" class="form-control add-task-textbox apm-modal-textbox">
+												<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="email">
 											  </div>
 											  
 											  <div class="row">
@@ -157,7 +176,7 @@
 													  <!-- First Name --> 
 													  <div class="form-group task-form-group">
 														<label class="task-label">First Name</label>
-														<input type="text" class="form-control add-task-textbox apm-modal-textbox">
+														<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="first_name">
 													  </div>
 												  </div>
 												  
@@ -165,7 +184,7 @@
 													  <!-- Last Name --> 
 													  <div class="form-group task-form-group">
 														<label class="task-label">Last Name</label>
-														<input type="text" class="form-control add-task-textbox apm-modal-textbox">
+														<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="last_name">
 													  </div>
 												  </div>
 											  </div>
@@ -175,7 +194,7 @@
 													  <!-- Designation --> 
 													  <div class="form-group task-form-group">
 														<label class="task-label">Designation</label>
-														<input type="text" class="form-control add-task-textbox apm-modal-textbox">
+														<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="designation">
 													  </div>
 												  </div>
 												  
@@ -183,7 +202,7 @@
 													  <!-- Contact No --> 
 													  <div class="form-group task-form-group">
 														<label class="task-label">Contact No.</label>
-														<input type="text" class="form-control add-task-textbox apm-modal-textbox">
+														<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="contact_no">
 													  </div>
 												  </div>
 											  </div>
@@ -191,10 +210,14 @@
 											  <!-- Permissions/Role --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Role</label>
-												<select class="form-control add-task-textbox apm-modal-textbox">
-													<option>Super Admin</option>
-													<option>Admin</option>
-													<option>User</option>
+												<select class="form-control add-task-textbox apm-modal-textbox" name="role">
+												
+													{% for role in roles %}
+													
+													<option value="{{role.key.urlsafe}}">{{role.role}}</option>
+												
+													{% endfor %}
+													
 												</select>
 											  </div>
 											  
@@ -206,7 +229,7 @@
 							
 				  </div>
 				  <div class="modal-footer add-task-modal-footer">
-					<button type="button" class="add-task-btn-modal" data-dismiss="modal">Add</button>
+					<button type="button" class="add-task-btn-modal" data-dismiss="modal" name="add_user" id="add_user" value="Add">Add</button>
 					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
 				  </div>
 				</div>
@@ -217,33 +240,4 @@
 	
 	
 <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
-
-		
-		<script>
-				$(document).ready(function(){
-					$(".nav-tabs a").click(function(){
-						$(this).tab('show');
-					});
-					$('.datepicker').datepicker({
-						format: 'dd/mm/yyyy',
-						startDate: '0d'
-					});
-					
-					
-					$("#apm-addmember-btn").click(function(e) {
-						$('#add-member-modal').modal('show');
-					});
-					$("#apm-addmember-btn2").click(function(e) {
-						$('#add-member-modal').modal('show');
-					});
-					$("#apm-addestimates-btn").click(function(e) {
-						$('#add-estimation-timeline-modal').modal('show');
-					});
-					$("#add-user").click(function(e) {
-						$('#add-user-modal').modal('show');
-					});
-					
-				});
-		</script>
-</body>
-</html>
+{%endblock%}

@@ -56,7 +56,6 @@ class Permissions(ndb.Model):
         groups = Groups.query(Groups.permissions==key).fetch()
         for group in groups:
             group.permissions.remove(key)
-            #group.permissions.pop(key)
             group.put()
         
 class Groups(ndb.Model):

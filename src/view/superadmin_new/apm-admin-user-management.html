@@ -81,6 +81,7 @@
 														</tr>
 													</thead>
 													<tbody>
+													{%if user1%}
 													{%for user1 in user1%}
 													  <tr>
 														<td><i class="fa fa-user" aria-hidden="true"></i></td>
@@ -91,7 +92,7 @@
 														<td>{{user1.contact}}</td>
 														<td>{{user1.empid}}</td>
 														
-														<td>{{user1.tenant_key.name}}</td>
+														<td>{{user1.tenant_domain}}</td>
 														<td >{{user1.role.get.role}}</td>
 														<td>{% if user1.verified%}Yes{%else%} No <a href="#" id="{{user1.key.urlsafe}}" class="verify">Verify</a> {%endif%}</td>
 														<td>
@@ -104,62 +105,15 @@
 														</td>
 													  </tr>
 													{%endfor%} 
-														<tr>
-															<td><i class="fa fa-user" aria-hidden="true"></i></td>
-															<td>101</td>
-															<td>abcc@gmail.com</td>
-															<td>Chaitanya</td>
-															<td>Belsare</td>
-															<td>UI/UX Designer</td>
-															<td>8542154875</td>
-															<td>Admin</td>
-															<td>
-																<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>
-																<i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i>
-															</td>
-														</tr>
-														<tr>
-															<td><i class="fa fa-user" aria-hidden="true"></i></td>
-															<td>102</td>
-															<td>asddcss@gmail.com</td>
-															<td>Atul</td>
-															<td>Sharma</td>
-															<td>Software Developer</td>
-															<td>8542154875</td>
-															<td>Super-Admin</td>
-															<td>
-																<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>
-																<i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i>
-															</td>
-														</tr>
-														<tr>
-															<td><i class="fa fa-user" aria-hidden="true"></i></td>
-															<td>103</td>
-															<td>ngfnfgn@gmail.com</td>
-															<td>Harshit</td>
-															<td>Jyoti</td>
-															<td>Software Tester</td>
-															<td>6985475214</td>
-															<td>User</td>
-															<td>
-																<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>
-																<i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i>
-															</td>
-														</tr>
-														<tr>
-															<td><i class="fa fa-user" aria-hidden="true"></i></td>
-															<td>104</td>
-															<td>wereew@gmail.com</td>
-															<td>Kajal</td>
-															<td>Singh</td>
-															<td>Software Developer</td>
-															<td>9854215025</td>
-															<td>Super-Admin</td>
-															<td>
-																<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>
-																<i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i>
-															</td>
-														</tr>
+													{% else %}
+													<tr>
+														<td colspan="11">
+														No Results Found !!	 
+														</td>
+													  </tr>
+														
+														{%endif%}
+														
 													</tbody>
 												</table>
 											</div>

@@ -10,7 +10,7 @@
                 <div class="row">
                     <div class="col-lg-12">
 					
-						<h2 class="apm-all-reports-heading">Admin - Permissions</h2>
+						<h2 class="apm-all-reports-heading">Admin - Roles Management</h2>
 						
 						<hr>
 						
@@ -19,14 +19,21 @@
 								<div class="col-md-11">
 									<div class="">
 											<div class="apm-listing-add-proj-box">
+											<a href="/admin/addrole" data-toggle="modal" data-target="#add-role-modal">
 												<button class="apm-listing-add-proj-btn pro-button" id="add-role">Add Role</button>
-												<button class="apm-listing-add-proj-btn pro-button" id="add-permission">Add Permission</button>
+											</a>
+												
+												
 											</div>
 											<div class="table-responsive apm-admin-permission-table">
 											<form id="edit_permissions" >
 												<table class="table table-bordered apm-member-listing-table apm-all-proj-table">
 													<thead>
 														<tr>
+														<th>Permissions (url)</th>
+															{% for admin in admin %}
+																<th>{{admin.role}}</th>
+															{% endfor %}
 															{% for role in role %}
 																<th><a href="/admin/editrole?key={{role.key.urlsafe}}" class="roll-link" data-toggle="modal" data-target="#edit-role-modal">{{role.role}}</a></th>
 															{% endfor %}
@@ -45,11 +52,23 @@
 																{% endfor %}
 																
 															  </tr>	
+															
 															  {% for perm in perm %}
 															  <tr>
 																<td>
-																	<a class="permission-link">{{perm.permission}} ({{perm.url}})</a>
+																	{{perm.permission}} ({{perm.url}})
 																</td>
+																{% for admin in admin %}
+																	<td>
+																	{% if perm.key in admin.permissions%}
+																	<input type="checkbox" id="checkbox22" disabled checked />
+																	
+																	{% else %}
+																	<input type="checkbox" id="checkbox22" disabled/>
+																	{%endif%}
+																	
+																	</td>
+																	{% endfor %}
 																{% for role in role %}
 																<td>
 																{% if perm.key in role.permissions%}
@@ -63,6 +82,7 @@
 																{% endfor %}
 													  </tr>	
 													  {% endfor %}
+													  
 														
 														
 													</tbody>
@@ -117,96 +137,6 @@
 			</div>
 	<!-- Edit Role Modal Ends -->
 	
-	<!-- Add Permission Modal Starts -->
-			<div id="add-permission-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
-			  <div class="modal-dialog">
-
-				<!-- Modal content-->
-				<div class="modal-content add-task-modal-content">
-				  <div class="modal-header add-task-modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title add-task-modal-heading">Add Permission</h4>
-				  </div>
-					<div class="modal-body user-management-body">
-							<div class="row">
-								<div class="col-md-1">
-								</div>
-								
-								<div class="col-md-10">
-										<form role="form">
-											  <!-- Permission Name --> 
-											  <div class="form-group task-form-group">
-												<label class="task-label">Permission Name</label>
-												<input type="text" class="form-control add-task-textbox apm-modal-textbox">
-											  </div>
-											  
-											  <!-- Permission URL --> 
-											  <div class="form-group task-form-group">
-												<label class="task-label">Permission URL</label>
-												<input type="text" class="form-control add-task-textbox apm-modal-textbox">
-											  </div>
-											
-										</form>
-								</div>	
-								<div class="col-md-1">
-								</div>		
-							</div>
-							
-				  </div>
-				  <div class="modal-footer add-task-modal-footer">
-					<button type="button" class="add-task-btn-modal" data-dismiss="modal">Add</button>
-					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
-				  </div>
-				</div>
-
-			  </div>
-			</div>
-	<!-- Add Permission Modal Ends -->
 	
-	<!-- Edit Permission Modal Starts -->
-			<div id="edit-permission-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
-			  <div class="modal-dialog">
-
-				<!-- Modal content-->
-				<div class="modal-content add-task-modal-content">
-				  <div class="modal-header add-task-modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title add-task-modal-heading">Edit Permission</h4>
-				  </div>
-					<div class="modal-body user-management-body">
-							<div class="row">
-								<div class="col-md-1">
-								</div>
-								
-								<div class="col-md-10">
-										<form role="form">
-											  <!-- Permission Name --> 
-											  <div class="form-group task-form-group">
-												<label class="task-label">Permission Name</label>
-												<input type="text" class="form-control add-task-textbox apm-modal-textbox">
-											  </div>
-											  
-											  <!-- Permission URL --> 
-											  <div class="form-group task-form-group">
-												<label class="task-label">Permission URL</label>
-												<input type="text" class="form-control add-task-textbox apm-modal-textbox">
-											  </div>
-											
-										</form>
-								</div>	
-								<div class="col-md-1">
-								</div>		
-							</div>
-							
-				  </div>
-				  <div class="modal-footer add-task-modal-footer">
-					<button type="button" class="add-task-btn-modal save-roll-modal-btn" data-dismiss="modal">Save</button>
-					<button type="button" class="add-task-btn-modal delete-roll-modal-btn" data-dismiss="modal">Delete</button>
-				  </div>
-				</div>
-
-			  </div>
-			</div>
-	<!-- Edit Permission Modal Ends -->
 	
 {% endblock %}

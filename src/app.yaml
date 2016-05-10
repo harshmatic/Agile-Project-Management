@@ -16,7 +16,8 @@ handlers:
 - url: /_ah/bounce
   script: handle_bounced_email.app
   login: admin
-
+builtins:
+- appstats: on
 libraries:
 - name: webapp2
   version: "2.5.2"
