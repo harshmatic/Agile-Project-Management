@@ -211,7 +211,7 @@ class SuperAdminEditUser(BaseHandler):
             key = ndb.Key(urlsafe=self.request.get('edit_key'))
             user_info=key.get()
             logging.info(user_info)
-            self.render_template("superadmin/edit_user.html",{"user_info":user_info})
+            self.render_template("superadmin_new/edit_user.html",{"user_info":user_info})
 
             
             
@@ -247,7 +247,7 @@ class SuperAdminDeleteUser (BaseHandler):
          key = ndb.Key(urlsafe=self.request.get('delete_key'))
          user_info=key.get()
          logging.info(user_info)
-         self.render_template("superadmin/delete_user.html",{"user_info":user_info})
+         self.render_template("superadmin_new/delete_user.html",{"user_info":user_info})
          
      def post(self):
          user_key= ndb.Key(urlsafe=self.request.get('delete_key'))

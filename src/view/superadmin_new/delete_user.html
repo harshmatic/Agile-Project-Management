@@ -1,0 +1,149 @@
+<script>
+		
+$("#delete_user").on("click",function(){
+	$.post( "/superadmin/delete", $("#delete_form").serialize())
+		.done(function( data ) {
+			if (data!="true"){
+				alert(data);
+				return false
+			} else {
+				
+				alert("User deleted successfully");
+				
+			}
+		});
+		
+		
+			
+		})
+		
+		$('#delete-user-modal').on('hidden.bs.modal', function(e)
+				    { 
+				        $(this).removeData('bs.modal');
+				        
+				        $('.table').load('/superadmin/usermanagment .table', function(result) {
+		  				    //var variable = $('#edit_permissions').html();
+		  				});
+				    }) ;
+
+			
+	</script>			
+
+
+	<form role="form" id="delete_form" enctype="multipart/form-data">
+				
+				<div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Delete User</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								<div class="col-md-10">
+								
+											  <!-- Employee ID --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Employee ID</label>
+													<label class="task-label">{{user_info.empid}}</label>
+											  </div>
+											  
+											  <!-- Email --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Email</label>
+												<label class="task-label">{{user_info.email_address}}</label>
+											  </div>
+											  
+											  <div class="row">
+												  <div class="col-sm-6">
+													  <!-- First Name --> 
+													  <div class="form-group task-form-group">
+														<label class="task-label">First Name</label>
+														<label class="task-label">{{user_info.name}}</label>
+														 </div>
+												  </div>
+												  
+												  <div class="col-sm-6">
+													  <!-- Last Name --> 
+													  <div class="form-group task-form-group">
+														<label class="task-label">Last Name</label>
+														<label class="task-label">{{user_info.last_name}}</label>
+														  </div>
+												  </div>
+											  </div>
+											  
+											  <div class="row">
+												  <div class="col-sm-6">
+													  <!-- Designation --> 
+													  <div class="form-group task-form-group">
+														<label class="task-label">Designation</label>
+																<label class="task-label">{{user_info.designation}}</label>
+																	  </div>
+												  </div>
+												
+												
+												
+												 <div class="row">
+												  <div class="col-sm-6">
+													  <!-- Designation --> 
+													  <div class="form-group task-form-group">
+														  	<label class="task-label">Company Name :</label>
+												<label class="task-label">{{user_info.tenant_key.get.name}}</label>
+												  
+												  	  </div>
+												  </div>  
+												  
+												   <div class="row">
+												  <div class="col-sm-6">
+													  <!-- Designation --> 
+													  <div class="form-group task-form-group">
+													<label class="task-label">Domain :</label>
+												<label class="task-label">{{user_info.tenant_key.get.domain}}</label>
+																	
+												  	  </div>
+												  </div>  
+												
+												  
+												  <div class="col-sm-6">
+													  <!-- Contact No --> 
+													  <div class="form-group task-form-group">
+														<label class="task-label">Contact No.</label>
+																	<label class="task-label">{{user_info.contact}}</label>
+																	 </div>
+												  </div>
+											  </div>
+											  
+											  <!-- Permissions/Role --> 
+											 <!--  <div class="form-group task-form-group">
+												<label class="task-label">Role</label>
+												<select class="form-control add-task-textbox apm-modal-textbox">
+													<option>Super Admin</option>
+													<option>Admin</option>
+													<option>User</option>
+												</select>
+											  </div> -->
+											  
+											  	<input type="hidden" id="key" name="delete_key" value="{{user_info.key.urlsafe}}">
+							
+					
+								</div>	
+								<div class="col-md-1">
+								</div>		
+							</div>
+							
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<input type="submit" class="add-task-btn-modal" data-dismiss="modal"  id="delete_user" value="Delete">
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
+			
+				
+				
+				  </div>
+				
+				
+				
+	</form>	
+	
+	
+	
+			
