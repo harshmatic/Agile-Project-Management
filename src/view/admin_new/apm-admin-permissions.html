@@ -45,6 +45,9 @@
 																<td>
 																	<a href="#" class="permission-link">All</a>
 																</td>
+																{% for admin in admin %}
+																<td><input type="checkbox" id="checkbox12"  disabled checked/></td>
+																{% endfor %}
 																{% for role in role %}
 																<td><input type="checkbox" id="checkbox12"  value="{{role.key.urlsafe}}<!>All" name="permissions"/>
 																	
