@@ -18,11 +18,11 @@ class Task(ndb.Model):
         self.put()
     def get_all(self):
         return self.query.get_all()  
-class Type  (ndb.Model):
+class Type(ndb.Model):
     name = ndb.StringProperty(required=True)
     color = ndb.StringProperty(required=True)
     def get_all(self):
-        return self.query.get_all()
+        return self.query().fetch()
     
         
     

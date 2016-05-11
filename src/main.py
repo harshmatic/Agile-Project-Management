@@ -2,6 +2,7 @@ import webapp2
 from controller.login import *
 from controller.admin import *
 from controller.user import *
+from controller.sprint import *
 from controller.projectcontroller import *
 from controller.product_backlog_controller import *
 from webapp2_extras import routes
@@ -47,6 +48,7 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/backlog/getallbacklog', AllBacklogs,name='getbacklog'),
         webapp2.Route('/backlog/getbacklog', Backlog,name='getbacklog'),
         webapp2.Route('/backlog/deletebacklog', DeleteBacklog,name='deletebacklg'),
+        webapp2.Route('/sprint', Sprint,name='sprint'),
         
         webapp2.Route('/admin/edit', AdminEditUser),
         webapp2.Route('/admin/deleteuser', AdminDeleteUser),
@@ -70,7 +72,7 @@ app = webapp2.WSGIApplication([
       #  webapp2.Route('/userbasehtml', UserBaseHtml,name="userbasehtml"),
         
     ]),
-        webapp2.Route('/admin/permissions', EditPermissions, name='permissions'),
+        webapp2.Route('/sprint', Sprint,name='sprint'),
         webapp2.Route('/checkdomain', CheckDomain,name="checkdomain"),
         webapp2.Route('/basehtml', BaseHtml,name="basehtml"),
         webapp2.Route('/userbasehtml', UserBaseHtml,name="userbasehtml"),
@@ -88,5 +90,5 @@ app = webapp2.WSGIApplication([
     
 ], debug=True, config=config)
 
-app.error_handlers[404] = NotFoundPageHandler
-app.error_handlers[500] = NotFoundPageHandler
+#app.error_handlers[404] = NotFoundPageHandler
+#app.error_handlers[500] = NotFoundPageHandler
