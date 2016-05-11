@@ -58,8 +58,8 @@ class ProjectRelease(ndb.Model):
     companyid =       ndb.IntegerProperty(required=True)
     releaseName = ndb.StringProperty(required=True)
     createdDate = ndb.DateTimeProperty(auto_now_add=True)
-    releaseStartDate = ndb.DateProperty()
-    releaseendDate = ndb.DateProperty()
+  #  releaseStartDate = ndb.DateProperty()
+    releaseDate = ndb.DateProperty()
     
     def set(self):
         return self.put()
