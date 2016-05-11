@@ -8,7 +8,7 @@ from webapp2_extras import routes
 from webapp2_extras.routes import DomainRoute
 
 app = webapp2.WSGIApplication([
-    DomainRoute('<subdomain>.apm-eternus.appspot.com', [
+    DomainRoute('<subdomain>.<version>.apm-eternus.appspot.com', [
         webapp2.Route('/', Main, name='subdomain-home'),
         webapp2.Route('/dashboard', EndUserDashboardHandler, name='dashboard'),                           
         webapp2.Route('/admin/signup', SignupHandler, name='adminsignup'),
@@ -46,6 +46,7 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/profile', EndUserProfile),
         webapp2.Route('/img', EndUserProfile),
         webapp2.Route('/view_photo', UserViewPhotoHandler),
+        webapp2.Route('/admin/profile', AdminProfile,name='profile'),
         
         webapp2.Route('/project/addnewproject', AddProjectView,name='addnewproject'),
         webapp2.Route('/project/viewproject', ViewProject,name='viewproject'),

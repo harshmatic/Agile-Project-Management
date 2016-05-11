@@ -88,8 +88,11 @@
 										<a href="#" class="dropdown-toggle user-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 										
 										Hi , {{user.name}}
-										<img src="../assets_new/img/profile.jpg" class="apm-profile-thumb"> </a>
-										
+										{%if blob%}
+										<img src="/view_photo?photo_key={{blob}}" class="apm-profile-thumb"> </a>
+										{%else%}
+										<i class="fa fa-user fa-3x"></i></a>
+										{%endif%}
 										<ul class="dropdown-menu multi-level menu-user">
 										  <li><a href="/admin/dashboard"><i class="fa fa-refresh"></i> Switch Role</a></li>
 										  <li><a href="/profile"><i class="fa fa-user"></i> Profile</a></li>
