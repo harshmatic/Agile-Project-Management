@@ -54,7 +54,7 @@ class ProjectMembers(ndb.Model):
         ndb.Key(ProjectMembers, int(id)).delete()
         
 class ProjectRelease(ndb.Model):
-    projectid =        ndb.IntegerProperty(required=True)
+    projectid =        ndb.KeyProperty(required=True)
     companyid =       ndb.IntegerProperty(required=True)
     releaseName = ndb.StringProperty(required=True)
     createdDate = ndb.DateTimeProperty(auto_now_add=True)

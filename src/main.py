@@ -15,7 +15,7 @@ def NotFoundPageHandler(request, response, exception):
     response.out.write(render(path,{}))
     
 app = webapp2.WSGIApplication([
-    DomainRoute('<subdomain>.apm-eternus.appspot.com', [
+    DomainRoute('<subdomain>.<version>.apm-eternus.appspot.com', [
         webapp2.Route('/', Main, name='subdomain-home'),
         webapp2.Route('/dashboard', EndUserDashboardHandler, name='dashboard'),                           
         webapp2.Route('/admin/signup', SignupHandler, name='adminsignup'),
@@ -66,7 +66,7 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/project/editmembertoproj', EditProjMem,name='editestimatetoproj'),
         webapp2.Route('/project/editestimatetoproj', EditEstimates,name='project'),
         webapp2.Route('/project', ProjectManagement,name='project'),
-        
+        webapp2.Route('/release', Release,name='release'),
       #  webapp2.Route('/userbasehtml', UserBaseHtml,name="userbasehtml"),
         
     ]),
@@ -82,11 +82,11 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/password', SetPasswordHandler, name="setpassword"),
         webapp2.Route('/signupuser', SignupUser, name='usersignup'),
         webapp2.Route('/<type:v|p>/<user_id:\d+>-<signup_token:.+>',handler=VerificationHandler, name='verification'),
-        webapp2.Route('/forgot', ForgotPasswordHandler, name='forgot')
+        webapp2.Route('/forgot', ForgotPasswordHandler, name='forgot'),
         #webapp2.Route('/.*', NotFoundPageHandler)
-        
+        webapp2.Route('/release', Release,name='release')
     
 ], debug=True, config=config)
 
-app.error_handlers[404] = NotFoundPageHandler
-app.error_handlers[500] = NotFoundPageHandler
+#app.error_handlers[404] = NotFoundPageHandler
+#app.error_handlers[500] = NotFoundPageHandler
