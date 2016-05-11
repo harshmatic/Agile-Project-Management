@@ -6,9 +6,16 @@ from controller.projectcontroller import *
 from controller.product_backlog_controller import *
 from webapp2_extras import routes
 from webapp2_extras.routes import DomainRoute
+from google.appengine.ext.webapp import template
+from google.appengine.ext.webapp.template import render
 
+def NotFoundPageHandler(request, response, exception):
+    
+    path = os.path.join(os.path.dirname(__file__), 'view/404.html')
+    response.out.write(render(path,{}))
+    
 app = webapp2.WSGIApplication([
-    DomainRoute('<subdomain>.<version>.apm-eternus.appspot.com', [
+    DomainRoute('<subdomain>.apm-eternus.appspot.com', [
         webapp2.Route('/', Main, name='subdomain-home'),
         webapp2.Route('/dashboard', EndUserDashboardHandler, name='dashboard'),                           
         webapp2.Route('/admin/signup', SignupHandler, name='adminsignup'),
@@ -76,7 +83,10 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/signupuser', SignupUser, name='usersignup'),
         webapp2.Route('/<type:v|p>/<user_id:\d+>-<signup_token:.+>',handler=VerificationHandler, name='verification'),
         webapp2.Route('/forgot', ForgotPasswordHandler, name='forgot')
-        #webapp2.Route('/checkdomain', handler=Domain,name="checkdomain")
+        #webapp2.Route('/.*', NotFoundPageHandler)
         
     
 ], debug=True, config=config)
+
+app.error_handlers[404] = NotFoundPageHandler
+app.error_handlers[500] = NotFoundPageHandler
