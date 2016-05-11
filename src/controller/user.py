@@ -83,7 +83,7 @@ class EndUserProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobs
         #    self.response.headers['Content-Type'] = 'image/png'
            
             
-            self.render_template("profile.html",{'user_image':user.blob_key,'permission':'success', 'user_db':user_db, 'role':role,"upload_url":upload_url})
+            self.render_template("user_new/profile.html",{'user_image':user.blob_key,'permission':'success', 'user_db':user_db, 'role':role,"upload_url":upload_url})
             
     def post(self,*args,**kargs):
          user_db = OurUser.query().fetch()
