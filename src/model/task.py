@@ -16,18 +16,14 @@ class Task(ndb.Model):
     status = ndb.StringProperty()
     def set(self,data):
         self.put()
-        
+    def get_all(self):
+        return self.query.get_all()  
 class Type  (ndb.Model):
     name = ndb.StringProperty(required=True)
     color = ndb.StringProperty(required=True)
     def get_all(self):
         return self.query.get_all()
-    def get(self,**kargs):
-        t =Type()
-        for k, v in kargs.iteritems():
-            setattr(self,k,v)
-        qry = t.query()
-        return qry
+    
         
     
     
