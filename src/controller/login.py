@@ -88,8 +88,12 @@ class BaseHandler(webapp2.RequestHandler):
             params = {}
         user = self.user_info
         params['user'] = user
-        params['blob'] = self.user_model.get_by_id(user['user_id']).blob_key
+        if user != None :
+            params['blob'] = self.user_model.get_by_id(user['user_id']).blob_key
         
+#         else :
+#             params['blob']=""
+#         
         logging.info(params)
         path = os.path.join(os.path.dirname(__file__), '../view', view_filename)
         self.response.out.write(template.render(path, params))
