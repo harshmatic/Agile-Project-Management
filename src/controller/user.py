@@ -91,7 +91,7 @@ class EndUserProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobs
          user = self.user
           
        #  logging.info(self.request.get('file'))  
-         if (self.request.get('file') == ""):
+         if (self.request.get('file') != ""):
                 
             upload = self.get_uploads()[0]
             user.blob_key=upload.key()

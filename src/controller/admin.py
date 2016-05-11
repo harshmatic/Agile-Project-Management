@@ -165,7 +165,7 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
     def get(self,*args,**kargs):
         
         role=model.user.Groups()
-        roles=role.gat_all()
+        roles=role.query(ndb.OR(model.user.Groups.tenant_domain==None,model.user.Groups.tenant_domain=='team-google')).fetch()
         u=user.OurUser()
         user1=u.query(user.OurUser.tenant_domain==kargs['subdomain']).fetch()
         user_json = [row.to_dict() for row in user1]
@@ -235,7 +235,7 @@ class AdminEditUser(BaseHandler):
             key = ndb.Key(urlsafe=self.request.get('edit_key'))
             user_info=key.get()
             logging.info(user_info)
-            self.render_template("admin/edit_user.html",{"user_info":user_info})
+            self.render_template("admin_new/edit_user.html",{"user_info":user_info})
 
             
             
@@ -271,7 +271,7 @@ class AdminDeleteUser(BaseHandler):
             key = ndb.Key(urlsafe=self.request.get('delete_key'))
             user_info = key.get()
             logging.info(user_info)
-            self.render_template("admin/delete_user.html",{"user_info":user_info})
+            self.render_template("admin_new/delete_user.html",{"user_info":user_info})
          
         def post(self,*args,**kargs):
             user_key= ndb.Key(urlsafe=self.request.get('delete_key'))

@@ -28,7 +28,22 @@
 					});
 				
 				// harshit 
-				
+					$(".verify").on("click",function(){
+			key = $(this).attr("id");
+				$.post("/admin/verify?key_user="+key)
+		  		.done(function( data ) {
+		  			if (data.indexOf('true')){
+		  				alert("Something Went Wrong");
+		  				return false
+		  			} else {
+		  				alert("User is verified. Password for the user is: '"+data.replace("true", "")+"'")
+		  				$(".verify#"+key).parent().html();
+	  					$(".verify#"+key).parent().html("Yes");
+	  					
+		  				
+		  			}
+		  		})
+			})
 					$("#add_user").click(function(){
 						
 						
@@ -130,7 +145,7 @@
 								
 							</div>		
 							
-							<button class="apm-listing-add-proj-btn pro-button">Submit</button>
+							
 					</div> <!-- .col-lg-12 ends -->
 						
                     </div> <!-- .row ends -->
@@ -143,6 +158,105 @@
     <!-- /#wrapper -->
   
 		
+		<!-- Add User Modal Starts -->
+			<div id="add-user-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Add New User</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								<div class="col-md-10">
+										<form role="form" id="user_form">
+										<!-- Email --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Email</label>
+												<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="email">
+											  </div>
+											  <!-- Employee ID --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Employee ID</label>
+												<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="emp_id">
+											  </div>
+											  
+											  
+											  
+											  <div class="row">
+												  <div class="col-sm-6">
+													  <!-- First Name --> 
+													  <div class="form-group task-form-group">
+														<label class="task-label">First Name</label>
+														<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="first_name">
+													  </div>
+												  </div>
+												  
+												  <div class="col-sm-6">
+													  <!-- Last Name --> 
+													  <div class="form-group task-form-group">
+														<label class="task-label">Last Name</label>
+														<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="last_name">
+													  </div>
+												  </div>
+											  </div>
+											  
+											  <div class="row">
+												  <div class="col-sm-6">
+													  <!-- Designation --> 
+													  <div class="form-group task-form-group">
+														<label class="task-label">Designation</label>
+														<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="designation">
+													  </div>
+												  </div>
+												  
+												  <div class="col-sm-6">
+													  <!-- Contact No --> 
+													  <div class="form-group task-form-group">
+														<label class="task-label">Contact No.</label>
+														<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="contact_no">
+													  </div>
+												  </div>
+											  </div>
+											  
+											  <!-- Permissions/Role --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Role</label>
+												<select class="form-control add-task-textbox apm-modal-textbox" name="role">
+												{% for admin in admin %}
+													
+													<option value="{{admin.key.urlsafe}}">{{admin.role}}</option>
+												
+													{% endfor %}
+													{% for role in roles %}
+													
+													<option value="{{role.key.urlsafe}}">{{role.role}}</option>
+												
+													{% endfor %}
+													
+												</select>
+											  </div>
+											  
+										</form>
+								</div>	
+								<div class="col-md-1">
+								</div>		
+							</div>
+							
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<button type="button" class="add-task-btn-modal" data-dismiss="modal" name="add_user" id="add_user" value="Add">Add</button>
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
+				  </div>
+				</div>
+
+			  </div>
+			</div>
+	<!-- Add User Modal Ends -->
 		<!--Edit Modal Starts -->
 			<div id="edit-user-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
 			  <div class="modal-dialog">
@@ -168,8 +282,6 @@
 			  </div>
 			</div>
 	<!--delete Modal Ends -->
-	
-	
 	
 <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
 {%endblock%}
