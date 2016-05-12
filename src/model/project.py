@@ -20,8 +20,8 @@ class Project(ndb.Model):
         projKey = ndb.Key('Project',projid)
         res = projKey.get()
         return res
-    def delete_entity(self,id):
-        ndb.Key(Project, int(id)).delete()
+    def delete_entity(self,projid):
+        ndb.Key(Project, int(projid)).delete()
     
 class Estimation(ndb.Model):
     projectid =        ndb.IntegerProperty(required=True)
@@ -35,8 +35,8 @@ class Estimation(ndb.Model):
     def get_all(self,projId):
         res = self.query(Estimation.projectid == projId).fetch()
         return res
-    def delete_entity(self,id):
-        ndb.Key(Estimation, int(id)).delete()
+    def delete_entity(self,estid):
+        ndb.Key(Estimation, int(estid)).delete()
     
 class ProjectMembers(ndb.Model):
     projectid =        ndb.IntegerProperty(required=True)
@@ -50,8 +50,8 @@ class ProjectMembers(ndb.Model):
     def get_all(self,projId):
         res = self.query(ProjectMembers.projectid == projId).fetch()
         return res
-    def delete_entity(self,id):
-        ndb.Key(ProjectMembers, int(id)).delete()
+    def delete_entity(self,projmemid):
+        ndb.Key(ProjectMembers, int(projmemid)).delete()
         
 class ProjectRelease(ndb.Model):
     projectid =        ndb.IntegerProperty(required=True)
@@ -59,12 +59,12 @@ class ProjectRelease(ndb.Model):
     releaseName = ndb.StringProperty(required=True)
     createdDate = ndb.DateTimeProperty(auto_now_add=True)
     releaseStartDate = ndb.DateProperty()
-    releaseendDate = ndb.DateProperty()
+    releaseEndDate = ndb.DateProperty()
     
     def set(self):
         return self.put()
     def get_all(self,projId):
         res = self.query(ProjectRelease.projectid == projId).fetch()
         return res
-    def delete_entity(self,id):
-        ndb.Key(ProjectRelease, int(id)).delete()
+    def delete_entity(self,releaseid):
+        ndb.Key(ProjectRelease, int(releaseid)).delete()
