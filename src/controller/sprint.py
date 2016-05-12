@@ -47,6 +47,7 @@ class Sprint(BaseHandler):
         sprint_data.project = ndb.Key(urlsafe=self.request.get("project_key"))
         sprint_data.createdby = createdBy
         sprint_data.status = "Open"
+        sprint_data.company = self.user_model.get_by_id(currentUser['user_id']).tenant_key
         sprint_data.set()
         self.response.out.write("true")
         

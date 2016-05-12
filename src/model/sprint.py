@@ -1,5 +1,4 @@
 from google.appengine.ext import ndb
-
 from model.user import *
 
 class Sprint(ndb.Model):
@@ -9,6 +8,7 @@ class Sprint(ndb.Model):
     startDate = ndb.DateProperty()
     endDate = ndb.DateProperty()
     project = ndb.KeyProperty()
+    company = ndb.KeyProperty()
     createdby = ndb.KeyProperty()
     status = ndb.StringProperty()
     def set(self):
