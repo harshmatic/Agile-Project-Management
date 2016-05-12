@@ -15,7 +15,27 @@
 					$("#add-issue").click(function(e) {
 						$('#add-issue-modal').modal('show');
 					});
-
+					$("#add-sprint").click(function(e) {
+						$('#add-sprint-modal').modal('show');
+					});
+					
+					$("#submit_sprint").on("click",function(){
+						$.post( "/sprint", $("#add_sprint").serialize())
+				  		.done(function( data ) {
+				  			if (data!="true"){
+				  				alert("Something Went Wrong");
+				  				return false
+				  			} 
+				  		});
+						$('#add-sprint-modal').on('hidden.bs.modal', function(e)
+							    { 
+							        $(this).removeData();
+							        /*$('#edit_permissions').load('/admin/permissions #edit_permissions', function(result) {
+					  				    var variable = $('#edit_permissions').html();
+					  				});*/
+							    }) ;
+						
+					})
 				});
 		</script>		
 {% endblock %}
@@ -38,8 +58,8 @@
 						<div class="apm-backlog-filter-box">
 							
 							<!-- Add issue button -->
-								
-								<button class="apm-listing-add-proj-btn pro-button apm-add-sprint-btn" id="add-issue">Add Issue</button>
+								<button class="apm-listing-add-proj-btn pro-button apm-add-sprint-btn" id="add-issue">Assign Items</button>
+								<button class="apm-listing-add-proj-btn pro-button apm-add-sprint-btn" id="add-sprint">Add Sprint</button>
 							
 							
 							<!-- Backlog Filter section ENDS -->
@@ -55,7 +75,7 @@
 								<div class="col-md-12">
 									<div class="">
 											<!-- Sprint 1 panel -->
-											<div class="panel panel-default apm-sprint-panel">
+											<div class="panel panel-default apm-sprint-panel" id="sprint">
 												<div class="panel-heading">
 													SPRINT 1
 												</div>
@@ -349,7 +369,7 @@
 													
 													  <div class="form-group task-form-group">
 														<label class="task-label">Description</label>
-														<textarea name="desc" rows="4" cols="50" class="form-control add-task-textbox apm-modal-textbox"></textarea>
+														<textarea name="desc" rows="4" class="form-control"></textarea>
 													  </div>
 												  
 												  
@@ -415,7 +435,7 @@
 							
 				  </div>
 				  <div class="modal-footer add-task-modal-footer">
-					<button type="button" class="add-task-btn-modal" data-dismiss="modal" id="submit_sprint">Add</button>
+					<button type="button" class="add-task-btn-modal" data-dismiss="modal" id="submit_items">Add</button>
 					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
 				  </div>
 				</div>
@@ -423,6 +443,78 @@
 			  </div>
 			</div>
 	<!-- Create Issue Modal Ends -->
+	
+		<!-- Create Spritn Modal Starts -->
+			<div id="add-sprint-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Add New Sprint</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								<div class="col-md-10">
+										<form role="form" id="add_sprint">
+											  <!-- Project Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Name</label>
+												<input name="name" type="text" class="form-control add-task-textbox apm-modal-textbox">
+											  </div>
+											  
+											  
+											  
+											  
+													
+													  <div class="form-group task-form-group">
+														<label class="task-label">Description</label>
+														<textarea name="desc" rows="4" class="form-control add-task-textbox"></textarea>
+													  </div>
+												  
+												  
+												
+											  
+											  <div class="row">
+												<!-- Start Date -->
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="apm-landing-reg-label">Start Date</label>
+														<input name="start" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true">
+														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+													</div>
+												</div>
+												
+												<!-- End Date -->
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="apm-landing-reg-label">End Date</label>
+														<input name="end" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true">
+														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+													</div>
+												</div>
+												
+											</div>
+											  
+										</form>
+								</div>	
+								<div class="col-md-1">
+								</div>		
+							</div>
+							
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<button type="button" class="add-task-btn-modal" data-dismiss="modal" id="submit_sprint">Add</button>
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
+				  </div>
+				</div>
+
+			  </div>
+			</div>
+	<!-- Create Sprint Modal Ends -->
 {%endblock%}		
 		
 		
