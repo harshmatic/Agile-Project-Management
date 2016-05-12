@@ -61,3 +61,4 @@ src/controller/__init__.pyc
 *.pyc
 src/model/__init__.pyc
 src/controller/login.pyc
+*.pyc

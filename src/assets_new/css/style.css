@@ -1,5 +1,7 @@
 /***************************** Styles according to new designs *******************************/
-
+.apm-modal-textarea{
+ resize:none;
+}
 .apm-nav-brand{
 	padding-top: 14px!important;
 	margin-left: 10px!important;
