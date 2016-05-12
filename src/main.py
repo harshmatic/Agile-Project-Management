@@ -5,6 +5,7 @@ from controller.user import *
 from controller.sprint import *
 from controller.projectcontroller import *
 from controller.product_backlog_controller import *
+from controller.release import *
 from webapp2_extras import routes
 from webapp2_extras.routes import DomainRoute
 from google.appengine.ext.webapp import template
@@ -16,7 +17,7 @@ def NotFoundPageHandler(request, response, exception):
     response.out.write(render(path,{}))
     
 app = webapp2.WSGIApplication([
-    DomainRoute('<subdomain>.apm-eternus.appspot.com', [
+    DomainRoute('<subdomain>.<version>.apm-eternus.appspot.com', [
         webapp2.Route('/', Main, name='subdomain-home'),
         webapp2.Route('/dashboard', EndUserDashboardHandler, name='dashboard'),                           
         webapp2.Route('/admin/signup', SignupHandler, name='adminsignup'),

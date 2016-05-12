@@ -94,7 +94,9 @@
                 <div class="row">
                     <div class="col-lg-12">
 					
-						<h2 class="apm-all-reports-heading">Create Release</h2>
+						<h2 class="apm-all-reports-heading">Create Release
+						
+						</h2>
 						
 						<hr>
 						
@@ -115,9 +117,12 @@
 												<label class="apm-landing-reg-label">Project Name </label>
 													
 												<select class="form-control apm-landing-textbox-reg" name="proj_name">
-												{%for i in project%}
-  													<option value="{{i.key.urlsafe}}">{{i.name}}</option>
-  												
+											{%for i in project%}
+															
+															{%if company_data.tenant_key.id == i.companyid %}
+														
+  															<option value="{{i.key.urlsafe}}">{{i.name}}</option>
+  													{%endif%}
   												{%endfor%}
 												</select>
 												

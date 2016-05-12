@@ -143,28 +143,3 @@ class UserViewPhotoHandler(blobstore_handlers.BlobstoreDownloadHandler):
             self.send_blob(self.request.get('photo_key'))    
             
             
-class Release(BaseHandler):
-    def get(self,*args,**kargs):
-        if check_permission(self):
-            projmodel=project.Project()
-            proj=projmodel.get_all()
-            self.render_template("release.html",{"project":proj})
-        else:
-            self.response.write("you are not allowed")
-    
-    def post(self,*args,**kargs):
-        release_obj= project.ProjectRelease()
-            
-        release_obj.projectid= ndb.Key(urlsafe=self.request.get('proj_name'))
-           
-            
-        release_obj.releaseName=self.request.get('release_name')
-        release_obj.releaseDate=datetime.strptime(self.request.get('release_date'), '%d/%m/%Y').date()
-            
-        currentUser=self.auth.get_user_by_session()
-        companyId=self.user_model.get_by_id(currentUser['user_id']).tenant_key
-        release_obj.companyid = companyId.id()
-            
-        release_obj.put()
-            
-        self.redirect('/dashboard')
