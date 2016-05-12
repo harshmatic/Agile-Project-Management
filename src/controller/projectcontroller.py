@@ -61,7 +61,7 @@ class AddProject(BaseHandler):
         logging.info(companyId)
         logging.info(self.request.get("proj_start"))
         projec=project.Project()
-        projec.companyid = companyId.id()
+        projec.companyid = companyId
         projec.name = self.request.get("proj_name")
         projec.description = self.request.get("proj_desc")
         projec.startDate = datetime.strptime(self.request.get("proj_start"), '%d/%m/%Y').date()
@@ -70,40 +70,40 @@ class AddProject(BaseHandler):
         projkey = projec.set()
         #logging.info(projkey)
         estimation = project.Estimation()
-        estimation.projectid=projkey.id()
-        estimation.companyid = companyId.id()
+        estimation.projectid=projkey
+        estimation.companyid = companyId
         estimation.estimationLevel="Very Simple"
         estimation.estimationPoint= 1
         estimation.estimationHours= 1.0
         estimation.set()
         
         estimation = project.Estimation()
-        estimation.projectid=projkey.id()
-        estimation.companyid = companyId.id()
+        estimation.projectid=projkey
+        estimation.companyid = companyId
         estimation.estimationLevel="Simple"
         estimation.estimationPoint= 1
         estimation.estimationHours= 1.0
         estimation.set()
         
         estimation = project.Estimation()
-        estimation.projectid=projkey.id()
-        estimation.companyid = companyId.id()
+        estimation.projectid=projkey
+        estimation.companyid = companyId
         estimation.estimationLevel ="Medium"
         estimation.estimationPoint= 1
         estimation.estimationHours= 1.0
         estimation.set()
         
         estimation = project.Estimation()
-        estimation.projectid=projkey.id()
-        estimation.companyid = companyId.id()
+        estimation.projectid=projkey
+        estimation.companyid = companyId
         estimation.estimationLevel="Complex"
         estimation.estimationPoint= 1
         estimation.estimationHours= 1.0
         estimation.set()
         
         estimation = project.Estimation()
-        estimation.projectid=projkey.id()
-        estimation.companyid = companyId.id()
+        estimation.projectid=projkey
+        estimation.companyid = companyId
         estimation.estimationLevel="Very Complex"
         estimation.estimationPoint= 1
         estimation.estimationHours= 1.0
@@ -111,8 +111,8 @@ class AddProject(BaseHandler):
         
         projemem = project.ProjectMembers()
         projemem.userName =  self.user_model.get_by_id(currentUser['user_id']).name
-        projemem.projectid = projkey.id()
-        projemem.companyid = companyId.id()
+        projemem.projectid = projkey
+        projemem.companyid = companyId
         projemem.userid =   currentUser['user_id']
         projemem.userRole = "Product Owner"
         projemem.set()
@@ -152,19 +152,19 @@ class AddProjectMembers(BaseHandler):
         userkey = ndb.Key('OurUser',int(userid))
         model = userkey.get()
         projemem.userName =  model.name
-        projemem.projectid = int(projid)
-        projemem.companyid = companyId.id()
-        projemem.userid =    int(userid)
+        projemem.projectid = ndb.Key('Project',int(projid))
+        projemem.companyid = companyId
+        projemem.userid =    userkey
         projemem.userRole = role
         projekey = projemem.set()
         projmodel = projekey.get()
         
         data = {}
         data['id'] = projmodel.key.id()
-        data['projectid'] = projmodel.projectid
-        data['companyid'] = projmodel.companyid
+        data['projectid'] = projmodel.projectid.id()
+        data['companyid'] = projmodel.companyid.id()
         data['userName'] = projmodel.userName
-        data['userid'] = projmodel.userid
+        data['userid'] = projmodel.userid.id()
         data['userRole'] = projmodel.userRole
         
         self.response.write(json.dumps(data, ensure_ascii=False))
@@ -182,10 +182,10 @@ class EditProjMem(BaseHandler):
         projmemmodel = projmemkey.get()
         data = {}
         data['id'] = projmemmodel.key.id()
-        data['projectid'] = projmemmodel.projectid
-        data['companyid'] = projmemmodel.companyid
+        data['projectid'] = projmemmodel.projectid.id()
+        data['companyid'] = projmemmodel.companyid.id()
         data['userName'] = projmemmodel.userName
-        data['userid'] = projmemmodel.userid
+        data['userid'] = projmemmodel.userid.id()
         data['userRole'] = projmemmodel.userRole
         
         self.response.write(json.dumps(data, ensure_ascii=False))
@@ -213,8 +213,8 @@ class EditEstimates(BaseHandler):
         
         data = {}
         data['id'] = estimatesmodel.key.id()
-        data['projectid'] = estimatesmodel.projectid
-        data['companyid'] = estimatesmodel.companyid
+        data['projectid'] = estimatesmodel.projectid.id()
+        data['companyid'] = estimatesmodel.companyid.id()
         data['estimationLevel'] = estimatesmodel.estimationLevel
         data['estimationPoint'] = estimatesmodel.estimationPoint
         data['estimationHours'] = estimatesmodel.estimationHours
@@ -237,8 +237,8 @@ class AddProjectEstimates(BaseHandler):
         companyId= self.user_model.get_by_id(currentUser['user_id']).tenant_key
         
         estimation = project.Estimation()
-        estimation.projectid=int(projid)
-        estimation.companyid = companyId.id()
+        estimation.projectid=ndb.Key('Project',int(projid))
+        estimation.companyid = companyId
         estimation.estimationLevel=  complexity
         estimation.estimationPoint= int(points)
         estimation.estimationHours= float(efforts)
@@ -248,8 +248,8 @@ class AddProjectEstimates(BaseHandler):
         
         data = {}
         data['id'] = estimatesmodel.key.id()
-        data['projectid'] = estimatesmodel.projectid
-        data['companyid'] = estimatesmodel.companyid
+        data['projectid'] = estimatesmodel.projectid.id()
+        data['companyid'] = estimatesmodel.companyid.id()
         data['estimationLevel'] = estimatesmodel.estimationLevel
         data['estimationPoint'] = estimatesmodel.estimationPoint
         data['estimationHours'] = estimatesmodel.estimationHours
@@ -294,10 +294,10 @@ class ViewProject(BaseHandler):
         logging.info("it is here proj "+proj.__str__())
         
         estimationmodel = project.Estimation()
-        esti = estimationmodel.get_all(projkey)
+        esti = estimationmodel.get_all(ndb.Key('Project',projkey))
         
         projectmembermodel = project.ProjectMembers()
-        projmem = projectmembermodel.get_all(projkey)
+        projmem = projectmembermodel.get_all(ndb.Key('Project',projkey))
         
         groupmodel = user.Groups().query(user.Groups.tenant_key==self.user_model.get_by_id(currentUser['user_id']).tenant_key)
         

@@ -9,7 +9,7 @@ class Project(ndb.Model):
     startDate = ndb.DateProperty()
     endDate = ndb.DateProperty()
     #team = ndb.StringProperty(repeated=True)
-    companyid = ndb.IntegerProperty(required=True)
+    companyid = ndb.KeyProperty(required=True)
     
     def set(self):
         return self.put()
@@ -24,8 +24,8 @@ class Project(ndb.Model):
         ndb.Key(Project, int(projid)).delete()
     
 class Estimation(ndb.Model):
-    projectid =        ndb.IntegerProperty(required=True)
-    companyid =       ndb.IntegerProperty(required=True)
+    projectid =        ndb.KeyProperty(required=True)
+    companyid =       ndb.KeyProperty(required=True)
     estimationLevel = ndb.StringProperty(required=True)
     estimationPoint = ndb.IntegerProperty(required=True)
     estimationHours = ndb.FloatProperty(required=True)
@@ -39,10 +39,10 @@ class Estimation(ndb.Model):
         ndb.Key(Estimation, int(estid)).delete()
     
 class ProjectMembers(ndb.Model):
-    projectid =        ndb.IntegerProperty(required=True)
-    companyid =       ndb.IntegerProperty(required=True)
+    projectid =        ndb.KeyProperty(required=True)
+    companyid =       ndb.KeyProperty(required=True)
     userName = ndb.StringProperty(required=True)
-    userid   = ndb.IntegerProperty(required=True)
+    userid   = ndb.KeyProperty(required=True)
     userRole = ndb.StringProperty(required=True)
     
     def set(self):
