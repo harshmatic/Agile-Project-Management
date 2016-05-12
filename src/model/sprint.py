@@ -14,7 +14,9 @@ class Sprint(ndb.Model):
     workinghours = ndb.StringProperty()
     def set(self):
         self.put()
-    def get_all(self):
-        return self.query().fetch()  
+    def get_all(self): 
+        return self.query().fetch()
+    def get_by_project(self,projId): 
+        return self.query(Sprint.project == projId).fetch()
     
     

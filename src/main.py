@@ -50,7 +50,9 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/backlog/getbacklog', Backlog,name='getbacklog'),
         webapp2.Route('/backlog/deletebacklog', DeleteBacklog,name='deletebacklg'),
         webapp2.Route('/sprint', Sprint,name='sprint'),
-        
+        webapp2.Route('/task', Tasks,name='Task'),
+        webapp2.Route('/task/addtask', Tasks,name='Task'),
+       
         webapp2.Route('/admin/edit', AdminEditUser),
         webapp2.Route('/admin/deleteuser', AdminDeleteUser),
         webapp2.Route('/profile', EndUserProfile),
