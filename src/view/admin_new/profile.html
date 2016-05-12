@@ -1,0 +1,645 @@
+{% extends "base.html" %}
+
+{% block title %}Admin | Profile{% endblock %}
+		
+{% block header_links%}
+		<link rel="stylesheet" href="../assets_new/css/bootstrap-datepicker.min.css">
+		
+		
+		<style>
+			.apm-nav-brand-1{
+				padding: 15px!important;
+				font-size: 15px!important;
+				margin: 0!important;
+				padding-left: 8px!important;
+			}
+			.apm-dropdown-projects{
+				margin-left: -98px!important;
+				margin-top: 50px!important;
+				z-index:99999999;
+			}
+			
+		</style>
+		
+		
+		<script src="../assets_new/js/bootstrap-datepicker.min.js"></script>
+		<script src="../assets_new/js/main.js"></script>
+		
+			
+		<script>
+				$(document).ready(function(){
+					
+					
+					
+					 $(".edit_my_profile_fields").hide();
+					 
+					$( "#edit_my_profile_button" ).click(function() {
+						  $(".edit_my_profile_fields").show();
+						  
+						  $(".label_my_profile_fields").hide();
+						  
+						});
+					
+					
+					$( "#cancel_edit_my_profile_button" ).click(function() {
+						  $(".edit_my_profile_fields").hide();
+						  
+						  $(".label_my_profile_fields").show();
+						  
+						});
+					
+					//for image
+					if ('{{user_image}}') {
+					$(".get_profile_image").attr('src', '/view_photo?photo_key={{user_image}}');
+				}
+					
+					
+				});
+		
+		
+		$(function(){ 
+			
+			
+		    $("#file").change(function() {
+		    	readURL(this);
+		    });
+		});
+		
+		
+		
+		   
+		function readURL(input) {
+		    if (input.files && input.files[0]) {
+		        var reader = new FileReader();
+
+		        reader.onload = function (e) {
+		            $('#preview_image').attr('src', e.target.result);
+		        }
+
+		        reader.readAsDataURL(input.files[0]);
+		    }
+		}
+
+		
+		</script>
+		
+{% endblock %}	
+	
+
+
+     
+{%block content%}	
+		
+		
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+					
+						<h2 class="apm-all-reports-heading">My Profile</h2>
+						
+						<hr>
+						
+						<div class="apm-user-profile-box">
+							<div class="row">
+								<div class="col-md-10 apm-profile-container">
+									<div class="row" style="border: 1px solid #eee;">
+								{%for i in user_db%}
+				
+										{% if i.email_address == user.email_address and i.key.id == user.user_id %}
+										
+										<!-- User Profile Image -->
+										<div class="col-md-3 col-sm-3 apm-profile-img-box">
+										
+											{%if not i.blob_key%}	
+								
+										<img id="preview_image" src="../assets_new/img/user1.png" class="img-responsive" >
+									<!-- <img id="preview_image" src="http://placehold.it/240x240" height="240" width="240" value="img?entity_id={{ i.blob_key }}"> 
+									 -->
+										{%else%}
+									<img id="preview_image"  class="img-responsive" src="/view_photo?photo_key={{i.blob_key}}" > 
+								{%endif%}
+										
+										
+											
+											
+											<div class="apm-profile-edit-box">
+												<button id="edit_my_profile_button" class="label_my_profile_fields apm-listing-add-proj-btn apm-edit-pro-btn">Edit My Profile</button>
+											
+												<button id="cancel_edit_my_profile_button" class="edit_my_profile_fields apm-listing-add-proj-btn apm-edit-pro-btn">Cancel</button>
+								
+											</div>
+										</div>
+										
+											<form role="form" id="user_form" action="{{upload_url}}"  method="post" enctype="multipart/form-data">
+									
+										
+										
+										<!-- User Profile Information -->
+										<div class="col-md-9 col-sm-9 apm-profile-info-box">
+											<div class="row" style="padding-left: 15px;">
+											
+													<h2 class="apm-profile-page-main-heading">{{i.name}}, <span>{{role}}</span></h2>
+													
+													<hr class="apm-profile-hr">
+													
+													<!-- Profile image -->
+													<div class="form-group">
+														<div class="row">
+															<div class="col-md-3 col-xs-6">
+																<label class="edit_my_profile_fields apm-user-info-label">Profile Image:</label>
+															</div>
+															<div class="col-md-6 col-xs-6">
+															<!-- 	<label class="label_my_profile_fields apm-user-info-label2">{{i.empid}}</label> -->
+																
+																	<!-- <input type="text" class="edit_my_profile_fields form-control project-management-textbox" name="emp_id" value="{{i.empid}}">-->
+																<input type="file" class="edit_my_profile_fields" id="file" name="file">
+																
+																
+															</div>
+														</div>
+													</div>
+													
+													
+													<!-- Employee ID -->
+													<div class="form-group">
+														<div class="row">
+															<div class="col-md-3 col-xs-6">
+																<label class="apm-user-info-label">Employee ID:</label>
+															</div>
+															<div class="col-md-6 col-xs-6">
+																<label class="label_my_profile_fields apm-user-info-label2">{{i.empid}}</label>
+																
+																	<input type="text" class="edit_my_profile_fields form-control project-management-textbox" name="emp_id" value="{{i.empid}}">
+										
+																
+																
+															</div>
+														</div>
+													</div>
+													
+													<!-- First Name -->
+													<div class="form-group">
+														<div class="row">
+															<div class="col-md-3 col-xs-6">
+																<label class="apm-user-info-label">First Name:</label>
+															</div>
+															<div class="col-md-6 col-xs-6">
+																<label class="label_my_profile_fields apm-user-info-label2">{{i.name}}</label>
+																
+																<input type="text" class="edit_my_profile_fields form-control project-management-textbox" name="first_name" value="{{i.name}}">
+										
+																
+															</div>
+														</div>
+													</div>
+													
+													<!-- Last Name -->
+													<div class="form-group">
+														<div class="row">
+															<div class="col-md-3 col-xs-6">
+																<label class="apm-user-info-label">Last Name:</label>
+															</div>
+															<div class="col-md-6 col-xs-6">
+																<label class="label_my_profile_fields apm-user-info-label2">{{i.last_name}}</label>
+																
+																<input type="text" class="edit_my_profile_fields form-control project-management-textbox" name="last_name" value="{{i.last_name}}">
+											
+																
+															</div>
+														</div>
+													</div>
+													
+													<!-- Email ID -->
+													<div class="form-group">
+														<div class="row">
+															<div class="col-md-3 col-xs-6">
+																<label class="apm-user-info-label">Designation:</label>
+															</div>
+															<div class="col-md-6 col-xs-6">
+																<label class="label_my_profile_fields apm-user-info-label2">{{i.designation}}</label>
+																<input type="text" class="edit_my_profile_fields form-control project-management-textbox" name="designation" value="{{i.designation}}">
+										
+															</div>
+														</div>
+													</div>
+													
+													<!-- Designation -->
+													<div class="form-group">
+														<div class="row">
+															<div class="col-md-3 col-xs-6">
+																<label class="apm-user-info-label">Email ID:</label>
+															</div>
+															<div class="col-md-6 col-xs-6">
+																<label class="label_my_profile_fields apm-user-info-label2">{{i.email_address}}</label>
+																
+																<input type="text" class="edit_my_profile_fields form-control project-management-textbox" name="email" value="{{i.email_address}}" readonly>
+										
+																
+															</div>
+														</div>
+													</div>
+													
+													<!-- Contact No. -->
+													<div class="form-group">
+														<div class="row">
+															<div class="col-md-3 col-xs-6">
+																<label class="apm-user-info-label">Contact No.:</label>
+															</div>
+															<div class="col-md-6 col-xs-6">
+																<label class="label_my_profile_fields apm-user-info-label2">{{i.contact}}</label>
+																<input type="text" class="edit_my_profile_fields form-control project-management-textbox" name="contact_no" value="{{i.contact}}">
+										
+															</div>
+														</div>
+													</div>
+													
+													<!-- Role -->
+													<div class="form-group">
+														<div class="row">
+															<div class="col-md-3 col-xs-6">
+																<label class="apm-user-info-label">Role:</label>
+															</div>
+															<div class="col-md-6 col-xs-6">
+																<label class="apm-user-info-label2">{{role}}</label>
+															</div>
+														</div>
+													</div>
+											
+												
+								<input type="submit" name="my_profile" id="my_profile" value="Update" class="edit_my_profile_fields register-btn pro-button">
+									</form>	
+								
+								{%endif%}
+								{%endfor%}
+							
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-2">
+								</div>
+							</div>
+							
+						</div>
+						
+						
+                    </div> <!-- .col-lg-12 ends -->
+                </div>
+            </div> <!-- .container ends -->
+        </div>
+        <!-- /#page-content-wrapper ENDS -->
+				{%endblock%}
+   
+  
+		
+	
+
+
+
+<!-- <html>
+	<head>
+		<title>Profile</title>
+		{% include "head.html" %}
+		<link rel="stylesheet" href="/assets/css/jquery.tokenize.css">
+		<link rel="stylesheet" href="/assets/css/bootstrap-datepicker.min.css">
+		<link rel="stylesheet" href="/assets/css/style-admin.css">
+	
+		<script src="/assets/js/main.js"></script>
+		<script src="/assets/js/jquery.tokenize.js"></script>
+		<script src="/assets/js/bootstrap-datepicker.min.js"></script>
+		
+		
+		<script>
+		$(document).ready(function() {
+			
+			if ('{{user_image}}') {
+				$(".get_profile_image").attr('src', '/view_photo?photo_key={{user_image}}');
+			}
+
+	
+			
+			
+			$(".messages-main-box").niceScroll();
+			
+			$("#menu-toggle").click(function(e) {
+				e.preventDefault();
+				$("#wrapper").toggleClass("toggled");
+			});
+			
+			/******** For Hamburger & Close icon *****/
+				
+			$('#ham-side-icon').show();	
+			
+			$( "#menu-toggle" ).click(function() {
+				var toggle = $( "#wrapper" ).hasClass("toggled");
+					
+						if(toggle == true){
+							$('#close-side-icon').show();
+							$('#ham-side-icon').hide();
+							
+						} else {
+							$('#close-side-icon').hide();
+							$('#ham-side-icon').show();
+						}
+				
+			});
+			/******** For Hamburger & Close icon ends *****/
+			
+			if($( window ).width() >= 768) {
+				$( "#menu-toggle" ).click(function() {
+						var a = $( "#wrapper" ).hasClass("toggled");
+					
+						if(a == true){
+							
+							$('#sidebar-wrapper').css('width','250px');
+							$('#sidebar-wrapper').css('left','250px');
+							$('#wrapper.toggled').css('padding-left','250px');
+							
+						} else {
+							$('#sidebar-wrapper').css('width','0px');
+							$('#sidebar-wrapper').css('left','0px');
+							$('#wrapper').css('padding-left','0px');
+							
+						}
+						
+				});
+			}
+			
+			if($( window ).width() <= 767) {
+				$( "#menu-toggle" ).click(function() {
+						var a = $( "#wrapper" ).hasClass("toggled");
+						
+						if(a == true){
+							  
+							
+							$('#sidebar-wrapper').css('width','250px');
+							$('#sidebar-wrapper').css('left','250px');
+							$('#wrapper.toggled').css('padding-left','250px');
+							
+						} else {
+							$('#sidebar-wrapper').css('width','0px');
+							$('#sidebar-wrapper').css('left','0px');
+							$('#wrapper').css('padding-left','0px');
+							
+						}
+						
+				});
+			}
+			
+					
+			/********** For Chatbox **********/
+						
+			$('.chatbox-pro-management').css('bottom','-423px');
+			
+			$( ".online-user-name" ).click(function() {
+				$('.chatbox-pro-management').css('bottom','0px');
+				$('.chatbox-pro-management').css('transition','all .8s');
+				
+			});
+			$( ".close-chatbox" ).click(function() {
+				$('.chatbox-pro-management').css('bottom','-423px');
+				$('.chatbox-pro-management').css('transition','all .8s');
+			});
+		});
+		
+		
+		
+		
+		
+		</script>
+	
+	
+	</head>
+	
+	<body>
+		<div id="wrapper">
+	
+		 {% include "sidebar.html" %} 
+		
+	Page Content
+       <div id="page-content-wrapper">
+		
+		
+				{% include "header.html" %} 	
+		
+						Main Page content starts	
+						
+						<div class="main-box">
+						
+							<div class="col-md-12">
+							
+								<div class="user-management-heading-box">
+								
+									Menu Toggle Button
+								 <div id="menu-toggle" class="menu-toggle-user-management">
+										<img src="../assets/img/ham-side-icon.png" id="ham-side-icon">
+										<img src="../assets/img/close-side-icon.png" id="close-side-icon" style="display:none;">
+									</div>
+									<!-- Menu Toggle Button
+									
+									<h2 class="user-management-heading"><i class="fa fa-user user-management-head-icon"></i>Profile</h2>
+									
+									
+								</div>
+										<div class="register-box">
+				
+							{%for i in user_db%}
+				
+							{% if i.email_address == user.email_address and i.key.id == user.user_id %}
+								
+								<div class="col-md-4" >
+								{%if not i.blob_key%}	
+								
+								
+									<img id="preview_image" src="http://placehold.it/240x240" height="240" width="240" value="img?entity_id={{ i.blob_key }}"> 
+									
+										{%else%}
+								<img id="preview_image" src="/view_photo?photo_key={{i.blob_key}}" height="240" width="240" > 
+								{%endif%}
+						
+						</div>
+						
+								<div id="profile_image">
+									<form role="form" id="user_form" action="{{upload_url}}"  method="post" enctype="multipart/form-data">
+									
+									<label class="register-label">Add Profile Image :</label>	<br><br>
+										<input type="file" id="file" name="file">
+								<br>
+							
+								
+								
+									</div>
+		
+		
+								
+								
+								<div class="col-md-8" >
+								First Name
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-4 register-label-box">
+												<label class="register-label">First Name :</label>
+											</div>
+											
+											<div class="col-md-8 register-label-box">
+													<input type="text" class="form-control project-management-textbox" name="first_name" value="{{i.name}}">
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								Last Name
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-4 register-label-box">
+												<label class="register-label">Last Name :</label>
+											</div>
+											
+											<div class="col-md-8 register-label-box">
+												<input type="text" class="form-control project-management-textbox" name="last_name" value="{{i.last_name}}">
+										
+												
+											</div>
+										</div>
+									</div>
+								</div>
+													
+								Email address
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-4 register-label-box">
+												<label class="register-label">Email address :</label>
+											</div>
+											
+											<div class="col-md-8 register-label-box">
+												<input type="text" class="form-control project-management-textbox" name="email" value="{{i.email_address}}">
+											
+												
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								Designation
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-4 register-label-box">
+												<label class="register-label">Designation :</label>
+											</div>
+											<div class="col-md-8 register-label-box">
+												<input type="text" class="form-control project-management-textbox" name="designation" value="{{i.designation}}">
+										
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								
+								Employee ID 
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-4 register-label-box">
+												<label class="register-label">Employee ID :</label>
+											</div>
+											
+											<div class="col-md-8 register-label-box">
+												<input type="text" class="form-control project-management-textbox" name="emp_id" value="{{i.empid}}">
+										
+											
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								Contact NO
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-4 register-label-box">
+												<label class="register-label">Contact No :</label>
+											</div>
+											
+											<div class="col-md-8 register-label-box">
+												<input type="text" class="form-control project-management-textbox" name="contact_no" value="{{i.contact}}">
+										
+												
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								Role
+								<div class="row row-register">
+									<div class="col-md-8">
+										<div class="row">
+											<div class="col-md-4 register-label-box">
+												<label class="register-label">Role :</label>
+											</div>
+											
+											<div class="col-md-8 register-label-box">
+												<label class="register-label">
+												{{role}}
+												</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<input type="submit" name="add_user" id="add_user" value="Update" class="register-btn pro-button">
+								</div>
+									
+								</form>
+								
+								
+								{%endif%}
+								{%endfor%}
+							
+							
+							
+							</div>
+			
+						</div>
+						
+						Main Page content ENDS	
+					
+		</div> Page content Wrapper ends		
+	</div> Wrapper ends	
+	
+	<script>
+		
+		$(function(){ 
+			
+			
+		    $("#file").change(function() {
+		    	readURL(this);
+		    });
+		});
+		
+		
+		
+		   
+		function readURL(input) {
+		    if (input.files && input.files[0]) {
+		        var reader = new FileReader();
+
+		        reader.onload = function (e) {
+		            $('#preview_image').attr('src', e.target.result);
+		        }
+
+		        reader.readAsDataURL(input.files[0]);
+		    }
+		}
+
+		
+		</script>
+		
+
+	</body>
+</html> -->

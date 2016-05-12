@@ -30,11 +30,11 @@ class Tasks(BaseHandler):
 class Sprint(BaseHandler):
     
     def get(self,*args,**kargs):
-        #if check_permission(self):
+        if check_permission(self):
             sprint_data=sprint.Sprint().get_all()
             self.render_template("user_new/apm-sprint-items.html",{"type":sprint_data})
-        #else:
-            #self.response.write("you are not allowed")
+        else:
+            self.response.write("you are not allowed")
     
     def post(self,*args,**kargs):
         currentUser=self.auth.get_user_by_session()
@@ -42,8 +42,8 @@ class Sprint(BaseHandler):
         sprint_data=sprint.Sprint()
         sprint_data.name = self.request.get("name")
         sprint_data.description = self.request.get("desc")
-        sprint_data.startDate = datetime.strptime(self.request.get("start"), '%d/%m/%Y').date()
-        sprint_data.endDate = datetime.strptime(self.request.get("end"), '%d/%m/%Y').date()
+        sprint_data.startDate = datetime.strptime(self.request.get("start"), '%m/%d/%Y').date()
+        sprint_data.endDate = datetime.strptime(self.request.get("end"), '%m/%d/%Y').date()
         sprint_data.project = ndb.Key(urlsafe=self.request.get("project_key"))
         sprint_data.createdby = createdBy
         sprint_data.status = "Open"
