@@ -805,6 +805,7 @@ body{
 	padding:8px 10px 0 0!important;
 }
 .user-link img{
+	height: 35px!important;
 	width:35px!important;
 	border-radius: 50%;
 }

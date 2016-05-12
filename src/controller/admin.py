@@ -165,7 +165,7 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
     def get(self,*args,**kargs):
         
         role=model.user.Groups()
-        roles=role.query(ndb.OR(model.user.Groups.tenant_domain==None,model.user.Groups.tenant_domain=='team-google')).fetch()
+        roles=role.query(ndb.OR(model.user.Groups.tenant_domain==None,model.user.Groups.tenant_domain==kargs['subdomain'])).fetch()
         u=user.OurUser()
         user1=u.query(user.OurUser.tenant_domain==kargs['subdomain']).fetch()
         user_json = [row.to_dict() for row in user1]
