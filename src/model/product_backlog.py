@@ -1,12 +1,17 @@
 from google.appengine.ext import ndb
 
 class ProductBacklog(ndb.Model):
-    sprintId = ndb.StringProperty()
+    company_key= ndb.KeyProperty(required =  True)
+    project_key= ndb.KeyProperty(required= True)
+    sprintId = ndb.KeyProperty()
+    type = ndb.KeyProperty()
     storyDesc = ndb.StringProperty(required= True)
     startDate = ndb.DateProperty(auto_now_add=True)
     roughEstimate = ndb.FloatProperty()
     priority = ndb.IntegerProperty()
     status = ndb.StringProperty()
+    backlog_name= ndb.StringProperty()
+    
     
     def set(self):
         return self.put()
@@ -18,4 +23,6 @@ class ProductBacklog(ndb.Model):
         return res
     def delete_entity(self,id):
         ndb.Key(ProductBacklog, int(id)).delete()
+    
+
     

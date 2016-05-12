@@ -42,8 +42,8 @@ class Release(BaseHandler):
             
             projmodel=project.Project()
             proj=projmodel.get_all()
-            
-            self.render_template("release.html",{"project":proj,"company_data":user1})
+            company_name=kargs['subdomain']
+            self.render_template("release.html",{"project":proj,"company_name":company_name})
         else:
             self.response.write("you are not allowed")
     

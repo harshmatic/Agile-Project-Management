@@ -2,17 +2,20 @@ from google.appengine.ext.webapp import template
 from google.appengine.ext import ndb
 from google.appengine.ext.webapp.template import render
 from model import product_backlog
+from model import task
+from model import project
 import json
 import logging
 import os.path
 import webapp2
 import time
 from login import BaseHandler,check_permission
-
+from model import user
+from model import sprint
 
 class AllBacklogs(BaseHandler):
     def get(self,*args,**kargs):
-        
+       if check_permission(self):  
         productBacklog = product_backlog.ProductBacklog()
         productBacklog = productBacklog.get_all()
         
@@ -27,8 +30,26 @@ class AllBacklogs(BaseHandler):
             data['priority'] = pb.priority
             data['status'] = pb.status
             list.append(data)
+        
+        
         #self.response.headers['Content-Type'] = 'text/plain'
-        self.response.write(json.dumps(list, ensure_ascii=False))
+       
+        #self.response.write(json.dumps(list, ensure_ascii=False))
+        
+        type_obj = task.Type()
+        type= type_obj.get_all()
+        
+        projmodel=project.Project()
+        proj=projmodel.get_all()
+        
+        company_name=kargs['subdomain']
+        
+        sprint_obj=sprint.Sprint()
+        sprints=sprint_obj.get_all()
+        
+        self.render_template("user_new/apm-backlog-new.html",{"productBacklog":productBacklog,"type":type,"project":proj,"sprint":sprints,"company_name":company_name})
+       else:
+        self.response.write("you are not allowed")   
         
 class Backlog(BaseHandler):
     def get(self,*args,**kargs):
@@ -52,15 +73,28 @@ class Backlog(BaseHandler):
         
 class AddBacklog(BaseHandler):
     
-    def get(self,*args,**kargs):
+    def post(self,*args,**kargs):
         backlog = product_backlog.ProductBacklog()
-        backlog.sprintId = self.request.get("spId")
-        backlog.storyDesc = self.request.get("spD")
-        backlog.roughEstimate = float(self.request.get("rE"))
+       # backlog.sprintId = self.request.get("spId")
+        backlog.project_key = ndb.Key(urlsafe=self.request.get("project"))
+        
+        currentUser=self.auth.get_user_by_session()
+        company_key=self.user_model.get_by_id(currentUser['user_id']).tenant_key
+         
+           
+        backlog.company_key = company_key
+        
+        if (self.request.get('sprint') != 'None'):
+            backlog.sprintId=ndb.Key(urlsafe=self.request.get('sprint'))
+            
+        backlog.type = ndb.Key(urlsafe=self.request.get('type'))
+        backlog.storyDesc = self.request.get("description")
+        backlog.backlog_name=self.request.get('backlog_name')
+        backlog.roughEstimate = float(self.request.get("rough_estimate"))
         backlog.priority = int(self.request.get("priority"))
-        backlog.status = self.request.get("status")
+        backlog.status = "Defined"
         projkey = backlog.set()
-        self.response.write(projkey)
+        self.response.write('true')
         
 class DeleteBacklog(BaseHandler):
     def get(self,*args,**kargs):

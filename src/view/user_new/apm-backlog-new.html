@@ -1,0 +1,453 @@
+{% extends "base.html" %}
+
+{% block title %}User | Project | Backlog{% endblock %}
+		
+{% block header_links%}
+		
+		<style>
+			.apm-nav-brand-1{
+				padding: 15px!important;
+				font-size: 15px!important;
+				margin: 0!important;
+				padding-left: 8px!important;
+			}
+			.apm-dropdown-projects{
+				margin-left: -98px!important;
+				margin-top: 50px!important;
+				z-index:99999999;
+			}
+			.apm-listing-add-proj-box {
+				margin-top: -80px!important;
+			}
+			.apm-member-listing-table {
+				margin-top: 25px!important;
+			}
+		</style>
+		
+			
+		<script>
+				$(document).ready(function(){
+					$("#details").hide();
+					$(".nav-tabs a").click(function(){
+						$(this).tab('show');
+					});
+					$('.datepicker').datepicker({
+						format: 'dd/mm/yyyy',
+						startDate: '0d'
+					});
+					
+					
+					$("#add-sprint").click(function(e) {
+						$('#add-sprint-modal').modal('show');
+					});
+					$("#add-issue").click(function(e) {
+						$('#add-issue-modal').modal('show');
+					});
+					
+					
+					$("#add_backlogs").on("click",function(){
+						$.post( '/backlog/addbacklog', $("#backlog_form").serialize())
+							.done(function( data ) {
+								if (data!="true"){
+									alert("Backlog cannot be added");
+									return false
+								} else {
+									
+									
+									
+								}
+							});
+							
+							
+								
+								
+							})
+							
+							
+								$('#add-issue-modal').on('hidden.bs.modal', function(e)
+									    { 
+									        $(this).removeData('bs.modal');
+									        
+									        $('.table').load('/backlog .table', function(result) {
+							  				});
+									    }) ;
+					
+					
+					 $(".clickable-row").click(function() {
+						 $("#details").show();
+					     
+					       var $test = $(this).find('td').map(function() {
+					           return $(this).text();
+					       }).get().join(",");
+					     
+					       var myList = $test;
+					       var myArray = myList.split( ',' );  
+					       
+					       $('sprint').text('- '+myArray[0])
+					       $('#sprint_name').text('- '+myArray[0]);
+					       $('#date_received').text('- '+myArray[1]);
+					       $('#description').text('- '+myArray[2]);
+					       $('#rough_estimate').text('- '+myArray[3]);
+					       $('#status').text('- '+myArray[4]);
+					      
+					    
+					    });
+
+				});
+		</script>
+		
+{% endblock %}	
+	
+
+
+     
+{%block content%}	
+ 
+
+		
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+					
+						<h2 class="apm-all-reports-heading">Backlogs</h2>
+				
+						<!-- Backlog Filter section -->
+						<div class="apm-backlog-filter-box">
+							
+							<!-- Filter 1 -->
+							<div class="dropdown apm-backlog-filter-dropdown">
+							  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+							  <i class="fa fa-filter backlog-filter-icon" aria-hidden="true"></i>Filter 1
+							  <span class="caret"></span></button>
+							  <ul class="dropdown-menu">
+								<li><a href="#">option 1</a></li>
+								<li><a href="#">option 2</a></li>
+								<li><a href="#">option 3</a></li>
+							  </ul>
+							</div>
+							
+							<!-- Filter 2 -->
+							<div class="dropdown apm-backlog-filter-dropdown">
+							  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+							  <i class="fa fa-filter backlog-filter-icon" aria-hidden="true"></i>Filter 2
+							  <span class="caret"></span></button>
+							  <ul class="dropdown-menu">
+								<li><a href="#">option 1</a></li>
+								<li><a href="#">option 2</a></li>
+								<li><a href="#">option 3</a></li>
+							  </ul>
+							</div>
+							
+							<!-- Filter 3 -->
+							<div class="dropdown apm-backlog-filter-dropdown">
+							  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+							  <i class="fa fa-filter backlog-filter-icon" aria-hidden="true"></i>Filter 3
+							  <span class="caret"></span></button>
+							  <ul class="dropdown-menu">
+								<li><a href="#">option 1</a></li>
+								<li><a href="#">option 2</a></li>
+								<li><a href="#">option 3</a></li>
+							  </ul>
+							</div>
+							
+							<!-- Add Sprint Button & Add issue button -->
+								<br class="btn-separator">
+								<button class="apm-listing-add-proj-btn pro-button apm-add-sprint-btn" id="add-issue">Add Backlog</button>
+								
+								<button class="apm-listing-add-proj-btn pro-button apm-add-sprint-btn" id="add-sprint">Add Sprint</button>
+							
+							<!-- Backlog Filter section ENDS -->
+							
+						</div>
+						<!-- Add Sprint Button ENDS -->
+						
+						
+						<hr>
+						
+						
+							<div class="row">
+								<div class="col-md-9">
+									<div class="">
+											<!-- Sprint 1 panel -->
+											<div class="panel panel-default apm-sprint-panel">
+												<div class="panel-heading">
+													All Backlogs
+												</div>
+												<div class="panel-body">
+													<div class="table-responsive">
+														<table class="table apm-sprint-table">
+															
+															<tbody>
+															{%for i in productBacklog%}
+															  <tr class='clickable-row'>
+																<td>{%if i.sprintId != None  %}
+																		{{i.sprintId.get.name}}
+																	{%else%}
+																	{{i.sprintId}}
+																	{%endif%}
+																</td>
+																<td>{{i.startDate}}</td>
+																<td>{{i.storyDesc}}</td>
+																<td>{{i.roughEstimate}}</td>
+																<td>{{i.type.get.name}}</td>
+																<td>{{i.status}}</td>
+															  </tr>
+															  
+															  <tr class="separator" />
+															  {%endfor%}
+															
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+											<!-- Sprint 1 panel ENDS -->
+											
+											
+											
+									</div>
+								</div> <!-- .col-md-9 ends -->	
+								
+								
+								<!-- Box to show Details of sprint item -->
+								<div class="col-md-3" id="details">
+										<div class="panel panel-default apm-sprint-panel">
+												<div class="panel-heading" id="sprint">
+													Details : Sprint 1 - Item 1
+												</div>
+												<div class="panel-body apm-subpanel-body">	
+													<ul class="apm-sprint-detail-list">
+														<li ><b>Sprint Name</b> <p id="sprint_name">- Sprint 1"</p></li>
+														<li><b>Date Received</b><p  id="date_received"> - 04/05/2016 </p></li>
+														<li><b>Description of Story</b> <p  id="description">- Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></li>
+														<li><b>Rough Effort Estimate</b><p id="rough_estimate"> - 20 Hrs.</p></li>
+														<li><b>Status</b><p  id="status"> - Pending</p></li>
+													</ul>
+												</div>
+										</div>		
+								</div> <!-- .col-md-3 ends -->	
+								
+							</div>	 <!-- .row ends -->	
+						</div>
+						
+                    </div> <!-- .col-lg-12 ends -->
+                </div>
+            </div> <!-- .container ends -->
+        </div>
+        <!-- /#page-content-wrapper ENDS -->
+		
+    </div>
+    <!-- /#wrapper -->
+  
+		
+		<!-- Add Sprint Modal Starts -->
+			<div id="add-sprint-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Add New Sprint</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								<div class="col-md-10">
+										<form role="form">
+											  <!-- Employee ID --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Employee ID</label>
+												<input type="text" class="form-control add-task-textbox apm-modal-textbox">
+											  </div>
+											  
+											  <!-- Email --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Email</label>
+												<input type="text" class="form-control add-task-textbox apm-modal-textbox">
+											  </div>
+											  
+											  <div class="row">
+												  <div class="col-sm-6">
+													  <!-- First Name --> 
+													  <div class="form-group task-form-group">
+														<label class="task-label">First Name</label>
+														<input type="text" class="form-control add-task-textbox apm-modal-textbox">
+													  </div>
+												  </div>
+												  
+												  <div class="col-sm-6">
+													  <!-- Last Name --> 
+													  <div class="form-group task-form-group">
+														<label class="task-label">Last Name</label>
+														<input type="text" class="form-control add-task-textbox apm-modal-textbox">
+													  </div>
+												  </div>
+											  </div>
+											  
+											  <div class="row">
+												  <div class="col-sm-6">
+													  <!-- Designation --> 
+													  <div class="form-group task-form-group">
+														<label class="task-label">Designation</label>
+														<input type="text" class="form-control add-task-textbox apm-modal-textbox">
+													  </div>
+												  </div>
+												  
+												  <div class="col-sm-6">
+													  <!-- Contact No --> 
+													  <div class="form-group task-form-group">
+														<label class="task-label">Contact No.</label>
+														<input type="text" class="form-control add-task-textbox apm-modal-textbox">
+													  </div>
+												  </div>
+											  </div>
+											  
+											  <!-- Permissions/Role --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Permissions</label>
+												<select class="form-control add-task-textbox apm-modal-textbox">
+													<option>Super Admin</option>
+													<option>Admin</option>
+													<option>User</option>
+												</select>
+											  </div>
+											  
+										</form>
+								</div>	
+								<div class="col-md-1">
+								</div>		
+							</div>
+							
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<button type="button" class="add-task-btn-modal" data-dismiss="modal">Add</button>
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
+				  </div>
+				</div>
+
+			  </div>
+			</div>
+	<!-- Add Sprint Modal Ends -->
+	
+	
+	
+	<!-- Create Issue Modal Starts -->
+			<div id="add-issue-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Add New Backlog</h4>
+				  </div>
+				  
+				  	<form role="form" id="backlog_form" action="/backlog/addbacklog" method="post">
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								<div class="col-md-10">
+									
+											  <!-- Project Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Project Name</label>
+												<select class="form-control add-task-textbox apm-modal-textbox" name="project">
+												
+													
+													{% for proj in project %}
+															
+															{%if company_name == proj.companyid.get.domain %}
+														
+  															<option value="{{proj.key.urlsafe}}">{{proj.name}}</option>
+  													{%endif%}
+  												{%endfor%}
+												</select>
+											
+										 </div>
+										 
+										 
+										 	   <!-- Project Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Backlog Name</label>
+												<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="backlog_name">
+												</div> 
+											  
+										 
+										  <!-- Issue Type --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Sprint</label>
+												<select class="form-control add-task-textbox apm-modal-textbox" name="sprint">
+													<option value="None">None</option>
+													{%for i in sprint%}
+														{% for proj in project %}
+															{% if i.project == proj.key %}
+																<option value={{i.key.urlsafe}}>{{i.name}}</option>
+															{%endif%}
+														{%endfor%}
+													{%endfor%}
+												</select>
+											  </div>
+											  
+											  <!-- Issue Type --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Type</label>
+												<select class="form-control add-task-textbox apm-modal-textbox" name="type">
+													{%for i in type%}
+													<option value={{i.key.urlsafe}}>{{i.name}}</option>
+													{%endfor%}
+												</select>
+											  </div>
+											  
+											   <!-- Project Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Description</label>
+													<!-- <input type="text" class="form-control add-task-textbox apm-modal-textbox">-->
+													  <textarea name="description" class="form-control apm-landing-textbox-reg apm-text-area" rows="4"></textarea>
+													   </div> 
+											  
+											  <div class="row">
+												 
+												  
+												  <div class="col-sm-6">
+													  <!-- Last Name --> 
+													  <div class="form-group task-form-group">
+														<label class="task-label">Rough Estimate(In hrs)</label>
+														<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="rough_estimate">
+													  </div>
+												  </div>
+											
+												  <div class="col-sm-6">
+													  <!-- Designation --> 
+													  <div class="form-group task-form-group">
+														<label class="task-label">Priority</label>
+														<input type="number" class="form-control add-task-textbox apm-modal-textbox" name="priority" min="1" max="5">
+													  </div>
+												  </div>
+												  
+												  
+											  </div>
+											  
+										
+								</div>	
+								<div class="col-md-1">
+								</div>		
+							</div>
+							
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<input type="submit" class="add-task-btn-modal" data-dismiss="modal" value="Add" name="add_backlogs" id="add_backlogs">
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
+				  </div>
+				  </form>
+				</div>
+
+			  </div>
+			</div>
+	<!-- Create Issue Modal Ends -->
+		
+	{%endblock%}

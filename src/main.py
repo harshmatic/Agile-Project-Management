@@ -17,7 +17,7 @@ def NotFoundPageHandler(request, response, exception):
     response.out.write(render(path,{}))
     
 app = webapp2.WSGIApplication([
-    DomainRoute('<subdomain>.apm-eternus.appspot.com', [
+    DomainRoute('<subdomain>.<version>.apm-eternus.appspot.com', [
         webapp2.Route('/', Main, name='subdomain-home'),
         webapp2.Route('/dashboard', EndUserDashboardHandler, name='dashboard'),                           
         webapp2.Route('/admin/signup', SignupHandler, name='adminsignup'),
@@ -46,7 +46,7 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/logout', LogoutHandler, name='logout'),
         webapp2.Route('/profile', EndUserProfile,name='profile'),
         webapp2.Route('/backlog/addbacklog', AddBacklog,name='addbackloog'),
-        webapp2.Route('/backlog/getallbacklog', AllBacklogs,name='getbacklog'),
+        webapp2.Route('/backlog', AllBacklogs,name='getbacklog'),
         webapp2.Route('/backlog/getbacklog', Backlog,name='getbacklog'),
         webapp2.Route('/backlog/deletebacklog', DeleteBacklog,name='deletebacklg'),
         webapp2.Route('/sprint', Sprint,name='sprint'),
