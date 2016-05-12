@@ -5,17 +5,13 @@ from login import BaseHandler,check_permission
 #import simplejson as json
 import json as json
 from model import sprint
-
-from google.appengine.api import mail
-from google.appengine.ext.webapp import blobstore_handlers
-from google.appengine.ext import blobstore
-import webapp2
+from datetime import datetime
 
 class Tasks(BaseHandler):
     
     def get(self,*args,**kargs):
         #if check_permission(self):
-            types_task=task.Type().get_all()
+            types_task=sprint.Type().get_all()
             self.render_template("user_new/apm-sprint-items.html",{"type":types_task})
         #else:
             #self.response.write("you are not allowed")
@@ -43,15 +39,15 @@ class Sprint(BaseHandler):
     def post(self,*args,**kargs):
         currentUser=self.auth.get_user_by_session()
         createdBy=self.user_model.get_by_id(currentUser['user_id']).key
-        sprint=sprint.Sprint()
-        sprint.name = self.request.get("name")
-        sprint.description = self.request.get("desc")
-        sprint.startDate = self.request.get("start")
-        sprint.endDate = self.request.get("end")
-        sprint.project = self.request.get("project_key")
-        sprint.createdby = createdBy
-        sprint.status = "Open"
-        sprint.set()
+        sprint_data=sprint.Sprint()
+        sprint_data.name = self.request.get("name")
+        sprint_data.description = self.request.get("desc")
+        sprint_data.startDate = datetime.strptime(self.request.get("start"), '%d/%m/%Y').date()
+        sprint_data.endDate = datetime.strptime(self.request.get("end"), '%d/%m/%Y').date()
+        sprint_data.project = ndb.Key(urlsafe=self.request.get("project_key"))
+        sprint_data.createdby = createdBy
+        sprint_data.status = "Open"
+        sprint_data.set()
         self.response.out.write("true")
         
         

@@ -11,7 +11,7 @@ class Sprint(ndb.Model):
     project = ndb.KeyProperty()
     createdby = ndb.KeyProperty()
     status = ndb.StringProperty()
-    def set(self,data):
+    def set(self):
         self.put()
     def get_all(self):
         return self.query().fetch()  
