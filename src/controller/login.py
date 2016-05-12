@@ -162,10 +162,14 @@ class BaseHtmlTest(BaseHandler):
             self.render_template("admin_new/test_base.html")
 class SignupUser(BaseHandler):
     def get(self,*args,**kargs):
-        
-        role=model.user.Groups()
-        roles=role.query(model.user.Groups.role=="Admin")
-        self.render_template('company-register.html',{'roles':roles})
+        user1=self.auth.get_user_by_session()
+        logging.info(user1)
+        if user1:
+            self.response.write("you are already logged in")
+        else:
+            role=model.user.Groups()
+            roles=role.query(model.user.Groups.role=="Admin")
+            self.render_template('company-register.html',{'roles':roles})
     def post(self,*args,**kargs):
         #role=model.user.Groups()
         tenant_domain = self.request.get('company_domain')

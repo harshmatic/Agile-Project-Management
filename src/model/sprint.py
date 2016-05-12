@@ -11,6 +11,7 @@ class Sprint(ndb.Model):
     company = ndb.KeyProperty()
     createdby = ndb.KeyProperty()
     status = ndb.StringProperty()
+    workinghours = ndb.StringProperty()
     def set(self):
         self.put()
     def get_all(self):

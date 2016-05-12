@@ -8,10 +8,55 @@
 						$(this).tab('show');
 					});
 					$('.datepicker').datepicker({
-						format: 'dd/mm/yyyy',
+						format: 'mm/dd/yyyy',
 						startDate: '0d'
 					});
-					
+					$('.datepicker').datepicker()
+				    .on('changeDate', function(e) {
+				        $('.datepicker').datepicker('hide');
+				    });
+					$('#sprint_end').datepicker()
+				    .on('changeDate', function(e) {
+				    	if ($('#sprint_start').val()!=""){
+					        start=$('#sprint_start').val();
+					        end=$('#sprint_end').val();
+					        secs=(new Date(end)).getTime()/1000-(new Date(start)).getTime()/1000
+					        secs=secs/60/60/24;
+					        if (secs>7){
+					        	week=parseInt(secs/7);
+					        	days=secs%7;
+					        	$("#length").val(week+" weeks "+days+" days")
+					        }
+					        else {
+					        	if(secs==0){
+					        		$("#length").val("1 Day")
+					        	} else {
+					        	$("#length").val(secs+" Days")
+					        	}
+					        }
+				    	}
+				    });
+					$('#sprint_start').datepicker()
+				    .on('changeDate', function(e) {
+				    	if ($('#sprint_end').val()!=""){
+				    		start=$('#sprint_start').val();
+					        end=$('#sprint_end').val();
+					        secs=(new Date(end)).getTime()/1000-(new Date(start)).getTime()/1000
+					        secs=secs/60/60/24;
+					        if (secs>7){
+					        	week=parseInt(secs/7);
+					        	days=secs%7;
+					        	$("#length").val(week+" weeks "+days+" days")
+					        }
+					        else {
+					        	if(secs==0){
+					        		$("#length").val("1 Day")
+					        	} else {
+					        	$("#length").val(secs+" Days")
+					        	}
+					        }
+				    	}
+				    });
 					$("#add-issue").click(function(e) {
 						$('#add-issue-modal').modal('show');
 					});
@@ -484,7 +529,7 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<label class="apm-landing-reg-label">Start Date</label>
-														<input name="start" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true">
+														<input name="start" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true" id="sprint_start">
 														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
 													</div>
 												</div>
@@ -493,12 +538,20 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<label class="apm-landing-reg-label">End Date</label>
-														<input name="end" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true">
+														<input name="end" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true" id="sprint_end">
 														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
 													</div>
 												</div>
 												
 											</div>
+											<div class="form-group task-form-group">
+														<label class="task-label">Working Hours/Day (Hrs)</label>
+														<input name="workinghours" type="number" class="form-control add-task-textbox apm-modal-textbox" value="" id="" maxlength="3">
+													  </div>
+											<div class="form-group task-form-group">
+														<label class="task-label">Sprint Length</label>
+														<input disabled type="text" class="form-control add-task-textbox apm-modal-textbox" value="0 weeks" id="length">
+													  </div>
 											  
 										</form>
 								</div>	

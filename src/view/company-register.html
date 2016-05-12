@@ -53,7 +53,8 @@ $(document).ready(function() {
 				});	
 	
 			$("#submit").click(function(){
-				$.post( "/signupuser", $("#signup_user").serialize())
+				
+				$.post( "/", $("#signup_user").serialize())
 			  		.done(function( data ) {
 			  			alert("sdjhfgjsdg");
 			  			if (data!="true"){

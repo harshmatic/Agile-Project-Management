@@ -48,6 +48,7 @@ class Sprint(BaseHandler):
         sprint_data.createdby = createdBy
         sprint_data.status = "Open"
         sprint_data.company = self.user_model.get_by_id(currentUser['user_id']).tenant_key
+        sprint_data.workinghours=self.request.get("workinghours")
         sprint_data.set()
         self.response.out.write("true")
         
