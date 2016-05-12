@@ -2,11 +2,19 @@ import webapp2
 from controller.login import *
 from controller.admin import *
 from controller.user import *
+from controller.sprint import *
 from controller.projectcontroller import *
 from controller.product_backlog_controller import *
 from webapp2_extras import routes
 from webapp2_extras.routes import DomainRoute
+from google.appengine.ext.webapp import template
+from google.appengine.ext.webapp.template import render
 
+def NotFoundPageHandler(request, response, exception):
+    
+    path = os.path.join(os.path.dirname(__file__), 'view/404.html')
+    response.out.write(render(path,{}))
+    
 app = webapp2.WSGIApplication([
     DomainRoute('<subdomain>.apm-eternus.appspot.com', [
         webapp2.Route('/', Main, name='subdomain-home'),
@@ -40,12 +48,14 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/backlog/getallbacklog', AllBacklogs,name='getbacklog'),
         webapp2.Route('/backlog/getbacklog', Backlog,name='getbacklog'),
         webapp2.Route('/backlog/deletebacklog', DeleteBacklog,name='deletebacklg'),
+        webapp2.Route('/sprint', Sprint,name='sprint'),
         
         webapp2.Route('/admin/edit', AdminEditUser),
         webapp2.Route('/admin/deleteuser', AdminDeleteUser),
         webapp2.Route('/profile', EndUserProfile),
         webapp2.Route('/img', EndUserProfile),
         webapp2.Route('/view_photo', UserViewPhotoHandler),
+        webapp2.Route('/admin/profile', AdminProfile,name='profile'),
         
         webapp2.Route('/project/addnewproject', AddProjectView,name='addnewproject'),
         webapp2.Route('/project/viewproject', ViewProject,name='viewproject'),
@@ -58,11 +68,11 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/project/editmembertoproj', EditProjMem,name='editestimatetoproj'),
         webapp2.Route('/project/editestimatetoproj', EditEstimates,name='project'),
         webapp2.Route('/project', ProjectManagement,name='project'),
-        
+        webapp2.Route('/release', Release,name='release'),
       #  webapp2.Route('/userbasehtml', UserBaseHtml,name="userbasehtml"),
         
     ]),
-        webapp2.Route('/admin/permissions', EditPermissions, name='permissions'),
+        webapp2.Route('/sprint', Sprint,name='sprint'),
         webapp2.Route('/checkdomain', CheckDomain,name="checkdomain"),
         webapp2.Route('/basehtml', BaseHtml,name="basehtml"),
         webapp2.Route('/userbasehtml', UserBaseHtml,name="userbasehtml"),
@@ -74,8 +84,11 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/password', SetPasswordHandler, name="setpassword"),
         webapp2.Route('/signupuser', SignupUser, name='usersignup'),
         webapp2.Route('/<type:v|p>/<user_id:\d+>-<signup_token:.+>',handler=VerificationHandler, name='verification'),
-        webapp2.Route('/forgot', ForgotPasswordHandler, name='forgot')
-        #webapp2.Route('/checkdomain', handler=Domain,name="checkdomain")
-        
+        webapp2.Route('/forgot', ForgotPasswordHandler, name='forgot'),
+        #webapp2.Route('/.*', NotFoundPageHandler)
+        webapp2.Route('/release', Release,name='release')
     
 ], debug=True, config=config)
+
+#app.error_handlers[404] = NotFoundPageHandler
+#app.error_handlers[500] = NotFoundPageHandler

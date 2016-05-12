@@ -16,18 +16,38 @@
 					});
 					
 					
-					$("#apm-addmember-btn").click(function(e) {
-						$('#add-member-modal').modal('show');
-					});
-					$("#apm-addmember-btn2").click(function(e) {
-						$('#add-member-modal').modal('show');
-					});
-					$("#apm-addestimates-btn").click(function(e) {
-						$('#add-estimation-timeline-modal').modal('show');
-					});
+					
 					$("#add-user").click(function(e) {
 						$('#add-user-modal').modal('show');
 					});
+					
+					
+					$('#add-user-modal').on('hidden.bs.modal', function(e)
+						    { 
+						        $(this).removeData('bs.modal');
+						        
+						        $('.table').load('/superadmin/usermanagment .table', function(result) {
+				  				    //var variable = $('#edit_permissions').html();
+				  				});
+						    }) ;
+					$(".verify").on("click",function(){
+						key = $(this).attr("id");
+							$.post("/superadmin/verify?key_user="+key)
+					  		.done(function( data ) {
+					  			if (data.indexOf('true')){
+					  				alert("Something Went Wrong");
+					  				return false
+					  			} else {
+					  				alert("User is verified. Password for the user is: '"+data.replace("true", "")+"'")
+					  				$(".verify#"+key).parent().html();
+				  					$(".verify#"+key).parent().html("Yes");
+				  					
+					  				
+					  			}
+					  		})
+						})
+					
+					
 					
 				});
 		</script>
@@ -91,20 +111,24 @@
 														<td>{{user1.contact}}</td>
 														<td>{{user1.empid}}</td>
 														
-														<td>{{user1.tenant_key.name}}</td>
+														<td>{{user1.tenant_key.get.name}}</td>
 														<td >{{user1.role.get.role}}</td>
 														<td>{% if user1.verified%}Yes{%else%} No <a href="#" id="{{user1.key.urlsafe}}" class="verify">Verify</a> {%endif%}</td>
 														<td>
 															<a href="/superadmin/edit?edit_key={{user1.key.urlsafe}}" data-toggle="modal" data-target="#edit-user-modal">
-																<i class="edit-user-btn fa fa-pencil user-management-edit-icon edit" aria-hidden="true" title="Edit User"  id="{{user1.key.urlsafe}}"></i>
-															</a>
+																<!-- <i class="edit-user-btn fa fa-pencil user-management-edit-icon edit" aria-hidden="true" title="Edit User"  id="{{user1.key.urlsafe}}"></i> -->
+															<i class="edit-user-btn fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit User"  id="{{user1.key.urlsafe}}"></a></i>
+															
+															
 															<a href="/superadmin/delete?delete_key={{user1.key.urlsafe}}" data-toggle="modal" data-target="#delete-user-modal">
-																<i class="delete-user-btn fa fa-trash user-management-delete-icon delete" aria-hidden="true" title="Delete User"  id="{{user1.key.urlsafe}}"></i>
-															</a>
+																<!-- <i class="delete-user-btn fa fa-trash user-management-delete-icon delete" aria-hidden="true" title="Delete User"  id="{{user1.key.urlsafe}}"></i> -->
+																<i class="delete-user-btn fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete User" id="{{user1.key.urlsafe}}"></a></i>
+															
+															
 														</td>
 													  </tr>
 													{%endfor%} 
-														<tr>
+														<!--<tr>
 															<td><i class="fa fa-user" aria-hidden="true"></i></td>
 															<td>101</td>
 															<td>abcc@gmail.com</td>
@@ -118,7 +142,7 @@
 																<i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i>
 															</td>
 														</tr>
-														<tr>
+													 	<tr>
 															<td><i class="fa fa-user" aria-hidden="true"></i></td>
 															<td>102</td>
 															<td>asddcss@gmail.com</td>
@@ -159,7 +183,7 @@
 																<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>
 																<i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i>
 															</td>
-														</tr>
+														</tr> -->
 													</tbody>
 												</table>
 											</div>
@@ -190,6 +214,8 @@
 
 				<!-- Modal content-->
 				<div class="modal-content add-task-modal-content">
+				
+					<form role="form" id="user_form" enctype="multipart/form-data">
 				  <div class="modal-header add-task-modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title add-task-modal-heading">Add New User</h4>
@@ -203,13 +229,13 @@
 											  <!-- Employee ID --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Employee ID</label>
-												<input type="text" class="form-control add-task-textbox apm-modal-textbox">
+												<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="emp_id">
 											  </div>
 											  
 											  <!-- Email --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Email</label>
-												<input type="text" class="form-control add-task-textbox apm-modal-textbox">
+												<input type="text" class="form-control add-task-textbox apm-modal-textbox"  name="email">
 											  </div>
 											  
 											  <div class="row">
@@ -217,7 +243,7 @@
 													  <!-- First Name --> 
 													  <div class="form-group task-form-group">
 														<label class="task-label">First Name</label>
-														<input type="text" class="form-control add-task-textbox apm-modal-textbox">
+														<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="first_name">
 													  </div>
 												  </div>
 												  
@@ -225,7 +251,7 @@
 													  <!-- Last Name --> 
 													  <div class="form-group task-form-group">
 														<label class="task-label">Last Name</label>
-														<input type="text" class="form-control add-task-textbox apm-modal-textbox">
+														<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="last_name">
 													  </div>
 												  </div>
 											  </div>
@@ -235,7 +261,7 @@
 													  <!-- Designation --> 
 													  <div class="form-group task-form-group">
 														<label class="task-label">Designation</label>
-														<input type="text" class="form-control add-task-textbox apm-modal-textbox">
+														<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="designation">
 													  </div>
 												  </div>
 												  
@@ -243,20 +269,42 @@
 													  <!-- Contact No --> 
 													  <div class="form-group task-form-group">
 														<label class="task-label">Contact No.</label>
-														<input type="text" class="form-control add-task-textbox apm-modal-textbox">
+														<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="contact_no">
 													  </div>
 												  </div>
+												  
+												 
 											  </div>
 											  
+											    <div class="form-group task-form-group">
+												<label class="task-label">Company Name</label>
+												<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="company_name">
+											  </div>
+											  
+											  
+											    <div class="form-group task-form-group">
+												<label class="task-label">Domain</label>
+												<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="company_domain">
+											  </div> 
+												  
+												  
+											  
 											  <!-- Permissions/Role --> 
-											  <div class="form-group task-form-group">
-												<label class="task-label">Permissions</label>
+											<!--   <div class="form-group task-form-group">
+												<label class="task-label">Role</label>
 												<select class="form-control add-task-textbox apm-modal-textbox">
 													<option>Super Admin</option>
 													<option>Admin</option>
 													<option>User</option>
 												</select>
-											  </div>
+											  </div> -->
+											  
+											  
+											  {% for role in roles %}
+											
+											<input type="hidden" name="role" class="form-control project-management-textbox" value="{{role.key.urlsafe}}" checked>
+										
+												{% endfor %}
 											  
 										</form>
 								</div>	
@@ -266,15 +314,48 @@
 							
 				  </div>
 				  <div class="modal-footer add-task-modal-footer">
-					<button type="button" class="add-task-btn-modal" data-dismiss="modal">Add</button>
+					<input type="submit" class="add-task-btn-modal" data-dismiss="modal" id="add_user" value="Add">
 					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
+					
+					
 				  </div>
+				  
+				  </form>
 				</div>
 
 			  </div>
 			</div>
 	<!-- Add User Modal Ends -->
+	<!-- Edit Task Modal Starts -->
+		
+			<div id="edit-user-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				 
+				
+				</div>
+
+			  </div>
+			</div>
+			
+	<!-- Edit Task Modal Ends -->
 	
+	
+	<!-- Delete Task Modal Starts -->		
+				<div id="delete-user-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				 
+				
+				</div>
+
+			  </div>
+			</div>
+	<!-- Delete Task Modal Ends -->
 	
 <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->	
 {%endblock%}

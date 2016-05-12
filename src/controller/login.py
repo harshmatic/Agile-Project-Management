@@ -88,8 +88,9 @@ class BaseHandler(webapp2.RequestHandler):
             params = {}
         user = self.user_info
         params['user'] = user
-        params['blob'] = self.user_model.get_by_id(user['user_id']).blob_key
-        
+        if user != None :
+            params['blob'] = self.user_model.get_by_id(user['user_id']).blob_key
+          
         logging.info(params)
         path = os.path.join(os.path.dirname(__file__), '../view', view_filename)
         self.response.out.write(template.render(path, params))
@@ -112,11 +113,11 @@ class BaseHandler(webapp2.RequestHandler):
             self.session_store.save_sessions(self.response)
 class CheckDomain(BaseHandler):
     def post(self,*args,**kargs):
-        tenant_domain=self.request.get('domain')
+        tenant_domain=self.request.get('company_domain')
         tenant=model.user.Tenant()
-        if tenant.query(model.user.Tenant.domain==tenant_domain):
+        a=tenant.query(model.user.Tenant.domain==tenant_domain).fetch()
+        if a:
             self.response.write('Domain is not available')
-            
         else:
             self.response.write('Domain is available')
 class Main(BaseHandler):

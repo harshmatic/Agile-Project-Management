@@ -1,0 +1,125 @@
+<script>
+		
+$("#edit_user").on("click",function(){
+	$.post( '/admin/edit', $("#edit_form").serialize())
+		.done(function( data ) {
+			if (data!="true"){
+				alert("User not updated");
+				return false
+			} else {
+				
+				
+				
+			}
+		});
+		
+		
+			
+			
+		})
+		
+		
+			$('#edit-user-modal').on('hidden.bs.modal', function(e)
+				    { 
+				        $(this).removeData('bs.modal');
+				        
+				        $('.table').load('/admin/usermanagment .table', function(result) {
+		  				});
+				    }) ;
+	</script>			
+
+
+	<form role="form" id="edit_form" enctype="multipart/form-data">
+				
+				
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading" style="color:black;">Edit User</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								
+								<div class="col-md-10">
+										
+									
+										
+											<!-- First Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">First Name</label>
+												<input type="text" class="form-control add-task-textbox" name="first_name" value="{{user_info.name}}">
+											  </div>
+										
+										    <!-- Last Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Last Name</label>
+												<input type="text" class="form-control add-task-textbox" name="last_name" value="{{user_info.last_name}}">
+											  </div>
+											  
+											   <!-- Email --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Email</label>
+												<input type="text" class="form-control add-task-textbox" name="email" value="{{user_info.email_address}}" readonly>
+											  </div>
+											  
+											   <!-- Designation --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Designation</label>
+												<input type="text" class="form-control add-task-textbox" name="designation" value="{{user_info.designation}}">
+											  </div>
+											  
+											  <!-- Employee ID --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Employee ID</label>
+												<input type="text" class="form-control add-task-textbox" name="emp_id" value="{{user_info.empid}}">
+											  </div>
+											  
+											 <!-- Company Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Company Name</label>
+												<input type="text" class="form-control add-task-textbox" name="company_name" value="{{user_info.tenant_key.get.name}}" readonly>
+											  </div>
+											  
+											  
+											  <!-- Domain --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Domain</label>
+												<input type="text" class="form-control add-task-textbox" name="company_domain" value="{{user_info.tenant_key.get.domain}}" readonly>
+											  </div> 
+											  
+											 
+											 
+											  
+											  <!-- Contact No --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Contact No.</label>
+												<input type="text" class="form-control add-task-textbox" name="contact_no" value="{{user_info.contact}}">
+											  </div>
+											  
+											  <!-- Permissions/Role --> 
+											<!--   <div class="form-group task-form-group">
+												<label class="task-label">Assign Role</label>
+												<select class="form-control add-task-textbox" name="role">
+													
+													{% for role in roles %}
+													<option value="{{role.key.urlsafe}}">{{role.role}}</option>
+													{% endfor %}
+												
+													<!-- <option>Admin</option>
+													<option>User</option>
+												</select>
+											  </div>
+											-->  
+											<input type="hidden" id="key" name="key" value="{{user_info.key.urlsafe}}">
+								</div>	
+								<div class="col-md-1">
+								</div>		
+							</div>
+						
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<input type="submit" class="add-task-btn-modal" data-dismiss="modal" id="edit_user" value="Update">
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</button>
+				  </div>
+	</form>			</html>

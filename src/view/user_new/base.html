@@ -40,7 +40,7 @@
                 </div><!-- navbar-header-->
  
                 <div class="collapse navbar-collapse apm-navbar" id="bs-example-navbar-collapse-1">
-                            <ul class="nav navbar-nav">
+                            <!-- <ul class="nav navbar-nav">
                                 <li class="dropdown">
 										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 										<i class="fa fa-share-alt"></i> SOCIAL MEDIA
@@ -76,7 +76,7 @@
 									  </li>
 									  
                             </ul>
-							
+							 -->
 							
 							
 							<ul class="nav navbar-nav navbar-right nav-desktop">
@@ -88,10 +88,13 @@
 										<a href="#" class="dropdown-toggle user-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 										
 										Hi , {{user.name}}
-										<img src="../assets_new/img/profile.jpg" class="apm-profile-thumb"> </a>
-										
+										{%if blob%}
+										<img src="/view_photo?photo_key={{blob}}" class="apm-profile-thumb"> </a>
+										{%else%}
+										<i class="fa fa-user fa-3x"></i></a>
+										{%endif%}
 										<ul class="dropdown-menu multi-level menu-user">
-										  <li><a href="#"><i class="fa fa-refresh"></i> Switch Role</a></li>
+										  <li><a href="/admin/dashboard"><i class="fa fa-refresh"></i> Switch Role</a></li>
 										  <li><a href="/profile"><i class="fa fa-user"></i> Profile</a></li>
 									      <li class="dropdown-submenu">
 													<a href="#"><i class="fa fa-caret-left arrow-left"></i><i class="fa fa-cog"></i> Settings</a>
@@ -105,7 +108,7 @@
 										  </li>
 										  <li><a href="#"><i class="fa fa-question-circle"></i> Help</a></li>
 										  <li role="separator" class="divider"></li>
-										  <li><a href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
+										  <li><a href="/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
 										</ul>
 									  </li>
 									</ul>
@@ -120,7 +123,7 @@
             <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
  
 					<li class="active">
-						<a href="#" class="sidebar-main-list-name"><i class="fa fa-th-large side-font-icons"></i> Dashboard</a>
+						<a href="/dashboard" class="sidebar-main-list-name"><i class="fa fa-th-large side-font-icons"></i> Dashboard</a>
 						
 					</li>
 					<li>
@@ -129,10 +132,10 @@
 							<div class="panel-body sidebar-list-panel">
 								<ul class="sidebar-list" style="display:block!important;">
 									<li>
-										<a href="#" class="sidebar-list-sub-item">Projects</a>
+										<a href="/project" class="sidebar-list-sub-item">Projects</a>
 									</li>
 									<li>
-										<a href="#" class="sidebar-list-sub-item">Release</a>
+										<a href="/release" class="sidebar-list-sub-item">Release</a>
 									</li>
 									<li>
 										<a href="#" class="sidebar-list-sub-item">Backlog</a>
@@ -188,5 +191,7 @@
 		<script src="../assets_new/js/jquery.js"></script>
 		<script src="../assets_new/js/bootstrap.min.js"></script>
 		<script src="../assets_new/js/side-menu.js"></script>
+		<script src="../assets_new/js/bootstrap-datepicker.min.js"></script>
+		<script src="../assets_new/js/main.js"></script>
 </body>
 </html>

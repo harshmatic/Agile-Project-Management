@@ -481,7 +481,7 @@
 												<td>{{user1.contact}}</td>
 												<td>{{user1.empid}}</td>
 												
-												<td>{{user1.tenant_key.name}}</td>
+												<td>{{user1.tenant_key.get.name}}</td>
 												<td class="roll-td"><i>{{user1.role.get.role}}</i></td>
 												<td>{% if user1.verified%}Yes{%else%} No <a href="#" id="{{user1.key.urlsafe}}" class="verify">Verify</a> {%endif%}</td>
 												<td><a href="/superadmin/edit?edit_key={{user1.key.urlsafe}}" data-toggle="modal" data-target="#edit-user-modal">

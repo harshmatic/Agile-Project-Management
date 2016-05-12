@@ -19,12 +19,13 @@ from model.user import Permissions ,OurUser , Groups
 import model
 from google.appengine.api import users
 from webapp2_extras.appengine.auth.models import User
-
+from model import project
 from google.appengine.api import mail
 from google.appengine.ext.webapp import blobstore_handlers
 from google.appengine.ext import blobstore
 import webapp2
 import email
+from datetime import datetime
 
 
 class EndUserDashboardHandler(BaseHandler):
@@ -83,7 +84,7 @@ class EndUserProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobs
         #    self.response.headers['Content-Type'] = 'image/png'
            
             
-            self.render_template("profile.html",{'user_image':user.blob_key,'permission':'success', 'user_db':user_db, 'role':role,"upload_url":upload_url})
+            self.render_template("user_new/profile.html",{'user_image':user.blob_key,'permission':'success', 'user_db':user_db, 'role':role,"upload_url":upload_url})
             
     def post(self,*args,**kargs):
          user_db = OurUser.query().fetch()
@@ -91,7 +92,7 @@ class EndUserProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobs
          user = self.user
           
        #  logging.info(self.request.get('file'))  
-         if (self.request.get('file') == ""):
+         if (self.request.get('file') != ""):
                 
             upload = self.get_uploads()[0]
             user.blob_key=upload.key()
@@ -140,3 +141,30 @@ class UserViewPhotoHandler(blobstore_handlers.BlobstoreDownloadHandler):
             self.error(404)
         else:
             self.send_blob(self.request.get('photo_key'))    
+            
+            
+class Release(BaseHandler):
+    def get(self,*args,**kargs):
+        if check_permission(self):
+            projmodel=project.Project()
+            proj=projmodel.get_all()
+            self.render_template("release.html",{"project":proj})
+        else:
+            self.response.write("you are not allowed")
+    
+    def post(self,*args,**kargs):
+        release_obj= project.ProjectRelease()
+            
+        release_obj.projectid= ndb.Key(urlsafe=self.request.get('proj_name'))
+           
+            
+        release_obj.releaseName=self.request.get('release_name')
+        release_obj.releaseDate=datetime.strptime(self.request.get('release_date'), '%d/%m/%Y').date()
+            
+        currentUser=self.auth.get_user_by_session()
+        companyId=self.user_model.get_by_id(currentUser['user_id']).tenant_key
+        release_obj.companyid = companyId.id()
+            
+        release_obj.put()
+            
+        self.redirect('/dashboard')
