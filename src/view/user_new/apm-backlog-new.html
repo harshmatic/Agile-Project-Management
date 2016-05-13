@@ -22,6 +22,17 @@
 			.apm-member-listing-table {
 				margin-top: 25px!important;
 			}
+			.apm-sprint-detail-span{
+ 				color:#407CD6!important;
+			}
+			.panel-edit-link{
+ 				float:right;
+			}
+			.panel-edit-link a, .panel-edit-link a:active, .panel-edit-link a:visited, .panel-edit-link a:focus{
+ 				color:#fff!important;
+ 				text-transform:uppercase;
+ 				letter-spacing:1px;
+			}
 		</style>
 		
 			
@@ -73,27 +84,37 @@
 									    }) ;
 					
 					
-					 $(".clickable-row").click(function() {
+					$(".table").on("click",".clickable-row",function(){
+					//	$(".clickable-row").click(function() {
+					
 						 $("#details").show();
-					     
+					     key=$(this).attr("id")
+						 
+					     //alert($(this).attr("id"))
+						 
+					     $("#edit_key").attr("href", "/backlog/edit?edit_key="+key)
+						
 					       var $test = $(this).find('td').map(function() {
 					           return $(this).text();
-					       }).get().join(",");
+					       }).get().join("|");
 					     
 					       var myList = $test;
-					       var myArray = myList.split( ',' );  
+					       var myArray = myList.split( '|' );  
 					       
-					       $('sprint').text('- '+myArray[0])
-					       $('#sprint_name').text('- '+myArray[0]);
-					       $('#date_received').text('- '+myArray[1]);
-					       $('#description').text('- '+myArray[2]);
-					       $('#rough_estimate').text('- '+myArray[3]);
-					       $('#status').text('- '+myArray[4]);
+					       $('#sprint').html(myArray[0]);
+					       $('#sprint_name').html(myArray[0]);
+					       $('#date_received').html(myArray[1]);
+					       $('#backlog_name').html(myArray[2]);
+					       $('#description').html(myArray[3]);
+					       $('#rough_estimate').html(myArray[4]);
+					      
+					       $('#status').html(myArray[5]);
 					      
 					    
 					    });
 
 				});
+					
 		</script>
 		
 {% endblock %}	
@@ -181,7 +202,7 @@
 															
 															<tbody>
 															{%for i in productBacklog%}
-															  <tr class='clickable-row'>
+															  <tr class='clickable-row' id="{{i.key.urlsafe}}">
 																<td>{%if i.sprintId != None  %}
 																		{{i.sprintId.get.name}}
 																	{%else%}
@@ -189,9 +210,11 @@
 																	{%endif%}
 																</td>
 																<td>{{i.startDate}}</td>
+																<td>{{i.backlog_name}}</td>
+																
 																<td>{{i.storyDesc}}</td>
 																<td>{{i.roughEstimate}}</td>
-																<td>{{i.type.get.name}}</td>
+															
 																<td>{{i.status}}</td>
 															  </tr>
 															  
@@ -214,16 +237,19 @@
 								<!-- Box to show Details of sprint item -->
 								<div class="col-md-3" id="details">
 										<div class="panel panel-default apm-sprint-panel">
-												<div class="panel-heading" id="sprint">
-													Details : Sprint 1 - Item 1
+												<div class="panel-heading">
+													Details : <i id="sprint"></i>
+													<span class="panel-edit-link"><a id="edit_key" href="#" data-toggle="modal" data-target="#edit-backlog-modal">Edit</a></span>
 												</div>
 												<div class="panel-body apm-subpanel-body">	
 													<ul class="apm-sprint-detail-list">
-														<li ><b>Sprint Name</b> <p id="sprint_name">- Sprint 1"</p></li>
-														<li><b>Date Received</b><p  id="date_received"> - 04/05/2016 </p></li>
-														<li><b>Description of Story</b> <p  id="description">- Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></li>
-														<li><b>Rough Effort Estimate</b><p id="rough_estimate"> - 20 Hrs.</p></li>
-														<li><b>Status</b><p  id="status"> - Pending</p></li>
+														<li ><b><span class=".apm-sprint-detail-span">Sprint Name -</span></b><i id="sprint_name"></i></li>
+														<li><b><span class=".apm-sprint-detail-span">Date Received -</span></b><i id="date_received"></i> </li>
+														<li><b><span class=".apm-sprint-detail-span">Backlog Name -</span></b><i id="backlog_name"></i></li>
+														<li><b><span class=".apm-sprint-detail-span">Description of Story -</span></b><i id="description"></i></li>
+														<li><b><span class=".apm-sprint-detail-span">Rough Effort Estimate  -</span></b><i id="rough_estimate"></i></li>
+														
+														<li><b><span class=".apm-sprint-detail-span">Status -</span></b><i id="status"></i></li>
 													</ul>
 												</div>
 										</div>		
@@ -370,15 +396,7 @@
 											
 										 </div>
 										 
-										 
-										 	   <!-- Project Name --> 
-											  <div class="form-group task-form-group">
-												<label class="task-label">Backlog Name</label>
-												<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="backlog_name">
-												</div> 
-											  
-										 
-										  <!-- Issue Type --> 
+										   <!-- Issue Type --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Sprint</label>
 												<select class="form-control add-task-textbox apm-modal-textbox" name="sprint">
@@ -393,12 +411,22 @@
 												</select>
 											  </div>
 											  
+										 
+										 	   <!-- Project Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Backlog Name</label>
+												<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="backlog_name">
+												</div> 
+											  
+										 
+										
+											  
 											  <!-- Issue Type --> 
 											  <div class="form-group task-form-group">
-												<label class="task-label">Type</label>
-												<select class="form-control add-task-textbox apm-modal-textbox" name="type">
+												<label style="display:none;" class="task-label">Type</label>
+												<select style="display:none;" class="form-control add-task-textbox apm-modal-textbox" name="type">
 													{%for i in type%}
-													<option value={{i.key.urlsafe}}>{{i.name}}</option>
+													<option style="display:none;" value={{i.key.urlsafe}}>{{i.name}}</option>
 													{%endfor%}
 												</select>
 											  </div>
@@ -449,5 +477,19 @@
 			  </div>
 			</div>
 	<!-- Create Issue Modal Ends -->
+	
+	<!-- Add User Modal Ends -->
+		<!--Edit Modal Starts -->
+			<div id="edit-backlog-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				
+				</div>
+
+			  </div>
+			</div>
+	<!-- edit Modal Ends -->
 		
 	{%endblock%}

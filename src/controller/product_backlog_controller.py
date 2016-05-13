@@ -105,5 +105,34 @@ class DeleteBacklog(BaseHandler):
         self.response.write("Deleted")
         
         
-        
-    
+
+class EditBacklog(BaseHandler):
+        def get(self,*args,**kargs):
+            key = ndb.Key(urlsafe=self.request.get('edit_key'))
+            backlog_info=key.get()
+          #  logging.info(backlog_info)
+            sprint_obj=sprint.Sprint()
+            sprints=sprint_obj.get_all()
+            
+            projmodel=project.Project()
+            proj=projmodel.get_all()
+            
+            self.render_template("user_new/edit_backlog.html",{"backlog_info":backlog_info,"project":proj,"sprint":sprints})
+
+            
+            
+        def post(self,*args,**kargs):
+          
+            key= ndb.Key(urlsafe=self.request.get('key'))
+            backlog_key=key.get()
+            
+            backlog_key.type = ndb.Key(urlsafe=self.request.get('type'))
+            backlog_key.storyDesc = self.request.get("description")
+            backlog_key.backlog_name=self.request.get('backlog_name')
+            backlog_key.roughEstimate = float(self.request.get("rough_estimate"))
+            backlog_key.priority = int(self.request.get("priority"))
+          
+            
+            backlog_key.put()
+                        
+            self.response.write("true")        

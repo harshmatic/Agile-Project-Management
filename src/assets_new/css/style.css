@@ -616,11 +616,19 @@ table tr.separator { height: 5px; }
 	letter-spacing:1px;
 }
 .apm-add-sprint-btn{
-	margin-left:20px;
+	margin-left:4px;
 }
 @media (max-width: 620px){
 	.apm-add-sprint-btn{
 		margin-left:0px!important;
+	}
+}
+.btn-separator{
+	display:none;
+}
+@media (max-width: 620px){
+	.btn-separator{
+		display:block;
 	}
 }
 /************** For BACKLOGS page ENDS *****************/
@@ -802,11 +810,11 @@ body{
 	font-weight:bold;
 }
 .user-link{
-	padding:8px 10px 0 0!important;
+	padding:9px 10px 0 0!important;
 }
 .user-link img{
-	height: 35px!important;
-	width:35px!important;
+	width:32px!important;
+	height:32px!important;
 	border-radius: 50%;
 }
 @media (min-width: 768px){
