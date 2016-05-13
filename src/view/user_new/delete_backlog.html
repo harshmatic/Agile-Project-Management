@@ -30,12 +30,14 @@ $("#delete_backlog").on("click",function(){
 						       
 						       $('#sprint').html(myArray[0]);
 						       $('#sprint_name').html(myArray[0]);
-						       $('#date_received').html(myArray[1]);
-						       $('#backlog_name').html(myArray[2]);
-						       $('#description').html(myArray[3]);
+						       $('#backlog_name').html(myArray[1]);
+						       $('#description').html(myArray[2]);
+						       $('#date_received').html(myArray[3]);
 						       $('#rough_estimate').html(myArray[4]);
+						       
+						       $('#priority').html(myArray[5]);
 						      
-						       $('#status').html(myArray[5]);
+						       $('#status').html(myArray[6]);
 				        	
 				        	
 		  			
@@ -49,7 +51,7 @@ $("#delete_backlog").on("click",function(){
 				
 				  <div class="modal-header add-task-modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title add-task-modal-heading" style="color:black;">Delete Backlog</h4>
+					<h4 class="modal-title add-task-modal-heading">Delete Backlog</h4>
 				  </div>
 					<div class="modal-body user-management-body">
 							<div class="row">
@@ -58,49 +60,40 @@ $("#delete_backlog").on("click",function(){
 								
 								<div class="col-md-10">
 										
-										<!-- First Name --> 
-											  <div class="form-group task-form-group">
-												<label class="task-label">Sprint :</label>
-												<label class="task-label">{{backlog_info.sprintId.get.name}}</label>
-											  </div>
+										<table class="table table-condensed">
+    
+    									<tbody>
+      										<tr>
+       											 <td>Sprint : </td>
+       											 <td>{{backlog_info.sprintId.get.name}}</td>
+     										</tr>
+    										 <tr>
+    											 <td>Project Name :</td>
+     											 <td>{{backlog_info.project_key.get.name}}</td>
+    										</tr>
+      										<tr>
+      											 <td>Backlog Name :</td>
+     										     <td>{{backlog_info.backlog_name}}</td>
+     										</tr>
+     										 <tr>
+     											<td>Description :</td>
+     											<td>{{backlog_info.storyDesc}}</td>
+     										</tr>
+     										 <tr>
+     											<td>Rough Estimate(In hrs) :</td>
+    											 <td>{{backlog_info.roughEstimate}}</td>
+    											 </tr>
+    										  <tr>
+  											   <td>Priority :</td>
+   												  <td>{{backlog_info.priority}}</td>
+  											   </tr>
+     
+  										  </tbody>
+										</table>
 										
-										
-											<!-- First Name --> 
-											  <div class="form-group task-form-group">
-												<label class="task-label">Project Name :</label>
-												<label class="task-label">{{backlog_info.project_key.get.name}}</label>
-											  </div>
-										
-										  <!-- Email --> 
-											  <div class="form-group task-form-group">
-												<label class="task-label">Backlog Name :</label>
-												<label class="task-label">{{backlog_info.backlog_name}}</label>
-											  </div>
-											  
-											
-											  
-											  <!-- Employee ID --> 
-											  <div class="form-group task-form-group">
-												<label class="task-label">Description :</label>
-												<label class="task-label">{{backlog_info.storyDesc}}</label>
-													  
-											  </div>
-											  
-											 <!-- Company Name --> 
-											  <div class="form-group task-form-group">
-												<label class="task-label">Rough Estimate(In hrs) :</label>
-												<label class="task-label">{{backlog_info.roughEstimate}}</label>
-											  </div>
-											  
-											  
-											  <!-- Domain --> 
-											  <div class="form-group task-form-group">
-												<label class="task-label">Priority :</label>
-												<label class="task-label">{{backlog_info.priority}}</label>
-											  </div> 
-											  
+								
 										 
-											<input type="hidden" id="key" name="delete_key" value="{{backlog_info.key.urlsafe}}">
+								<input type="hidden" id="key" name="delete_key" value="{{backlog_info.key.urlsafe}}">			
 								</div>	
 								<div class="col-md-1">
 								</div>		

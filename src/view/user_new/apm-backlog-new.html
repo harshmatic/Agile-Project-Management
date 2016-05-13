@@ -33,6 +33,15 @@
  				text-transform:uppercase;
  				letter-spacing:1px;
 			}
+			
+			.apm-sprint-table thead tr:first-child {
+    			padding: 2px 2px!important;
+    			color: #000!important;
+    			border: none!important;
+    			background: transparent!important;
+    			font-size: 10px!important;
+    			letter-spacing: 0!important;
+			}
 		</style>
 		
 			
@@ -104,12 +113,14 @@
 					       
 					       $('#sprint').html(myArray[0]);
 					       $('#sprint_name').html(myArray[0]);
-					       $('#date_received').html(myArray[1]);
-					       $('#backlog_name').html(myArray[2]);
-					       $('#description').html(myArray[3]);
+					       $('#backlog_name').html(myArray[1]);
+					       $('#description').html(myArray[2]);
+					       $('#date_received').html(myArray[3]);
 					       $('#rough_estimate').html(myArray[4]);
+					       
+					       $('#priority').html(myArray[5]);
 					      
-					       $('#status').html(myArray[5]);
+					       $('#status').html(myArray[6]);
 					      
 					    
 					    });
@@ -200,8 +211,19 @@
 												<div class="panel-body">
 													<div class="table-responsive">
 														<table class="table apm-sprint-table">
-															
 															<tbody>
+               													 <tr> 
+               													  <td><b>Sprint Name</b></td>
+               													  <td><b>Story Name</b></td>
+               													  <td><b>Story Description</b></td>
+               													  <td><b>Date Received</b></td>
+                												  <td><b>Rough Effort Estimate</b></td>
+              													   <td><b>Priority</b></td>
+              													   <td><b>Status</b></td>
+                 
+             													   </tr>
+             												
+														<tr class="separator" />
 															{%for i in productBacklog%}
 															  <tr class='clickable-row' id="{{i.key.urlsafe}}">
 																<td>{%if i.sprintId != None  %}
@@ -210,12 +232,11 @@
 																	{{i.sprintId}}
 																	{%endif%}
 																</td>
-																<td>{{i.startDate}}</td>
 																<td>{{i.backlog_name}}</td>
-																
 																<td>{{i.storyDesc}}</td>
+																<td>{{i.startDate}}</td>
 																<td>{{i.roughEstimate}}</td>
-															
+																<td>{{i.priority}}</td>
 																<td>{{i.status}}</td>
 															  </tr>
 															  
@@ -250,11 +271,12 @@
 												<div class="panel-body apm-subpanel-body">	
 													<ul class="apm-sprint-detail-list">
 														<li ><b><span class=".apm-sprint-detail-span">Sprint Name -</span></b><i id="sprint_name"></i></li>
-														<li><b><span class=".apm-sprint-detail-span">Date Received -</span></b><i id="date_received"></i> </li>
-														<li><b><span class=".apm-sprint-detail-span">Backlog Name -</span></b><i id="backlog_name"></i></li>
-														<li><b><span class=".apm-sprint-detail-span">Description of Story -</span></b><i id="description"></i></li>
-														<li><b><span class=".apm-sprint-detail-span">Rough Effort Estimate  -</span></b><i id="rough_estimate"></i></li>
 														
+														<li><b><span class=".apm-sprint-detail-span">Story Name -</span></b><i id="backlog_name"></i></li>
+														<li><b><span class=".apm-sprint-detail-span">Story Description -</span></b><i id="description"></i></li>
+														<li><b><span class=".apm-sprint-detail-span">Date Received -</span></b><i id="date_received"></i> </li>
+														<li><b><span class=".apm-sprint-detail-span">Rough Effort Estimate  -</span></b><i id="rough_estimate"></i></li>
+														<li><b><span class=".apm-sprint-detail-span">Priority -</span></b><i id="priority"></i></li>
 														<li><b><span class=".apm-sprint-detail-span">Status -</span></b><i id="status"></i></li>
 													</ul>
 												</div>

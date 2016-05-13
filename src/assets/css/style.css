@@ -754,3 +754,12 @@ div.Tokenize {
 #menu-toggle img{
 	width:35px!important;
 }
+
+.apm-sprint-table thead tr:first-child {
+    padding: 2px 2px!important;
+    color: #000!important;
+    border: none!important;
+    background: transparent!important;
+    font-size: 10px!important;
+    letter-spacing: 0!important;
+}

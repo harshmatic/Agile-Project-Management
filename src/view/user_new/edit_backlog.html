@@ -34,12 +34,14 @@ $("#edit_user").on("click",function(){
 						       
 						       $('#sprint').html(myArray[0]);
 						       $('#sprint_name').html(myArray[0]);
-						       $('#date_received').html(myArray[1]);
-						       $('#backlog_name').html(myArray[2]);
-						       $('#description').html(myArray[3]);
+						       $('#backlog_name').html(myArray[1]);
+						       $('#description').html(myArray[2]);
+						       $('#date_received').html(myArray[3]);
 						       $('#rough_estimate').html(myArray[4]);
+						       
+						       $('#priority').html(myArray[5]);
 						      
-						       $('#status').html(myArray[5]);
+						       $('#status').html(myArray[6]);
 				        	
 				        	
 		  				});
@@ -52,7 +54,7 @@ $("#edit_user").on("click",function(){
 				
 				  <div class="modal-header add-task-modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title add-task-modal-heading" style="color:black;">Edit Backlog</h4>
+					<h4 class="modal-title add-task-modal-heading" >Edit Backlog</h4>
 				  </div>
 					<div class="modal-body user-management-body">
 							<div class="row">
