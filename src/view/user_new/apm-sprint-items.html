@@ -7,13 +7,13 @@
 					$(".nav-tabs a").click(function(){
 						$(this).tab('show');
 					});
-					$('body').on('focus',"#start", function(){
+					$('body').on('focus',"#start,#start_edit", function(){
 					    $(this).datepicker({
 							format: 'dd/mm/yyyy',
 							startDate: '0d'
 						});
 					});
-					$('body').on('focus',"#end", function(){
+					$('body').on('focus',"#end,#end_edit", function(){
 					    $(this).datepicker({
 							format: 'dd/mm/yyyy',
 							startDate: '0d'
@@ -157,9 +157,12 @@
 																	<th>Complexity Points</th>
 																	<th>Estimated Efforts (Hrs.)</th>
 																	<th>Actual Efforts (Hrs.)</th>
+																	<th>Action Items</th>
 																</tr>
 															</thead>
+															<tr class="separator" />
 															<tbody>
+															
 															{%for task in tasks %}
 																{%ifequal task.sprint sprint.key%}
 															  <tr>
@@ -173,10 +176,13 @@
 																<td title="Complexity Points">{{task.complexity.get.estimationPoint}}</td>
 																<td title="Estimated Efforts (Hrs.)">{{task.complexity.get.estimationHours}}</td>
 																<td title="Actual Efforts (Hrs.)">{{task.actual_efforts}}</td>
+															  	<td><a href="/task/edittask?edit_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#edit-issue-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Task"  id="{{task.key.urlsafe}}"></i></a>
+																<a href="/task/deletetask?delete_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#delete-user-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Task"  id="{{task.key.urlsafe}}"></i></a></td>
 															  </tr>
 															  <tr class="separator" />
 															  {% endifequal %}
 															  {% endfor %}
+															  
 															  
 															  
 															  
@@ -210,7 +216,18 @@
     </div>
     <!-- /#wrapper -->
   
-		
+		<!-- edit Issue Modal Starts -->
+			<div id="edit-issue-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				  
+				</div>
+
+			  </div>
+			</div>
+	<!-- edit Issue Modal Ends -->
 		
 	<!-- Create Issue Modal Starts -->
 			<div id="add-issue-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">

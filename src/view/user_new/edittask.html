@@ -1,0 +1,146 @@
+
+<script>
+		$("#submit_task").on("click",function(){
+			$.post( "/task/edittask?key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA", $("#edittask").serialize())
+	  		.done(function( data ) {
+	  			if (data!="true"){
+	  				alert("Something Went Wrong");
+	  				return false
+	  			} 
+	  		});
+			$('#edit-issue-modal').on('hidden.bs.modal', function(e)
+				    { 
+				        $(this).removeData();
+				        /*$('#edit_permissions').load('/admin/permissions #edit_permissions', function(result) {
+		  				    var variable = $('#edit_permissions').html();
+		  				});*/
+				    }) ;
+			
+			
+		})
+	</script>
+<div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Add New Issue</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								<div class="col-md-10">
+										<form role="form" id="edittask">
+										<input type="hidden" value="ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" name="project_key">
+											  <!-- Project Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Sprint</label>
+												<select name="sprint" class="form-control add-task-textbox apm-modal-textbox">
+													{% for sprint in sprints%}
+														{%ifequal task_data.sprint sprint.key%}
+														<option value="{{sprint.key.urlsafe}}" selected="selected">{{sprint.name}}</option>
+														{%else%}
+														<option value="{{sprint.key.urlsafe}}">{{sprint.name}}</option>
+														{%endifequal%}
+													{%endfor%}
+												</select>
+											  </div>
+											  <div class="form-group task-form-group">
+												<label class="task-label">Name</label>
+												<input name="name" type="text" class="form-control add-task-textbox apm-modal-textbox" value="{{task_data.name}}">
+											  </div>
+											  
+											  
+											  
+											  
+													
+													  <div class="form-group task-form-group">
+														<label class="task-label">Description</label>
+														<textarea name="desc" rows="4" class="form-control apm-modal-textarea" value="{{task_data.description}}"></textarea>
+													  </div>
+												  
+												  
+												<div class="form-group task-form-group">
+												<label class="task-label">Assignee</label>
+												<select name="assignee" class="form-control add-task-textbox apm-modal-textbox">
+													{% for team in team%}
+														{%ifequal task_data.team team.key%}
+														<option value="{{team.key.urlsafe}}" selected="selected">{{team.userName}}</option>
+														{%else%}
+														<option value="{{team.key.urlsafe}}">{{team.userName}}</option>
+														{%endifequal%}
+														
+													
+													{%endfor%}
+												</select>
+											  </div>
+											  
+											  <div class="row">
+												<!-- Start Date -->
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="apm-landing-reg-label">Start Date</label>
+														<input name="start" id="start_edit" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true">
+														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+													</div>
+												</div>
+												
+												<!-- End Date -->
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="apm-landing-reg-label">End Date</label>
+														<input name="end" id="end_edit"  type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true">
+														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+													</div>
+												</div>
+												
+											</div>
+											  <div class="row">
+												  <div class="col-sm-6">
+											  <!-- Permissions/Role --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Complexity</label>
+												<select name="complexity" class="form-control add-task-textbox apm-modal-textbox">
+													{% for complex in complex%}
+													{%ifequal task_data.team team.key%}
+														<option value="{{complex.key.urlsafe}}" selected="selected">{{complex.estimationLevel}}</option>
+														{%else%}
+														<option value="{{complex.key.urlsafe}}">{{complex.estimationLevel}}</option>
+														{%endifequal%}
+														
+													
+													{%endfor%}
+												</select>
+											  </div>
+											  </div>
+											  <!-- Issue Type --> 
+											  <div class="col-sm-6">
+											  <div class="form-group task-form-group">
+												<label class="task-label">Issue Type</label>
+												<select name="type" class="form-control add-task-textbox apm-modal-textbox">
+													{% for type in type%}
+													{%ifequal task_data.type type.key%}
+														<option value="{{type.key.urlsafe}}" selected="selected">{{type.name}}</option>
+														{%else%}
+														<option value="{{type.key.urlsafe}}">{{type.name}}</option>
+														{%endifequal%}
+														
+													
+													{%endfor%}
+												</select>
+											  </div>
+											  </div>
+											  </div>
+											  <div class="form-group task-form-group">
+												<label class="task-label">Actual Efforts</label>
+												<input name="actual_efforts" type="text" class="form-control add-task-textbox apm-modal-textbox" value="{{task_data.actual_efforts}}">
+											  </div>
+										</form>
+								</div>	
+								<div class="col-md-1">
+								</div>		
+							</div>
+							
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<button type="button" class="add-task-btn-modal" data-dismiss="modal" id="submit_task">Add</button>
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
+				  </div>
