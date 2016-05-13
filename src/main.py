@@ -48,7 +48,7 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/backlog/addbacklog', AddBacklog,name='addbackloog'),
         webapp2.Route('/backlog', AllBacklogs,name='getbacklog'),
         webapp2.Route('/backlog/getbacklog', Backlog,name='getbacklog'),
-        webapp2.Route('/backlog/deletebacklog', DeleteBacklog,name='deletebacklg'),
+      #  webapp2.Route('/backlog/deletebacklog', DeleteBacklog,name='deletebacklg'),
         webapp2.Route('/sprint', Sprint,name='sprint'),
         webapp2.Route('/task', Tasks,name='Task'),
         webapp2.Route('/task/addtask', Tasks,name='Task'),
@@ -61,7 +61,7 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/view_photo', UserViewPhotoHandler),
         webapp2.Route('/admin/profile', AdminProfile,name='profile'),
         webapp2.Route('/backlog/edit', EditBacklog),
-       
+        webapp2.Route('/backlog/delete', DeleteBacklog),
         
         webapp2.Route('/project/addnewproject', AddProjectView,name='addnewproject'),
         webapp2.Route('/project/viewproject', ViewProject,name='viewproject'),
@@ -75,6 +75,8 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/project/editestimatetoproj', EditEstimates,name='project'),
         webapp2.Route('/project', ProjectManagement,name='project'),
         webapp2.Route('/release', Release,name='release'),
+        webapp2.Route('/release/edit', EditRelease),
+        webapp2.Route('/release/delete', DeleteRelease)
       #  webapp2.Route('/userbasehtml', UserBaseHtml,name="userbasehtml"),
         
     ]),

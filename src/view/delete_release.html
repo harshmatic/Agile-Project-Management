@@ -1,0 +1,76 @@
+<script>
+		
+$("#delete_release").on("click",function(){
+	$.post( "/release/delete", $("#delete_form").serialize())
+		.done(function( data ) {
+			if (data!="true"){
+				alert("Release cannot be deleted");
+				return false
+			} else {
+				
+				
+				
+			}
+		});
+		
+		
+			
+		})
+		$('#delete-release-modal').on('hidden.bs.modal', function(e)
+				    { 
+				        $(this).removeData('bs.modal');
+				        
+				        $('.table').load('/release .table', function(result) {
+		  				});
+				    }) ;
+	</script>			
+
+
+	<form role="form" id="delete_form" enctype="multipart/form-data">
+				
+				
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading" style="color:black;">Delete Release</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								
+								<div class="col-md-10">
+										
+									
+										
+											<!-- First Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Project Name :</label>
+												<label class="task-label">{{release_info.projectid.get.name}}</label>
+											  </div>
+										
+										    <!-- Last Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Release Name:</label>
+												<label class="task-label">{{release_info.releaseName}}</label>
+												  </div>
+											  
+											   <!-- Email --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Release Date :</label>
+												<label class="task-label">{{release_info.releaseDate}}</label>
+													  </div>
+											
+										
+										 
+											<input type="hidden" id="key" name="delete_key" value="{{release_info.key.urlsafe}}">
+								</div>	
+								<div class="col-md-1">
+								</div>		
+							</div>
+						
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<input type="submit" class="add-task-btn-modal" data-dismiss="modal" id="delete_release" value="Delete">
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</button>
+				  </div>
+	</form>			

@@ -43,7 +43,11 @@ class Release(BaseHandler):
             projmodel=project.Project()
             proj=projmodel.get_all()
             company_name=kargs['subdomain']
-            self.render_template("release.html",{"project":proj,"company_name":company_name})
+            
+            release_data=project.ProjectRelease()
+            release=release_data.getall()
+            
+            self.render_template("release.html",{"project":proj,"company_name":company_name,"release":release})
         else:
             self.response.write("you are not allowed")
     
@@ -62,4 +66,46 @@ class Release(BaseHandler):
             
         release_obj.put()
             
-        self.redirect('/dashboard')
+        self.response.write('true')
+        
+
+
+class EditRelease(BaseHandler):
+        def get(self,*args,**kargs):
+            key = ndb.Key(urlsafe=self.request.get('edit_key'))
+            release_info=key.get()
+            self.render_template("edit_release.html",{"release_info":release_info})
+
+            
+            
+        def post(self,*args,**kargs):
+            key= ndb.Key(urlsafe=self.request.get('key'))
+            release_key=key.get()
+            
+            
+            release_key.projectid= ndb.Key(urlsafe=self.request.get('proj_name'))
+           
+            
+            release_key.releaseName=self.request.get('release_name')
+            
+            if (self.request.get('release_date') != release_key.releaseDate ):
+                release_key.releaseDate=datetime.strptime(self.request.get('release_date'), '%d/%m/%Y').date()
+            
+            
+            release_key.put()
+            
+            self.response.write('true')
+
+ 
+class DeleteRelease(BaseHandler):  
+        def get(self,*args,**kargs):
+            key = ndb.Key(urlsafe=self.request.get('delete_key'))
+            release_info = key.get()
+            
+            self.render_template("delete_release.html",{"release_info":release_info})
+         
+        def post(self,*args,**kargs):
+            user_key= ndb.Key(urlsafe=self.request.get('delete_key'))
+            user_key.delete()  
+            self.response.write("true")     
+            

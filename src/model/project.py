@@ -68,3 +68,6 @@ class ProjectRelease(ndb.Model):
         return res
     def delete_entity(self,id):
         ndb.Key(ProjectRelease, int(id)).delete()
+    def getall(self):
+        res = self.query().fetch()
+        return res

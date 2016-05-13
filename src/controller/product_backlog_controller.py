@@ -98,13 +98,15 @@ class AddBacklog(BaseHandler):
         
 class DeleteBacklog(BaseHandler):
     def get(self,*args,**kargs):
-        
-        id = self.request.get("id")
-        pb = product_backlog.ProductBacklog()
-        pb.delete_entity(id)
-        self.response.write("Deleted")
-        
-        
+        key = ndb.Key(urlsafe=self.request.get('delete_key'))
+        backlog_info = key.get()
+        self.render_template("user_new/delete_backlog.html",{"backlog_info":backlog_info})
+         
+    def post(self,*args,**kargs):
+            user_key= ndb.Key(urlsafe=self.request.get('delete_key'))
+            user_key.delete()  
+            self.response.write("true")     
+                    
 
 class EditBacklog(BaseHandler):
         def get(self,*args,**kargs):

@@ -1,0 +1,114 @@
+<script>
+		
+$("#delete_backlog").on("click",function(){
+	$.post( '/backlog/delete', $('#delete_form').serialize())
+		.done(function( data ) {
+			if (data!="true"){
+				alert("Backlog cannot be deleted");
+				return false
+			} else {
+				
+				
+				
+			}
+		});
+		
+		
+			
+		})
+		$('#delete-backlog-modal').on('hidden.bs.modal', function(e)
+				    { 
+				        $(this).removeData('bs.modal');
+				        
+				        $('.table').load('/backlog .table', function(result) {
+				        	 var $test = $(this).find('td').map(function() {
+						           return $(this).text();
+						       }).get().join("|");
+						     
+						       var myList = $test;
+						       var myArray = myList.split( '|' );  
+						       
+						       $('#sprint').html(myArray[0]);
+						       $('#sprint_name').html(myArray[0]);
+						       $('#date_received').html(myArray[1]);
+						       $('#backlog_name').html(myArray[2]);
+						       $('#description').html(myArray[3]);
+						       $('#rough_estimate').html(myArray[4]);
+						      
+						       $('#status').html(myArray[5]);
+				        	
+				        	
+		  			
+		  				});
+				    }) ;
+	</script>			
+
+
+	<form role="form" id="delete_form" enctype="multipart/form-data">
+				
+				
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading" style="color:black;">Delete Backlog</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								
+								<div class="col-md-10">
+										
+										<!-- First Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Sprint :</label>
+												<label class="task-label">{{backlog_info.sprintId.get.name}}</label>
+											  </div>
+										
+										
+											<!-- First Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Project Name :</label>
+												<label class="task-label">{{backlog_info.project_key.get.name}}</label>
+											  </div>
+										
+										  <!-- Email --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Backlog Name :</label>
+												<label class="task-label">{{backlog_info.backlog_name}}</label>
+											  </div>
+											  
+											
+											  
+											  <!-- Employee ID --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Description :</label>
+												<label class="task-label">{{backlog_info.storyDesc}}</label>
+													  
+											  </div>
+											  
+											 <!-- Company Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Rough Estimate(In hrs) :</label>
+												<label class="task-label">{{backlog_info.roughEstimate}}</label>
+											  </div>
+											  
+											  
+											  <!-- Domain --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Priority :</label>
+												<label class="task-label">{{backlog_info.priority}}</label>
+											  </div> 
+											  
+										 
+											<input type="hidden" id="key" name="delete_key" value="{{backlog_info.key.urlsafe}}">
+								</div>	
+								<div class="col-md-1">
+								</div>		
+							</div>
+						
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<input type="submit" class="add-task-btn-modal" data-dismiss="modal" id="delete_backlog" value="Delete">
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</button>
+				  </div>
+	</form>			

@@ -93,7 +93,8 @@
 					     //alert($(this).attr("id"))
 						 
 					     $("#edit_key").attr("href", "/backlog/edit?edit_key="+key)
-						
+						 $("#delete_key").attr("href", "/backlog/delete?delete_key="+key)
+					     
 					       var $test = $(this).find('td').map(function() {
 					           return $(this).text();
 					       }).get().join("|");
@@ -239,7 +240,12 @@
 										<div class="panel panel-default apm-sprint-panel">
 												<div class="panel-heading">
 													Details : <i id="sprint"></i>
-													<span class="panel-edit-link"><a id="edit_key" href="#" data-toggle="modal" data-target="#edit-backlog-modal">Edit</a></span>
+													
+													<span class="panel-edit-link"><a href="#" id="edit_key" data-toggle="modal" data-target="#edit-backlog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Release"  id="{{i.key.urlsafe}}"></i></a>
+																<a id="delete_key" href="#" data-toggle="modal" data-target="#delete-backlog-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Release"  id="{{i.key.urlsafe}}"></i></a>
+													<!-- 	<a id="edit_key" href="#" data-toggle="modal" data-target="#edit-backlog-modal">
+														Edit</a> -->
+													</span>
 												</div>
 												<div class="panel-body apm-subpanel-body">	
 													<ul class="apm-sprint-detail-list">
@@ -481,6 +487,19 @@
 	<!-- Add User Modal Ends -->
 		<!--Edit Modal Starts -->
 			<div id="edit-backlog-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				
+				</div>
+
+			  </div>
+			</div>
+	<!-- edit Modal Ends -->
+	<!-- Add User Modal Ends -->
+		<!--Edit Modal Starts -->
+			<div id="delete-backlog-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
 			  <div class="modal-dialog">
 
 				<!-- Modal content-->
