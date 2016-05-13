@@ -22,7 +22,10 @@ $("#delete_backlog").on("click",function(){
 				        $(this).removeData('bs.modal');
 				        
 				        $('.table').load('/backlog .table', function(result) {
-				        	 var $test = $(this).find('td').map(function() {
+				        	
+				        	$("#details").hide();
+				        	
+				        	 /* var $test = $(this).find('td').map(function() {
 						           return $(this).text();
 						       }).get().join("|");
 						     
@@ -39,7 +42,7 @@ $("#delete_backlog").on("click",function(){
 						       $('#priority').html(myArray[5]);
 						      
 						       $('#status').html(myArray[6]);
-				        	
+				        	 */
 				        	
 		  			
 		  				});
