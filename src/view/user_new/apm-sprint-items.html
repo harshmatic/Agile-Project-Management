@@ -93,8 +93,14 @@
 					  				    var variable = $('#edit_permissions').html();
 					  				});*/
 							    }) ;
-						
+						return false;
 					})
+					
+					$('#edit-issue-modal').on('hidden.bs.modal', function(e)
+						    { 
+						        $(this).removeData();
+						        
+						    }) ;
 				});
 		</script>		
 {% endblock %}
@@ -133,7 +139,7 @@
 						<hr>
 						
 						
-							<div class="row">
+							<div class="row" id="tasks_sprints">
 								<div class="col-md-12">
 									<div class="">
 									{% for sprint in sprints%}

@@ -54,7 +54,8 @@ class EditTask(BaseHandler):
             #self.response.write("you are not allowed")
     
     def post(self,*args,**kargs):
-        task_data=task.Task()
+        task_key = ndb.Key(urlsafe=self.request.get('edit_key'))
+        task_data=task_key.get()
         currentUser=self.auth.get_user_by_session()
         createdBy=self.user_model.get_by_id(currentUser['user_id']).key
         task_data.name = self.request.get('name')
