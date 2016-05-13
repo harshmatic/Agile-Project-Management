@@ -175,13 +175,12 @@ class SignupUser(BaseHandler):
         tenant.name = tenant_name
         tenant.domain = tenant_domain
         tenant.created_by = self.request.get('email')
-        logging.info(tenant.query(model.user.Tenant.domain==tenant_domain).fetch())
-        if tenant.query(model.user.Tenant.domain==tenant_domain).fetch():
+        duplicate_tenant = tenant.query(model.user.Tenant.domain==tenant_domain).fetch() 
+        if duplicate_tenant:
             self.response.write('Domain already exists with the same name.')
             return
         else:
             tenant_key_added = tenant.put()
-        logging.info(tenant_key_added)
         role=ndb.Key(urlsafe=self.request.get('role'))
         user_name = self.request.get('email')
         email = self.request.get('email')
@@ -208,14 +207,11 @@ class SignupUser(BaseHandler):
         Thank you for registering on APM. Please follow the below url to activate your account.
         Remeber to change your password.
         You will be able to do so by visiting {url}"""
-        body = msg.format(url=verification_url)
-        try:
-            mail.send_mail(sender="support@apm-eternus.appspotmail.com",
-                            subject="Account Verification new",
-                            to=email,
-                            body=body)
-        except:
-            logging.info("Unexpected error")
+        #body = msg.format(url=verification_url)
+        message = mail.EmailMessage(sender="support@apm-eternus.appspotmail.com",
+                            subject="Account Verification")
+        message.to = email
+        message.body = msg.format(url=verification_url)
         logging.info(msg.format(url=verification_url))
         self.response.write("true")           
 class SignupHandler(BaseHandler):

@@ -77,6 +77,8 @@ app = webapp2.WSGIApplication([
       #  webapp2.Route('/userbasehtml', UserBaseHtml,name="userbasehtml"),
         
     ]),
+        webapp2.Route('/', SignupUser, name='home'),
+        webapp2.Route('/signupuser', SignupUser, name='signuphome'),
         webapp2.Route('/sprint', Sprint,name='sprint'),
         webapp2.Route('/checkdomain', CheckDomain,name="checkdomain"),
         webapp2.Route('/basehtml', BaseHtml,name="basehtml"),
@@ -85,12 +87,10 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/userbasehtmltest', UserBaseHtmlTest,name="userbasehtmltest"),
         webapp2.Route('/login', LoginBaseHandler, name='loginbase'),
         webapp2.Route('/logout', LogoutHandler, name='logout'),
-        webapp2.Route('/', SignupUser, name='home'),
         webapp2.Route('/password', SetPasswordHandler, name="setpassword"),
         webapp2.Route('/signupuser', SignupUser, name='usersignup'),
         webapp2.Route('/<type:v|p>/<user_id:\d+>-<signup_token:.+>',handler=VerificationHandler, name='verification'),
         webapp2.Route('/forgot', ForgotPasswordHandler, name='forgot'),
-        #webapp2.Route('/.*', NotFoundPageHandler)
         webapp2.Route('/release', Release,name='release')
     
 ], debug=True, config=config)

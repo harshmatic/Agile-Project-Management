@@ -25,6 +25,20 @@
 		<script>
 		
 $(document).ready(function() {
+	$("#submit_form").on("click",function(e){
+		e.preventDefault();
+		$.post( "/signupuser", $("#signup_user").serialize()).done(function( data ) {
+  			if (data!="true"){
+  				alert(data);
+  				return false;
+  			} else {
+  				alert("A verification link hass been sent to your mail id.");
+  				
+  			}
+  		});
+		return false;
+	});
+	
 			
 			
 			$("#login_form").validate({
@@ -52,20 +66,7 @@ $(document).ready(function() {
 				  }
 				});	
 	
-			$("#submit").click(function(){
-				
-				$.post( "/", $("#signup_user").serialize())
-			  		.done(function( data ) {
-			  			alert("sdjhfgjsdg");
-			  			if (data!="true"){
-			  				alert(data);
-			  				return false
-			  			} else {
-			  				alert("A verification link hass been sent to your mail id.");
-			  				
-			  			}
-			  	});
-			});
+			
 			
 			$("#checkdomain").click(function(){
 				$.post( "/checkdomain", $("#signup_user").serialize())
@@ -162,7 +163,7 @@ $(document).ready(function() {
 								<input type="hidden" value="{{role.key.urlsafe}}" name="role">
 						   {%endfor%}
 						  
-						  <button  class="apm-landing-reg-btn" id="submit">Register</button>
+						  <button  class="apm-landing-reg-btn" id="submit_form">Register</button>
 						</form>
 					</div>	
 					<div class="col-md-2 col-sm-2">
