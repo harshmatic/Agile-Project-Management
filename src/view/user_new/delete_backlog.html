@@ -1,5 +1,6 @@
 <script>
-		
+$(document).ready(function(){	
+
 $("#delete_backlog").on("click",function(){
 	$.post( '/backlog/delete', $('#delete_form').serialize())
 		.done(function( data ) {
@@ -43,6 +44,8 @@ $("#delete_backlog").on("click",function(){
 		  			
 		  				});
 				    }) ;
+				    
+});
 	</script>			
 
 

@@ -1,5 +1,7 @@
 <script>
-		
+$(document).ready(function(){	
+	
+
 $("#edit_user").on("click",function(){
 	$.post( '/backlog/edit', $("#edit_form").serialize())
 		.done(function( data ) {
@@ -46,6 +48,7 @@ $("#edit_user").on("click",function(){
 				        	
 		  				});
 				    }) ;
+});
 	</script>			
 
 

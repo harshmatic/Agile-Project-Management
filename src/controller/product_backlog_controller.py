@@ -128,6 +128,9 @@ class EditBacklog(BaseHandler):
             key= ndb.Key(urlsafe=self.request.get('key'))
             backlog_key=key.get()
             
+            if (self.request.get('sprint') != 'None'):
+                backlog_key.sprintId=ndb.Key(urlsafe=self.request.get('sprint'))
+            
             backlog_key.type = ndb.Key(urlsafe=self.request.get('type'))
             backlog_key.storyDesc = self.request.get("description")
             backlog_key.backlog_name=self.request.get('backlog_name')
