@@ -19,10 +19,10 @@ class ProductUserStory(ndb.Model):
         res = self.query().fetch()
         return res
     def get(self,id):
-        res = ndb.Key(ProductBacklog,int(id)).get()
+        res = ndb.Key(ProductUserStory,int(id)).get()
         return res
     def delete_entity(self,id):
-        ndb.Key(ProductBacklog, int(id)).delete()
+        ndb.Key(ProductUserStory, int(id)).delete()
     
 
     
