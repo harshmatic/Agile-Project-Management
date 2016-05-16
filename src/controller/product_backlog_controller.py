@@ -16,7 +16,7 @@ from model import sprint
 class AllBacklogs(BaseHandler):
     def get(self,*args,**kargs):
        if check_permission(self):  
-        productBacklog = product_backlog.ProductBacklog()
+        productBacklog = product_backlog.ProductUserStory()
         productBacklog = productBacklog.get_all()
         
         list= []
@@ -55,7 +55,7 @@ class Backlog(BaseHandler):
     def get(self,*args,**kargs):
         
         id = self.request.get("id")
-        productBacklog = product_backlog.ProductBacklog()
+        productBacklog = product_backlog.ProductUserStory()
         productBacklog = productBacklog.get(id)
         
         data = {}
@@ -74,7 +74,7 @@ class Backlog(BaseHandler):
 class AddBacklog(BaseHandler):
     
     def post(self,*args,**kargs):
-        backlog = product_backlog.ProductBacklog()
+        backlog = product_backlog.ProductUserStory()
        # backlog.sprintId = self.request.get("spId")
         backlog.project_key = ndb.Key(urlsafe=self.request.get("project"))
         

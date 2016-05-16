@@ -47,7 +47,7 @@
 			
 		<script>
 				$(document).ready(function(){
-					$("#details").hide();
+					//$("#details").hide();
 					$(".nav-tabs a").click(function(){
 						$(this).tab('show');
 					});
@@ -62,6 +62,13 @@
 					});
 					$("#add-issue").click(function(e) {
 						$('#add-issue-modal').modal('show');
+					});
+				
+					
+					//sprint 
+					$('.datepicker1').datepicker({
+						format: 'mm/dd/yyyy',
+						startDate: '0d'
 					});
 					
 					
@@ -124,6 +131,82 @@
 					      
 					    
 					    });
+					
+					//sprint
+					
+					$('#sprint_end').datepicker()
+				    .on('changeDate', function(e) {
+				    	if ($('#sprint_start').val()!=""){
+					        start=$('#sprint_start').val();
+					        end=$('#sprint_end').val();
+					        secs=(new Date(end)).getTime()/1000-(new Date(start)).getTime()/1000
+					        secs=secs/60/60/24;
+					        if (secs>7){
+					        	week=parseInt(secs/7);
+					        	days=secs%7;
+					        	$("#length").val(week+" weeks "+days+" days")
+					        }
+					        else {
+					        	if(secs==0){
+					        		$("#length").val("1 Day")
+					        	} else {
+					        	$("#length").val(secs+" Days")
+					        	}
+					        }
+				    	}
+				    });
+					$('#sprint_start').datepicker()
+				    .on('changeDate', function(e) {
+				    	if ($('#sprint_end').val()!=""){
+				    		start=$('#sprint_start').val();
+					        end=$('#sprint_end').val();
+					        secs=(new Date(end)).getTime()/1000-(new Date(start)).getTime()/1000
+					        secs=secs/60/60/24;
+					        if (secs>7){
+					        	week=parseInt(secs/7);
+					        	days=secs%7;
+					        	$("#length").val(week+" weeks "+days+" days")
+					        }
+					        else {
+					        	if(secs==0){
+					        		$("#length").val("1 Day")
+					        	} else {
+					        	$("#length").val(secs+" Days")
+					        	}
+					        }
+				    	}
+				    });
+					
+						$("#add-sprint").click(function(e) {
+							$('#add-sprint-modal').modal('show');
+						});
+						
+						$("#submit_sprint").on("click",function(){
+							$.post( "/sprint", $("#add_sprint").serialize())
+					  		.done(function( data ) {
+					  			if (data!="true"){
+					  				alert("Something Went Wrong");
+					  				return false
+					  			} 
+					  		//	$("#backlog_form").reset();
+					  			
+					  			
+					  			 $('#backlog_form').load('/backlog #backlog_form', function(result) {
+					  				}); 
+					  		
+					  		});
+							
+							
+							
+						});
+						
+						
+						$('#add-sprint-modal').on('hidden.bs.modal', function(e)
+							    { 
+									$(this).removeData('bs.modal');
+									$(this).find('form')[0].reset();
+							
+							    }) ;
 
 				});
 					
@@ -187,9 +270,9 @@
 							
 							<!-- Add Sprint Button & Add issue button -->
 								<br class="btn-separator">
-								<button class="apm-listing-add-proj-btn pro-button apm-add-sprint-btn" id="add-issue">Add Backlog</button>
+								<button class="apm-listing-add-proj-btn pro-button apm-add-sprint-btn" id="add-issue" data-toggle="modal" data-dismiss="modal">Add User Story</button>
 								
-								<button class="apm-listing-add-proj-btn pro-button apm-add-sprint-btn" id="add-sprint">Add Sprint</button>
+								<button class="apm-listing-add-proj-btn pro-button apm-add-sprint-btn" id="add-sprint" data-toggle="modal"  data-dismiss="modal">Add Sprint</button>
 							
 							<!-- Backlog Filter section ENDS -->
 							
@@ -206,7 +289,7 @@
 											<!-- Sprint 1 panel -->
 											<div class="panel panel-default apm-sprint-panel">
 												<div class="panel-heading">
-													All Backlogs
+													All User Stories
 												</div>
 												<div class="panel-body">
 													<div class="table-responsive">
@@ -296,7 +379,7 @@
     <!-- /#wrapper -->
   
 		
-		<!-- Add Sprint Modal Starts -->
+	<!-- Create Spritn Modal Starts -->
 			<div id="add-sprint-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
 			  <div class="modal-dialog">
 
@@ -311,64 +394,54 @@
 								<div class="col-md-1">
 								</div>
 								<div class="col-md-10">
-										<form role="form">
-											  <!-- Employee ID --> 
+										<form role="form" id="add_sprint">
+										<input type="hidden" value="ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" name="project_key">
+											  <!-- Project Name --> 
 											  <div class="form-group task-form-group">
-												<label class="task-label">Employee ID</label>
-												<input type="text" class="form-control add-task-textbox apm-modal-textbox">
+												<label class="task-label">Name</label>
+												<input name="name" type="text" class="form-control add-task-textbox apm-modal-textbox">
 											  </div>
 											  
-											  <!-- Email --> 
-											  <div class="form-group task-form-group">
-												<label class="task-label">Email</label>
-												<input type="text" class="form-control add-task-textbox apm-modal-textbox">
-											  </div>
+											  
+											  
+											  
+													
+													  <div class="form-group task-form-group">
+														<label class="task-label">Description</label>
+														<textarea name="desc" rows="4" class="form-control add-task-textbox apm-modal-textarea"></textarea>
+													  </div>
+												  
+												  
+												
 											  
 											  <div class="row">
-												  <div class="col-sm-6">
-													  <!-- First Name --> 
-													  <div class="form-group task-form-group">
-														<label class="task-label">First Name</label>
-														<input type="text" class="form-control add-task-textbox apm-modal-textbox">
+												<!-- Start Date -->
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="apm-landing-reg-label">Start Date</label>
+														<input name="start" type="text" class="form-control apm-landing-textbox-reg datepicker1" readonly="true" id="sprint_start">
+														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+													</div>
+												</div>
+												
+												<!-- End Date -->
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="apm-landing-reg-label">End Date</label>
+														<input name="end" type="text" class="form-control apm-landing-textbox-reg datepicker1" readonly="true" id="sprint_end">
+														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+													</div>
+												</div>
+												
+											</div>
+											<div class="form-group task-form-group">
+														<label class="task-label">Working Hours/Day (Hrs)</label>
+														<input name="workinghours" type="number" class="form-control add-task-textbox apm-modal-textbox" value="" id="" maxlength="3">
 													  </div>
-												  </div>
-												  
-												  <div class="col-sm-6">
-													  <!-- Last Name --> 
-													  <div class="form-group task-form-group">
-														<label class="task-label">Last Name</label>
-														<input type="text" class="form-control add-task-textbox apm-modal-textbox">
+											<div class="form-group task-form-group">
+														<label class="task-label">Sprint Length</label>
+														<input disabled type="text" class="form-control add-task-textbox apm-modal-textbox" value="0 weeks" id="length">
 													  </div>
-												  </div>
-											  </div>
-											  
-											  <div class="row">
-												  <div class="col-sm-6">
-													  <!-- Designation --> 
-													  <div class="form-group task-form-group">
-														<label class="task-label">Designation</label>
-														<input type="text" class="form-control add-task-textbox apm-modal-textbox">
-													  </div>
-												  </div>
-												  
-												  <div class="col-sm-6">
-													  <!-- Contact No --> 
-													  <div class="form-group task-form-group">
-														<label class="task-label">Contact No.</label>
-														<input type="text" class="form-control add-task-textbox apm-modal-textbox">
-													  </div>
-												  </div>
-											  </div>
-											  
-											  <!-- Permissions/Role --> 
-											  <div class="form-group task-form-group">
-												<label class="task-label">Permissions</label>
-												<select class="form-control add-task-textbox apm-modal-textbox">
-													<option>Super Admin</option>
-													<option>Admin</option>
-													<option>User</option>
-												</select>
-											  </div>
 											  
 										</form>
 								</div>	
@@ -378,14 +451,14 @@
 							
 				  </div>
 				  <div class="modal-footer add-task-modal-footer">
-					<button type="button" class="add-task-btn-modal" data-dismiss="modal">Add</button>
+					<button type="button" class="add-task-btn-modal" data-dismiss="modal" id="submit_sprint">Add</button>
 					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
 				  </div>
 				</div>
 
 			  </div>
 			</div>
-	<!-- Add Sprint Modal Ends -->
+	<!-- Create Sprint Modal Ends -->
 	
 	
 	
@@ -397,7 +470,7 @@
 				<div class="modal-content add-task-modal-content">
 				  <div class="modal-header add-task-modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title add-task-modal-heading">Add New Backlog</h4>
+					<h4 class="modal-title add-task-modal-heading">Add New User Story</h4>
 				  </div>
 				  
 				  	<form role="form" id="backlog_form" action="/backlog/addbacklog" method="post">
@@ -427,7 +500,7 @@
 										   <!-- Issue Type --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Sprint</label>
-												<select class="form-control add-task-textbox apm-modal-textbox" name="sprint">
+												<select class="form-control add-task-textbox apm-modal-textbox" name="sprint" id="sprint">
 													<option value="None">None</option>
 													{%for i in sprint%}
 														{% for proj in project %}
@@ -442,7 +515,7 @@
 										 
 										 	   <!-- Project Name --> 
 											  <div class="form-group task-form-group">
-												<label class="task-label">Backlog Name</label>
+												<label class="task-label">Story Name</label>
 												<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="backlog_name">
 												</div> 
 											  

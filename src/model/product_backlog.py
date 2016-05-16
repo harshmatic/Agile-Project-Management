@@ -1,6 +1,6 @@
 from google.appengine.ext import ndb
 
-class ProductBacklog(ndb.Model):
+class ProductUserStory(ndb.Model):
     company_key= ndb.KeyProperty(required =  True)
     project_key= ndb.KeyProperty(required= True)
     sprintId = ndb.KeyProperty()
