@@ -111,6 +111,8 @@
 					     $("#edit_key").attr("href", "/backlog/edit?edit_key="+key)
 						 $("#delete_key").attr("href", "/backlog/delete?delete_key="+key)
 					     
+						 var update="/backlog/update?update_key="+key;
+						 
 					       var $test = $(this).find('td').map(function() {
 					           return $(this).text();
 					       }).get().join("|");
@@ -122,11 +124,17 @@
 					       $('#sprint_name').html(myArray[0]);
 					       $('#backlog_name').html(myArray[1]);
 					       $('#description').html(myArray[2]);
-					       $('#date_received').html(myArray[3]);
-					       $('#rough_estimate').html(myArray[4]);
-					       
-					       $('#priority').html(myArray[5]);
 					      
+					       if( myArray[3] == '' || myArray[3] == 'None')
+					    	   {
+					    	   $('#assignee').html('<a href="'+update+'" id="update_key" data-toggle="modal" data-target="#add-assignee-modal">Assign<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Update User Story" id="{{i.key.urlsafe}}"></i></a>');
+					    	   }
+					       else
+					    	   {
+					      			 $('#assignee').html(myArray[3]);
+					    	   }
+					       $('#rough_estimate').html(myArray[4]);
+					       $('#priority').html(myArray[5]);
 					       $('#status').html(myArray[6]);
 					      
 					    
@@ -299,7 +307,7 @@
                													  <td><b>Sprint Name</b></td>
                													  <td><b>Story Name</b></td>
                													  <td><b>Story Description</b></td>
-               													  <td><b>Date Received</b></td>
+               													  <td><b>Assigned To</b></td>
                 												  <td><b>Rough Effort Estimate</b></td>
               													   <td><b>Priority</b></td>
               													   <td><b>Status</b></td>
@@ -317,7 +325,8 @@
 																</td>
 																<td>{{i.backlog_name}}</td>
 																<td>{{i.storyDesc}}</td>
-																<td>{{i.startDate}}</td>
+																<!-- <td>{{i.startDate}}</td> -->
+																<td>{{i.assignee.get.name}}</td>
 																<td>{{i.roughEstimate}}</td>
 																<td>{{i.priority}}</td>
 																<td>{{i.status}}</td>
@@ -357,7 +366,8 @@
 														
 														<li><b><span class=".apm-sprint-detail-span">Story Name -</span></b><i id="backlog_name"></i></li>
 														<li><b><span class=".apm-sprint-detail-span">Story Description -</span></b><i id="description"></i></li>
-														<li><b><span class=".apm-sprint-detail-span">Date Received -</span></b><i id="date_received"></i> </li>
+														<li><b><span class=".apm-sprint-detail-span">Assigned To -</span></b><i id="assignee">												
+														  </li>
 														<li><b><span class=".apm-sprint-detail-span">Rough Effort Estimate  -</span></b><i id="rough_estimate"></i></li>
 														<li><b><span class=".apm-sprint-detail-span">Priority -</span></b><i id="priority"></i></li>
 														<li><b><span class=".apm-sprint-detail-span">Status -</span></b><i id="status"></i></li>
@@ -519,6 +529,20 @@
 												<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="backlog_name">
 												</div> 
 											  
+											  <!-- Issue Type --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Assign To</label>
+												<select class="form-control add-task-textbox apm-modal-textbox" name="assignee" id="assignee">
+													<option value="None">None</option>
+													{%for i in user_data%}
+													
+																<option value={{i.key.urlsafe}}>{{i.name}}</option>
+															
+													{%endfor%}
+												</select>
+											  </div>
+											  
+											  
 										 
 										
 											  
@@ -595,6 +619,20 @@
 	<!-- Add User Modal Ends -->
 		<!--Edit Modal Starts -->
 			<div id="delete-backlog-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				
+				</div>
+
+			  </div>
+			</div>
+	<!-- edit Modal Ends -->
+		
+			<!-- Add User Modal Ends -->
+		<!--Edit Modal Starts -->
+			<div id="add-assignee-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
 			  <div class="modal-dialog">
 
 				<!-- Modal content-->

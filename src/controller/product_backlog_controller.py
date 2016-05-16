@@ -12,6 +12,7 @@ import time
 from login import BaseHandler,check_permission
 from model import user
 from model import sprint
+import model
 
 class AllBacklogs(BaseHandler):
     def get(self,*args,**kargs):
@@ -47,7 +48,10 @@ class AllBacklogs(BaseHandler):
         sprint_obj=sprint.Sprint()
         sprints=sprint_obj.get_all()
         
-        self.render_template("user_new/apm-backlog-new.html",{"productBacklog":productBacklog,"type":type,"project":proj,"sprint":sprints,"company_name":company_name})
+        u=user.OurUser()
+        user1=u.query(user.OurUser.tenant_domain==kargs['subdomain']).fetch()
+        
+        self.render_template("user_new/apm-backlog-new.html",{"user_data":user1,"productBacklog":productBacklog,"type":type,"project":proj,"sprint":sprints,"company_name":company_name})
        else:
         self.response.write("you are not allowed")   
         
@@ -87,6 +91,9 @@ class AddBacklog(BaseHandler):
         if (self.request.get('sprint') != 'None'):
             backlog.sprintId=ndb.Key(urlsafe=self.request.get('sprint'))
             
+        if (self.request.get('assignee') != 'None'):
+            backlog.assignee=ndb.Key(urlsafe=self.request.get('assignee'))
+            
         backlog.type = ndb.Key(urlsafe=self.request.get('type'))
         backlog.storyDesc = self.request.get("description")
         backlog.backlog_name=self.request.get('backlog_name')
@@ -119,7 +126,10 @@ class EditBacklog(BaseHandler):
             projmodel=project.Project()
             proj=projmodel.get_all()
             
-            self.render_template("user_new/edit_backlog.html",{"backlog_info":backlog_info,"project":proj,"sprint":sprints})
+            u=user.OurUser()
+            user1=u.query(user.OurUser.tenant_domain==kargs['subdomain']).fetch()
+            
+            self.render_template("user_new/edit_backlog.html",{"user_data":user1,"backlog_info":backlog_info,"project":proj,"sprint":sprints})
 
             
             
@@ -131,6 +141,9 @@ class EditBacklog(BaseHandler):
             if (self.request.get('sprint') != 'None'):
                 backlog_key.sprintId=ndb.Key(urlsafe=self.request.get('sprint'))
             
+            if (self.request.get('assignee') != 'None'):
+                backlog_key.assignee=ndb.Key(urlsafe=self.request.get('assignee'))
+            
             backlog_key.type = ndb.Key(urlsafe=self.request.get('type'))
             backlog_key.storyDesc = self.request.get("description")
             backlog_key.backlog_name=self.request.get('backlog_name')
@@ -141,3 +154,21 @@ class EditBacklog(BaseHandler):
             backlog_key.put()
                         
             self.response.write("true")        
+            
+            
+class UpdateBacklog(BaseHandler):
+        def get(self,*args,**kargs):
+            key = ndb.Key(urlsafe=self.request.get('update_key'))
+            backlog_info = key.get()
+            u=user.OurUser()
+            user1=u.query(user.OurUser.tenant_domain==kargs['subdomain']).fetch()
+            self.render_template("user_new/update_userstory.html",{"backlog_info":backlog_info,"user_data":user1})
+            
+        def post(self,*args,**kargs):
+            key= ndb.Key(urlsafe=self.request.get('key'))
+            backlog_key=key.get()
+            if (self.request.get('assignee') != 'None'):
+                backlog_key.assignee=ndb.Key(urlsafe=self.request.get('assignee'))
+            
+            backlog_key.put()
+            self.response.write("true")   

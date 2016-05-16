@@ -11,7 +11,7 @@ class ProductUserStory(ndb.Model):
     priority = ndb.IntegerProperty()
     status = ndb.StringProperty()
     backlog_name= ndb.StringProperty()
-    
+    assignee=ndb.KeyProperty()
     
     def set(self):
         return self.put()

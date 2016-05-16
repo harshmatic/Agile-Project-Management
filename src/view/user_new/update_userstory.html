@@ -1,0 +1,80 @@
+<script>
+$(document).ready(function(){	
+	
+
+$("#update_userstory").on("click",function(){
+	$.post( '/backlog/update', $("#update_form").serialize())
+		.done(function( data ) {
+			if (data!="true"){
+				alert("Assignee cannot be added");
+				return false
+			} else {
+				
+				
+				
+			}
+		});
+		
+		
+			
+			
+		})
+		
+		
+			$('#add-assignee-modal').on('hidden.bs.modal', function(e)
+				    { 
+				        $(this).removeData('bs.modal');
+				        
+				        $('.table').load('/backlog .table', function(result) {
+				        	$("#details").hide();
+				        	
+				        
+				        	
+		  				});
+				    }) ;
+});
+	</script>			
+
+
+	<form role="form" id="update_form" enctype="multipart/form-data">
+				
+				
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading" >Edit Backlog</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								
+								<div class="col-md-10">
+										
+									
+											 <!-- Issue Type --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Assign To</label>
+												<select class="form-control add-task-textbox apm-modal-textbox" name="assignee" id="assignee">
+													<option value="None">None</option>
+													{%for i in user_data%}
+													
+																<option value={{i.key.urlsafe}}>{{i.name}}</option>
+															
+													{%endfor%}
+												</select>
+											  </div>
+											  
+											
+											 
+											<input type="hidden" id="key" name="key" value="{{backlog_info.key.urlsafe}}">
+								</div>	
+								<div class="col-md-1">
+								</div>		
+							</div>
+						
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<input type="submit" class="add-task-btn-modal" data-dismiss="modal" id="update_userstory" value="Update">
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</button>
+				  </div>
+	</form>			</html>

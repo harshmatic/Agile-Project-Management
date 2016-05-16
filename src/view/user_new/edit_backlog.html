@@ -58,7 +58,7 @@ $("#edit_user").on("click",function(){
 				
 				  <div class="modal-header add-task-modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title add-task-modal-heading" >Edit Backlog</h4>
+					<h4 class="modal-title add-task-modal-heading" >Edit User Story</h4>
 				  </div>
 					<div class="modal-body user-management-body">
 							<div class="row">
@@ -91,8 +91,21 @@ $("#edit_user").on("click",function(){
 											  
 											   <!-- Email --> 
 											  <div class="form-group task-form-group">
-												<label class="task-label">Backlog Name</label>
+												<label class="task-label">Story Name</label>
 												<input type="text" class="form-control add-task-textbox" name="backlog_name" value="{{backlog_info.backlog_name}}">
+											  </div>
+											 
+											   <!-- Issue Type --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Assign To</label>
+												<select class="form-control add-task-textbox apm-modal-textbox" name="assignee" id="assignee">
+													<option value="None">None</option>
+													{%for i in user_data%}
+													
+																<option value={{i.key.urlsafe}}>{{i.name}}</option>
+															
+													{%endfor%}
+												</select>
 											  </div>
 											  
 											   <!-- Designation --> 
