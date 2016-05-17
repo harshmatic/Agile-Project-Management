@@ -16,6 +16,14 @@ $("#delete_user").on("click",function(){
 		
 			
 		})
+		
+			$('#delete-user-modal').on('hidden.bs.modal', function(e)
+							{ 
+								$(this).removeData();
+								$('.table').load('/admin/usermanagment .table', function(result) {
+				  				    var variable = $('#edit_permissions').html();
+				  				});
+					    	}) ;
 	</script>			
 
 

@@ -1,4 +1,6 @@
  <script>
+ 
+ //for edit
 		$("#submit_edit_role").on("click",function(){
 			$.post( "/admin/editrole", $("#editrole").serialize())
 	  		.done(function( data ) {
@@ -10,6 +12,20 @@
 			
 			
 		})
+	//for delete
+		$("#submit_delete_role").on("click",function(){
+			$.post( "/admin/delete", $("#editrole").serialize())
+	  		.done(function( data ) {
+	  			if (data!="true"){
+	  				alert("Something Went Wrong");
+	  				return false
+	  			} 
+	  		});
+			
+			
+		})
+		
+		
 		$('#edit-role-modal').on('hidden.bs.modal', function(e)
 				    { 
 				        $(this).removeData('bs.modal');
@@ -69,5 +85,5 @@
 				  </div>
 				  <div class="modal-footer add-task-modal-footer">
 					<button type="button" class="add-task-btn-modal save-roll-modal-btn" data-dismiss="modal" id="submit_edit_role">Save</button>
-					<button type="button" class="add-task-btn-modal delete-roll-modal-btn" data-dismiss="modal" id="submit_delete">Delete</button>
+					<button type="button" class="add-task-btn-modal delete-roll-modal-btn" data-dismiss="modal" id="submit_delete_role">Delete</button>
 				  </div>

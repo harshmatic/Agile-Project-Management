@@ -49,8 +49,9 @@ class AdminHome(BaseHandler):
             self.response.write("you are not allowed")
 class DeleteEntity(BaseHandler):
     def post(self,*args,**kargs):
-        key = ndb.Key(urlsafe=self.request.get('key_permission'))
-        user=key.get()
+        user_info = self.auth.get_user_by_session()
+        key = ndb.Key(urlsafe=self.request.get('key_role'))
+        user =key.get()
         user_info = self.auth.get_user_by_session()
         user.modified_by = user_info['email_address']
         user.modified_date = datetime.now()
