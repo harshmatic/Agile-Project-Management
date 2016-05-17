@@ -112,7 +112,10 @@
 						 $("#delete_key").attr("href", "/backlog/delete?delete_key="+key)
 					     
 						 var update="/backlog/update?update_key="+key;
-						 
+						 var edit="/backlog/edit?edit_key="+key;
+					     var delete_key ="/backlog/delete?delete_key="+key;
+					     
+					     
 					       var $test = $(this).find('td').map(function() {
 					           return $(this).text();
 					       }).get().join("|");
@@ -120,6 +123,10 @@
 					       var myList = $test;
 					       var myArray = myList.split( '|' );  
 					       
+					       
+					     
+					       $('#edit_delete_panel').html('<a href="'+edit+'" id="edit_key" data-toggle="modal" data-target="#edit-backlog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Release"  id="{{i.key.urlsafe}}"></i></a><a id="delete_key" href="'+delete_key+'" data-toggle="modal" data-target="#delete-backlog-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Release"  id="{{i.key.urlsafe}}"></i></a>');
+							
 					       $('#sprint').html(myArray[0]);
 					       $('#sprint_name').html(myArray[0]);
 					       $('#backlog_name').html(myArray[1]);
@@ -316,6 +323,7 @@
              												
 														<tr class="separator" />
 															{%for i in productBacklog%}
+															{%if i.status == 'True' %}
 															  <tr class='clickable-row' id="{{i.key.urlsafe}}">
 																<td>{%if i.sprintId != None  %}
 																		{{i.sprintId.get.name}}
@@ -329,10 +337,14 @@
 																<td>{{i.assignee.get.name}}</td>
 																<td>{{i.roughEstimate}}</td>
 																<td>{{i.priority}}</td>
-																<td>{{i.status}}</td>
+																<td>{%if i.user_story_status == 0 %}
+																		Defined
+																	{%endif%}
+																</td>
 															  </tr>
 															  
 															  <tr class="separator" />
+															  {%endif%}
 															  {%endfor%}
 															
 															</tbody>
@@ -354,9 +366,9 @@
 												<div class="panel-heading">
 													Details : <i id="sprint"></i>
 													
-													<span class="panel-edit-link"><a href="#" id="edit_key" data-toggle="modal" data-target="#edit-backlog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Release"  id="{{i.key.urlsafe}}"></i></a>
+													<span class="panel-edit-link" id="edit_delete_panel" ><!-- <a href="#" id="edit_key" data-toggle="modal" data-target="#edit-backlog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Release"  id="{{i.key.urlsafe}}"></i></a>
 																<a id="delete_key" href="#" data-toggle="modal" data-target="#delete-backlog-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Release"  id="{{i.key.urlsafe}}"></i></a>
-													<!-- 	<a id="edit_key" href="#" data-toggle="modal" data-target="#edit-backlog-modal">
+												 -->	<!-- 	<a id="edit_key" href="#" data-toggle="modal" data-target="#edit-backlog-modal">
 														Edit</a> -->
 													</span>
 												</div>

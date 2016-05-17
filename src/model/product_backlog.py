@@ -1,6 +1,7 @@
 from google.appengine.ext import ndb
+from base import BaseClass
 
-class ProductUserStory(ndb.Model):
+class ProductUserStory(BaseClass):
     company_key= ndb.KeyProperty(required =  True)
     project_key= ndb.KeyProperty(required= True)
     sprintId = ndb.KeyProperty()
@@ -9,7 +10,7 @@ class ProductUserStory(ndb.Model):
     startDate = ndb.DateProperty(auto_now_add=True)
     roughEstimate = ndb.FloatProperty()
     priority = ndb.IntegerProperty()
-    status = ndb.StringProperty()
+    user_story_status = ndb.IntegerProperty()
     backlog_name= ndb.StringProperty()
     assignee=ndb.KeyProperty()
     

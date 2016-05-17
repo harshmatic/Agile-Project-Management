@@ -13,6 +13,7 @@ from login import BaseHandler,check_permission
 from model import user
 from model import sprint
 import model
+from datetime import datetime
 
 class AllBacklogs(BaseHandler):
     def get(self,*args,**kargs):
@@ -99,7 +100,11 @@ class AddBacklog(BaseHandler):
         backlog.backlog_name=self.request.get('backlog_name')
         backlog.roughEstimate = float(self.request.get("rough_estimate"))
         backlog.priority = int(self.request.get("priority"))
-        backlog.status = "Defined"
+        backlog.user_story_status = 0
+        user_info = self.auth.get_user_by_session()
+        backlog.created_by = user_info['email_address']
+        backlog.status = 'True'
+        
         projkey = backlog.set()
         self.response.write('true')
         
@@ -110,8 +115,11 @@ class DeleteBacklog(BaseHandler):
         self.render_template("user_new/delete_backlog.html",{"backlog_info":backlog_info})
          
     def post(self,*args,**kargs):
-            user_key= ndb.Key(urlsafe=self.request.get('delete_key'))
-            user_key.delete()  
+            key= ndb.Key(urlsafe=self.request.get('delete_key'))
+            user_story_key=  key.get()
+            user_story_key.status = 'False'
+            user_story_key.put()
+            #user_key.delete()  
             self.response.write("true")     
                     
 
@@ -149,7 +157,10 @@ class EditBacklog(BaseHandler):
             backlog_key.backlog_name=self.request.get('backlog_name')
             backlog_key.roughEstimate = float(self.request.get("rough_estimate"))
             backlog_key.priority = int(self.request.get("priority"))
-          
+            
+            user_info = self.auth.get_user_by_session()
+            backlog_key.modified_by = user_info['email_address']
+            backlog_key.modified_date = datetime.now()
             
             backlog_key.put()
                         
@@ -169,6 +180,11 @@ class UpdateBacklog(BaseHandler):
             backlog_key=key.get()
             if (self.request.get('assignee') != 'None'):
                 backlog_key.assignee=ndb.Key(urlsafe=self.request.get('assignee'))
+            
+            user_info = self.auth.get_user_by_session()
+            backlog_key.modified_by = user_info['email_address']
+            backlog_key.modified_date = datetime.now()
+            
             
             backlog_key.put()
             self.response.write("true")   
