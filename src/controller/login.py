@@ -88,9 +88,20 @@ class BaseHandler(webapp2.RequestHandler):
             params = {}
         user = self.user_info
         params['user'] = user
+        logging.info(self.session)
+        if user:
+            user_obj=self.user_model.get_by_id(user['user_id'])
+            user_key=user_obj.key
+            comp_key=user_obj.tenant_key
+            projects= model.project.ProjectMembers().get_proj_by_user(comp_key,user_key)
+            if projects != None:
+                params['projects'] = projects
+            if not self.session.has_key('current_project'):
+                self.session['current_project']=projects[0].projectid
         if user != None :
             params['blob'] = self.user_model.get_by_id(user['user_id']).blob_key
-          
+        
+        params['session']=self.session
         logging.info(params)
         path = os.path.join(os.path.dirname(__file__), '../view', view_filename)
         self.response.out.write(template.render(path, params))
@@ -124,20 +135,29 @@ class Main(BaseHandler):
     
     def get(self,*args,**kargs):
         user1=self.auth.get_user_by_session()
-        logging.info(user1)
         if user1:
             domain=str(self.user_model.get_by_id(user1['user_id']).tenant_domain)
-            logging.info(domain)
             domain=urlparse.urlparse(domain).path
             if self.user_model.get_by_id(user1['user_id']).role.get().role == "Admin":
-                #logging.info(domain+"."+urlparse.urlparse(self.request.url).netloc+self.uri_for('admindashboard'))
                 self.redirect(self.uri_for('admindashboard'))
             else:
-                #logging.info(domain+"."+urlparse.urlparse(self.request.url).netloc+self.uri_for('admindashboard'))
                 self.redirect(self.uri_for('dashboard'))
         else:
             self.redirect(self.uri_for('login'), abort=True)
-
+class SetSessionProject(BaseHandler):
+    
+    def get(self,*args,**kargs):
+        project_key = self.request.get('project_key')
+        
+        user1=self.auth.get_user_by_session()
+        if user1:
+            
+            project=model.user.ProjectMembers().get_all(ndb.Key(urlsafe=project_key))
+            logging.info(project)
+            self.session['current_project']=project[0].projectid
+            self.redirect(self.uri_for('dashboard'))
+        else:
+            self.redirect(self.uri_for('login'), abort=True)
 class DashboardHandler(BaseHandler):
     def get(self,*args,**kargs):
         if check_permission(self):
@@ -448,6 +468,7 @@ class LoginBaseHandler(BaseHandler):
 class LogoutHandler(BaseHandler):
     def get(self,*args,**kargs):
         self.auth.unset_session()
+        self.session.pop('current_project')
         self.redirect(self.uri_for('home'))
 
 class AuthenticatedHandler(BaseHandler):

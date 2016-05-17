@@ -20,6 +20,10 @@ class Project(ndb.Model):
         projKey = ndb.Key('Project',projid)
         res = projKey.get()
         return res
+    def get_proj_by_user(self,comp_id):
+        #projKey = ndb.Key('Project',projid)
+        res = self.query(Project.companyid==comp_id).fetch()
+        return res
     def delete_entity(self,projid):
         ndb.Key(Project, int(projid)).delete()
     
@@ -39,8 +43,8 @@ class Estimation(ndb.Model):
         ndb.Key(Estimation, int(estid)).delete()
     
 class ProjectMembers(ndb.Model):
-    projectid =        ndb.KeyProperty(required=True)
-    companyid =       ndb.KeyProperty(required=True)
+    projectid = ndb.KeyProperty(required=True)
+    companyid = ndb.KeyProperty(required=True)
     userName = ndb.StringProperty(required=True)
     userid   = ndb.KeyProperty(required=True)
     userRole = ndb.StringProperty(required=True)
@@ -52,6 +56,9 @@ class ProjectMembers(ndb.Model):
         return res
     def delete_entity(self,projmemid):
         ndb.Key(ProjectMembers, int(projmemid)).delete()
+    def get_proj_by_user(self,comp_id,user_id):
+        res = self.query(ndb.AND(ProjectMembers.companyid==comp_id,ProjectMembers.userid==user_id)).fetch()
+        return res
         
 class ProjectRelease(ndb.Model):
     projectid =        ndb.KeyProperty(required=True)
