@@ -223,7 +223,7 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<label class="apm-landing-reg-label">Start Date</label>
-														<input name="proj_start" type="text" class="form-control apm-landing-textbox-reg datepicker" value="{{project.startDate}}" readonly="true" >
+														<input name="proj_start" type="text" class="form-control apm-landing-textbox-reg datepicker" value="{{project.startDate|date:'d/m/Y'}}" readonly="true" >
 														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
 													</div>
 												</div>
@@ -232,7 +232,7 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<label class="apm-landing-reg-label">End Date</label>
-														<input name="proj_end" type="text" class="form-control apm-landing-textbox-reg datepicker" value = "{{project.endDate}}" readonly="true">
+														<input name="proj_end" type="text" class="form-control apm-landing-textbox-reg datepicker" value = "{{project.endDate|date:'d/m/Y'}}" readonly="true">
 														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
 													</div>
 												</div>
@@ -323,6 +323,7 @@
 													</thead>
 													<tbody>
 													{% for esti in estimation %}
+												
 													  <tr id="{{esti.key.id}}">
 														<td>{{ esti.estimationLevel }}</td>
 														<td>{{ esti.estimationPoint }}</td>
@@ -332,6 +333,7 @@
 															<i id="delestimate" class="fa fa-trash apm-add-esti-delete" aria-hidden="true" title="Delete"></i>
 														</td>
 													  </tr>
+													
 													  {%endfor%}
 													 
 													</tbody>

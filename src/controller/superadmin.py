@@ -8,7 +8,7 @@ from model import user
 import model
 from google.appengine.api import mail
 import logging
-
+from datetime import datetime
 
 
 
@@ -19,6 +19,11 @@ class SuperAdminVerify(BaseHandler):
         if not user.verified:
             user.verified=True
             password=user.name+user.empid
+            
+            user_info = self.auth.get_user_by_session()
+            user.modified_by = user_info['email_address']
+            user.modified_date = datetime.now()
+            
             user.put()
             self.response.write("true"+password)
         else:
@@ -57,6 +62,11 @@ class SuperPermissionsHandler(webapp2.RequestHandler):
                 if index !=0:
                     group=ndb.Key(urlsafe=prev_role).get()
                     group.permissions=perm
+                    
+                    user_info = self.auth.get_user_by_session()
+                    group.modified_by = user_info['email_address']
+                    group.modified_date = datetime.now()
+                    
                     group.put()
                     perm=[]
                     prev_role=row[0]
@@ -79,6 +89,12 @@ class SuperAddPermission(webapp2.RequestHandler):
         permiss=user.Permissions()
         permiss.url=url
         permiss.permission=name
+        
+        
+        user_info = self.auth.get_user_by_session()
+        permiss.created_by = user_info['email_address']
+        permiss.status = 'True'
+        
         permiss.set()
         self.response.write("true")
 
@@ -105,6 +121,7 @@ class SuperEditRole(BaseHandler):
         self.render_template("superadmin_new/editrole.html",{"role":role,"permission":list_per})
         
     def post(self):
+        user_info = self.auth.get_user_by_session()
         key = ndb.Key(urlsafe=self.request.get('key_role'))
         role =key.get()
         role.role=self.request.get("role")
@@ -114,6 +131,10 @@ class SuperEditRole(BaseHandler):
         for permission in array_permissions:
             perm.append(ndb.Key(urlsafe=permission))
         role.permissions=perm
+        
+        role.modified_by = user_info['email_address']
+        role.modified_date = datetime.now()
+        
         role.put()
         self.response.write("true")
                
@@ -128,6 +149,11 @@ class SuperEditPermission(BaseHandler):
         permission =key.get()
         permission.url=self.request.get("url_permission")
         permission.permission=self.request.get("name_permission")
+        
+        user_info = self.auth.get_user_by_session()
+        permission.modified_by = user_info['email_address']
+        permission.modified_date = datetime.now()
+        
         permission.put()
         self.response.write("true")        
 class SuperAddRole(BaseHandler):
@@ -148,6 +174,11 @@ class SuperAddRole(BaseHandler):
         u.role=role
         u.permissions=url
         logging.info(url)
+        
+        user_info = self.auth.get_user_by_session()
+        u.created_by = user_info['email_address']
+        u.status = 'True'
+        
         u.put()
         self.response.write("true")
                
@@ -181,10 +212,15 @@ class SuperSignupAdminHandler(BaseHandler):
         
         tenant_key = tenant_key_added
         password = name+empid
+        
+        user_info = self.auth.get_user_by_session()
+        created_by = user_info['email_address']
+        status = 'True'
+        
         #unique_properties = ['email_address']
         user_data = self.user_model.create_user(user_name,
             email_address=email, name=name, password_raw=password,designation=designation,empid=empid,contact=contact,
-            last_name=last_name,role=role,tenant_domain=tenant_domain,tenant_key=tenant_key, verified=False)
+            last_name=last_name,role=role,tenant_domain=tenant_domain,tenant_key=tenant_key,created_by=created_by,status=status, verified=False)
         if not user_data[0]: #user_data is a tuple
             self.response.write('User already exists with the same email.')
             return
@@ -223,6 +259,9 @@ class SuperAdminEditUser(BaseHandler):
             tenant.name = tenant_name
             tenant.domain = tenant_domain
             tenant.created_by = self.request.get('email')
+            user_info = self.auth.get_user_by_session()
+            tenant.modified_by = user_info['email_address']
+            tenant.modified_date = datetime.now()
             tenant_key_added = tenant.put()
             
             key= ndb.Key(urlsafe=self.request.get('key'))
@@ -235,6 +274,10 @@ class SuperAdminEditUser(BaseHandler):
             user_key.designation = self.request.get('designation')
             user_key.empid=self.request.get('emp_id')
             user_key.contact=self.request.get('contact_no') 
+            
+            user_info = self.auth.get_user_by_session()
+            user_key.modified_by = user_info['email_address']
+            user_key.modified_date = datetime.now()
             
             user_key.put()
                         
@@ -250,9 +293,16 @@ class SuperAdminDeleteUser (BaseHandler):
          self.render_template("superadmin_new/delete_user.html",{"user_info":user_info})
          
      def post(self):
-         user_key= ndb.Key(urlsafe=self.request.get('delete_key'))
-         user_key.delete()  
-         self.response.write("true")  
+        key= ndb.Key(urlsafe=self.request.get('delete_key'))
+        user=key.get()
+        user_info = self.auth.get_user_by_session()
+        user.modified_by = user_info['email_address']
+        user.modified_date = datetime.now()
+        user.status = 'False'
+          
+        user.put()
+      #   user_key.delete()  
+        self.response.write("true")  
         
 config = {
     'webapp2_extras.auth': {

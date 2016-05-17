@@ -116,7 +116,11 @@ class DeleteBacklog(BaseHandler):
          
     def post(self,*args,**kargs):
             key= ndb.Key(urlsafe=self.request.get('delete_key'))
+           
             user_story_key=  key.get()
+            user_info = self.auth.get_user_by_session()
+            user_story_key.modified_by = user_info['email_address']
+            user_story_key.modified_date = datetime.now()
             user_story_key.status = 'False'
             user_story_key.put()
             #user_key.delete()  
