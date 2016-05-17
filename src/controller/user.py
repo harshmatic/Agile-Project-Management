@@ -121,6 +121,11 @@ class EndUserProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobs
          user.designation=designation
          user.empid=empid
          user.contact=contact
+         
+         user_info = self.auth.get_user_by_session()
+         user.modified_by = user_info['email_address']
+         user.modified_date = datetime.now()
+         
          user.put()
             
            

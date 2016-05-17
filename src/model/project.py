@@ -1,8 +1,8 @@
 from google.appengine.ext import ndb
-
+from base import BaseClass
 from model.user import *
 
-class Project(ndb.Model):
+class Project(BaseClass):
     name = ndb.StringProperty(required=True)
     description = ndb.StringProperty()
     createdDate = ndb.DateTimeProperty(auto_now_add=True)
@@ -23,7 +23,7 @@ class Project(ndb.Model):
     def delete_entity(self,projid):
         ndb.Key(Project, int(projid)).delete()
     
-class Estimation(ndb.Model):
+class Estimation(BaseClass):
     projectid =        ndb.KeyProperty(required=True)
     companyid =       ndb.KeyProperty(required=True)
     estimationLevel = ndb.StringProperty(required=True)
@@ -38,7 +38,7 @@ class Estimation(ndb.Model):
     def delete_entity(self,estid):
         ndb.Key(Estimation, int(estid)).delete()
     
-class ProjectMembers(ndb.Model):
+class ProjectMembers(BaseClass):
     projectid =        ndb.KeyProperty(required=True)
     companyid =       ndb.KeyProperty(required=True)
     userName = ndb.StringProperty(required=True)
@@ -53,7 +53,7 @@ class ProjectMembers(ndb.Model):
     def delete_entity(self,projmemid):
         ndb.Key(ProjectMembers, int(projmemid)).delete()
         
-class ProjectRelease(ndb.Model):
+class ProjectRelease(BaseClass):
     projectid =        ndb.KeyProperty(required=True)
     companyid =       ndb.IntegerProperty(required=True)
     releaseName = ndb.StringProperty(required=True)

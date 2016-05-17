@@ -6,13 +6,15 @@ import logging
 import time
 import webapp2_extras.appengine.auth.models as auth_user
 from webapp2_extras import security
+from base import BaseClass
 
-class Tenant(ndb.Model):
+
+class Tenant(BaseClass):
     name = ndb.StringProperty(required=True)
     domain = ndb.StringProperty(required=True)
     created_by = ndb.StringProperty()
     
-class OurUser(auth_user.User):
+class OurUser(auth_user.User,BaseClass):
     role = ndb.KeyProperty()
     tenant_domain = ndb.StringProperty()
     tenant_key = ndb.KeyProperty(kind=Tenant)
@@ -41,7 +43,7 @@ class OurUser(auth_user.User):
         
         
         
-class Permissions(ndb.Model):
+class Permissions(BaseClass):
     url = ndb.StringProperty(required=True)
     permission = ndb.StringProperty()
     date = ndb.DateTimeProperty(auto_now_add=True)
@@ -58,7 +60,7 @@ class Permissions(ndb.Model):
             group.permissions.remove(key)
             group.put()
         
-class Groups(ndb.Model):
+class Groups(BaseClass):
     role=ndb.StringProperty(required=True)
     permissions=ndb.KeyProperty(kind=Permissions,repeated=True)
     date = ndb.DateTimeProperty(auto_now_add=True)

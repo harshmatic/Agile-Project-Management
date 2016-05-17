@@ -63,6 +63,10 @@ class Release(BaseHandler):
         currentUser=self.auth.get_user_by_session()
         companyId=self.user_model.get_by_id(currentUser['user_id']).tenant_key
         release_obj.companyid = companyId.id()
+        
+        release_obj.created_by = currentUser['email_address']
+        release_obj.status = 'True'
+        
             
         release_obj.put()
             
@@ -92,6 +96,10 @@ class EditRelease(BaseHandler):
                 release_key.releaseDate=datetime.strptime(self.request.get('release_date'), '%d/%m/%Y').date()
             
             
+            user_info = self.auth.get_user_by_session()
+            release_key.modified_by = user_info['email_address']
+            release_key.modified_date = datetime.now()
+            
             release_key.put()
             
             self.response.write('true')
@@ -105,7 +113,15 @@ class DeleteRelease(BaseHandler):
             self.render_template("delete_release.html",{"release_info":release_info})
          
         def post(self,*args,**kargs):
-            user_key= ndb.Key(urlsafe=self.request.get('delete_key'))
-            user_key.delete()  
+            key= ndb.Key(urlsafe=self.request.get('delete_key'))
+            release_key=key.get()
+         
+            user_info = self.auth.get_user_by_session()
+            release_key.modified_by = user_info['email_address']
+            release_key.modified_date = datetime.now()
+            release_key.status = 'False'
+           
+            release_key.put()
+            #user_key.delete()  
             self.response.write("true")     
             

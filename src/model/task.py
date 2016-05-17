@@ -1,20 +1,20 @@
 from google.appengine.ext import ndb
 import logging
 from model.user import *
+from base import BaseClass
 
-class Task(ndb.Model):
+
+class Task(BaseClass):
     name = ndb.StringProperty(required=True)
     description = ndb.StringProperty()
     complexity = ndb.KeyProperty()
-    createdDate = ndb.DateTimeProperty(auto_now_add=True)
     startDate = ndb.DateProperty()
     endDate = ndb.DateProperty()
     assignee = ndb.KeyProperty()
     project = ndb.KeyProperty()
-    createdby = ndb.KeyProperty()
     sprint = ndb.KeyProperty()
     type = ndb.KeyProperty()
-    status = ndb.StringProperty()
+    task_status = ndb.StringProperty()
     actual_efforts = ndb.StringProperty()
     
     def set(self,data):

@@ -1,7 +1,8 @@
 from google.appengine.ext import ndb
 from model.user import *
+from base import BaseClass
 
-class Sprint(ndb.Model):
+class Sprint(BaseClass):
     name = ndb.StringProperty(required=True)
     description = ndb.StringProperty()
     createdDate = ndb.DateTimeProperty(auto_now_add=True)
@@ -10,7 +11,7 @@ class Sprint(ndb.Model):
     project = ndb.KeyProperty()
     company = ndb.KeyProperty()
     createdby = ndb.KeyProperty()
-    status = ndb.StringProperty()
+    sprint_status = ndb.StringProperty()
     workinghours = ndb.StringProperty()
     def set(self):
         self.put()

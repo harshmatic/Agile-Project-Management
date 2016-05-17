@@ -35,7 +35,11 @@ class Tasks(BaseHandler):
         task_data.type = ndb.Key(urlsafe=self.request.get('type'))
         task_data.sprint = ndb.Key(urlsafe=self.request.get('sprint'))
         task_data.actual_efforts = self.request.get('actual_efforts')
-        task_data.status = "Open"
+        task_data.task_status = "Open"
+        
+        
+        task_data.created_by = currentUser['email_address']
+        task_data.status = 'True'
         task_data.put()
         self.response.out.write("true")
 class EditTask(BaseHandler):
@@ -69,7 +73,9 @@ class EditTask(BaseHandler):
         task_data.type = ndb.Key(urlsafe=self.request.get('type'))
         task_data.sprint = ndb.Key(urlsafe=self.request.get('sprint'))
         task_data.actual_efforts = self.request.get('actual_efforts')
-        task_data.status = "Open"
+        task_data.task_status = "Open"
+        task_data.modified_by = currentUser['email_address']
+        task_data.modified_date = datetime.now()
         task_data.put()
         self.response.out.write("true")
             
@@ -95,9 +101,13 @@ class Sprint(BaseHandler):
         sprint_data.endDate = datetime.strptime(self.request.get("end"), '%m/%d/%Y').date()
         sprint_data.project = ndb.Key(urlsafe=self.request.get("project_key"))
         sprint_data.createdby = createdBy
-        sprint_data.status = "Open"
+        sprint_data.sprint_status = "Open"
         sprint_data.company = self.user_model.get_by_id(currentUser['user_id']).tenant_key
         sprint_data.workinghours=self.request.get("workinghours")
+        
+        sprint_data.created_by = currentUser['email_address']
+        sprint_data.status = 'True'
+        
         sprint_data.set()
         self.response.out.write("true")
         

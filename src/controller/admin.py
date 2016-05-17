@@ -9,6 +9,7 @@ from google.appengine.api import mail
 from google.appengine.ext.webapp import blobstore_handlers
 from google.appengine.ext import blobstore
 import webapp2
+from datetime import datetime
 
 class AdminVerify(BaseHandler):
     def post(self,*args,**kargs):
@@ -17,6 +18,11 @@ class AdminVerify(BaseHandler):
         if not user.verified:
             user.verified=True
             password=user.name+user.empid
+            
+            user_info = self.auth.get_user_by_session()
+            user.modified_by = user_info['email_address']
+            user.modified_date = datetime.now()
+            
             user.put()
             self.response.write("true"+password)
         else:
@@ -44,8 +50,14 @@ class AdminHome(BaseHandler):
 class DeleteEntity(BaseHandler):
     def post(self,*args,**kargs):
         key = ndb.Key(urlsafe=self.request.get('key_permission'))
-        
-        key.delete()
+        user=key.get()
+        user_info = self.auth.get_user_by_session()
+        user.modified_by = user_info['email_address']
+        user.modified_date = datetime.now()
+        user.status = 'False'
+          
+        user.put()
+       # key.delete()
         self.response.write("true")
         #logging.info()
         #q=qry.filter(key in parent)
@@ -59,6 +71,7 @@ class EditRole(BaseHandler):
         self.render_template("admin_new/editrole.html",{"role":role,"permission":list_per})
         
     def post(self,*args,**kargs):
+        user_info = self.auth.get_user_by_session()
         key = ndb.Key(urlsafe=self.request.get('key_role'))
         role =key.get()
         role.role=self.request.get("role")
@@ -68,6 +81,10 @@ class EditRole(BaseHandler):
         for permission in array_permissions:
             perm.append(ndb.Key(urlsafe=permission))
         role.permissions=perm
+       
+        role.modified_by = user_info['email_address']
+        role.modified_date = datetime.now()
+        
         role.put()
         self.response.write("true")
 
@@ -82,6 +99,11 @@ class EditPermission(BaseHandler):
         permission =key.get()
         permission.url=self.request.get("url_permission")
         permission.permission=self.request.get("name_permission")
+        
+        user_info = self.auth.get_user_by_session()
+        permission.modified_by = user_info['email_address']
+        permission.modified_date = datetime.now()
+        
         permission.put()
         self.response.write("true")
         
@@ -95,6 +117,11 @@ class AddPermissions(BaseHandler):
         permiss=user.Permissions()
         permiss.url=url
         permiss.permission=name
+        
+        user_info = self.auth.get_user_by_session()
+        permiss.created_by = user_info['email_address']
+        permiss.status = 'True'
+        
         permiss.set()
         self.response.write("true")
 
@@ -118,6 +145,11 @@ class AddRole(BaseHandler):
         u.tenant_key=ten[0]
         u.permissions=url
         logging.info(url)
+        
+        user_info = self.auth.get_user_by_session()
+        u.created_by = user_info['email_address']
+        u.status = 'True'
+        
         u.put()
         self.response.write("true")
         
@@ -149,6 +181,11 @@ class EditPermissions(BaseHandler):
                 if index !=0:
                     group=ndb.Key(urlsafe=prev_role).get()
                     group.permissions=perm
+                    
+                    user_info = self.auth.get_user_by_session()
+                    group.modified_by = user_info['email_address']
+                    group.modified_date = datetime.now()
+                    
                     group.put()
                     perm=[]
                     prev_role=row[0]
@@ -191,12 +228,16 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
         contact=self.request.get('contact_no')
         password = name+empid
        
+        user_info = self.auth.get_user_by_session()
+        created_by = user_info['email_address']
+        status = 'True'
+       
         company_domain=self.user_model.get_by_id(currentUser['user_id']).tenant_domain
         company_key=self.user_model.get_by_id(currentUser['user_id']).tenant_key
         #unique_properties = ['email_address']
         user_data = self.user_model.create_user(user_name,
         email_address=email, name=name, password_raw=password,designation=designation,empid=empid,contact=contact,
-        last_name=last_name,role=role,tenant_key=company_key,tenant_domain=company_domain, verified=False)
+        last_name=last_name,role=role,tenant_key=company_key,tenant_domain=company_domain,created_by=created_by,status=status, verified=False)
         if not user_data[0]: #user_data is a tuple
             self.response.write('User already exists with the same email')
             return
@@ -260,6 +301,9 @@ class AdminEditUser(BaseHandler):
             user_key.empid=self.request.get('emp_id')
             user_key.contact=self.request.get('contact_no') 
             
+            user_info = self.auth.get_user_by_session()
+            user_key.modified_by = user_info['email_address']
+            user_key.modified_date = datetime.now()
             user_key.put()
                         
             self.response.write("true")            
@@ -274,8 +318,15 @@ class AdminDeleteUser(BaseHandler):
             self.render_template("admin_new/delete_user.html",{"user_info":user_info})
          
         def post(self,*args,**kargs):
-            user_key= ndb.Key(urlsafe=self.request.get('delete_key'))
-            user_key.delete()  
+            key= ndb.Key(urlsafe=self.request.get('delete_key'))
+            
+            user_key=key.get()
+            user_info = self.auth.get_user_by_session()
+            user_key.modified_by = user_info['email_address']
+            user_key.modified_date = datetime.now()
+            user_key.status = 'False'
+            user_key.put()
+          #  user_key.delete()  
             self.response.write("true")     
             
 class AdminProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobstore_handlers.BlobstoreDownloadHandler):
@@ -342,6 +393,11 @@ class AdminProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobsto
          user.designation=designation
          user.empid=empid
          user.contact=contact
+         
+         user_info = self.auth.get_user_by_session()
+         user.created_by = user_info['email_address']
+         user.status = 'True'
+         
          user.put()
             
            
