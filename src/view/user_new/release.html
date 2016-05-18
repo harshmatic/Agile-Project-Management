@@ -1,18 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}User | Project |Release{% endblock %}
+{% block title %}User | Project | Release{% endblock %}
 		
 {% block header_links%}
-	
-		<link rel="stylesheet" href="assets_new/css/bootstrap-datepicker.min.css">
-			
-		<script src="../assets_new/js/jquery.js"></script>
-		<script src="../assets_new/js/bootstrap.min.js"></script>
-		<script src="../assets_new/js/side-menu.js"></script>
-		<script src="../assets_new/js/bootstrap-datepicker.min.js"></script>
-		<script src="../assets_new/js/main.js"></script>
+		<title>APM - All Projects</title>
 		
-	
 		<style>
 			.apm-nav-brand-1{
 				padding: 15px!important;
@@ -27,11 +19,8 @@
 			}
 			
 		</style>
-		<script>
+	<script>
 				$(document).ready(function(){
-					
-					
-					
 					$(".nav-tabs a").click(function(){
 						$(this).tab('show');
 					});
@@ -40,106 +29,169 @@
 						startDate: '0d'
 					});
 					
-					
-					$("#apm-addmember-btn").click(function(e) {
-						$('#add-member-modal').modal('show');
-					});
-					$("#apm-addmember-btn2").click(function(e) {
-						$('#add-member-modal').modal('show');
-					});
-					$("#apm-addestimates-btn").click(function(e) {
-						$('#add-estimation-timeline-modal').modal('show');
+					$("#add_release").click(function(e) {
+						$('#add-release-modal').modal('show');
 					});
 					
-					$(".apm-add-proj-delete").on("click",function(){
-						
-						console.log("comes here"); 
-						var ser =  $(this).closest('tr').attr('id');
-						console.log("comes here"+ser); 
-						var parameters = "id="+ser+""
-					$.post( "/project/deleteproject", parameters)
-			  		.done(function( data ) {
-			  			if (data =="success"){
-			  				
-			  				$("#"+ser).remove() ;
-			  				
-			  			} else {
-			  				
-			  				
-			  			}
-			  		});
-					
-					
-				})
+					$("#submit").on("click",function(){
+						$.post( '/release', $("#release_form").serialize())
+							.done(function( data ) {
+								if (data!="true"){
+									alert("Release cannot be added");
+									return false
+								} else {
+									
+									
+									
+								}
+							});
+							
+							
+								
+								
+							})
+							
+							
+					$('#add-release-modal').on('hidden.bs.modal', function(e)
+									    { 
+									        $(this).removeData('bs.modal');
+									        
+									        $('.table').load('/release .table', function(result) {
+							  				});
+									    }) ;
 					
 
 				});
-		</script>
+				
+				
+				
+				
+				
+		</script>	
 		
-			
 {% endblock %}	
 	
 
 
      
 {%block content%}	
-	
-    <div id="wrapper">
-        <!-- Sidebar -->
-    
-					
+		
+
         <!-- Page Content -->
         <div id="page-content-wrapper">
-          <div class="container-fluid">
+            <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
 					
-						<h2 class="apm-all-reports-heading">Create Release 		hello
-										{{company_data}}
-									hey			
-											</h2>
+						<h2 class="apm-all-reports-heading">All Releases</h2>
 						
 						<hr>
 						
-					<!-- Main add project content starts-->
-					
-						<div class="tab-content">
-							
-							<!-- Project Details -->
-								<form role="form" id="release_form" action="/release" method="post">
-							<div id="proj-details" class="tab-pane fade in active">
-							
-								<div class="row">
-									<div  class="col-md-3">
-									<!-- Project Title -->
-											<div  class="form-group">
+						
+							<div class="row">
+								<div class="col-md-10">
+									<div class="">
+											<div class="apm-listing-add-proj-box">
+												<a ><button class="apm-listing-add-proj-btn" id="add_release">Add Release</button></a>
+											</div>
+											<div class="table-responsive">
+												<table class="table table-bordered apm-member-listing-table apm-all-proj-table">
+													<thead>
+														<tr>
+															<th></th>
+														<!-- 	<th>Project Name</th> -->
+															<th>Release Name</th>
+															<th>Release Date</th>
+															<th>Action</th>
+														</tr>
+													</thead>
+													<tbody>
+													{% for i in release %}
+												
+													{%if company_name == i.projectid.get.companyid.get.domain %}
+													{%if i.status == 'True' %}
+													{%if i.projectid.get.name == session.current_project.get.name %}
+														<tr id="{{i.key.urlsafe}}">
+															<td><i class="fa fa-cogs" aria-hidden="true"></i></td>
+															
+															<!-- <td><a href="/project/viewproject?proj_id={{i.projectid.key.id}}">{{ i.projectid.get.name }}</a></td>
+															 -->
+															<td>{{i.releaseName}}</td>
+															<td>{{ i.releaseDate }}</td>
+															<td>
+																<a href="/release/edit?edit_key={{i.key.urlsafe}}" data-toggle="modal" data-target="#edit-release-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Release"  id="{{i.key.urlsafe}}"></i></a>
+																<a href="/release/delete?delete_key={{i.key.urlsafe}}" data-toggle="modal" data-target="#delete-release-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Release"  id="{{i.key.urlsafe}}"></i></a>
+															</td>
+														</tr>
+														{%endif%}
+														{%endif%}
+														{%endif%}
+													{%endfor%}
+													</tbody>
+												</table>
+											</div>
+									</div>
+								</div>
+								<div class="col-md-2">
+									
+								</div>
+							</div>		
+						</div>
+						
+                    </div> <!-- .col-lg-12 ends -->
+                </div>
+            </div> <!-- .container ends -->
+        </div>
+        <!-- /#page-content-wrapper ENDS -->
+		
+    </div>
+    <!-- /#wrapper -->
+  
+		
+		<!-- Add Team Members Starts -->
+			<div id="add-release-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Create Release</h4>
+				  </div>
+				  <form role="form" id="release_form" action="/release" method="post">
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-2">
+								</div>
+								
+								<div class="col-md-8">
+										
+											  <!-- Team Mamber Name --> 
+										<!-- 	  <div class="form-group task-form-group">
 												<label class="apm-landing-reg-label">Project Name </label>
-										
-												<select class="form-control apm-landing-textbox-reg" name="proj_name">
-												{%for i in project%}
-										
-													{%for j in company_data%}
-											
-														{%if i.companyid == j.key.id %}
-  															<option value="{{i.key.urlsafe}}">{{i.name}}</option>
-  														{%endif%}
-  													{%endfor%}	
+													<select class="form-control apm-landing-textbox-reg" name="proj_name">
+														{%for i in project%}
+														{%if i.status == 'True'%}
+															{%if company_name == i.companyid.get.domain %}
+															{%if i.name == session.current_project.get.name%}
+  																<option value="{{i.key.urlsafe}}">{{i.name}}</option>
+  															{%endif%}
+  															{%endif%}
+  													{%endif%}
   												{%endfor%}
 												</select>
-												
-											
-												<!-- <input name="proj_name" type="text" class="form-control apm-landing-textbox-reg"> -->
-											</div>
-											
-											<!-- Project Title -->
-											<div  class="form-group">
+											  </div> -->
+											  
+												<!-- Project Title -->
+											<div class="form-group task-form-group">
 												<label class="apm-landing-reg-label">Release Name</label>
 												<input name="release_name" type="text" class="form-control apm-landing-textbox-reg">
 											</div>
 											
-											<div class="row">
+											
 												<!-- Start Date -->
-												<div class="col-md-6">
+												<div class="form-group task-form-group">
 													<div class="form-group">
 														<label class="apm-landing-reg-label">Release Date</label>
 														<input name="release_date" type="text" class="form-control apm-landing-textbox-reg datepicker">
@@ -147,51 +199,52 @@
 													</div>
 												</div>
 												
-											
-												
-											</div>
 										
-									</div>
-									<div class="col-md-9">
-									</div>
-								</div>
-								<div class="apm-add-proj-btnbox">
-							<input type="submit" class="apm-add-proj-btn" id="submit" value="Add">
-							<button class="apm-add-proj-btn">CANCEL</button>
-							
-							
-						</div>
-					
+											
+										
+										
+								</div>	
+								<div class="col-md-2">
+								</div>		
 							</div>
-								</form>
-							<!-- Project Details ENDS-->
 							
-							
-						
-							
-						</div>
-						
-						<hr>
-						
-						
-					<!-- Main add project content ENDS-->
-						
-						
-                    </div> <!-- .col-lg-12 ends -->
-                </div>
-            </div> <!-- .container ends -->
-           </div>
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<input type="submit" class="add-task-btn-modal" data-dismiss="modal" id="submit" value="Add" >
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
+				
+				  </div>
+				  </form>
+				</div>
+
+			  </div>
+			</div>
+	<!-- Add Team Members Modal Ends -->
+	<!--Edit Modal Starts -->
+			<div id="edit-release-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				
+				</div>
+
+			  </div>
+			</div>
+	<!-- edit Modal Ends -->
 	
+	<!-- delete Modal Starts -->
+			<div id="delete-release-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				 
+				</div>
+
+			  </div>
+			</div>
+	<!--delete Modal Ends -->
+{%endblock%}
 		
-	
 		
-		
-		
-    </div>
-    <!-- /#wrapper -->
-  
-		<script src="../assets_new/js/jquery.js"></script>
-		<script src="../assets_new/js/bootstrap.min.js"></script>
-		<script src="../assets_new/js/side-menu.js"></script>
-		<script src="../assets_new/js/bootstrap-datepicker.min.js"></script>
-	{%endblock%}

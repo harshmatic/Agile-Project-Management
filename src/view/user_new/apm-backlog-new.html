@@ -324,6 +324,7 @@
 														<tr class="separator" />
 															{%for i in productBacklog%}
 															{%if i.status == 'True' %}
+															{%if i.project_key.get.name == session.current_project.get.name %}
 															  <tr class='clickable-row' id="{{i.key.urlsafe}}">
 																<td>{%if i.sprintId != None  %}
 																		{{i.sprintId.get.name}}
@@ -344,6 +345,7 @@
 															  </tr>
 															  
 															  <tr class="separator" />
+															    {%endif%}
 															  {%endif%}
 															  {%endfor%}
 															
@@ -503,7 +505,7 @@
 								<div class="col-md-10">
 									
 											  <!-- Project Name --> 
-											  <div class="form-group task-form-group">
+											<!--   <div class="form-group task-form-group">
 												<label class="task-label">Project Name</label>
 												<select class="form-control add-task-textbox apm-modal-textbox" name="project">
 												
@@ -517,7 +519,7 @@
   												{%endfor%}
 												</select>
 											
-										 </div>
+										 </div> -->
 										 
 										   <!-- Issue Type --> 
 											  <div class="form-group task-form-group">
