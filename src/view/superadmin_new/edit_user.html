@@ -17,7 +17,18 @@ $("#edit_user").on("click",function(){
 			
 			
 		})
-		
+		//for delete
+		$("#submit_delete_role").on("click",function(){
+			$.post( "/superadmin/deleterole", $("#editrole").serialize())
+	  		.done(function( data ) {
+	  			if (data!="true"){
+	  				alert("Something Went Wrong");
+	  				return false
+	  			} 
+	  		});
+			
+			
+		})
 		
 		$('#edit-user-modal').on('hidden.bs.modal', function(e)
 				    { 

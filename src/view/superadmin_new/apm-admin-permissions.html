@@ -52,7 +52,9 @@ $(document).ready(function() {
 														<tr>
 														<th>Permissions (url)</th>
 															{% for role in role %}
+															{%if role.status == 'True' %}
 																<th><a href="/superadmin/editrole?key={{role.key.urlsafe}}" class="roll-link" data-toggle="modal" data-target="#edit-role-modal">{{role.role}}</a></th>
+															{%endif%}
 															{% endfor %}
 														</tr>
 													</thead>
@@ -63,18 +65,22 @@ $(document).ready(function() {
 																	<a href="#" class="permission-link">All</a>
 																</td>
 																{% for role in role %}
+																{%if role.status == 'True' %}
 																<td><input type="checkbox" id="checkbox12"  value="{{role.key.urlsafe}}<!>All" name="permissions"/>
 																	
 																</td>
+																{%endif%}
 																{% endfor %}
 																
 															  </tr>	
 															  {% for perm in perm %}
+															  {% if perm.status == 'True'  %}
 															  <tr>
 																<td>
 																	<a href="/superadmin/editpermission?key={{perm.key.urlsafe}}" class="permission-link" data-toggle="modal" data-target="#edit-permission-modal">{{perm.permission}} ({{perm.url}})</a>
 																</td>
 																{% for role in role %}
+																{%if role.status == 'True' %}
 																<td>
 																{% if perm.key in role.permissions%}
 																<input type="checkbox" id="checkbox22" value="{{role.key.urlsafe}}<!>{{perm.key.urlsafe}}" checked name="permissions"/>
@@ -84,8 +90,10 @@ $(document).ready(function() {
 																{%endif%}
 																
 																</td>
+																	{%endif%}
 																{% endfor %}
 													  </tr>	
+													  	{%endif%}
 													  {% endfor %}
 														
 														

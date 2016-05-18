@@ -13,10 +13,25 @@
 			
 			
 		})
+			//for delete
+		$("#delete_edit_role").on("click",function(){
+			$.post( "/superadmin/deleterole", $("#editrole").serialize())
+	  		.done(function( data ) {
+	  			if (data!="true"){
+	  				alert("Something Went Wrong");
+	  				return false
+	  			} 
+	  			else {
+	  				
+	  			}
+	  		});
+			
+			
+		})
 		$('#edit-role-modal').on('hidden.bs.modal', function(e)
 				    { 
 				        $(this).removeData('bs.modal');
-				        $('.table').load('/superadmin/edit .table', function(result) {
+				        $('.table').load('/superadmin/permissions .table', function(result) {
 		  				    var variable = $('#edit_permissions').html();
 		  				});
 				    }) ;

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-		<title>{% block title%}Super Admin- Dashboard {% endblock %}</title>
+		<title>{% block title%}Super Admin{% endblock %}</title>
 		
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -15,11 +15,8 @@
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-		<script src="../assets_new/js/jquery.js"></script>
-		<script src="../assets_new/js/bootstrap.min.js"></script>
-		<script src="../assets_new/js/side-menu.js"></script>
-		<script src="../assets_new/js/bootstrap-datepicker.min.js"></script>
-		<script src="../assets_new/js/main.js"></script>
+	
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<style>
 			.apm-nav-brand{
 				padding-top: 14px;
@@ -102,8 +99,41 @@
 				}
 			}
 		</style>
+		<script>
+		$(document).ready(function(){
+		var url = window.location.href.split("/").pop();
+	//	alert(url);
+		//console.log(url);
 		
-		{% block header_links%}{% endblock %}
+	
+		if (url == "permissions")
+		{
+		
+			//$("#permissions").addClass( "active" );
+			$("#permissions").attr( "class", "active" );
+		}
+		else 
+			if(url == "usermanagment")
+		{
+		
+			//$( "#usermanagment" ).addClass( "active" );
+				$("#usermanagment").attr( "class", "active" );
+		}
+		else 
+			if(url == "dashboard")
+		{
+			
+			//$( "#dashboard" ).addClass( "active" );
+				$("#dashboard").attr( "class", "active" );
+		}
+		else
+		{
+			
+		}
+		});
+		</script>
+		
+	{% block header_links%}{% endblock %}	
 	</head>
 <body>
     <nav class="navbar navbar-default no-margin nav-apm">
@@ -182,7 +212,7 @@
 										  </li>
 										  <li><a href="#"><i class="fa fa-question-circle"></i> Help</a></li>
 										  <li role="separator" class="divider"></li>
-										  <li><a href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
+										  <li><a href="/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
 										</ul>
 									  </li>
 									</ul>
@@ -196,15 +226,15 @@
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
  					
-					<li class="active">
-						<a href="#" class="sidebar-main-list-name"><i class="fa fa-th-large side-font-icons"></i> Dashboard</a>
+					<li id="dashboard" class="">
+						<a href="/superadmin/dashboard" class="sidebar-main-list-name"><i class="fa fa-th-large side-font-icons"></i> Dashboard</a>
 						
 					</li>
-					<li>
+					<li id="usermanagment" class="">
 						<a href="/superadmin/usermanagment" class="sidebar-main-list-name"><i class="fa fa-user side-font-icons" aria-hidden="true"></i> User Management</a>
 						
 					</li>
-					<li>
+					<li id="permissions" class="">
 						<a href="/superadmin/permissions" class="sidebar-main-list-name"><i class="fa fa-briefcase side-font-icons" aria-hidden="true"></i> Roles Management</a>
 					</li>
 					
@@ -224,7 +254,11 @@
 		
     </div>
     <!-- /#wrapper -->
-  
+  	<script src="../assets_new/js/jquery.js"></script>
+		<script src="../assets_new/js/bootstrap.min.js"></script>
+		<script src="../assets_new/js/side-menu.js"></script>
+		<script src="../assets_new/js/bootstrap-datepicker.min.js"></script>
+		<script src="../assets_new/js/main.js"></script>
 
 </body>
 </html>

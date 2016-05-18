@@ -14,7 +14,7 @@
 			
 		})
 		$("#delete_permission").on("click",function(){
-			$.post( "/superadmin/delete", $("#editpermission").serialize())
+			$.post( "/superadmin/deletepermission", $("#editpermission").serialize())
 	  		.done(function( data ) {
 	  			if (data!="true"){
 	  				alert("Something Went Wrong");

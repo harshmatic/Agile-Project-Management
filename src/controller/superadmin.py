@@ -9,7 +9,7 @@ import model
 from google.appengine.api import mail
 import logging
 from datetime import datetime
-
+from google.appengine.api import users
 
 
 class SuperAdminVerify(BaseHandler):
@@ -91,8 +91,8 @@ class SuperAddPermission(webapp2.RequestHandler):
         permiss.permission=name
         
         
-        user_info = self.auth.get_user_by_session()
-        permiss.created_by = user_info['email_address']
+        #user_info = self.auth.get_user_by_session()
+        permiss.created_by = users.get_current_user().email()
         permiss.status = 'True'
         
         permiss.set()
@@ -283,7 +283,22 @@ class SuperAdminEditUser(BaseHandler):
                         
             self.response.write("true")            
                         
-
+class SuperDeleteRole(BaseHandler):
+    def post(self,*args,**kargs):
+        user_info = self.auth.get_user_by_session()
+        key = ndb.Key(urlsafe=self.request.get('key_role'))
+        user =key.get()
+        user_info = self.auth.get_user_by_session()
+        user.modified_by = user_info['email_address']
+        user.modified_date = datetime.now()
+        user.status = 'False'
+          
+        user.put()
+       # key.delete()
+        self.response.write("true")
+        #logging.info()
+        #q=qry.filter(key in parent)
+        #logging.info(qry)
  
 class SuperAdminDeleteUser (BaseHandler):  
      def get(self):
@@ -297,6 +312,27 @@ class SuperAdminDeleteUser (BaseHandler):
         user=key.get()
         user_info = self.auth.get_user_by_session()
         user.modified_by = user_info['email_address']
+        user.modified_date = datetime.now()
+        user.status = 'False'
+          
+        user.put()
+      #   user_key.delete()  
+        self.response.write("true")  
+        
+        
+        
+class SuperDeletePermission(BaseHandler):  
+     def get(self):
+         key = ndb.Key(urlsafe=self.request.get('key_permission'))
+         user_info=key.get()
+         logging.info(user_info)
+         self.render_template("superadmin_new/delete_user.html",{"user_info":user_info})
+         
+     def post(self):
+        key= ndb.Key(urlsafe=self.request.get('key_permission'))
+        user=key.get()
+        
+        user.modified_by = users.get_current_user().email()
         user.modified_date = datetime.now()
         user.status = 'False'
           
