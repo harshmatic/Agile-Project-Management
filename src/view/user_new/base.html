@@ -30,6 +30,62 @@
 			}
 			
 		</style>
+			<script>
+		$(document).ready(function(){
+		var url = window.location.href.split("/").pop();
+		
+		url = url.split("?")
+		url = url[0];
+	
+		url = url.split("/");
+		page = url[url.length-1];
+		//alert(page); 
+	
+		/*  $("ul").on("click", "li", function () {
+			 $(this).next('ul').toggle();
+			}); */
+
+		if (page == "dashboard")
+		{
+			$("#dashboard").attr( "class", "active" );
+		}
+		else 
+		if(page == "release" )
+		{
+			$("#project_planning").attr( "class", "active" );
+			$("#release_text").css("color", "#3978BF");
+			/* $("#collapseOne").attr("aria-expanded","true");
+			$("#collapseOne").addClass("in");
+			$("#a_collapseOne").attr("aria-expanded","true"); */
+			
+		}
+		else 
+		if(page == "backlog")
+		{	
+			$("#project_planning").attr( "class", "active" );
+			$("#backlog_text").css("color", "#3978BF");
+			$("#collapseOne").attr("aria-expanded","true");
+		}
+		else 
+		if(page == "project")
+		{	
+			$("#project_planning").attr( "class", "active" );
+			$("#project_text").css("color", "#3978BF");
+			$("#collapseOne").attr("aria-expanded","true");
+		}
+		else 
+		if(page == "sprint")
+		{	
+			$("#sprint_planning").attr( "class", "active" );
+			$("#sprint_text").css("color", "#3978BF");
+			$("#collapseTwo").attr("aria-expanded","true");
+		}
+		else
+		{
+			
+		}
+		});
+		</script>
 		
 		{% block header_links%}{% endblock %}
 	</head>
@@ -153,7 +209,7 @@
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
  
-					<li class="active">
+					<li id="dashboard" class="">
 						<a href="/dashboard" class="sidebar-main-list-name"><i class="fa fa-th-large side-font-icons"></i> Dashboard</a>
 						
 					</li>
@@ -163,54 +219,62 @@
         			
         			
         			{%ifequal permit.get.url "project"%}
-					<li>
-						<a class="sidebar-main-list-name pro-planning-link" data-toggle="collapse" data-parent="" href="#collapseOne"><i class="fa fa-list"></i> Project Planning <span class="caret sidebar-caret"></span></a>
+			<li id="project_planning" class="">
+						<a id=a_collapseOne class="sidebar-main-list-name pro-planning-link" data-toggle="collapse" data-parent="" href="#collapseOne"><i class="fa fa-list"></i> Project Planning <span class="caret sidebar-caret"></span></a>
+
 						<div id="collapseOne" class="panel-collapse collapse">
 							<div class="panel-body sidebar-list-panel">
-								<ul class="sidebar-list" style="display:block!important;">
-									<!-- <li>
-										<a href="/project" class="sidebar-list-sub-item">Projects</a>
+								<ul class="sidebar-list" style="display:block!important;" id="project_planning_ul">
+									<!-- <li id="project" class="">
+										<a href="/project" class="sidebar-list-sub-item" id="project_text">Projects</a>
 									</li> -->
-									<li>
-										<a href="/release" class="sidebar-list-sub-item">Release</a>
+									<li id="release" class="">
+										<a href="/release" class="sidebar-list-sub-item" id="release_text">Release</a>
 									</li>
-									<li>
-										<a href="/backlog" class="sidebar-list-sub-item">Backlog</a>
+									<li  id="backlog" class="">
+										<a href="/backlog" class="sidebar-list-sub-item" id="backlog_text">Backlog</a>
 									</li>
 								</ul>
 							</div>
 						</div>
 					</li>
+
 					{%endifequal%}
 					{%ifequal permit.get.url "sprint"%}
-					<li>
+
+					<li id="sprint_planning" class="">
+
 						<a class="sidebar-main-list-name pro-planning-link" data-toggle="collapse" data-parent="" href="#collapseTwo"><i class="fa fa-list"></i> Sprint Planning <span class="caret sidebar-caret"></span></a>
 						<div id="collapseTwo" class="panel-collapse collapse">
 							<div class="panel-body sidebar-list-panel">
 								<ul class="sidebar-list" style="display:block!important;">
-									<li>
+									<li  id="" class="">
 										<a href="#" class="sidebar-list-sub-item">Effort Estimation</a>
 									</li>
-									<li>
-										<a href="/sprint?key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" class="sidebar-list-sub-item">Sprint Items</a>
+									<li id="sprint" class="">
+										<a href="/sprint?key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" class="sidebar-list-sub-item" id="sprint_text">Sprint Items</a>
 									</li>
 								</ul>
 							</div>
 						</div>
 					</li>
+
 					{%endifequal%}
 					{%ifequal permit.get.url "document"%}
-					<li>
+					<li id="" class="">
 						<a href="#" class="sidebar-main-list-name"><i class="fa fa-file-text side-font-icons"></i> Document Management</a>
 					</li>
 					{%endifequal%}
 					{%ifequal permit.get.url "reports"%}
-					<li>
+					<li id="" class="">
 						<a href="#" class="sidebar-main-list-name"><i class="fa fa-pie-chart side-font-icons"></i> Reports</a>
 					</li>
 					{%endifequal%}
 					{%ifequal permit.get.url "alerts"%}
-					<li>
+		
+					
+					<li id="" class="">
+
 						<a href="#" class="sidebar-main-list-name"><i class="fa fa-bell side-font-icons"></i> Alerts & Notifications</a>
 					</li>
 					{%endifequal%}

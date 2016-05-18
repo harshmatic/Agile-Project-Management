@@ -81,7 +81,9 @@ class AddBacklog(BaseHandler):
     def post(self,*args,**kargs):
         backlog = product_backlog.ProductUserStory()
        # backlog.sprintId = self.request.get("spId")
-        backlog.project_key = ndb.Key(urlsafe=self.request.get("project"))
+     #   backlog.project_key = ndb.Key(urlsafe=self.request.get("project"))
+        
+        backlog.project_key = self.session['current_project'] 
         
         currentUser=self.auth.get_user_by_session()
         company_key=self.user_model.get_by_id(currentUser['user_id']).tenant_key

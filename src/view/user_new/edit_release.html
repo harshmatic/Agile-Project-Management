@@ -1,0 +1,86 @@
+<script>
+$(document).ready(function(){	
+	
+
+$("#edit_release").on("click",function(){
+	$.post( '/release/edit', $("#edit_form").serialize())
+		.done(function( data ) {
+			if (data!="true"){
+				alert("Release cannot be updated");
+				return false
+			} else {
+				
+				
+				
+			}
+		});
+		
+		
+			
+			
+		});
+		
+		
+			$('#edit-release-modal').on('hidden.bs.modal', function(e)
+				    { 
+				        $(this).removeData('bs.modal');
+				        
+				        $('.table').load('/release .table', function(result) {
+		  				});
+				    }) ;
+$('.datepicker').datepicker({
+	format: 'dd/mm/yyyy',
+	startDate: '0d'
+});
+});
+
+	</script>			
+
+
+	<form role="form" id="edit_form" enctype="multipart/form-data">
+				
+				
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Edit Release</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								
+								<div class="col-md-10">
+										
+									
+										
+											<!-- First Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label"  style="display:none;">Project Name</label>
+												<input  style="display:none;" type="text" class="form-control add-task-textbox" name="proj_name" value="{{release_info.projectid.urlsafe}}" readonly>
+											  </div> 
+										
+										    <!-- Last Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Release Name</label>
+												<input type="text" class="form-control add-task-textbox" name="release_name" value="{{release_info.releaseName}}">
+											  </div>
+											  
+											   <!-- Email --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Release Date</label>
+												<input type="text" class="form-control add-task-textbox datepicker" name="release_date" value="{{release_info.releaseDate|date:'d/m/Y'}}">
+											 <i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+											  </div>
+										
+											<input type="hidden" id="key" name="key" value="{{release_info.key.urlsafe}}">
+								</div>	
+								<div class="col-md-1">
+								</div>		
+							</div>
+						
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<input type="submit" class="add-task-btn-modal" data-dismiss="modal" id="edit_release" value="Update">
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</button>
+				  </div>
+	</form>			</html>

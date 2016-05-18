@@ -47,15 +47,16 @@ class Release(BaseHandler):
             release_data=project.ProjectRelease()
             release=release_data.getall()
             
-            self.render_template("release.html",{"project":proj,"company_name":company_name,"release":release})
+            self.render_template("user_new/release.html",{"project":proj,"company_name":company_name,"release":release})
         else:
             self.response.write("you are not allowed")
     
     def post(self,*args,**kargs):
         release_obj= project.ProjectRelease()
             
-        release_obj.projectid= ndb.Key(urlsafe=self.request.get('proj_name'))
-           
+       # release_obj.projectid= ndb.Key(urlsafe=self.request.get('proj_name'))
+       
+        release_obj.projectid= self.session['current_project']   
             
         release_obj.releaseName=self.request.get('release_name')
         release_obj.releaseDate=datetime.strptime(self.request.get('release_date'), '%d/%m/%Y').date()
@@ -78,7 +79,7 @@ class EditRelease(BaseHandler):
         def get(self,*args,**kargs):
             key = ndb.Key(urlsafe=self.request.get('edit_key'))
             release_info=key.get()
-            self.render_template("edit_release.html",{"release_info":release_info})
+            self.render_template("user_new/edit_release.html",{"release_info":release_info})
 
             
             
@@ -87,8 +88,9 @@ class EditRelease(BaseHandler):
             release_key=key.get()
             
             
-            release_key.projectid= ndb.Key(urlsafe=self.request.get('proj_name'))
-           
+            #release_key.projectid= ndb.Key(urlsafe=self.request.get('proj_name'))
+          
+            release_key.projectid=self.session['current_project'] 
             
             release_key.releaseName=self.request.get('release_name')
             
@@ -110,7 +112,7 @@ class DeleteRelease(BaseHandler):
             key = ndb.Key(urlsafe=self.request.get('delete_key'))
             release_info = key.get()
             
-            self.render_template("delete_release.html",{"release_info":release_info})
+            self.render_template("user_new/delete_release.html",{"release_info":release_info})
          
         def post(self,*args,**kargs):
             key= ndb.Key(urlsafe=self.request.get('delete_key'))

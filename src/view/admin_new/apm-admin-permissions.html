@@ -32,7 +32,9 @@
 														<tr>
 														<th>Permissions (url)</th>
 															{% for admin in admin %}
+															{%if admin.status == 'True' %}
 																<th>{{admin.role}}</th>
+															{% endif %}
 															{% endfor %}
 															{% for role in role %}
 															{%if role.status == 'True' %}
@@ -48,7 +50,9 @@
 																	<a href="#" class="permission-link">All</a>
 																</td>
 																{% for admin in admin %}
+																{% if admin.status == 'True' %}
 																<td><input type="checkbox" id="checkbox12"  disabled checked/></td>
+																{%endif%}
 																{% endfor %}
 																{% for role in role %}
 																{%if role.status == 'True' %}
@@ -61,11 +65,13 @@
 															  </tr>	
 															
 															  {% for perm in perm %}
+															   {% if perm.status == 'True' %}
 															  <tr>
 																<td>
 																	{{perm.permission}} ({{perm.url}})
 																</td>
 																{% for admin in admin %}
+																{%if admin.status == 'True' %}
 																	<td>
 																	{% if perm.key in admin.permissions%}
 																	<input type="checkbox" id="checkbox22" disabled checked />
@@ -75,6 +81,7 @@
 																	{%endif%}
 																	
 																	</td>
+																	{%endif%}
 																	{% endfor %}
 																{% for role in role %}
 																{%if role.status == 'True' %}
@@ -90,6 +97,7 @@
 																{% endif %}
 																{% endfor %}
 													  </tr>	
+													  {% endif %}
 													  {% endfor %}
 													  
 														

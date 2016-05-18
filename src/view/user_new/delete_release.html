@@ -1,0 +1,81 @@
+<script>
+		
+$("#delete_release").on("click",function(){
+	$.post( "/release/delete", $("#delete_form").serialize())
+		.done(function( data ) {
+			if (data!="true"){
+				alert("Release cannot be deleted");
+				return false
+			} else {
+				
+				
+				
+			}
+		});
+		
+		
+			
+		})
+		$('#delete-release-modal').on('hidden.bs.modal', function(e)
+				    { 
+				        $(this).removeData('bs.modal');
+				        
+				        $('.table').load('/release .table', function(result) {
+		  				});
+				    }) ;
+	</script>			
+
+
+	<form role="form" id="delete_form" enctype="multipart/form-data">
+				
+				
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Delete Release</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								
+								<div class="col-md-10">
+										
+									<table class="table table-condensed">
+    
+    <tbody>
+      <tr>
+        <td>Project Name :</td>
+        <td>{{release_info.projectid.get.name}}</td>
+        
+      </tr>
+     
+     <tr>
+        <td>Release Name:</td>
+        <td>{{release_info.releaseName}}</td>
+        
+      </tr>
+      
+      <tr>
+        <td>Release Date :</td>
+        <td>{{release_info.releaseDate}}</td>
+        
+      </tr>
+    </tbody>
+</table>
+										
+									
+											
+										
+										 
+											<input type="hidden" id="key" name="delete_key" value="{{release_info.key.urlsafe}}">
+								</div>	
+								<div class="col-md-1">
+								</div>		
+							</div>
+						
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<input type="submit" class="add-task-btn-modal" data-dismiss="modal" id="delete_release" value="Delete">
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</button>
+				  </div>
+	</form>			
