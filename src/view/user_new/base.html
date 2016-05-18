@@ -147,6 +147,9 @@
 	
     <div id="wrapper">
         <!-- Sidebar -->
+        
+        
+      
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
  
@@ -154,6 +157,12 @@
 						<a href="/dashboard" class="sidebar-main-list-name"><i class="fa fa-th-large side-font-icons"></i> Dashboard</a>
 						
 					</li>
+					{%for permission in permissions%}
+        				{% ifequal permission.project session.current_project%}
+        					{%for permit in permission.permit_for%}
+        			
+        			
+        			{%ifequal permit.get.url "project"%}
 					<li>
 						<a class="sidebar-main-list-name pro-planning-link" data-toggle="collapse" data-parent="" href="#collapseOne"><i class="fa fa-list"></i> Project Planning <span class="caret sidebar-caret"></span></a>
 						<div id="collapseOne" class="panel-collapse collapse">
@@ -172,6 +181,8 @@
 							</div>
 						</div>
 					</li>
+					{%endifequal%}
+					{%ifequal permit.get.url "sprint"%}
 					<li>
 						<a class="sidebar-main-list-name pro-planning-link" data-toggle="collapse" data-parent="" href="#collapseTwo"><i class="fa fa-list"></i> Sprint Planning <span class="caret sidebar-caret"></span></a>
 						<div id="collapseTwo" class="panel-collapse collapse">
@@ -187,16 +198,25 @@
 							</div>
 						</div>
 					</li>
+					{%endifequal%}
+					{%ifequal permit.get.url "document"%}
 					<li>
 						<a href="#" class="sidebar-main-list-name"><i class="fa fa-file-text side-font-icons"></i> Document Management</a>
 					</li>
+					{%endifequal%}
+					{%ifequal permit.get.url "reports"%}
 					<li>
 						<a href="#" class="sidebar-main-list-name"><i class="fa fa-pie-chart side-font-icons"></i> Reports</a>
 					</li>
+					{%endifequal%}
+					{%ifequal permit.get.url "alerts"%}
 					<li>
 						<a href="#" class="sidebar-main-list-name"><i class="fa fa-bell side-font-icons"></i> Alerts & Notifications</a>
 					</li>
-					
+					{%endifequal%}
+					{%endfor%}
+        	{%endifequal%}
+        {%endfor%}
 					
 					{% block sidebar%}
 					{% endblock %}

@@ -88,12 +88,20 @@ class BaseHandler(webapp2.RequestHandler):
             params = {}
         user = self.user_info
         params['user'] = user
+        #permission={}
+        pa=[]
         logging.info(self.session)
         if user:
             user_obj=self.user_model.get_by_id(user['user_id'])
             user_key=user_obj.key
             comp_key=user_obj.tenant_key
             projects= model.project.ProjectMembers().get_proj_by_user(comp_key,user_key)
+            for permissions in projects:
+                
+                permit=model.user.Groups().query(model.user.Groups.role==permissions.userRole).fetch()
+                pa.append({'project':permissions.projectid,"permit_for":permit[0].permissions})
+               
+            params['permissions']=pa
             if projects != None:
                 params['projects'] = projects
             if not self.session.has_key('current_project'):
