@@ -85,22 +85,27 @@
 				  				alert("Something Went Wrong");
 				  				return false
 				  			} 
-				  		});
-						$('#add-sprint-modal').on('hidden.bs.modal', function(e)
-							    { 
-							        $(this).removeData();
-							        /*$('#edit_permissions').load('/admin/permissions #edit_permissions', function(result) {
-					  				    var variable = $('#edit_permissions').html();
-					  				});*/
-							    }) ;
-						return false;
-					})
+				  		})
+					});
+						
+				  			
+				  			$('#add-sprint-modal').on('hidden.bs.modal', function(e)
+								    { 
+									//	alert("hey");
+										$(this).removeData('bs.modal');
+										$(this).find('form')[0].reset();
+								
+								    }) ;
+							
+				  		
 					
 					$('#edit-issue-modal').on('hidden.bs.modal', function(e)
 						    { 
 						        $(this).removeData();
 						        
 						    }) ;
+					
+				
 				});
 		</script>		
 {% endblock %}
@@ -143,6 +148,7 @@
 								<div class="col-md-12">
 									<div class="">
 									{% for sprint in sprints%}
+									{%if sprint.status == 'True'%}
 											<!-- Sprint 1 panel -->
 											<div class="panel panel-default apm-sprint-panel" id="sprint">
 												<div class="panel-heading">
@@ -170,6 +176,7 @@
 															<tbody>
 															
 															{%for task in tasks %}
+															{%if task.status == 'True'%}
 																{%ifequal task.sprint sprint.key%}
 															  <tr>
 																
@@ -186,7 +193,9 @@
 																<a href="/task/deletetask?delete_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#delete-user-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Task"  id="{{task.key.urlsafe}}"></i></a></td>
 															  </tr>
 															  <tr class="separator" />
+															  
 															  {% endifequal %}
+															  {%endif%}
 															  {% endfor %}
 															  
 															  
@@ -198,6 +207,7 @@
 												</div>
 											</div>
 											<!-- Sprint 1 panel ENDS -->
+											{%endif%}
 									{% endfor%}		
 											
 											
@@ -320,7 +330,7 @@
 							
 				  </div>
 				  <div class="modal-footer add-task-modal-footer">
-					<button type="button" class="add-task-btn-modal" data-dismiss="modal" id="submit_sprint">Add</button>
+					<button type="button"  class="add-task-btn-modal" data-dismiss="modal" id="submit_sprint" >Add</button>
 					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
 				  </div>
 				</div>

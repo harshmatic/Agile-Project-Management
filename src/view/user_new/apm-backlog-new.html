@@ -527,11 +527,15 @@
 												<select class="form-control add-task-textbox apm-modal-textbox" name="sprint" id="sprint">
 													<option value="None">None</option>
 													{%for i in sprint%}
+													{%if i.status == 'True'%}
 														{% for proj in project %}
+														{%if project.status == 'True'%}
 															{% if i.project == proj.key %}
 																<option value={{i.key.urlsafe}}>{{i.name}}</option>
 															{%endif%}
+														{%endif%}
 														{%endfor%}
+													{%endif%}
 													{%endfor%}
 												</select>
 											  </div>
@@ -549,9 +553,9 @@
 												<select class="form-control add-task-textbox apm-modal-textbox" name="assignee" id="assignee">
 													<option value="None">None</option>
 													{%for i in user_data%}
-													
+													{%if i.status == 'True'%}
 																<option value={{i.key.urlsafe}}>{{i.name}}</option>
-															
+													{%endif%}		
 													{%endfor%}
 												</select>
 											  </div>

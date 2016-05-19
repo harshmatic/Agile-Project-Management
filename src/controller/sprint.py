@@ -29,11 +29,13 @@ class Tasks(BaseHandler):
         task_data.complexity = ndb.Key(urlsafe=self.request.get('complexity'))
         task_data.startDate = datetime.strptime(self.request.get("start"), '%d/%m/%Y').date()
         task_data.endDate = datetime.strptime(self.request.get("start"), '%d/%m/%Y').date()
-        task_data.assignee = ndb.Key(urlsafe=self.request.get('assignee'))
+        if (self.request.get('assignee') != None):
+            task_data.assignee = ndb.Key(urlsafe=self.request.get('assignee'))
         task_data.project = ndb.Key(urlsafe=self.request.get('key'))
         task_data.createdby = createdBy
         task_data.type = ndb.Key(urlsafe=self.request.get('type'))
-        task_data.sprint = ndb.Key(urlsafe=self.request.get('sprint'))
+        if (self.request.get('sprint') != None):
+            task_data.sprint = ndb.Key(urlsafe=self.request.get('sprint'))
         task_data.actual_efforts = self.request.get('actual_efforts')
         task_data.task_status = "Open"
         

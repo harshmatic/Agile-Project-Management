@@ -22,7 +22,7 @@ class Task(BaseClass):
     def get_all(self,projectId):
         logging.info(self.query(Task.project==projectId).fetch())
         return self.query(Task.project==projectId).fetch()  
-class Type(ndb.Model):
+class Type(BaseClass):
     name = ndb.StringProperty(required=True)
     color = ndb.StringProperty(required=True)
     def get_all(self):
