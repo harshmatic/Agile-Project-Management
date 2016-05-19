@@ -96,16 +96,24 @@ class BaseHandler(webapp2.RequestHandler):
             user_key=user_obj.key
             comp_key=user_obj.tenant_key
             projects= model.project.ProjectMembers().get_proj_by_user(comp_key,user_key)
-            for permissions in projects:
-                
-                permit=model.user.Groups().query(model.user.Groups.role==permissions.userRole).fetch()
-                pa.append({'project':permissions.projectid,"permit_for":permit[0].permissions})
-               
-            params['permissions']=pa
-            if projects != None:
-                params['projects'] = projects
             if not self.session.has_key('current_project'):
                 self.session['current_project']=projects[0].projectid
+            for current in projects:
+                if current.projectid==self.session['current_project']:
+                    current_project= current
+            logging.info(current_project)
+            permit=model.user.Groups().query(model.user.Groups.role==current_project.userRole).fetch()
+            urls=model.user.Permissions().query().order(model.user.Permissions.order).fetch()
+            sidebars=[]
+            for sidebar in urls:
+                if sidebar.key in permit[0].permissions:
+                    sidebars.append(sidebar)
+            pa.append({'project':current_project.projectid,"permit_for":permit[0].permissions})
+            params['permissions']=pa
+            params['sidebar']=sidebars
+            if projects != None:
+                params['projects'] = projects
+            
         if user != None :
             params['blob'] = self.user_model.get_by_id(user['user_id']).blob_key
         

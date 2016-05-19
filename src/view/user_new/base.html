@@ -32,19 +32,31 @@
 		</style>
 			<script>
 		$(document).ready(function(){
-		var url = window.location.href.split("/").pop();
+			var url = window.location.href.split("/").pop();
+			
+			url = url.split("?")
+			url = url[0];
 		
-		url = url.split("?")
-		url = url[0];
-	
-		url = url.split("/");
-		page = url[url.length-1];
-		//alert(page); 
-	
-		/*  $("ul").on("click", "li", function () {
-			 $(this).next('ul').toggle();
-			}); */
-
+			url = url.split("/");
+			page = url[url.length-1];
+		//harshit 
+		var link=$('a[href="/'+page+'"]');
+		$(link[0]).css("color", "#3978BF");
+		if ($(link[0]).hasClass("dontfind")){
+			$(link[0]).parent().addClass('active');
+			$(link[0]).css('color','white');
+		}else {
+			var parentName=$(link[0]).closest(".find");
+			
+			$(parentName[0]).addClass('active');
+			$(parentName[0]).closest('.openlink').click();
+			var click = $(parentName[0]).children('a')[0];
+			$(click).click();
+			//console.log(click);
+		}
+		
+		//harshit ends
+		/*
 		if (page == "dashboard")
 		{
 			$("#dashboard").attr( "class", "active" );
@@ -54,9 +66,7 @@
 		{
 			$("#project_planning").attr( "class", "active" );
 			$("#release_text").css("color", "#3978BF");
-			/* $("#collapseOne").attr("aria-expanded","true");
-			$("#collapseOne").addClass("in");
-			$("#a_collapseOne").attr("aria-expanded","true"); */
+			
 			
 		}
 		else 
@@ -83,8 +93,9 @@
 		else
 		{
 			
-		}
+		}*/
 		});
+		
 		</script>
 		
 		{% block header_links%}{% endblock %}
@@ -105,7 +116,7 @@
 					</button>
                     <!-- Project Name in dropdown -->
 					<span class="dropdown">
-					
+					{% regroup sidebar by parentName as sidebars %}
 						<a class="navbar-brand apm-nav-brand-1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{session.current_project.get.name}}<span class="caret"></span></a></a>
 						<ul class="dropdown-menu apm-dropdown-projects">
 						{% for project in projects %}
@@ -113,10 +124,16 @@
 						    <li><a href="/setsession?project_key={{project.projectid.urlsafe}}"><i class="fa fa-cog"></i> {{project.projectid.get.name}}</a></li>
 						    {%endifnotequal%}
 						{%endfor%}	
+							
+							{%for side in sidebars%}
+								{%for sides in side.list%}
+									{%ifequal sides.url "project"%}
 							<li class="divider"></li>
-						
 							<li><a href="/project">View All Projects</a></li>
 							<li><a href="/project/addnewproject">Create New Project</a></li>
+									{%endifequal%}
+								{%endfor%}
+							{%endfor%}
 						</ul>
 					</span>
                
@@ -208,7 +225,7 @@
       
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
- 
+ <!--  
 					<li id="dashboard" class="">
 						<a href="/dashboard" class="sidebar-main-list-name"><i class="fa fa-th-large side-font-icons"></i> Dashboard</a>
 						
@@ -227,7 +244,7 @@
 								<ul class="sidebar-list" style="display:block!important;" id="project_planning_ul">
 									<!-- <li id="project" class="">
 										<a href="/project" class="sidebar-list-sub-item" id="project_text">Projects</a>
-									</li> -->
+									</li> 
 									<li id="release" class="">
 										<a href="/release" class="sidebar-list-sub-item" id="release_text">Release</a>
 									</li>
@@ -281,9 +298,43 @@
 					{%endfor%}
         	{%endifequal%}
         {%endfor%}
-					
-					{% block sidebar%}
-					{% endblock %}
+        -->
+		
+			{% block sidebar%}
+						
+						{%for side in sidebars%}
+						
+							{%if side.grouper%}
+<li class="find">
+	<a  class="sidebar-main-list-name pro-planning-link openlink" data-toggle="collapse" data-parent="" href="#{{side.grouper|cut:' '|lower}}"><i class="fa fa-list"></i>{{side.grouper}} <span class="caret sidebar-caret"></span></a>
+		<div id="{{side.grouper|cut:' '|lower}}" class="panel-collapse collapse">
+			<div class="panel-body sidebar-list-panel">
+				<ul class="sidebar-list" style="display:block!important;" >						
+								
+									{%for sides in side.list%}
+										{%ifnotequal sides.url "project"%}
+									<li  class="">
+										<a href="/{{sides.url}}" class="sidebar-list-sub-item" >{{sides.permission}}</a>
+									</li>
+										{%endifnotequal %}
+										
+									{%endfor%}
+				</ul>
+			</div>
+		</div>
+</li>
+							{%else%}
+								{%for sides in side.list%}
+								
+									<li id="" class="">
+										<a href="/{{sides.url}}" class="sidebar-main-list-name dontfind"><i class="fa fa-pie-chart side-font-icons"></i> {{sides.permission}}</a>
+									</li>
+									
+								{%endfor%}
+							{%endif%}
+							
+						{%endfor%}
+			{% endblock %}
                
             </ul>
         </div><!-- /#sidebar-wrapper -->

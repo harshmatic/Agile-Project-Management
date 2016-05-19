@@ -47,6 +47,8 @@ class Permissions(BaseClass):
     url = ndb.StringProperty(required=True)
     permission = ndb.StringProperty()
     date = ndb.DateTimeProperty(auto_now_add=True)
+    parentName = ndb.StringProperty()
+    order= ndb.IntegerProperty()
     
     def set(self):
         self.put()

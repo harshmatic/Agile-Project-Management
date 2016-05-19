@@ -18,15 +18,21 @@ def NotFoundPageHandler(request, response, exception):
     
 app = webapp2.WSGIApplication([
     DomainRoute('<subdomain>.apm-eternus.appspot.com', [
+                                                        
+        #General
         webapp2.Route('/', Main, name='subdomain-home'),
         webapp2.Route('/dashboard', EndUserDashboardHandler, name='dashboard'),                           
-        webapp2.Route('/admin/signup', SignupHandler, name='adminsignup'),
-        webapp2.Route('/signupadmin', SignupAdminHandler, name='signupadmin'),
-        
-        
         webapp2.Route('/login', LoginHandler, name='login'),
+        webapp2.Route('/signupadmin', SignupAdminHandler, name='signupadmin'),
+        webapp2.Route('/logout', LogoutHandler, name='logout'),
+        webapp2.Route('/profile', EndUserProfile,name='profile'),
+        webapp2.Route('/profile', EndUserProfile),
+        webapp2.Route('/img', EndUserProfile),
+        webapp2.Route('/view_photo', UserViewPhotoHandler),
         
-        webapp2.Route('/role', AddRole, name='role'),
+        
+        #Admin
+        webapp2.Route('/admin/signup', SignupHandler, name='adminsignup'),
         webapp2.Route('/authenticated', AuthenticatedHandler, name='authenticated'),
         webapp2.Route('/admin/permissions', EditPermissions, name='permissions'),
         webapp2.Route('/admin/editpermission', EditPermission, name='editpaermission'),
@@ -38,32 +44,16 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/admin/dashboard', AdminHome,name="admindashboard"),
         webapp2.Route('/admin/usermanagment', AdminUserManagement, name='usermanage'),
         webapp2.Route('/admin/verify', AdminVerify, name='verify'),
+        webapp2.Route('/admin/view_photo', ViewPhotoHandler,name='viewphoto'),
+        webapp2.Route('/admin/edit', AdminEditUser),
+        webapp2.Route('/admin/deleteuser', AdminDeleteUser),
+        webapp2.Route('/admin/profile', AdminProfile,name='profile'),
+        
+        #Project
         webapp2.Route('/project/viewmembers', GetTeamMembersForProject,name='viewmebers'),
         webapp2.Route('/project/addproject', AddProject,name='addproject'),
         webapp2.Route('/project/editproject', EditProject,name='editproject'),
         webapp2.Route('/project', ProjectManagement,name='project'),
-        webapp2.Route('/admin/view_photo', ViewPhotoHandler,name='viewphoto'),
-        webapp2.Route('/logout', LogoutHandler, name='logout'),
-        webapp2.Route('/profile', EndUserProfile,name='profile'),
-        webapp2.Route('/backlog/addbacklog', AddBacklog,name='addbackloog'),
-        webapp2.Route('/backlog', AllBacklogs,name='getbacklog'),
-        webapp2.Route('/backlog/getbacklog', Backlog,name='getbacklog'),
-        webapp2.Route('/backlog/deletebacklog', DeleteBacklog,name='deletebacklg'),
-        webapp2.Route('/sprint', Sprint,name='sprint'),
-        webapp2.Route('/task', Tasks,name='Task'),
-        webapp2.Route('/task/addtask', Tasks,name='Task'),
-        webapp2.Route('/task/edittask', EditTask,name='Task'),
-       
-        webapp2.Route('/admin/edit', AdminEditUser),
-        webapp2.Route('/admin/deleteuser', AdminDeleteUser),
-        webapp2.Route('/profile', EndUserProfile),
-        webapp2.Route('/img', EndUserProfile),
-        webapp2.Route('/view_photo', UserViewPhotoHandler),
-        webapp2.Route('/admin/profile', AdminProfile,name='profile'),
-        webapp2.Route('/backlog/edit', EditBacklog),
-        webapp2.Route('/backlog/delete', DeleteBacklog),
-        webapp2.Route('/backlog/update', UpdateBacklog),
-        webapp2.Route('/setsession', SetSessionProject),
         webapp2.Route('/project/addnewproject', AddProjectView,name='addnewproject'),
         webapp2.Route('/project/viewproject', ViewProject,name='viewproject'),
         webapp2.Route('/project/addmembertoproj', AddProjectMembers,name='addmembertoproj'),
@@ -75,10 +65,31 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/project/editmembertoproj', EditProjMem,name='editestimatetoproj'),
         webapp2.Route('/project/editestimatetoproj', EditEstimates,name='project'),
         webapp2.Route('/project', ProjectManagement,name='project'),
+        
+        #Backlog
+        webapp2.Route('/backlog/addbacklog', AddBacklog,name='addbackloog'),
+        webapp2.Route('/backlog', AllBacklogs,name='getbacklog'),
+        webapp2.Route('/backlog/getbacklog', Backlog,name='getbacklog'),
+        webapp2.Route('/backlog/deletebacklog', DeleteBacklog,name='deletebacklog'),
+        webapp2.Route('/backlog/edit', EditBacklog),
+        webapp2.Route('/backlog/delete', DeleteBacklog),
+        webapp2.Route('/backlog/update', UpdateBacklog),
+        
+        #Release
         webapp2.Route('/release', Release,name='release'),
         webapp2.Route('/release/edit', EditRelease),
-        webapp2.Route('/release/delete', DeleteRelease)
-      #  webapp2.Route('/userbasehtml', UserBaseHtml,name="userbasehtml"),
+        webapp2.Route('/release/delete', DeleteRelease),
+        
+        #Sprint
+        webapp2.Route('/sprint', Sprint,name='sprint'),
+        
+        #Task
+        webapp2.Route('/task', Tasks,name='Task'),
+        webapp2.Route('/task/addtask', Tasks,name='addTask'),
+        webapp2.Route('/task/edittask', EditTask,name='editTask'),
+       
+        webapp2.Route('/setsession', SetSessionProject)
+
         
     ]),
         webapp2.Route('/', SignupUser, name='home'),
@@ -94,8 +105,7 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/password', SetPasswordHandler, name="setpassword"),
         webapp2.Route('/signupuser', SignupUser, name='usersignup'),
         webapp2.Route('/<type:v|p>/<user_id:\d+>-<signup_token:.+>',handler=VerificationHandler, name='verification'),
-        webapp2.Route('/forgot', ForgotPasswordHandler, name='forgot'),
-        webapp2.Route('/release', Release,name='release')
+        webapp2.Route('/forgot', ForgotPasswordHandler, name='forgot')
     
 ], debug=True, config=config)
 
