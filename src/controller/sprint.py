@@ -31,7 +31,11 @@ class Tasks(BaseHandler):
         task_data.endDate = datetime.strptime(self.request.get("start"), '%d/%m/%Y').date()
         if (self.request.get('assignee') != None):
             task_data.assignee = ndb.Key(urlsafe=self.request.get('assignee'))
-        task_data.project = ndb.Key(urlsafe=self.request.get('key'))
+        
+       # task_data.project = ndb.Key(urlsafe=self.request.get('key'))
+        
+        task_data.project=self.session['current_project']  
+        
         task_data.createdby = createdBy
         task_data.type = ndb.Key(urlsafe=self.request.get('type'))
         if (self.request.get('sprint') != None):
@@ -70,7 +74,10 @@ class EditTask(BaseHandler):
         task_data.startDate = datetime.strptime(self.request.get("start"), '%d/%m/%Y').date()
         task_data.endDate = datetime.strptime(self.request.get("start"), '%d/%m/%Y').date()
         task_data.assignee = ndb.Key(urlsafe=self.request.get('assignee'))
-        task_data.project = ndb.Key(urlsafe=self.request.get('key'))
+        
+       # task_data.project = ndb.Key(urlsafe=self.request.get('key'))
+        task_data.project =self.session['current_project']   
+        
         task_data.createdby = createdBy
         task_data.type = ndb.Key(urlsafe=self.request.get('type'))
         task_data.sprint = ndb.Key(urlsafe=self.request.get('sprint'))
@@ -85,7 +92,8 @@ class Sprint(BaseHandler):
     
     def get(self,*args,**kargs):
         if check_permission(self):
-            project = ndb.Key(urlsafe=self.request.get("key"))
+           # project = ndb.Key(urlsafe=self.request.get("key"))
+            project =self.session['current_project']   
             sprint_data=sprint.Sprint().get_by_project(project)
             tasks=task.Task().get_all(project)
             logging.info(tasks)
@@ -101,7 +109,12 @@ class Sprint(BaseHandler):
         sprint_data.description = self.request.get("desc")
         sprint_data.startDate = datetime.strptime(self.request.get("start"), '%m/%d/%Y').date()
         sprint_data.endDate = datetime.strptime(self.request.get("end"), '%m/%d/%Y').date()
-        sprint_data.project = ndb.Key(urlsafe=self.request.get("project_key"))
+       
+     #   sprint_data.project = ndb.Key(urlsafe=self.request.get("project_key"))
+        
+        sprint_data.project=self.session['current_project']  
+        
+        sprint_data.project =self.session['current_project'] 
         sprint_data.createdby = createdBy
         sprint_data.sprint_status = "Open"
         sprint_data.company = self.user_model.get_by_id(currentUser['user_id']).tenant_key
