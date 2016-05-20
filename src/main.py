@@ -6,6 +6,7 @@ from controller.sprint import *
 from controller.projectcontroller import *
 from controller.product_backlog_controller import *
 from controller.release import *
+from controller.mytasks import *
 from webapp2_extras import routes
 from webapp2_extras.routes import DomainRoute
 from google.appengine.ext.webapp import template
@@ -87,7 +88,11 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/task', Tasks,name='Task'),
         webapp2.Route('/task/addtask', Tasks,name='addTask'),
         webapp2.Route('/task/edittask', EditTask,name='editTask'),
-       
+        
+        #MyTasks
+        webapp2.Route('/mytasks', MyTasks,name='MyTasks'),
+        webapp2.Route('/mytasks/view', MyTaskView,name='MyTaskView'),
+        
         webapp2.Route('/setsession', SetSessionProject)
 
         

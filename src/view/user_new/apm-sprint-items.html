@@ -94,6 +94,9 @@
 									//	alert("hey");
 										$(this).removeData('bs.modal');
 										$(this).find('form')[0].reset();
+										$('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
+						  				    //var variable = $('#edit_permissions').html();
+						  				});
 								
 								    }) ;
 							
@@ -102,6 +105,9 @@
 					$('#edit-issue-modal').on('hidden.bs.modal', function(e)
 						    { 
 						        $(this).removeData();
+						        $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
+				  				    //var variable = $('#edit_permissions').html();
+				  				});
 						        
 						    }) ;
 					

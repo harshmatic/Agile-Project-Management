@@ -11,9 +11,9 @@
 			$('#add-issue-modal').on('hidden.bs.modal', function(e)
 				    { 
 				        $(this).removeData();
-				        /*$('#edit_permissions').load('/admin/permissions #edit_permissions', function(result) {
-		  				    var variable = $('#edit_permissions').html();
-		  				});*/
+				        $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
+		  				    //var variable = $('#edit_permissions').html();
+		  				});
 				    }) ;
 			
 			
@@ -96,7 +96,7 @@
 												<label class="task-label">Complexity</label>
 												<select name="complexity" class="form-control add-task-textbox apm-modal-textbox">
 													{% for complex in complex%}
-													{%if compplex.status == 'True'%}
+													{%if complex.status == 'True'%}
 														<option value="{{complex.key.urlsafe}}">{{complex.estimationLevel}}</option>
 													{%endif%}
 													{%endfor%}
@@ -109,9 +109,9 @@
 												<label class="task-label">Issue Type</label>
 												<select name="type" class="form-control add-task-textbox apm-modal-textbox">
 													{% for type in type%}
-													{%if type.status == 'True'%}
+													
 														<option value="{{type.key.urlsafe}}">{{type.name}}</option>
-													{%endif%}
+													
 													{%endfor%}
 												</select>
 											  </div>

@@ -21,7 +21,9 @@ class Task(BaseClass):
         self.put()
     def get_all(self,projectId):
         logging.info(self.query(Task.project==projectId).fetch())
-        return self.query(Task.project==projectId).fetch()  
+        return self.query(Task.project==projectId).fetch()
+    def get_by_project_user(self,projectId,userId):
+        return self.query(ndb.AND(Task.project==projectId,Task.assignee==userId)).fetch() 
 class Type(BaseClass):
     name = ndb.StringProperty(required=True)
     color = ndb.StringProperty(required=True)

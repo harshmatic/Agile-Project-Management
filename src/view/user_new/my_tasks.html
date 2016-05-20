@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+
+{% block title %}User | Tasks {% endblock %}
+		
+{% block header_links%}
+		
+		<style>
+			.apm-nav-brand-1{
+				padding: 15px!important;
+				font-size: 15px!important;
+				margin: 0!important;
+				padding-left: 8px!important;
+			}
+			.apm-dropdown-projects{
+				margin-left: -98px!important;
+				margin-top: 50px!important;
+				z-index:99999999;
+			}
+			.apm-listing-add-proj-box {
+				margin-top: -80px!important;
+			}
+			.apm-member-listing-table {
+				margin-top: 25px!important;
+			}
+			.apm-sprint-detail-span{
+ 				color:#407CD6!important;
+			}
+			.panel-edit-link{
+ 				float:right;
+			}
+			.panel-edit-link a, .panel-edit-link a:active, .panel-edit-link a:visited, .panel-edit-link a:focus{
+ 				color:#fff!important;
+ 				text-transform:uppercase;
+ 				letter-spacing:1px;
+			}
+			
+			.apm-sprint-table thead tr:first-child {
+    			padding: 2px 2px!important;
+    			color: #000!important;
+    			border: none!important;
+    			background: transparent!important;
+    			font-size: 10px!important;
+    			letter-spacing: 0!important;
+			}
+		</style>
+		
+			
+		<script>
+				$(document).ready(function(){
+					//$("#details").hide();
+					$(".nav-tabs a").click(function(){
+						$(this).tab('show');
+					});
+					
+					
+					
+				
+
+				});
+					
+		</script>
+		
+{% endblock %}	
+	
+
+
+     
+{%block content%}	
+ 
+
+		
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+					
+						<h2 class="apm-all-reports-heading">Assigned Issues</h2>
+				
+						<!-- Backlog Filter section -->
+						<div class="apm-backlog-filter-box">
+							
+							<!-- Filter 1 -->
+							<div class="dropdown apm-backlog-filter-dropdown">
+							  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+							  <i class="fa fa-filter backlog-filter-icon" aria-hidden="true"></i>Filter 1
+							  <span class="caret"></span></button>
+							  <ul class="dropdown-menu">
+								<li><a href="#">option 1</a></li>
+								<li><a href="#">option 2</a></li>
+								<li><a href="#">option 3</a></li>
+							  </ul>
+							</div>
+							
+							<!-- Filter 2 -->
+							<div class="dropdown apm-backlog-filter-dropdown">
+							  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+							  <i class="fa fa-filter backlog-filter-icon" aria-hidden="true"></i>Filter 2
+							  <span class="caret"></span></button>
+							  <ul class="dropdown-menu">
+								<li><a href="#">option 1</a></li>
+								<li><a href="#">option 2</a></li>
+								<li><a href="#">option 3</a></li>
+							  </ul>
+							</div>
+							
+							<!-- Filter 3 -->
+							<div class="dropdown apm-backlog-filter-dropdown">
+							  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+							  <i class="fa fa-filter backlog-filter-icon" aria-hidden="true"></i>Filter 3
+							  <span class="caret"></span></button>
+							  <ul class="dropdown-menu">
+								<li><a href="#">option 1</a></li>
+								<li><a href="#">option 2</a></li>
+								<li><a href="#">option 3</a></li>
+							  </ul>
+							</div>
+							
+							
+							
+						</div>
+						
+						
+						
+						<hr>
+						
+						
+							<div class="row">
+								<div class="col-md-12">
+									<div class="">
+											<!-- Sprint 1 panel -->
+											<div class="panel panel-default apm-sprint-panel">
+												<div class="panel-heading">
+													Assigned Issues
+												</div>
+												<div class="panel-body">
+													<div class="table-responsive">
+														<table class="table apm-sprint-table">
+															<tbody>
+               													 <tr> 
+               													  <td><b>Title</b></td>
+               													  <td><b>Task Description</b></td>
+                												  <td><b>Effort Estimate</b></td>
+              													   <td><b>Status</b></td>
+                 													<td></td>
+             													   </tr>
+             												
+														<tr class="separator" />
+														{% if tasks %}
+															{%for task in tasks%}
+															{%if task.status == 'True' %}
+															
+															  <tr class='clickable-row' >
+																<td>{{task.name}}</td>
+																<td>{{task.description}}</td>
+																<td>{{task.actual_efforts}}</td>
+																<td>{{task.task_status}}</td>
+																<td><a href="/mytasks/view?key={{task.key.urlsafe}}" class="fa fa-eye fa-2x"></a></td>
+															  </tr>
+															  
+															  <tr class="separator" />
+															   
+															  {%endif%}
+															  {%endfor%}
+														{%else%}
+															<tr class='clickable-row' >
+																<td colspan="5" style="text-align:center;">Hurray! There are no tasks assigned to you for now .</td>
+														{%endif%}
+																
+															  </tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+											<!-- Sprint 1 panel ENDS -->
+											
+											
+											
+									</div>
+								</div> <!-- .col-md-9 ends -->	
+								
+								
+								
+								
+							</div>	 <!-- .row ends -->	
+						</div>
+						
+                    </div> <!-- .col-lg-12 ends -->
+                </div>
+            </div> <!-- .container ends -->
+        </div>
+        <!-- /#page-content-wrapper ENDS -->
+		
+    </div>
+    <!-- /#wrapper -->
+  
+		
+	
+	{%endblock%}

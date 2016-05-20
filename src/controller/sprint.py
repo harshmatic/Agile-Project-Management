@@ -11,7 +11,7 @@ class Tasks(BaseHandler):
     
     def get(self,*args,**kargs):
         #if check_permission(self):
-            key=ndb.Key(urlsafe=self.request.get('key'))
+            key=self.session['current_project']  
             type_data=task.Type().get_all()
             team=project.ProjectMembers().get_all(key)
             complexity=project.Estimation().get_all(key)
@@ -54,7 +54,7 @@ class EditTask(BaseHandler):
         #if check_permission(self):
             edit_key=ndb.Key(urlsafe=self.request.get('edit_key'))
             task_data=edit_key.get()
-            key=ndb.Key(urlsafe=self.request.get('key'))
+            key=self.session['current_project']
             type_data=task.Type().get_all()
             team=project.ProjectMembers().get_all(key)
             complexity=project.Estimation().get_all(key)

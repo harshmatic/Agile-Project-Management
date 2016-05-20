@@ -20,4 +20,3 @@ class Sprint(BaseClass):
     def get_by_project(self,projId): 
         return self.query(Sprint.project == projId).fetch()
     
-    

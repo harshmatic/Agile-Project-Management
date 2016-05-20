@@ -60,6 +60,9 @@ class ProjectMembers(BaseClass):
     def get_proj_by_user(self,comp_id,user_id):
         res = self.query(ndb.AND(ProjectMembers.companyid==comp_id,ProjectMembers.userid==user_id)).fetch()
         return res
+    def get_by_project_user(self,project_id,user_id):
+        res = self.query(ndb.AND(ProjectMembers.projectid==project_id,ProjectMembers.userid==user_id)).fetch(keys_only=True)
+        return res
         
 class ProjectRelease(BaseClass):
     projectid =        ndb.KeyProperty(required=True)

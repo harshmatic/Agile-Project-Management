@@ -19,13 +19,13 @@
 													
 													<option value="None">None</option>
 													{% for sprint in sprints%}
-													{%if sprint.status == 'True'%}
-														{%ifequal task_data.sprint sprint.key%}
-														<option value="{{sprint.key.urlsafe}}" selected="selected">{{sprint.name}}</option>
-														{%else%}
-														<option value="{{sprint.key.urlsafe}}">{{sprint.name}}</option>
-														{%endifequal%}
-													{%endif%}
+														{%if sprint.status == 'True'%}
+															{%ifequal task_data.sprint sprint.key%}
+																<option value="{{sprint.key.urlsafe}}" selected="selected">{{sprint.name}}</option>
+																{%else%}
+																<option value="{{sprint.key.urlsafe}}">{{sprint.name}}</option>
+															{%endifequal%}
+														{%endif%}
 													{%endfor%}
 												</select>
 											  </div>
@@ -49,14 +49,14 @@
 												<select name="assignee" class="form-control add-task-textbox apm-modal-textbox">
 													
 													{% for team in team%}
-													{%if team.status == 'True'%}
-														{%ifequal task_data.assignee team.key%}
-														<option value="{{team.key.urlsafe}}" selected="selected">{{team.userName}}</option>
-														{%else%}
-														<option value="{{team.key.urlsafe}}">{{team.userName}}</option>
-														{%endifequal%}
-														
-													{%endif%}
+														{%if team.status == 'True'%}
+															{%ifequal task_data.assignee team.key%}
+																<option value="{{team.key.urlsafe}}" selected="selected">{{team.userName}}</option>
+															{%else%}
+																<option value="{{team.key.urlsafe}}">{{team.userName}}</option>
+															{%endifequal%}
+															
+														{%endif%}
 													{%endfor%}
 												</select>
 											  </div>
@@ -89,14 +89,14 @@
 												<select name="complexity" class="form-control add-task-textbox apm-modal-textbox">
 													
 													{% for complex in complex%}
-													{%if complex.status == 'True'%}
-													{%ifequal task_data.complexity complex.key%}
-														<option value="{{complex.key.urlsafe}}" selected="selected">{{complex.estimationLevel}}</option>
-														{%else%}
-														<option value="{{complex.key.urlsafe}}">{{complex.estimationLevel}}</option>
-														{%endifequal%}
-														
-													{%endif%}
+														{%if complex.status == 'True'%}
+															{%ifequal task_data.complexity complex.key%}
+																<option value="{{complex.key.urlsafe}}" selected="selected">{{complex.estimationLevel}}</option>
+																{%else%}
+																<option value="{{complex.key.urlsafe}}">{{complex.estimationLevel}}</option>
+															{%endifequal%}
+															
+														{%endif%}
 													{%endfor%}
 												</select>
 											  </div>
@@ -108,14 +108,14 @@
 												<select name="type" class="form-control add-task-textbox apm-modal-textbox">
 													
 													{% for type in type%}
-													{%if type.status == 'True'}
-													{%ifequal task_data.type type.key%}
-														<option value="{{type.key.urlsafe}}" selected="selected">{{type.name}}</option>
-														{%else%}
-														<option value="{{type.key.urlsafe}}">{{type.name}}</option>
-														{%endifequal%}
 														
-													{%endif%}
+															{%ifequal task_data.type type.key%}
+																<option value="{{type.key.urlsafe}}" selected="selected">{{type.name}}</option>
+																{%else%}
+																<option value="{{type.key.urlsafe}}">{{type.name}}</option>
+															{%endifequal%}
+															
+														
 													{%endfor%}
 												</select>
 											  </div>
@@ -149,7 +149,9 @@
 			$('#edit-issue-modal').on('hidden.bs.modal', function(e)
 				    { 
 				        $(this).removeData();
-				        
+				        $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
+		  				    //var variable = $('#edit_permissions').html();
+		  				});
 				    }) ;
 			
 			
