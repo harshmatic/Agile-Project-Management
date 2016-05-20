@@ -93,7 +93,7 @@ class SuperAddPermission(webapp2.RequestHandler):
             permiss.order=int(self.request.get("perm_order"))
         if self.request.get("perm_parent") != "":
             permiss.parentName=self.request.get("perm_parent")
-        
+        permiss.icon=self.request.get("icon")
         #user_info = self.auth.get_user_by_session()
         permiss.created_by = users.get_current_user().email()
         permiss.status = True
@@ -159,7 +159,7 @@ class SuperEditPermission(BaseHandler):
         user_info = self.auth.get_user_by_session()
         permission.modified_by = user_info['email_address']
         permission.modified_date = datetime.now()
-        
+        permission.icon=self.request.get("icon")
         permission.put()
         self.response.write("true")        
 class SuperAddRole(BaseHandler):

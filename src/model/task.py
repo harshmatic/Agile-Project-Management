@@ -16,7 +16,7 @@ class Task(BaseClass):
     type = ndb.KeyProperty()
     task_status = ndb.StringProperty()
     actual_efforts = ndb.StringProperty()
-    
+    #comments = ndb.StructuredProperty(kind=Comments)
     def set(self,data):
         self.put()
     def get_all(self,projectId):
@@ -24,6 +24,11 @@ class Task(BaseClass):
         return self.query(Task.project==projectId).fetch()
     def get_by_project_user(self,projectId,userId):
         return self.query(ndb.AND(Task.project==projectId,Task.assignee==userId)).fetch() 
+
+class Comments(BaseClass):
+    task = ndb.KeyProperty()
+    comment=ndb.KeyProperty()
+    
 class Type(BaseClass):
     name = ndb.StringProperty(required=True)
     color = ndb.StringProperty(required=True)

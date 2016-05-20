@@ -49,6 +49,7 @@ class Permissions(BaseClass):
     date = ndb.DateTimeProperty(auto_now_add=True)
     parentName = ndb.StringProperty()
     order= ndb.IntegerProperty()
+    icon=ndb.StringProperty()
     
     def set(self):
         self.put()

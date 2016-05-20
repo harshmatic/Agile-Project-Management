@@ -13,6 +13,10 @@
 			
 			
 		})
+		$(document).ready(function(){
+			$("#icon_edit option[value='"+$('#icon').val()+"']").click();
+		})
+		
 		$("#delete_permission").on("click",function(){
 			$.post( "/superadmin/deletepermission", $("#editpermission").serialize())
 	  		.done(function( data ) {
@@ -27,6 +31,10 @@
 			
 			
 		})
+		$("#icon_edit").on('change',function(){
+				$("#preview_edit").attr("class",$(this).val());
+				
+			})
 		$('#edit-permission-modal').on('hidden.bs.modal', function(e)
 				    { 
 				        $(this).removeData('bs.modal');
@@ -70,6 +78,29 @@
 											  <div class="form-group task-form-group">
 												<label class="task-label">Permission order</label>
 												<input name="perm_order" type="text" class="form-control add-task-textbox" value="{{permission.order}}">
+											  </div>
+											  <div class="form-group task-form-group">
+												<label class="task-label">Icon</label>
+												<div class="row">
+												<div class="col-md-11">
+												<select name="icon" class="form-control add-task-textbox apm-modal-textbox" id="icon_edit" value="{{permission.icon}}">
+												
+													<option value="">None</option>
+													<option value="fa fa-area-chart">Area Chart</option>
+													<option value="fa fa-balance-scale">Balance Scale</option>
+													<option value="fa fa-bar-chart">Bar Chart</option>
+													<option value="fa fa-calendar">Calendar</option>
+													<option value="fa fa-calculator">Calculator</option>
+													<option value="fa fa-file-pdf-o">File</option>
+													<option value="fa fa-bell">Alert</option>
+													<option value="fa fa-dashboard">Dashboard</option>
+													<option value="fa fa-thumb-tack">Pin</option>
+												</select>
+												 </div>
+												 <div class="col-md-1">
+												<span id="preview_edit"></span>
+												</div>
+											  </div>
 											  </div>
 										</form>
 								</div>	
