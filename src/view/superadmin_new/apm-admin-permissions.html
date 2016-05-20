@@ -73,11 +73,11 @@ $(document).ready(function() {
 																{% endfor %}
 																
 															  </tr>	
-															  {% for perm in perm %}
+															  {% for perm in perms|dictsort:"order" %}
 															  {% if perm.status == 'True'  %}
 															  <tr>
 																<td>
-																	<a href="/superadmin/editpermission?key={{perm.key.urlsafe}}" class="permission-link" data-toggle="modal" data-target="#edit-permission-modal">{{perm.permission}} ({{perm.url}})</a>
+																	<a href="/superadmin/editpermission?key={{perm.key.urlsafe}}" class="permission-link" data-toggle="modal" data-target="#edit-permission-modal">{{perm.order}}. {{perm.permission}} ({{perm.url}})</a>
 																</td>
 																{% for role in role %}
 																{%if role.status == 'True' %}

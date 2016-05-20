@@ -63,7 +63,18 @@
 												<input type="text" class="form-control add-task-textbox" name="url_permission" value="{{permission.url}}">
 											  </div>
 											  <input type="hidden" name="key_permission" value="{{permission.key.urlsafe}}">
-												
+											
+											<!-- Permission URL --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Permission Parent Name</label>
+												<input name="perm_parent" type="text" class="form-control add-task-textbox" value="{{permission.parentName}}">
+											  </div>
+											  
+											  <!-- Permission URL --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Permission order</label>
+												<input name="perm_order" type="text" class="form-control add-task-textbox" value="{{permission.order}}">
+											  </div>
 										</form>
 								</div>	
 								<div class="col-md-1">

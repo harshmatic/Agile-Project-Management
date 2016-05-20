@@ -41,9 +41,9 @@ class SuperPermissionsHandler(webapp2.RequestHandler):
         u=user.Groups()
         role=u.query(user.Groups.tenant_key==None).fetch()
         p=user.Permissions()
-        perm=p.get_all()
+        perm=p.sa_get_all()
         path = os.path.join(os.path.dirname(__file__), '../view/superadmin_new/apm-admin-permissions.html')
-        self.response.out.write(render(path,{"perm":perm,"role":role}))
+        self.response.out.write(render(path,{"perms":perm,"role":role}))
     def post(self):
         prev_role=""
         #role=""
@@ -89,7 +89,10 @@ class SuperAddPermission(webapp2.RequestHandler):
         permiss=user.Permissions()
         permiss.url=url
         permiss.permission=name
-        
+        if self.request.get("perm_order") != "":
+            permiss.order=int(self.request.get("perm_order"))
+        if self.request.get("perm_parent") != "":
+            permiss.parentName=self.request.get("perm_parent")
         
         #user_info = self.auth.get_user_by_session()
         permiss.created_by = users.get_current_user().email()
@@ -117,7 +120,7 @@ class SuperEditRole(BaseHandler):
         key = ndb.Key(urlsafe=self.request.get('key'))
         role = key.get()
         permiss=user.Permissions()
-        list_per=permiss.get_all()
+        list_per=permiss.sa_get_all()
         self.render_template("superadmin_new/editrole.html",{"role":role,"permission":list_per})
         
     def post(self):
@@ -149,7 +152,10 @@ class SuperEditPermission(BaseHandler):
         permission =key.get()
         permission.url=self.request.get("url_permission")
         permission.permission=self.request.get("name_permission")
-        
+        if self.request.get("perm_order") != "":
+            permission.order=int(self.request.get("perm_order"))
+        if self.request.get("perm_parent") != "":
+            permission.parentName=self.request.get("perm_parent")
         user_info = self.auth.get_user_by_session()
         permission.modified_by = user_info['email_address']
         permission.modified_date = datetime.now()
@@ -159,7 +165,7 @@ class SuperEditPermission(BaseHandler):
 class SuperAddRole(BaseHandler):
     def get(self):
         permiss=user.Permissions()
-        list_per=permiss.get_all()
+        list_per=permiss.sa_get_all()
         param = {"perm":list_per}
         path = os.path.join(os.path.dirname(__file__), '../view/superadmin_new/addrole.html')
         self.response.out.write(render(path,param))

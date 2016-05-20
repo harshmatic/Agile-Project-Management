@@ -53,6 +53,9 @@ class Permissions(BaseClass):
     def set(self):
         self.put()
     def get_all(self):
+        res = self.query().order(Permissions.order).fetch()
+        return res
+    def sa_get_all(self):
         res = self.query().fetch()
         return res
     @classmethod
