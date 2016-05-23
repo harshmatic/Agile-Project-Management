@@ -68,7 +68,7 @@ class AddProject(BaseHandler):
         projec.endDate = datetime.strptime(self.request.get("proj_end"), '%d/%m/%Y').date()
         
         projec.created_by = currentUser['email_address']
-        projec.status = 'True'
+        projec.status = True
         #projec.team = (self.request.get("proj_team")).split(",")
         projkey = projec.set()
         #logging.info(projkey)
@@ -79,7 +79,7 @@ class AddProject(BaseHandler):
         estimation.estimationPoint= 1
         estimation.estimationHours= 1.0
         estimation.created_by = currentUser['email_address']
-        estimation.status = 'True'
+        estimation.status = True
         estimation.set()
         
         estimation = project.Estimation()
@@ -89,7 +89,7 @@ class AddProject(BaseHandler):
         estimation.estimationPoint= 1
         estimation.estimationHours= 1.0
         estimation.created_by = currentUser['email_address']
-        estimation.status = 'True'
+        estimation.status = True
         estimation.set()
         
         estimation = project.Estimation()
@@ -99,7 +99,7 @@ class AddProject(BaseHandler):
         estimation.estimationPoint= 1
         estimation.estimationHours= 1.0
         estimation.created_by = currentUser['email_address']
-        estimation.status = 'True'
+        estimation.status = True
         estimation.set()
         
         estimation = project.Estimation()
@@ -109,7 +109,7 @@ class AddProject(BaseHandler):
         estimation.estimationPoint= 1
         estimation.estimationHours= 1.0
         estimation.created_by = currentUser['email_address']
-        estimation.status = 'True'
+        estimation.status = True
         estimation.set()
         
         estimation = project.Estimation()
@@ -119,7 +119,7 @@ class AddProject(BaseHandler):
         estimation.estimationPoint= 1
         estimation.estimationHours= 1.0
         estimation.created_by = currentUser['email_address']
-        estimation.status = 'True'
+        estimation.status = True
         estimation.set()
         
         projemem = project.ProjectMembers()
@@ -129,7 +129,7 @@ class AddProject(BaseHandler):
         projemem.userid =   self.user_model.get_by_id(currentUser['user_id']).key
         projemem.userRole = "Product Owner"
         projemem.created_by = currentUser['email_address']
-        projemem.status = 'True'
+        projemem.status = True
         projemem.set()
         
         self.response.write(projkey.id())
@@ -178,7 +178,7 @@ class AddProjectMembers(BaseHandler):
         
         user_info = self.auth.get_user_by_session()
         projemem.created_by = user_info['email_address']
-        projemem.status = 'True'
+        projemem.status = True
         
         projekey = projemem.set()
         projmodel = projekey.get()
@@ -278,7 +278,7 @@ class AddProjectEstimates(BaseHandler):
         estimation.estimationHours= float(efforts)
      
         estimation.created_by = currentUser['email_address']
-        estimation.status = 'True'
+        estimation.status = True
         
         estimateskey = estimation.set()
         
@@ -316,7 +316,7 @@ class DeleteProject(BaseHandler):
         user_info = self.auth.get_user_by_session()
         project_key.modified_by = user_info['email_address']
         project_key.modified_date = datetime.now()
-        project_key.status = 'False'
+        project_key.status = False
         project_key.put()
         #user_key.delete()  
         self.response.write("true")     

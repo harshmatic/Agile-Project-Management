@@ -32,12 +32,12 @@
 														<tr>
 														<th>Permissions (url)</th>
 															{% for admin in admin %}
-															{%if admin.status == 'True' %}
+															{%if admin.status == True %}
 																<th>{{admin.role}}</th>
 															{% endif %}
 															{% endfor %}
 															{% for role in role %}
-															{%if role.status == 'True' %}
+															{%if role.status == True %}
 																<th><a href="/admin/editrole?key={{role.key.urlsafe}}" class="roll-link" data-toggle="modal" data-target="#edit-role-modal">{{role.role}}</a></th>
 															{%endif%}
 															{% endfor %}
@@ -50,12 +50,12 @@
 																	<a href="#" class="permission-link">All</a>
 																</td>
 																{% for admin in admin %}
-																{% if admin.status == 'True' %}
+																{% if admin.status == True %}
 																<td><input type="checkbox" id="checkbox12"  disabled checked/></td>
 																{%endif%}
 																{% endfor %}
 																{% for role in role %}
-																{%if role.status == 'True' %}
+																{%if role.status == True %}
 																<td><input type="checkbox" id="checkbox12"  value="{{role.key.urlsafe}}<!>All" name="permissions"/>
 																	
 																</td>
@@ -65,13 +65,13 @@
 															  </tr>	
 															
 															  {% for perm in perm %}
-															   {% if perm.status == 'True' %}
+															   {% if perm.status == True %}
 															  <tr>
 																<td>
 																	{{perm.permission}} ({{perm.url}})
 																</td>
 																{% for admin in admin %}
-																{%if admin.status == 'True' %}
+																{%if admin.status == True %}
 																	<td>
 																	{% if perm.key in admin.permissions%}
 																	<input type="checkbox" id="checkbox22" disabled checked />
@@ -84,7 +84,7 @@
 																	{%endif%}
 																	{% endfor %}
 																{% for role in role %}
-																{%if role.status == 'True' %}
+																{%if role.status == True %}
 																<td>
 																{% if perm.key in role.permissions%}
 																<input type="checkbox" id="checkbox22" value="{{role.key.urlsafe}}<!>{{perm.key.urlsafe}}" checked name="permissions"/>

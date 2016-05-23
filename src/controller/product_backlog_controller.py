@@ -105,7 +105,7 @@ class AddBacklog(BaseHandler):
         backlog.user_story_status = 0
         user_info = self.auth.get_user_by_session()
         backlog.created_by = user_info['email_address']
-        backlog.status = 'True'
+        backlog.status = True
         
         projkey = backlog.set()
         self.response.write('true')
@@ -123,7 +123,7 @@ class DeleteBacklog(BaseHandler):
             user_info = self.auth.get_user_by_session()
             user_story_key.modified_by = user_info['email_address']
             user_story_key.modified_date = datetime.now()
-            user_story_key.status = 'False'
+            user_story_key.status = False
             user_story_key.put()
             #user_key.delete()  
             self.response.write("true")     

@@ -55,7 +55,7 @@ class DeleteEntity(BaseHandler):
         user_info = self.auth.get_user_by_session()
         user.modified_by = user_info['email_address']
         user.modified_date = datetime.now()
-        user.status = 'False'
+        user.status = False
           
         user.put()
        # key.delete()
@@ -121,7 +121,7 @@ class AddPermissions(BaseHandler):
         
         user_info = self.auth.get_user_by_session()
         permiss.created_by = user_info['email_address']
-        permiss.status = 'True'
+        permiss.status = True
         
         permiss.set()
         self.response.write("true")
@@ -149,7 +149,7 @@ class AddRole(BaseHandler):
         
         user_info = self.auth.get_user_by_session()
         u.created_by = user_info['email_address']
-        u.status = 'True'
+        u.status = True
         
         u.put()
         self.response.write("true")
@@ -231,7 +231,7 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
        
         user_info = self.auth.get_user_by_session()
         created_by = user_info['email_address']
-        status = 'True'
+        status = True
        
         company_domain=self.user_model.get_by_id(currentUser['user_id']).tenant_domain
         company_key=self.user_model.get_by_id(currentUser['user_id']).tenant_key
@@ -325,7 +325,7 @@ class AdminDeleteUser(BaseHandler):
             user_info = self.auth.get_user_by_session()
             user_key.modified_by = user_info['email_address']
             user_key.modified_date = datetime.now()
-            user_key.status = 'False'
+            user_key.status = False
             user_key.put()
           #  user_key.delete()  
             self.response.write("true")     
@@ -397,7 +397,7 @@ class AdminProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobsto
          
          user_info = self.auth.get_user_by_session()
          user.created_by = user_info['email_address']
-         user.status = 'True'
+         user.status = True
          
          user.put()
             

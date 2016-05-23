@@ -45,7 +45,7 @@ class Tasks(BaseHandler):
         
         
         task_data.created_by = currentUser['email_address']
-        task_data.status = 'True'
+        task_data.status = True
         task_data.put()
         self.response.out.write("true")
 class EditTask(BaseHandler):
@@ -121,7 +121,7 @@ class Sprint(BaseHandler):
         sprint_data.workinghours=self.request.get("workinghours")
         
         sprint_data.created_by = currentUser['email_address']
-        sprint_data.status = 'True'
+        sprint_data.status = True
         
         sprint_data.set()
         self.response.out.write("true")

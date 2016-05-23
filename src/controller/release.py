@@ -66,7 +66,7 @@ class Release(BaseHandler):
         release_obj.companyid = companyId.id()
         
         release_obj.created_by = currentUser['email_address']
-        release_obj.status = 'True'
+        release_obj.status = True
         
             
         release_obj.put()
@@ -121,7 +121,7 @@ class DeleteRelease(BaseHandler):
             user_info = self.auth.get_user_by_session()
             release_key.modified_by = user_info['email_address']
             release_key.modified_date = datetime.now()
-            release_key.status = 'False'
+            release_key.status = False
            
             release_key.put()
             #user_key.delete()  

@@ -19,7 +19,7 @@
 													
 													<option value="None">None</option>
 													{% for sprint in sprints%}
-														{%if sprint.status == 'True'%}
+														{%if sprint.status == True%}
 															{%ifequal task_data.sprint sprint.key%}
 																<option value="{{sprint.key.urlsafe}}" selected="selected">{{sprint.name}}</option>
 																{%else%}
@@ -49,7 +49,7 @@
 												<select name="assignee" class="form-control add-task-textbox apm-modal-textbox">
 													
 													{% for team in team%}
-														{%if team.status == 'True'%}
+														{%if team.status == True%}
 															{%ifequal task_data.assignee team.key%}
 																<option value="{{team.key.urlsafe}}" selected="selected">{{team.userName}}</option>
 															{%else%}
@@ -89,7 +89,7 @@
 												<select name="complexity" class="form-control add-task-textbox apm-modal-textbox">
 													
 													{% for complex in complex%}
-														{%if complex.status == 'True'%}
+														{%if complex.status == True%}
 															{%ifequal task_data.complexity complex.key%}
 																<option value="{{complex.key.urlsafe}}" selected="selected">{{complex.estimationLevel}}</option>
 																{%else%}

@@ -8,9 +8,9 @@ class Time_Log(BaseClass):
     assigne_key =ndb.KeyProperty(required=True)
     today_date = ndb.DateProperty()
     time=ndb.FloatProperty()
-    billable =ndb.StringProperty()
+    billable =ndb.BooleanProperty()
     description =ndb.StringProperty()
-    task_completed=ndb.StringProperty()
+    task_completed=ndb.BooleanProperty()
     
     def set(self):
         self.put()

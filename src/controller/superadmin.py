@@ -96,7 +96,7 @@ class SuperAddPermission(webapp2.RequestHandler):
         
         #user_info = self.auth.get_user_by_session()
         permiss.created_by = users.get_current_user().email()
-        permiss.status = 'True'
+        permiss.status = True
         
         permiss.set()
         self.response.write("true")
@@ -183,7 +183,7 @@ class SuperAddRole(BaseHandler):
         
         user_info = self.auth.get_user_by_session()
         u.created_by = user_info['email_address']
-        u.status = 'True'
+        u.status = True
         
         u.put()
         self.response.write("true")
@@ -221,7 +221,7 @@ class SuperSignupAdminHandler(BaseHandler):
         
         user_info = self.auth.get_user_by_session()
         created_by = user_info['email_address']
-        status = 'True'
+        status = True
         
         #unique_properties = ['email_address']
         user_data = self.user_model.create_user(user_name,
@@ -297,7 +297,7 @@ class SuperDeleteRole(BaseHandler):
         user_info = self.auth.get_user_by_session()
         user.modified_by = user_info['email_address']
         user.modified_date = datetime.now()
-        user.status = 'False'
+        user.status = False
           
         user.put()
        # key.delete()
@@ -319,7 +319,7 @@ class SuperAdminDeleteUser (BaseHandler):
         user_info = self.auth.get_user_by_session()
         user.modified_by = user_info['email_address']
         user.modified_date = datetime.now()
-        user.status = 'False'
+        user.status = False
           
         user.put()
       #   user_key.delete()  
@@ -340,7 +340,7 @@ class SuperDeletePermission(BaseHandler):
         
         user.modified_by = users.get_current_user().email()
         user.modified_date = datetime.now()
-        user.status = 'False'
+        user.status = False
           
         user.put()
       #   user_key.delete()  
