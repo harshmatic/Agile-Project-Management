@@ -7,7 +7,8 @@ class Time_Log(BaseClass):
     task_key = ndb.KeyProperty(required=True)
     assigne_key =ndb.KeyProperty(required=True)
     today_date = ndb.DateProperty()
-    time=ndb.FloatProperty()
+    hour=ndb.IntegerProperty()
+    minute=ndb.IntegerProperty()
     billable =ndb.BooleanProperty()
     description =ndb.StringProperty()
     task_completed=ndb.BooleanProperty()
@@ -16,5 +17,7 @@ class Time_Log(BaseClass):
         self.put()
     def get_all(self): 
         return self.query().fetch()
-   
+    def getall(self):
+        res = self.query().fetch()
+        return res
    

@@ -7,6 +7,7 @@ from controller.projectcontroller import *
 from controller.product_backlog_controller import *
 from controller.release import *
 from controller.mytasks import *
+from controller.timelog import *
 from webapp2_extras import routes
 from webapp2_extras.routes import DomainRoute
 from google.appengine.ext.webapp import template
@@ -92,9 +93,11 @@ app = webapp2.WSGIApplication([
         #MyTasks
         webapp2.Route('/mytasks', MyTasks,name='MyTasks'),
         webapp2.Route('/mytasks/view', MyTaskView,name='MyTaskView'),
+      #  webapp2.Route('/mytask/timelog',Timelog),
         
+        webapp2.Route('/timelog/edit', EditTimelog),
+        webapp2.Route('/timelog/delete', DeleteTimelog),
         webapp2.Route('/setsession', SetSessionProject)
-
         
     ]),
         webapp2.Route('/', SignupUser, name='home'),
