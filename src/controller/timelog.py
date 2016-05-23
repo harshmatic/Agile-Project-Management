@@ -14,7 +14,10 @@ class Timelog(BaseHandler):
         timelog_key=time_log.Time_Log()
         
         timelog_key.project_key=self.session['current_project']
-        timelog_key.task_key=ndb.Key(urlsafe=self.request.get('task_key'))
+        
+        timelog_key.task_key=ndb.Key(urlsafe=self.request.get('key'))
+        
+        
         timelog_key.assigne_key=self.user_model.get_by_id(currentUser['user_id']).key
         timelog_key.today_date=self.request.get('date')
         timelog_key.time=self.request.get('hours')+'.'+self.request.get('minutes')

@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<title>APM - Effort Estimation</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+		<link rel="stylesheet" href="assets/css/style.css">
+		<link rel="stylesheet" href="assets/css/sidebar.css">
+		<link rel="stylesheet" href="assets/css/button.css">
+		<link rel="stylesheet" href="assets/css/bootstrap-datepicker.min.css">
+		
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway">
+		
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+		
+		<style>
+			.apm-nav-brand-1{
+				padding: 15px!important;
+				font-size: 15px!important;
+				margin: 0!important;
+				padding-left: 8px!important;
+			}
+			.apm-dropdown-projects{
+				margin-left: -98px!important;
+				margin-top: 50px!important;
+				z-index:99999999;
+			}
+			
+		</style>
+		
+		
+	</head>
+<body>
+    <nav class="navbar navbar-default no-margin nav-apm">
+    <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header fixed-brand">
+                    
+					<!-- Menu Toggle -->
+					<i class="fa fa-bars fa-2x collapse in" data-toggle="collapse" id="menu-toggle-2" aria-hidden="true"></i>
+					
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".apm-navbar" aria-expanded="false" aria-controls="navbar">
+					  <span class="sr-only">Toggle navigation</span>
+					  <span class="icon-bar"></span>
+					  <span class="icon-bar"></span>
+					  <span class="icon-bar"></span>
+					</button>
+					
+					<!-- Project Name in dropdown -->
+					<span class="dropdown">
+						<a class="navbar-brand apm-nav-brand-1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Project 1 <span class="caret"></span></a></a>
+						<ul class="dropdown-menu apm-dropdown-projects">
+						    <li><a href="#"><i class="fa fa-cog"></i> Project 2</a></li>
+							<li><a href="#"><i class="fa fa-cog"></i> Project 3</a></li>
+							<li><a href="#"><i class="fa fa-cog"></i> Project 4</a></li>
+							<li class="divider"></li>
+							<li><a href="#">View All Projects</a></li>
+						</ul>
+					</span>
+                </div><!-- navbar-header-->
+ 
+                <div class="collapse navbar-collapse apm-navbar" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="dropdown">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										<i class="fa fa-share-alt"></i> SOCIAL MEDIA
+										<span class="caret"></span></a>
+										<ul class="dropdown-menu">
+										  <li><a href="#"><i class="fa fa-facebook-official"></i> Facebook</a></li>
+										  <li><a href="#"><i class="fa fa-twitter"></i> Twitter</a></li>
+										  <li><a href="#"><i class="fa fa-instagram"></i> Instagram</a></li>
+										</ul>
+									  </li>
+									  
+									  
+									  <li class="dropdown">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										<i class="fa fa-sticky-note"></i> DOCUMENTS
+										<span class="caret"></span></a>
+										<ul class="dropdown-menu">
+										  <li><a href="#"><i class="fa fa-file"></i> Document 1</a></li>
+										  <li><a href="#"><i class="fa fa-file"></i> Document 2</a></li>
+										  <li><a href="#"><i class="fa fa-file"></i> Document 3</a></li>
+										</ul>
+									  </li>
+									  
+									  <li class="dropdown">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> ISSUES
+										<span class="caret"></span></a>
+										<ul class="dropdown-menu">
+										  <li><a href="#"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Issue 1</a></li>
+										  <li><a href="#"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Issue 2</a></li>
+										  <li><a href="#"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Issue 3</a></li>
+										</ul>
+									  </li>
+									  
+                            </ul>
+							
+							
+							
+							<ul class="nav navbar-nav navbar-right nav-desktop">
+									<li class="search-field-box">
+										<i class="fa fa-search search-icon"></i><input type="text" class="form-control search-field" placeholder="Search...">
+									</li>
+									 
+ 									  <li class="dropdown">
+										<a href="#" class="dropdown-toggle user-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										
+										Hi Username
+										<img src="assets/img/profile.jpg" class="apm-profile-thumb"> </a>
+										
+										<ul class="dropdown-menu multi-level menu-user">
+										  <li><a href="#"><i class="fa fa-refresh"></i> Switch Role</a></li>
+										  <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+									      <li class="dropdown-submenu">
+													<a href="#"><i class="fa fa-caret-left arrow-left"></i><i class="fa fa-cog"></i> Settings</a>
+													<ul class="dropdown-menu submenu-list">
+													  <li><a href="#"><i class="fa fa-bell"></i> Notifications</a></li>
+													  <li><a href="#"><i class="fa fa-link"></i> Linked Accounts</a></li>
+													  <li><a href="#"><i class="fa fa-trash"></i> Clear History</a></li>
+													  <li><a href="#"><i class="fa fa-share-square"></i> Share Query</a></li>
+													  <li><a href="#"><i class="fa fa-certificate"></i> Assistance</a></li>
+													</ul>
+										  </li>
+										  <li><a href="#"><i class="fa fa-question-circle"></i> Help</a></li>
+										  <li role="separator" class="divider"></li>
+										  <li><a href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
+										</ul>
+									  </li>
+									</ul>
+							
+                </div><!-- bs-example-navbar-collapse-1 -->
+    </nav>
+	
+	
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+ 
+					<li class="active">
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-th-large side-font-icons"></i> Dashboard</a>
+						
+					</li>
+					<li>
+						<a class="sidebar-main-list-name pro-planning-link" data-toggle="collapse" data-parent="" href="#collapseOne"><i class="fa fa-list"></i> Project Planning <span class="caret sidebar-caret"></span></a>
+						<div id="collapseOne" class="panel-collapse collapse">
+							<div class="panel-body sidebar-list-panel">
+								<ul class="sidebar-list" style="display:block!important;">
+									<li>
+										<a href="#" class="sidebar-list-sub-item">Projects</a>
+									</li>
+									<li>
+										<a href="#" class="sidebar-list-sub-item">Release</a>
+									</li>
+									<li>
+										<a href="#" class="sidebar-list-sub-item">Backlog</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li>
+						<a class="sidebar-main-list-name pro-planning-link" data-toggle="collapse" data-parent="" href="#collapseTwo"><i class="fa fa-list"></i> Sprint Planning <span class="caret sidebar-caret"></span></a>
+						<div id="collapseTwo" class="panel-collapse collapse">
+							<div class="panel-body sidebar-list-panel">
+								<ul class="sidebar-list" style="display:block!important;">
+									<li>
+										<a href="#" class="sidebar-list-sub-item">Effort Estimation</a>
+									</li>
+									<li>
+										<a href="#" class="sidebar-list-sub-item">Sprint Items</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li>
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-file-text side-font-icons"></i> Document Management</a>
+					</li>
+					<li>
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-pie-chart side-font-icons"></i> Reports</a>
+					</li>
+					<li>
+						<a href="#" class="sidebar-main-list-name"><i class="fa fa-bell side-font-icons"></i> Alerts & Notifications</a>
+					</li>
+               
+            </ul>
+        </div><!-- /#sidebar-wrapper -->
+		
+		
+		
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+					
+						<h2 class="apm-all-reports-heading">Effort Estimation</h2>
+						
+						<hr>
+						
+						<div class="row apm-select-sprint-dropdown">
+							<div class="col-md-2">
+							<div class="form-group">
+										<label class="apm-effort-est-lbl">Select Sprint:</label>
+										<select class="form-control add-task-textbox apm-modal-textbox apm-effort-est-dropdown">
+											<option>Sprint 1</option>
+											<option>Sprint 2</option>
+											<option>Sprint 3</option>
+										</select>
+									</div>
+							</div>
+						</div>
+						
+						
+						
+						<div class="row">
+							
+							
+							<div class="col-md-12 apm-eff-est-table-box">
+							
+								<h4 class="apm-eff-est-sprint-name">Sprint 1</h4>
+								
+								<hr>
+								
+								<div class="table-responsive">
+												<table class="table table-condensed table-bordered apm-member-listing-table apm-all-proj-table apm-eff-est-table">
+													
+														<tr>
+															
+															<th rowspan="2">DATES</th>
+															<th>Member 1</th>
+															<th>Member 2</th>
+															<th>Member 3</th>
+															<th>Member 4</th>
+															<th>Total Efforts</th>
+														</tr>
+													
+													
+														<tr>
+															<td>
+																<select class="form-control add-task-textbox apm-modal-textbox apm-effort-est-dropdown effort-dropdown" placeholder="Availability">
+																	<option>-Availability-</option>
+																	<option>100% - 8 hrs.</option>
+																	<option>75% - 6 hrs.</option>
+																	<option>50% - 4 hrs.</option>
+																	<option>25% - 2 hrs.</option>
+																</select>
+															</td>
+															<td>
+																<select class="form-control add-task-textbox apm-modal-textbox apm-effort-est-dropdown effort-dropdown" placeholder="Availability">
+																	<option>-Availability-</option>
+																	<option>100% - 8 hrs.</option>
+																	<option>75% - 6 hrs.</option>
+																	<option>50% - 4 hrs.</option>
+																	<option>25% - 2 hrs.</option>
+																</select>
+															</td>
+															<td>
+																<select class="form-control add-task-textbox apm-modal-textbox apm-effort-est-dropdown effort-dropdown" placeholder="Availability">
+																	<option>-Availability-</option>
+																	<option>100% - 8 hrs.</option>
+																	<option>75% - 6 hrs.</option>
+																	<option>50% - 4 hrs.</option>
+																	<option>25% - 2 hrs.</option>
+																</select>
+															</td>
+															<td>
+																<select class="form-control add-task-textbox apm-modal-textbox apm-effort-est-dropdown effort-dropdown" placeholder="Availability">
+																	<option>-Availability-</option>
+																	<option>100% - 8 hrs.</option>
+																	<option>75% - 6 hrs.</option>
+																	<option>50% - 4 hrs.</option>
+																	<option>25% - 2 hrs.</option>
+																</select>
+															</td>
+															<td style="vertical-align: middle;">
+																<b>DAYWISE</b>
+															</td>
+														</tr>
+														
+														
+														<!-- Main table rows starts -->
+														
+														<tr>
+															<td>2 May 2016</td>
+															<td title="Click on number to edit" class="cell-effort">
+																<span class="apm-eff-est-hr-num">5</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															<td title="Click on number to edit" class="cell-effort">
+																<span class="apm-eff-est-hr-num">1</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															<td title="Click on number to edit" class="cell-effort">
+																<span class="apm-eff-est-hr-num">4</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															<td title="Click on number to edit" class="cell-effort">
+																<span class="apm-eff-est-hr-num">2</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															<td><b>11</b></td>
+														</tr>
+														<tr>
+															<td>3 May 2016</td>
+															<td title="Click on number to edit" class="cell-effort">
+																<span class="apm-eff-est-hr-num">5</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															<td title="Click on number to edit" class="cell-effort">
+																<span class="apm-eff-est-hr-num">1</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															<td title="Click on number to edit" class="cell-effort">
+																<span class="apm-eff-est-hr-num">4</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															<td title="Click on number to edit" class="cell-effort">
+																<span class="apm-eff-est-hr-num">2</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															<td><b>12</b></td>
+														</tr>
+														<tr>
+															<td>2 May 2016</td>
+															<td title="Click on number to edit" class="cell-effort">
+																<span class="apm-eff-est-hr-num">5</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															<td title="Click on number to edit" class="cell-effort">
+																<span class="apm-eff-est-hr-num">1</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															<td title="Click on number to edit" class="cell-effort">
+																<span class="apm-eff-est-hr-num">4</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															<td title="Click on number to edit" class="cell-effort">
+																<span class="apm-eff-est-hr-num">2</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															<td><b>11</b></td>
+														</tr>
+														<tr>
+															<td>3 May 2016</td>
+															<td title="Click on number to edit" class="cell-effort">
+																<span class="apm-eff-est-hr-num">5</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															<td title="Click on number to edit" class="cell-effort">
+																<span class="apm-eff-est-hr-num">1</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															<td title="Click on number to edit" class="cell-effort">
+																<span class="apm-eff-est-hr-num">4</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															<td title="Click on number to edit" class="cell-effort">
+																<span class="apm-eff-est-hr-num">2</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															<td><b>12</b></td>
+														</tr>
+														<tr>
+															<td>2 May 2016</td>
+															<td title="Click on number to edit" class="cell-effort">
+																<span class="apm-eff-est-hr-num">5</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															<td title="Click on number to edit" class="cell-effort">
+																<span class="apm-eff-est-hr-num">1</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															<td title="Click on number to edit" class="cell-effort">
+																<span class="apm-eff-est-hr-num">4</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															<td title="Click on number to edit" class="cell-effort">
+																<span class="apm-eff-est-hr-num">2</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															<td><b>11</b></td>
+														</tr>
+														<tr>
+															<td></td>
+															<td title="Click on number to edit">
+																<span class="apm-eff-est-hr-num">5</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															<td title="Click on number to edit">
+																<span class="apm-eff-est-hr-num">1</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															<td title="Click on number to edit">
+																<span class="apm-eff-est-hr-num">4</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															<td title="Click on number to edit">
+																<span class="apm-eff-est-hr-num">2</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															<td><b>12</b></td>
+														</tr>
+													
+												</table>
+											</div>
+											
+											
+											<!--<div class="">
+												<button class="apm-add-proj-btn apm-eff-est-save-btn">SAVE</button>
+											</div>  -->
+
+							</div> <!-- .col-md-10 ENDS -->
+						</div>
+						
+						
+					
+						
+                    </div> <!-- .col-lg-12 ends -->
+                </div>
+            </div> <!-- .container ends -->
+        </div>
+        <!-- /#page-content-wrapper ENDS -->
+		
+    </div>
+    <!-- /#wrapper -->
+  
+		
+		<!-- Add Team Members Starts -->
+			<div id="add-member-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Add Team Member</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-2">
+								</div>
+								
+								<div class="col-md-8">
+										<form role="form">
+											  <!-- Team Mamber Name --> 
+											  <div class="form-group task-form-group">
+												<label class="apm-landing-reg-label">Member Name</label>
+												<select class="form-control apm-landing-textbox-reg apm-modal-textbox">
+													<option>- Select -</option>
+													<option>Atul</option>
+													<option>Harshit</option>
+													<option>Ram</option>
+													<option>Kajal</option>
+												</select>
+											  </div>
+											  
+											  <!-- Team Mamber Role --> 
+											  <div class="form-group task-form-group">
+												<label class="apm-landing-reg-label">Role</label>
+												<select class="form-control apm-landing-textbox-reg apm-modal-textbox">
+													<option>- Select -</option>
+													<option>Software Developer</option>
+													<option>Software Tester</option>
+													<option>UI/UX developer</option>
+												</select>
+											  </div>
+											  
+											
+										</form>
+										
+								</div>	
+								<div class="col-md-2">
+								</div>		
+							</div>
+							
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<button type="button" class="add-task-btn-modal" data-dismiss="modal">Add</button>
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
+				  </div>
+				</div>
+
+			  </div>
+			</div>
+	<!-- Add Team Members Modal Ends -->
+	
+	
+	<!-- Add Estimation Timelines Starts -->
+			<div id="add-estimation-timeline-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Add Estimation Guidelines</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-2">
+								</div>
+								
+								<div class="col-md-8">
+										<form role="form">
+											  <!-- Complexity --> 
+											  <div class="form-group task-form-group">
+												<label class="apm-landing-reg-label">Complexity</label>
+												<input type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
+											  </div>
+											  
+											  <!-- Complexity Points --> 
+											  <div class="form-group task-form-group">
+												<label class="apm-landing-reg-label">Complexity Points</label>
+												<input type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
+											  </div>
+											  
+											  <!-- Estimated Efforts --> 
+											  <div class="form-group task-form-group">
+												<label class="apm-landing-reg-label">Estimated Efforts</label>
+												<input type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
+											  </div>
+											
+										</form>
+										
+								</div>	
+								<div class="col-md-2">
+								</div>		
+							</div>
+							
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<button type="button" class="add-task-btn-modal" data-dismiss="modal">Add</button>
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
+				  </div>
+				</div>
+
+			  </div>
+			</div>
+	<!-- Add Estimation Timelines Modal Ends -->
+	
+	<!-- Put Hour value Modal Starts -->
+			<div id="put-hour-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog modal-sm">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading" id="member-header-text">Member 1</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								
+								<div class="col-md-12">
+										<form role="form">
+											  <!-- Complexity --> 
+											  <div class="form-group task-form-group">
+												<label class="apm-landing-reg-label">Date</label> :
+												02/05/2016
+											  </div>
+											
+											  
+											  <!-- Estimated Efforts --> 
+											  <div class="form-group task-form-group">
+												<label class="apm-landing-reg-label">Estimated Hours</label>
+												<input type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
+											  </div>
+											
+										</form>
+										
+								</div>	
+								
+							</div>
+							
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<button type="button" class="add-task-btn-modal" data-dismiss="modal">Save</button>
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
+				  </div>
+				</div>
+
+			  </div>
+			</div>
+	<!-- Put Hour value Modal Ends -->
+		
+	<!-- Information modal on change of dropdown Modal Starts -->
+			<div id="info-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading" id="member-header-text">Information</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								
+								<div class="col-md-12">
+									<p class="est-eff-information-modal-text">	
+										
+										<b>Some information text:</b><br><br>
+										
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi 
+										
+									</p>
+								</div>	
+								
+							</div>
+							
+				  </div>
+				  
+				  <div class="modal-footer add-task-modal-footer">
+					<button type="button" class="add-task-btn-modal" data-dismiss="modal">OK</button>
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
+					
+				  </div>
+				</div>
+
+			  </div>
+			</div>
+	<!-- Information modal on change of dropdown Modal Ends -->		
+	
+	
+		<script src="assets/js/jquery.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="assets/js/side-menu.js"></script>
+		<script src="assets/js/bootstrap-datepicker.min.js"></script>
+		<script src="assets/js/main.js"></script>
+		
+		
+		<script>
+				$(document).ready(function(){
+					
+					$('.datepicker').datepicker({
+						format: 'dd/mm/yyyy',
+						startDate: '0d'
+					});
+					
+					
+					$("#apm-addmember-btn").click(function(e) {
+						$('#add-member-modal').modal('show');
+					});
+					$("#apm-addmember-btn2").click(function(e) {
+						$('#add-member-modal').modal('show');
+					});
+					$("#apm-addestimates-btn").click(function(e) {
+						$('#add-estimation-timeline-modal').modal('show');
+					});
+					
+					$(".apm-eff-est-hr-num").click(function(e) {
+						$('#put-hour-modal').modal('show');
+					});
+					
+					
+					/******* To change modal header text according to member names ******/
+					
+					$('.apm-eff-est-table').on('click', '.cell-effort', function () {
+						
+						var th = $('.apm-eff-est-table th').eq($(this).index());
+						
+						$('#put-hour-modal #member-header-text').text(th.text());
+						
+					});
+					
+					/******* To show Modal on Effort estimation dropdown ******/
+					$(".effort-dropdown").change(function () {
+						$('#info-modal').modal('show');
+					});
+					
+					
+					/*On click of member hours. change it to textbox*/
+					/*$(".apm-eff-est-hr-num").click(function(e) {
+						$(".apm-eff-est-hr-num").each(function() {
+						  $(this).show();
+						  $(this).siblings('.apm-eff-est-hr-text').hide();
+						});
+						$(this).hide();
+						$(this).siblings('.apm-eff-est-hr-text').show();
+						$('.apm-eff-est-hr-text').focus();
+					});*/
+
+				});
+		</script>
+</body>
+</html>

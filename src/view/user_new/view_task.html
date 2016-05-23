@@ -53,13 +53,38 @@
 						$(".apm-task-add-timelog-link").click(function(e) {
 							$('#apm-task-add-timelog-modal').modal('show');
 						});
+
+						$('#task_completed').on('click', function () {
+						    $(this).val(this.checked ? 1 : 0);
+						    console.log($(this).val());
+						});
 						
-						
-							
-							
-						
-					
+						$('#billable').on('click', function () {
+						    $(this).val(this.checked ? 1 : 0);
+						    console.log($(this).val());
+						});
 				
+						
+						$("#log_time_button").on("click",function(){
+							$.post( "/mytasks/view", $("#time_log_form").serialize())
+					  		.done(function( data ) {
+					  			if (data!="true"){
+					  				alert("Something Went Wrong");
+					  				return false
+					  			} 
+					  		})
+						});
+							
+
+					
+						$('#apm-task-add-timelog-modal').on('hidden.bs.modal', function(e)
+							    { 
+									$(this).removeData('bs.modal');
+									$(this).find('form')[0].reset();
+									 $('#success').load('/mytasks/view?key={{task.key.urlsafe}} #table1', function(result) {
+						  				   
+						  				});
+							    }) ;
 
 				});
 					
@@ -89,7 +114,7 @@
 					<!-- Task Details content starts-->
 						<div class="row">
 							<div class="col-md-8">
-								<h3 class="apm-all-reports-taskname"><b>Task - </b> {{task.name}}.</h3>
+								<h3 class="apm-all-reports-taskname"><b>Task - </b> {{task.name}}</h3>
 								
 								<hr>
 								
@@ -112,7 +137,7 @@
 										  <tr>
 											<td>{{task.project.get.name}}</td>
 											<td>{{task.sprint.get.name}}</td>
-											<td>Chaitanya Belsare</td>	
+											<td>{{task.assignee.get.userName}}</td>	
 											<td>{{task.actual_efforts}}</td>
 											<td>{{task.task_status}}</td>
 										  </tr>
@@ -134,8 +159,11 @@
 								There are no time logs for this task - <a href="#" class="apm-task-add-timelog-link">Log Time for this task</a>
 							</p>
 							
-							<div class="table-responsive">
-								<table class="table table-bordered table-condensed apm-task-descr-table">
+							<div id="success">
+						
+							<div class="table-responsive" id="table1">
+								{%if time_log%}
+								<table class="table table-bordered table-condensed apm-task-descr-table" >
 											<thead>
 											  <tr>
 												<th>Date</th>
@@ -143,32 +171,46 @@
 												<th>Description</th>
 												<th>Billable</th>
 												<th>Time</th>
-												<th>Hours</th>
+												<th>Action</th>
 											  </tr>
 											</thead>
 											<tbody>
+											
+											{%for i in time_log%}
+											{%if i.status%}
+											
 											  <tr>
-												<td>23/05/2016</td>
-												<td>Chaitanya Belsare</td>
-												<td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor .</td>
-												<td>Yes</td>
-												<td>15 mins</td>
-												<td>0.26</td>
+												<td>{{i.today_date}}</td>
+												<td>{{i.assigne_key.get.name}}</td>
+												<td>{{i.description}}</td>
+												<td>{%if i.billable%}
+													Yes
+													{%else%}
+													No
+													{%endif%}
+												</td>
+												<td>{{i.hour}}:{{i.minute}}</td>
+												<td>
+												<a href="/timelog/edit?edit_key={{i.key.urlsafe}}" data-toggle="modal" data-target="#edit-timelog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Time Log"  id="{{i.key.urlsafe}}"></a></i>
+												<a href="/timelog/delete?delete_key={{i.key.urlsafe}}" data-toggle="modal" data-target="#delete-timelog-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Time Log"  id="{{i.key.urlsafe}}"></a></i>
+											
+												</td>
 											  </tr>
-											  <tr>
-												<td>28/05/2016</td>
-												<td>Chaitanya Belsare</td>
-												<td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
-												<td>Yes</td>
-												<td>20 mins</td>
-												<td>0.34</td>
-											  </tr>
+											  
+											  {%endif%}
+											 {%endfor%}
+											
 											</tbody>
 								</table>
-							</div>
-							<p class="apm-task-timelog-para">
+								<p class="apm-task-timelog-para">
 								<a href="#" class="apm-task-add-timelog-link">Log More Time for this task</a>
 							</p>
+							  {%endif%}
+							</div>
+							
+							
+							</div>
+							
 						<!-- Task Time Log content ENDS-->
 						
 						<hr>
@@ -235,11 +277,13 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title add-task-modal-heading">Log Time</h4>
 				  </div>
+				   
+				  <form id="time_log_form" action="/mytasks/view" method="post">
 					<div class="modal-body user-management-body">
 							
 							<div class="row apm-logtime-modal-row">
 								<div class="col-md-12">
-									<label class="apm-logtime-task-label">Task : Add social icons on landing page.</label>
+									<label class="apm-logtime-task-label">Task : {{task.name}}</label>
 								</div>
 							</div>
 							
@@ -249,7 +293,7 @@
 								<div class="col-md-4">
 									<div class="form-group">
 										<label class="apm-logtime-modal-label">Date</label>
-										<input type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true">
+										<input type="text" class="form-control apm-landing-textbox-reg datepicker" id="date" name="date" readonly="true">
 										<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
 									</div>
 								</div>
@@ -258,14 +302,14 @@
 									<div class="form-group">
 										<label class="apm-logtime-modal-label">Time Spent</label>
 										<br>
-										<input type="text" class="apm-landing-textbox-reg hour-text" placeholder="hours">
-										<input type="text" class="apm-landing-textbox-reg min-text" placeholder="minutes">
+										<input type="text" class="apm-landing-textbox-reg hour-text" placeholder="hours" id="hours" name="hours">
+										<input type="text" class="apm-landing-textbox-reg min-text" placeholder="minutes" id="minutes" name="minutes">
 									</div>
 								</div>	
 
 								<div class="col-md-4">
 									<div class="checkbox billable-check">
-									  <label class="apm-logtime-modal-label"><input type="checkbox" value="">Billable?</label>
+									  <label class="apm-logtime-modal-label"><input type="checkbox" value="" name="billable" id="billable">Billable?</label>
 									</div>
 								</div>		
 							</div>
@@ -274,7 +318,7 @@
 								<div class="col-md-12">
 									<div class="form-group">
 										<label class="apm-logtime-modal-label">Description</label>
-										<textarea class="form-control apm-text-area" rows="3"></textarea>
+										<textarea class="form-control apm-text-area" rows="3" id="description" name="description"></textarea>
 									</div>
 								</div>
 							</div>
@@ -282,23 +326,48 @@
 							<div class="row apm-logtime-modal-row">
 								<div class="col-md-4">
 									<div class="checkbox">
-									  <label class="apm-logtime-modal-label"><input type="checkbox" value="">Task is now complete</label>
+									  <label class="apm-logtime-modal-label"><input type="checkbox" value="" id="task_completed" name="task_completed">Task is now complete</label>
 									</div>
 								</div>		
 							</div>
 							
 				  </div>
-				  
+				 <input type="hidden" id="task_key" name="task_key" value="{{task.key.urlsafe}}">
 				  <div class="modal-footer add-task-modal-footer">
-					<button type="button" class="add-task-btn-modal" data-dismiss="modal">Log Time</button>
+					<button type="button" class="add-task-btn-modal" data-dismiss="modal" id="log_time_button">Log Time</button>
 					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
 				  </div>
+				  </form>
 				</div>
 
 			  </div>
 			</div>
 	<!-- Add Time Logs Modal Ends -->
   
-		
+			<!--Edit Modal Starts -->
+			<div id="edit-timelog-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				
+				</div>
+
+			  </div>
+			</div>
+	<!-- edit Modal Ends -->
+	
+	<!-- delete Modal Starts -->
+			<div id="delete-timelog-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				 
+				</div>
+
+			  </div>
+			</div>
+	<!--delete Modal Ends -->
 	
 	{%endblock%}
