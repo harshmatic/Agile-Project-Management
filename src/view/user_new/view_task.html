@@ -62,14 +62,11 @@
 						<h2 class="apm-all-reports-heading">Task / Issue Details</h2>
 						
 						<hr>
-					{%if task.status == True %}
-														<h3>{{task.project.get.name}} >> {{task.sprint.get.name}}</h3>	<br>	
-														<h1>{{task.name}}</h1><h4>{{task.actual_efforts}}</h4><h4>{{task.task_status}}</h4><br>
-														<h2>{{task.description}}</h2><br><br>
-														Log Time for this task by clicking here <a href="#">Log Time</a>
-													{%endif%}	
+				
+														
+													
 					<!-- Main Task description content starts-->
-						
+							{%if task.status%}
 					<!-- Task Details content starts-->
 						<div class="row">
 							<div class="col-md-8">
@@ -105,7 +102,7 @@
 								</div>
 							</div>	
 						</div>
-						
+						{%endif%}	
 					<!-- Task Details content ENDS -->
 						
 						<hr>
