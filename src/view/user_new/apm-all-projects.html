@@ -165,7 +165,7 @@
 													</thead>
 													<tbody>
 													{% for proje in project %}
-													{% if proje.status == True %}
+													{% if proje.status%}
 														<tr id="{{proje.key.urlsafe}}">
 															<td><i class="fa fa-cogs" aria-hidden="true"></i></td>
 															<td><a href="/project/viewproject?proj_id={{proje.key.id}}">{{ proje.name }}</a></td>
