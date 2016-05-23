@@ -529,13 +529,8 @@
 													<option value="None">None</option>
 													{%for i in sprint%}
 													{%if i.status%}
-														{% for proj in project %}
-														{%if project.status%}
-															{% if i.project == proj.key %}
+														
 																<option value={{i.key.urlsafe}}>{{i.name}}</option>
-															{%endif%}
-														{%endif%}
-														{%endfor%}
 													{%endif%}
 													{%endfor%}
 												</select>

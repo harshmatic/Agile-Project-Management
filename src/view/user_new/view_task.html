@@ -22,6 +22,22 @@
 		<script>
 				$(document).ready(function(){
 					//$("#details").hide();
+					$("#post_comment").on("click",function(){
+						if($("#comment_form").val()!=""){
+								$.post( "/mytasks/comment?key={{task.key.urlsafe}}", $("#comment_form"))
+						  		.done(function( data ) {
+						  			if (data!="true"){
+						  				alert("Something Went Wrong");
+						  				return false
+						  			}  else {
+						  				 $('#comments').load('/mytasks/view?key={{task.key.urlsafe}} #comments', function(result) {
+							  				    //var variable = $('#edit_permissions').html();
+							  				});
+						  			}
+						  		});
+					}
+							});
+					
 					$(".nav-tabs a").click(function(){
 						$(this).tab('show');
 					});
@@ -38,7 +54,10 @@
 							$('#apm-task-add-timelog-modal').modal('show');
 						});
 						
-				
+						
+							
+							
+						
 					
 				
 
@@ -157,38 +176,34 @@
 						<!-- Task Comments content starts-->
 							<h3 class="apm-all-reports-subheading">Comments</h3>
 							
-							<div class="row">
+							<div class="row" id="comments">
 								<div class="col-md-10">
 									<!-- Textarea for Comment -->
+									
 									<div class="form-group">
-										<textarea class="form-control apm-text-area" rows="3" placeholder="Add your comments here..."></textarea>
+										<textarea class="form-control apm-text-area" rows="3" placeholder="Add your comments here..." name="comment" id="comment_form"></textarea>
 									</div>
+									<br>
+									<button id="post_comment">Comment</button>
 									
 									<!-- User's Comments -->
 									
 									<!-- Comment Row 1 -->
-									<div class="row apm-comment-row">
-										<h4 class="apm-comment-username">
-											<i class="fa fa-user"></i>Chaitanya Belsare <span class="apm-comment-date-time-span">Mon 23 May, 3:04 pm</span>
-										</h4>
-										
-										<p class="apm-comment-content">
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate 
-										</p>
-									</div>
 									
-									<hr>
-									
-									<!-- Comment Row 2 -->
-									<div class="row apm-comment-row">
-										<h4 class="apm-comment-username">
-											<i class="fa fa-user"></i>Harshit Jyoti <span class="apm-comment-date-time-span">Mon 23 May, 3:04 pm</span>
-										</h4>
+									{%for comment in task.comments|dictsortreversed:"created_date"%}
 										
-										<p class="apm-comment-content">
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-										</p>
-									</div>
+										<div class="row apm-comment-row">
+											<h4 class="apm-comment-username">
+												<i class="fa fa-user"></i>{{comment.created_by}} <span class="apm-comment-date-time-span">{{comment.created_date}}</span>
+											</h4>
+											
+											<p class="apm-comment-content">
+												{{comment.comment}} 
+											</p>
+										</div>
+										
+										<hr>
+									{%endfor%}
 									
 									
 								</div>

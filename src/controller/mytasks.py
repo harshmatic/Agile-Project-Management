@@ -28,3 +28,18 @@ class MyTaskView(BaseHandler):
         currentUser=self.user_model.get_by_id(currentUser['user_id']).key
         
         self.render_template("user_new/view_task.html",{"task":task})
+        
+class Comment(BaseHandler):
+    def post(self,*args,**kargs):
+        currentUser=self.auth.get_user_by_session()
+        currentUserKey=self.user_model.get_by_id(currentUser['user_id']).key
+        taskKey = ndb.Key(urlsafe=self.request.get('key'))
+        tasks=taskKey.get()
+        comment = task.Comments()
+        comment.commnent_by=currentUserKey
+        comment.comment=self.request.get('comment')
+        comment.created_by = currentUser['email_address']
+        comment.status =True
+        tasks.comments.append(comment)
+        tasks.put()
+        self.response.write("true")

@@ -47,7 +47,7 @@ class AllBacklogs(BaseHandler):
         company_name=kargs['subdomain']
         
         sprint_obj=sprint.Sprint()
-        sprints=sprint_obj.get_all()
+        sprints=sprint_obj.get_by_project(self.session['current_project'])
         
         u=user.OurUser()
         user1=u.query(user.OurUser.tenant_domain==kargs['subdomain']).fetch()
