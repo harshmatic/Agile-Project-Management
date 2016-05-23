@@ -1525,3 +1525,133 @@ div.Tokenize {
 #menu-toggle img{
 	width:35px!important;
 }
+/******For TASKS DETAILS STARTS ***/
+.apm-text-area{
+ resize:none;
+ border-radius:0!important;
+ box-shadow:none!important;
+}
+.apm-text-area:focus{
+ border-color:grey;
+}
+.apm-back-task-box{
+ 
+}
+.apm-all-reports-subheading {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Raleway;
+    font-weight: 500;
+}
+.apm-all-reports-taskname{
+ margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Raleway;
+    font-weight: 500;
+}
+.apm-task-descr{
+ margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    line-height: 2.2em;
+    font-weight: 500;
+ font-family: Raleway;
+}
+.apm-task-descr-table{
+ margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    border-radius: 5px;
+    font-weight: 500;
+ 
+}
+.apm-task-descr-table th{
+ text-align:center;
+ background: #eee;
+}
+.apm-task-descr-table td{
+ text-align:center;
+ 
+}
+.apm-task-timelog-para{
+ margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    line-height: 2.2em;
+    font-weight: 500;
+}
+.hour-text, .min-text{
+ width: 45%;
+ display: inline!important;
+ padding-left: 6px;
+}
+.billable-check{
+ margin-top:26px;
+}
+.apm-logtime-modal-row{
+ margin-bottom:5px;
+}
+.apm-logtime-task-label{
+ font-size: 15px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Raleway;
+    font-weight: 500;
+}
+.apm-logtime-separator{
+ margin-top: 5px;
+    margin-bottom: 10px;
+}
+.apm-logtime-modal-label{
+ font-size: 12px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Raleway;
+    font-weight: 500;
+}
+.apm-logtime-modal-row .checkbox input[type=checkbox]{
+ margin-top:0!important; 
+}
+.apm-comment-username{
+ font-size: 13px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Raleway;
+    font-weight: 600;
+}
+.apm-comment-date-time-span{
+ font-size: 10px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Raleway;
+    font-weight: 500;
+ margin-left:10px;
+}
+.apm-comment-row{
+ padding-left:30px;
+ padding-right:15px;
+}
+.apm-comment-content{
+ margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    line-height: 2.2em;
+    font-weight: 500;
+ padding-left:20px;
+}
+.apm-comment-username i{
+ margin-right:8px;
+}
+.apm-back-task-box{
+ margin-bottom: 20px;
+}
+/**** For TASKS DETAILS page ENDS ***/

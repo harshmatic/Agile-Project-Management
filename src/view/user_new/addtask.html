@@ -36,7 +36,7 @@
 												<select name="sprint" class="form-control add-task-textbox apm-modal-textbox">
 														<option value="None">None</option>
 													{% for sprint in sprints%}
-													{%if sprint.status == True%}
+													{%if sprint.status%}
 														<option value="{{sprint.key.urlsafe}}">{{sprint.name}}</option>
 													{%endif%}
 													{%endfor%}

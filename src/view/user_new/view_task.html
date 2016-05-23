@@ -4,8 +4,8 @@
 		
 {% block header_links%}
 		
-		<style>
-			.apm-nav-brand-1{
+	<style>
+		.apm-nav-brand-1{
 				padding: 15px!important;
 				font-size: 15px!important;
 				margin: 0!important;
@@ -15,32 +15,6 @@
 				margin-left: -98px!important;
 				margin-top: 50px!important;
 				z-index:99999999;
-			}
-			.apm-listing-add-proj-box {
-				margin-top: -80px!important;
-			}
-			.apm-member-listing-table {
-				margin-top: 25px!important;
-			}
-			.apm-sprint-detail-span{
- 				color:#407CD6!important;
-			}
-			.panel-edit-link{
- 				float:right;
-			}
-			.panel-edit-link a, .panel-edit-link a:active, .panel-edit-link a:visited, .panel-edit-link a:focus{
- 				color:#fff!important;
- 				text-transform:uppercase;
- 				letter-spacing:1px;
-			}
-			
-			.apm-sprint-table thead tr:first-child {
-    			padding: 2px 2px!important;
-    			color: #000!important;
-    			border: none!important;
-    			background: transparent!important;
-    			font-size: 10px!important;
-    			letter-spacing: 0!important;
 			}
 		</style>
 		
@@ -53,6 +27,18 @@
 					});
 					
 					
+						
+						$('.datepicker').datepicker({
+							format: 'dd/mm/yyyy',
+							startDate: '0d'
+						});
+						
+						
+						$(".apm-task-add-timelog-link").click(function(e) {
+							$('#apm-task-add-timelog-modal').modal('show');
+						});
+						
+				
 					
 				
 
@@ -67,66 +53,239 @@
      
 {%block content%}	
  
-
-		
-        <!-- Page Content -->
+<!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
 					
-						<h2 class="apm-all-reports-heading">Issue</h2>
-				
-					
-						
-						
+						<h2 class="apm-all-reports-heading">Task / Issue Details</h2>
 						
 						<hr>
-						
-						
-							<div class="row">
-								<div class="col-md-12">
-									<div class="">
-											<!-- Sprint 1 panel -->
-											<div class="panel panel-default apm-sprint-panel">
-												<div class="panel-heading">
-													Issue
-												</div>
-												<div class="panel-body">
-													{%if task.status == True %}
+					{%if task.status == True %}
 														<h3>{{task.project.get.name}} >> {{task.sprint.get.name}}</h3>	<br>	
 														<h1>{{task.name}}</h1><h4>{{task.actual_efforts}}</h4><h4>{{task.task_status}}</h4><br>
 														<h2>{{task.description}}</h2><br><br>
 														Log Time for this task by clicking here <a href="#">Log Time</a>
-													{%endif%}
-															  
-															
-													</div>
-													<textarea col='20' row='6'></textarea>
-													<button>Comment</button>
-												</div>
-											</div>
-											<!-- Sprint 1 panel ENDS -->
-											
-											
-											
-									</div>
-								</div> <!-- .col-md-9 ends -->	
+													{%endif%}	
+					<!-- Main Task description content starts-->
+						
+					<!-- Task Details content starts-->
+						<div class="row">
+							<div class="col-md-8">
+								<h3 class="apm-all-reports-taskname"><b>Task - </b> {{task.name}}.</h3>
 								
+								<hr>
 								
+								<p class="apm-task-descr">
+									{{task.description}} 
+								</p>
 								
-								
-							</div>	 <!-- .row ends -->	
+								<div class="table-responsive">
+									<table class="table table-bordered table-condensed apm-task-descr-table">
+										<thead>
+										  <tr>
+											<th>Project</th>
+											<th>Sprint</th>
+											<th>Assigned To</th>
+											<th>Estimated Hours</th>
+											<th>Status</th>
+										  </tr>
+										</thead>
+										<tbody>
+										  <tr>
+											<td>{{task.project.get.name}}</td>
+											<td>{{task.sprint.get.name}}</td>
+											<td>Chaitanya Belsare</td>	
+											<td>{{task.actual_efforts}}</td>
+											<td>{{task.task_status}}</td>
+										  </tr>
+										</tbody>
+									</table>
+								</div>
+							</div>	
 						</div>
+						
+					<!-- Task Details content ENDS -->
+						
+						<hr>
+						
+						
+						<!-- Task Time Log content starts-->
+							<h3 class="apm-all-reports-subheading">Time Logs</h3>
+							
+							<p class="apm-task-timelog-para">
+								There are no time logs for this task - <a href="#" class="apm-task-add-timelog-link">Log Time for this task</a>
+							</p>
+							
+							<div class="table-responsive">
+								<table class="table table-bordered table-condensed apm-task-descr-table">
+											<thead>
+											  <tr>
+												<th>Date</th>
+												<th>Who</th>
+												<th>Description</th>
+												<th>Billable</th>
+												<th>Time</th>
+												<th>Hours</th>
+											  </tr>
+											</thead>
+											<tbody>
+											  <tr>
+												<td>23/05/2016</td>
+												<td>Chaitanya Belsare</td>
+												<td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor .</td>
+												<td>Yes</td>
+												<td>15 mins</td>
+												<td>0.26</td>
+											  </tr>
+											  <tr>
+												<td>28/05/2016</td>
+												<td>Chaitanya Belsare</td>
+												<td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
+												<td>Yes</td>
+												<td>20 mins</td>
+												<td>0.34</td>
+											  </tr>
+											</tbody>
+								</table>
+							</div>
+							<p class="apm-task-timelog-para">
+								<a href="#" class="apm-task-add-timelog-link">Log More Time for this task</a>
+							</p>
+						<!-- Task Time Log content ENDS-->
+						
+						<hr>
+						
+						<!-- Task Comments content starts-->
+							<h3 class="apm-all-reports-subheading">Comments</h3>
+							
+							<div class="row">
+								<div class="col-md-10">
+									<!-- Textarea for Comment -->
+									<div class="form-group">
+										<textarea class="form-control apm-text-area" rows="3" placeholder="Add your comments here..."></textarea>
+									</div>
+									
+									<!-- User's Comments -->
+									
+									<!-- Comment Row 1 -->
+									<div class="row apm-comment-row">
+										<h4 class="apm-comment-username">
+											<i class="fa fa-user"></i>Chaitanya Belsare <span class="apm-comment-date-time-span">Mon 23 May, 3:04 pm</span>
+										</h4>
+										
+										<p class="apm-comment-content">
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate 
+										</p>
+									</div>
+									
+									<hr>
+									
+									<!-- Comment Row 2 -->
+									<div class="row apm-comment-row">
+										<h4 class="apm-comment-username">
+											<i class="fa fa-user"></i>Harshit Jyoti <span class="apm-comment-date-time-span">Mon 23 May, 3:04 pm</span>
+										</h4>
+										
+										<p class="apm-comment-content">
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+										</p>
+									</div>
+									
+									
+								</div>
+							</div>
+							
+						<!-- Task Comments content ENDs-->
+						
+						<hr>
+						
+						<div class="apm-back-task-box">
+							<a href="/mytasks" class="apm-backbtn-pro-details">
+							<i class="fa fa-reply" aria-hidden="true"></i> Back to Tasks</a>
+						</div>
+					<!-- Main Task description content ENDS-->
+						
 						
                     </div> <!-- .col-lg-12 ends -->
                 </div>
             </div> <!-- .container ends -->
         </div>
-        <!-- /#page-content-wrapper ENDS -->
 		
-    </div>
-    <!-- /#wrapper -->
+        
+<div id="apm-task-add-timelog-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Log Time</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							
+							<div class="row apm-logtime-modal-row">
+								<div class="col-md-12">
+									<label class="apm-logtime-task-label">Task : Add social icons on landing page.</label>
+								</div>
+							</div>
+							
+							<hr class="apm-logtime-separator">
+							
+							<div class="row apm-logtime-modal-row">
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="apm-logtime-modal-label">Date</label>
+										<input type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true">
+										<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+									</div>
+								</div>
+							
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="apm-logtime-modal-label">Time Spent</label>
+										<br>
+										<input type="text" class="apm-landing-textbox-reg hour-text" placeholder="hours">
+										<input type="text" class="apm-landing-textbox-reg min-text" placeholder="minutes">
+									</div>
+								</div>	
+
+								<div class="col-md-4">
+									<div class="checkbox billable-check">
+									  <label class="apm-logtime-modal-label"><input type="checkbox" value="">Billable?</label>
+									</div>
+								</div>		
+							</div>
+							
+							<div class="row apm-logtime-modal-row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label class="apm-logtime-modal-label">Description</label>
+										<textarea class="form-control apm-text-area" rows="3"></textarea>
+									</div>
+								</div>
+							</div>
+							
+							<div class="row apm-logtime-modal-row">
+								<div class="col-md-4">
+									<div class="checkbox">
+									  <label class="apm-logtime-modal-label"><input type="checkbox" value="">Task is now complete</label>
+									</div>
+								</div>		
+							</div>
+							
+				  </div>
+				  
+				  <div class="modal-footer add-task-modal-footer">
+					<button type="button" class="add-task-btn-modal" data-dismiss="modal">Log Time</button>
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
+				  </div>
+				</div>
+
+			  </div>
+			</div>
+	<!-- Add Time Logs Modal Ends -->
   
 		
 	
