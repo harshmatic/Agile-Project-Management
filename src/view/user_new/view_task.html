@@ -93,7 +93,7 @@
 													Issue
 												</div>
 												<div class="panel-body">
-													{%if task.status == True %}
+													{%if task.status%}
 														<h3>{{task.project.get.name}} >> {{task.sprint.get.name}}</h3>	<br>	
 														<h1>{{task.name}}</h1><h4>{{task.actual_efforts}}</h4><h4>{{task.task_status}}</h4><br>
 														<h2>{{task.description}}</h2><br><br>

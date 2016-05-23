@@ -36,7 +36,7 @@
 												<select name="sprint" class="form-control add-task-textbox apm-modal-textbox">
 														<option value="None">None</option>
 													{% for sprint in sprints%}
-													{%if sprint.status == True%}
+													{%if sprint.status%}
 														<option value="{{sprint.key.urlsafe}}">{{sprint.name}}</option>
 													{%endif%}
 													{%endfor%}
@@ -62,7 +62,7 @@
 												<select name="assignee" class="form-control add-task-textbox apm-modal-textbox">
 													<option value="None">None</option>
 													{% for team in team%}
-													{%if team.status == True%}
+													{%if team.status%}
 														<option value="{{team.key.urlsafe}}">{{team.userName}}</option>
 													{%endif%}
 													{%endfor%}
@@ -96,7 +96,7 @@
 												<label class="task-label">Complexity</label>
 												<select name="complexity" class="form-control add-task-textbox apm-modal-textbox">
 													{% for complex in complex%}
-													{%if complex.status == True%}
+													{%if complex.status%}
 														<option value="{{complex.key.urlsafe}}">{{complex.estimationLevel}}</option>
 													{%endif%}
 													{%endfor%}

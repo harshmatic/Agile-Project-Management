@@ -154,7 +154,8 @@
 								<div class="col-md-12">
 									<div class="">
 									{% for sprint in sprints%}
-									{%if sprint.status == True%}
+								
+									{%if sprint.status%}
 											<!-- Sprint 1 panel -->
 											<div class="panel panel-default apm-sprint-panel" id="sprint">
 												<div class="panel-heading">
@@ -182,7 +183,7 @@
 															<tbody>
 															
 															{%for task in tasks %}
-															{%if task.status == True%}
+															{%if task.status%}
 																{%ifequal task.sprint sprint.key%}
 															  <tr>
 																
