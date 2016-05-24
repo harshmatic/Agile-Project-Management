@@ -91,13 +91,13 @@ class MyTaskView(BaseHandler):
         
         if (self.request.get('task_completed')):
        
-            tasks.task_status="Completed"
+            tasks.task_status=2
             tasks.modified_by = currentUser['email_address']
             tasks.modified_date = datetime.now()
             tasks.put()
         else:
             logging.info('not equal')
-            tasks.task_status="Open"
+            tasks.task_status=0
             tasks.modified_by = currentUser['email_address']
             tasks.modified_date = datetime.now()
             tasks.put()
@@ -145,13 +145,13 @@ class EditTimelog(BaseHandler):
         
             if (self.request.get('task_completed')):
              
-                tasks.task_status="Completed"
+                tasks.task_status=2
                 tasks.modified_by = currentUser['email_address']
                 tasks.modified_date = datetime.now()
                 tasks.put()
             else:
                 logging.info('not equal')
-                tasks.task_status="Open"
+                tasks.task_status=0
                 tasks.modified_by = currentUser['email_address']
                 tasks.modified_date = datetime.now()
                 tasks.put()
@@ -176,6 +176,38 @@ class DeleteTimelog(BaseHandler):
             timelog_key.status = False
            
             timelog_key.put()
+            
+            key = ndb.Key(urlsafe=self.request.get('task_key'))
+            tasks=key.get()
+     
+        
+            timelog = time_log.Time_Log()
+            timelog_data=timelog.query().fetch()
+        
+            count=0
+            
+            for i in timelog_data:
+                if (i.status == True):
+                    if (i.task_key == key):
+                        count=count+1 
+                   
+        
+            logging.info(count)                
+              
+            if (count != 0 ): 
+                logging.info('time log exist')
+                tasks.task_status=2
+                tasks.modified_by = user_info['email_address']
+                tasks.modified_date = datetime.now()
+                tasks.put()
+            else:
+                logging.info('time log does not exist')
+                tasks.task_status=0
+                tasks.modified_by = user_info['email_address']
+                tasks.modified_date = datetime.now()
+                tasks.put()
+    
+            
             
            
             

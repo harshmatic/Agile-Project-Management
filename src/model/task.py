@@ -2,6 +2,7 @@ from google.appengine.ext import ndb
 import logging
 from model.user import *
 from base import BaseClass
+from status import Status
 
 class Comments(BaseClass):
     comment=ndb.StringProperty()
@@ -17,7 +18,8 @@ class Task(BaseClass):
     project = ndb.KeyProperty()
     sprint = ndb.KeyProperty()
     type = ndb.KeyProperty()
-    task_status = ndb.StringProperty()
+    task_status = ndb.StringProperty(repeated=True, choices=Status)
+    
     actual_efforts = ndb.StringProperty()
     comments = ndb.StructuredProperty(Comments,repeated=True)
     def set(self,data):
