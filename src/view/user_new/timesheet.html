@@ -34,7 +34,7 @@
 							<div class="row" id="tasks_sprints">
 								<div class="col-md-12">
 									<div class="">
-									
+									{{logs}}
 											<!-- Sprint 1 panel -->
 											<div class="panel panel-default apm-sprint-panel" id="sprint">
 												<div class="panel-heading">
@@ -54,7 +54,8 @@
 															<tr class="separator" />
 															<tbody>
 															
-															{%for log in logs|dictsort:"today_date" %}
+															{%for log in logs%}
+															{{log}}
 															{%if log.status%}
 																
 															  <tr>
