@@ -1,11 +1,11 @@
 <script>
 $(document).ready(function(){	
-	$('#task_completed').on('click', function () {
+	$('#task_completed1').on('click', function () {
 	    $(this).val(this.checked ? 1 : 0);
 	    console.log($(this).val());
 	});
 	
-	$('#billable').on('click', function () {
+	$('#billable1').on('click', function () {
 	    $(this).val(this.checked ? 1 : 0);
 	    console.log($(this).val());
 	});
@@ -84,9 +84,9 @@ $(document).ready(function(){
 			<div class="col-md-4">
 				<div class="checkbox billable-check">
 					{%if timelog_info.billable%} <label class="apm-logtime-modal-label"><input
-						type="checkbox" value="" name="billable" id="billable" checked>Billable?</label>
+						type="checkbox" value="" name="billable" id="billable1" checked>Billable?</label>
 					{%else%} <label class="apm-logtime-modal-label"><input
-						type="checkbox" value="" name="billable" id="billable">Billable?</label>
+						type="checkbox" value="" name="billable" id="billable1">Billable?</label>
 					{%endif%}
 				</div>
 			</div>
@@ -105,19 +105,20 @@ $(document).ready(function(){
 		<div class="row apm-logtime-modal-row">
 			<div class="col-md-4">
 				<div class="checkbox">
-					{%if timelog_info.billable%} <label class="apm-logtime-modal-label"><input
-						type="checkbox" value="" id="task_completed" name="task_completed"
-						checked>Task is now complete</label> {%else%} <label
-						class="apm-logtime-modal-label"><input type="checkbox"
-						value="" id="task_completed" name="task_completed">Task
-						is now complete</label> {%endif%}
+					{%if timelog_info.task_completed%} 
+					<label class="apm-logtime-modal-label">
+					<input type="checkbox" value="" id="task_completed1" name="task_completed"checked>Task is now complete</label> 
+					{%else%} 
+					<label class="apm-logtime-modal-label">
+					<input type="checkbox" value="" id="task_completed1" name="task_completed">Task is now complete</label> 
+					{%endif%}
 				</div>
 			</div>
 		</div>
 
 	</div>
-	<input type="hidden" id="key" name="key"
-		value="{{timelog_info.key.urlsafe}}">
+	<input type="hidden" id="key" name="key" value="{{timelog_info.key.urlsafe}}">
+	<input type="hidden" id="task_key" name="task_key" value="{{timelog_info.task_key.urlsafe}}">
 	<div class="modal-footer add-task-modal-footer">
 		<button type="button" class="add-task-btn-modal" data-dismiss="modal"
 			id="edit_timelog">Edit Time log</button>
