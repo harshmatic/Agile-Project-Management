@@ -1525,29 +1525,29 @@ div.Tokenize {
 #menu-toggle img{
 	width:35px!important;
 }
-/******For TASKS DETAILS STARTS ***/
+/************** For TASKS DETAILS STARTS *****************/
 .apm-text-area{
- resize:none;
- border-radius:0!important;
- box-shadow:none!important;
+	resize:none;
+	border-radius:0!important;
+	box-shadow:none!important;
 }
 .apm-text-area:focus{
- border-color:grey;
+	border-color:grey;
 }
 .apm-back-task-box{
- 
+	margin-bottom: 20px;
 }
 .apm-all-reports-subheading {
     margin-top: 10px;
     margin-bottom: 10px;
-    font-size: 20px;
+    font-size: 24px;
     letter-spacing: 1px;
     line-height: 1.2em;
     font-family: Raleway;
     font-weight: 500;
 }
 .apm-all-reports-taskname{
- margin-top: 10px;
+	margin-top: 10px;
     margin-bottom: 10px;
     font-size: 15px;
     letter-spacing: 1px;
@@ -1556,32 +1556,33 @@ div.Tokenize {
     font-weight: 500;
 }
 .apm-task-descr{
- margin-top: 10px;
+	margin-top: 10px;
     margin-bottom: 10px;
     font-size: 13px;
     letter-spacing: 1px;
     line-height: 2.2em;
     font-weight: 500;
- font-family: Raleway;
+	font-family: Raleway;
 }
 .apm-task-descr-table{
- margin-top: 20px;
+	margin-top: 20px;
     margin-bottom: 10px;
     font-size: 13px;
     border-radius: 5px;
     font-weight: 500;
- 
+	
 }
 .apm-task-descr-table th{
- text-align:center;
- background: #eee;
+	text-align: center;
+    background: #3978BF;
+    color: #fff;
 }
 .apm-task-descr-table td{
- text-align:center;
- 
+	text-align:center;
+	
 }
 .apm-task-timelog-para{
- margin-top: 10px;
+	margin-top: 10px;
     margin-bottom: 10px;
     font-size: 13px;
     letter-spacing: 1px;
@@ -1589,69 +1590,143 @@ div.Tokenize {
     font-weight: 500;
 }
 .hour-text, .min-text{
- width: 45%;
- display: inline!important;
- padding-left: 6px;
+	width: 45%;
+	display: inline!important;
+	padding-left: 6px;
 }
 .billable-check{
- margin-top:26px;
+	margin-top:26px;
 }
 .apm-logtime-modal-row{
- margin-bottom:5px;
+	margin-bottom:5px;
 }
 .apm-logtime-task-label{
- font-size: 15px;
+	font-size: 15px;
     letter-spacing: 1px;
     line-height: 1.2em;
     font-family: Raleway;
     font-weight: 500;
 }
 .apm-logtime-separator{
- margin-top: 5px;
+	margin-top: 5px;
     margin-bottom: 10px;
 }
 .apm-logtime-modal-label{
- font-size: 12px;
+	font-size: 12px;
     letter-spacing: 1px;
     line-height: 1.2em;
     font-family: Raleway;
     font-weight: 500;
 }
 .apm-logtime-modal-row .checkbox input[type=checkbox]{
- margin-top:0!important; 
+	margin-top:0!important;	
 }
 .apm-comment-username{
- font-size: 13px;
+	font-size: 13px;
     letter-spacing: 1px;
     line-height: 1.2em;
     font-family: Raleway;
     font-weight: 600;
 }
 .apm-comment-date-time-span{
- font-size: 10px;
+	font-size: 10px;
     letter-spacing: 1px;
     line-height: 1.2em;
     font-family: Raleway;
     font-weight: 500;
- margin-left:10px;
+	margin-left:10px;
 }
 .apm-comment-row{
- padding-left:30px;
- padding-right:15px;
+	padding-left:30px;
+	padding-right:15px;
 }
 .apm-comment-content{
- margin-top: 10px;
+	margin-top: 10px;
     margin-bottom: 10px;
     font-size: 13px;
     letter-spacing: 1px;
     line-height: 2.2em;
     font-weight: 500;
- padding-left:20px;
+	padding-left:20px;
 }
 .apm-comment-username i{
- margin-right:8px;
+	margin-right:8px;
 }
-.apm-back-task-box{
- margin-bottom: 20px;
+.task-detail-separator{
+	margin-top: 50px;
+    margin-bottom: 50px;
+    border-top: 1px solid #D2D2D2;
 }
-/**** For TASKS DETAILS page ENDS ***/
+@media (max-width: 767px){
+	.apm-comment-row {
+		padding-left: 16px;
+	}
+}	
+	
+/************** For TASKS DETAILS page ENDS *****************/
+
+
+/************** For Timesheet Page STARTS *****************/
+.apm-all-reports-empname {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Raleway;
+    font-weight: 500;
+}
+.apm-timesheet-monthname-weekname{
+	font-size: 18px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Raleway;
+    font-weight: 600;
+    margin-top: 20px;
+}
+.total-efforts-label{
+	font-size: 14px;
+    letter-spacing: 2px;
+    line-height: 1.2em;
+    font-family: Raleway;
+    font-weight: 600;
+	text-transform:uppercase;
+	text-align:right;
+}
+.apm-timesheet-go-btn{
+	font-size: 13px;
+    border: 2px solid #3978BF!important;
+    letter-spacing: 2px;
+    padding: 3px 15px;
+    transition: all 0.3s ease-out;
+    background: #3978BF!important;
+    color: #fff!important;
+    outline: none!important;
+    font-family: Raleway;
+    margin-top: 24px;
+}	
+.apm-timesheet-separator{
+	margin-bottom:4px;
+}
+@media (max-width: 767px){
+	.apm-timesheet-monthname-weekname {
+		font-size: 15px;
+		margin-top: 30px;	
+	}	
+	.apm-timesheet-separator {
+		margin-bottom: 24px;
+	}
+}
+.to-span{
+	margin-left: 10px;
+    margin-right: 10px;
+}
+.apm-timesheet-table{
+	
+}
+.apm-timesheet-td-bold{
+	vertical-align: middle!important;
+	font-weight:600;
+	font-size: 14px;
+}
+/************** For Timesheet Page ENDs *****************/
