@@ -84,40 +84,17 @@ class MyTaskView(BaseHandler):
         
         timelog_key.description=self.request.get('description')
         
-        if (self.request.get('task_completed')):
-            timelog_key.task_completed=True
-        else :
-            timelog_key.task_completed=False
-
         timelog_key.set()
         
+        task_key = ndb.Key(urlsafe=self.request.get('task_key'))
+        tasks=task_key.get()
         
-        #if all the time logs are completed
-        key = ndb.Key(urlsafe=self.request.get('task_key'))
-        tasks=key.get()
-     
-        
-        timelog = time_log.Time_Log()
-        timelog_data=timelog.query().fetch()
-        
-        count=0
-        count1=0
-        for i in timelog_data:
-            if (i.status == True):
-                if (i.task_key == key):
-                    count=count+1 
-                    
-                    if (i.task_completed == True):
-                        count1=count1+1 
-        
-        logging.info(count)                
-        logging.info(count1)        
-        if (count == count1): 
-                    logging.info('equal')
-                    tasks.task_status="Completed"
-                    tasks.modified_by = currentUser['email_address']
-                    tasks.modified_date = datetime.now()
-                    tasks.put()
+        if (self.request.get('task_completed')):
+       
+            tasks.task_status="Completed"
+            tasks.modified_by = currentUser['email_address']
+            tasks.modified_date = datetime.now()
+            tasks.put()
         else:
             logging.info('not equal')
             tasks.task_status="Open"
@@ -161,37 +138,13 @@ class EditTimelog(BaseHandler):
                 timelog_key.billable=True
         
             timelog_key.description=self.request.get('description')
+            
+            timelog_key.set()
+            task_key = ndb.Key(urlsafe=self.request.get('task_key'))
+            tasks=task_key.get()
         
             if (self.request.get('task_completed')):
-                timelog_key.task_completed=True
-       
-       
-            timelog_key.set()
-            
-            
-             #if all the time logs are completed
-            key = ndb.Key(urlsafe=self.request.get('task_key'))
-            tasks=key.get()
-     
-        
-            timelog = time_log.Time_Log()
-            timelog_data=timelog.query().fetch()
-        
-            count=0
-            count1=0
-            for i in timelog_data:
-                if (i.status == True):
-                    if (i.task_key == key):
-                    
-                        count=count+1 
-                        
-                        if (i.task_completed == True):
-                            count1=count1+1 
-                            
-            logging.info(count)    
-            logging.info(count1)
-            if (count == count1): 
-                logging.info('equal')
+             
                 tasks.task_status="Completed"
                 tasks.modified_by = currentUser['email_address']
                 tasks.modified_date = datetime.now()
@@ -224,39 +177,7 @@ class DeleteTimelog(BaseHandler):
            
             timelog_key.put()
             
-            #if all the time logs are completed
-            key = ndb.Key(urlsafe=self.request.get('task_key'))
-            tasks=key.get()
-     
-        
-            timelog = time_log.Time_Log()
-            timelog_data=timelog.query().fetch()
-        
-            count=0
-            count1=0
-            for i in timelog_data:
-                if (i.status == True):
-                    if (i.task_key == key):
-                    
-                        count=count+1 
-                        
-                        if (i.task_completed == True):
-                            count1=count1+1 
-                            
-            logging.info(count)    
-            logging.info(count1)
-            if (count == count1): 
-                logging.info('equal')
-                tasks.task_status="Completed"
-                tasks.modified_by = user_info['email_address']
-                tasks.modified_date = datetime.now()
-                tasks.put()
-            else:
-                logging.info('not equal')
-                tasks.task_status="Open"
-                tasks.modified_by = user_info['email_address']
-                tasks.modified_date = datetime.now()
-                tasks.put()
+           
             
             
             

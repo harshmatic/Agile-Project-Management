@@ -11,7 +11,7 @@ class Time_Log(BaseClass):
     minute=ndb.IntegerProperty()
     billable =ndb.BooleanProperty()
     description =ndb.StringProperty()
-    task_completed=ndb.BooleanProperty()
+ #   task_completed=ndb.BooleanProperty()
     
     def set(self):
         self.put()
