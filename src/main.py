@@ -5,6 +5,7 @@ from controller.user import *
 from controller.sprint import *
 from controller.projectcontroller import *
 from controller.product_backlog_controller import *
+from controller.timesheet import *
 from controller.release import *
 from controller.mytasks import *
 from controller.timelog import *
@@ -19,7 +20,7 @@ def NotFoundPageHandler(request, response, exception):
     response.out.write(render(path,{}))
     
 app = webapp2.WSGIApplication([
-    DomainRoute('<subdomain>.<version>.apm-eternus.appspot.com', [
+    DomainRoute('<subdomain>.apm-eternus.appspot.com', [
                                                         
         #General
         webapp2.Route('/', Main, name='subdomain-home'),
@@ -99,7 +100,10 @@ app = webapp2.WSGIApplication([
         
         webapp2.Route('/timelog/edit', EditTimelog),
         webapp2.Route('/timelog/delete', DeleteTimelog),
-
+        
+        #Timesheet
+        webapp2.Route('/timesheet', Timesheet,name='Timesheet'),
+        
         webapp2.Route('/setsession', SetSessionProject)
         
     ]),

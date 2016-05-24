@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}User | Sprint{% endblock %}
+{% block header_links%}
+<script>
+				$(document).ready(function(){
+					$(".nav-tabs a").click(function(){
+						$(this).tab('show');
+					});
+					
+		</script>		
+{% endblock %}
+{%block content%}
+		
+     
+        
+		
+		
+		
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+					
+						<h2 class="apm-all-reports-heading">Timesheet</h2>
+						
+					
+						
+						
+						<hr>
+						
+						
+							<div class="row" id="tasks_sprints">
+								<div class="col-md-12">
+									<div class="">
+									
+											<!-- Sprint 1 panel -->
+											<div class="panel panel-default apm-sprint-panel" id="sprint">
+												<div class="panel-heading">
+													Timesheet
+												</div>
+												<div class="panel-body">
+													<div class="table-responsive">
+														<table class="table apm-sprint-table apm-sprint-item-table">
+															<thead>
+																<tr>	
+																	
+																	<th>Date</th>
+																	<th>Task </th>
+																	<th>Task Hours</th>
+																	
+															</thead>
+															<tr class="separator" />
+															<tbody>
+															
+															{%for log in logs|dictsort:"today_date" %}
+															{%if log.status%}
+																
+															  <tr>
+																<td title="Task Created On">{{log.today_date}}</td>
+																<td title="User Story">{{log.task_key.get.name}}</td>
+																<td title="Task Description">{%if log.hour %}{{log.hour}}{%else%}00{%endif%}:{%if log.minute %}{{log.minute}}{%else%}00{%endif%}</td>
+																
+																
+															  </tr>
+															  <tr class="separator" />
+															  
+															  
+															  {%endif%}
+															  {% endfor %}
+															  
+															  
+															  
+															  
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+												
+											
+											
+											
+											
+											
+											
+											
+									</div>
+								</div> <!-- .col-md-12 ends -->	
+								
+								
+							</div>	 <!-- .row ends -->	
+						</div>
+						
+                    </div> <!-- .col-lg-12 ends -->
+                </div>
+            </div> <!-- .container ends -->
+        </div>
+        <!-- /#page-content-wrapper ENDS -->
+		
+    </div>
+    <!-- /#wrapper -->
+
+{%endblock%}		
+		
+		
+		
+		
+</body>
+</html>
