@@ -57,7 +57,7 @@ $("#delete_timelog").on("click",function(){
       
       <tr>
         <td>Time Spent : </td>
-        <td>{{timelog_info.hour}}:{{timelog_info.minute}}</td>
+        <td>{%if timelog_info.hour %}{{timelog_info.hour}}{%else%}00{%endif%}:{%if timelog_info.minute %}{{timelog_info.minute}}{%else%}00{%endif%}</td>
         
       </tr>
       

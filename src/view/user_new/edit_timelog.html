@@ -8,9 +8,11 @@ $(document).ready(function(){
 	$('#billable').on('click', function () {
 	    $(this).val(this.checked ? 1 : 0);
 	    console.log($(this).val());
-
-$("#edit_timelog").on("click",function(){
-	$.post( '/timelog/edit', $("#edit_form").serialize())
+	});
+	    
+	    
+		$("#edit_timelog").on("click",function(){
+		$.post( '/timelog/edit', $("#edit_form").serialize())
 		.done(function( data ) {
 			if (data!="true"){
 				alert("Release cannot be updated");
@@ -21,10 +23,6 @@ $("#edit_timelog").on("click",function(){
 				
 			}
 		});
-		
-		
-			
-			
 		});
 		
 		
@@ -35,83 +33,94 @@ $("#edit_timelog").on("click",function(){
 				        $('#success').load('/mytasks/view?key={{timelog_info.task_key.urlsafe}} #table1', function(result) {
 		  				});
 				    }) ;
-$('.datepicker').datepicker({
-	format: 'dd/mm/yyyy',
-	startDate: '0d'
+			$('.datepicker').datepicker({
+				format: 'dd/mm/yyyy',
+				startDate: '0d'
+				});
 });
-});
 
-	</script>			
+	</script>
 
 
-	  <form id="edit_form" action="/mytasks/view" method="post">
-				  <div class="modal-header add-task-modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title add-task-modal-heading">Edit Time Log</h4>
-				  </div>
-					<div class="modal-body user-management-body">
-							
-							<div class="row apm-logtime-modal-row">
-								<div class="col-md-12">
-									<label class="apm-logtime-task-label">Task : {{timelog_info.task_key.get.name}}</label>
-								</div>
-							</div>
-							
-							<hr class="apm-logtime-separator">
-							
-							<div class="row apm-logtime-modal-row">
-								<div class="col-md-4">
-									<div class="form-group">
-										<label class="apm-logtime-modal-label">Date</label>
-										<input type="text" class="form-control apm-landing-textbox-reg datepicker" id="date" name="date" readonly="true" value="{{timelog_info.today_date|date:'d/m/Y'}}">
-										<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
-									</div>
-								</div>
-							
-								<div class="col-md-4">
-									<div class="form-group">
-										<label class="apm-logtime-modal-label">Time Spent</label>
-										<br>
-										<input type="text" class="apm-landing-textbox-reg hour-text" placeholder="hours" id="hours" name="hours" value="{{timelog_info.hour}}">
-										<input type="text" class="apm-landing-textbox-reg min-text" placeholder="minutes" id="minutes" name="minutes" value="{{timelog_info.minute}}">
-									</div>
-								</div>	
+<form id="edit_form" action="/mytasks/view" method="post">
+	<div class="modal-header add-task-modal-header">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<h4 class="modal-title add-task-modal-heading">Edit Time Log</h4>
+	</div>
+	<div class="modal-body user-management-body">
 
-								<div class="col-md-4">
-									<div class="checkbox billable-check">
-									{%if timelog_info.billable%}
-									  <label class="apm-logtime-modal-label"><input type="checkbox" value="" name="billable" id="billable" checked>Billable?</label>
-									{%else%}
-									  <label class="apm-logtime-modal-label"><input type="checkbox" value="" name="billable" id="billable">Billable?</label>
-									{%endif%}
-									</div>
-								</div>		
-							</div>
-							
-							<div class="row apm-logtime-modal-row">
-								<div class="col-md-12">
-									<div class="form-group">
-										<label class="apm-logtime-modal-label">Description</label>
-										<textarea class="form-control apm-text-area" rows="3" id="description" name="description" >{{timelog_info.description}}</textarea>
-									</div>
-								</div>
-							</div>
-							
-							<div class="row apm-logtime-modal-row">
-								<div class="col-md-4">
-									<div class="checkbox">
-									{%if timelog_info.billable%}
-									  <label class="apm-logtime-modal-label"><input type="checkbox" value="" id="task_completed" name="task_completed" checked>Task is now complete</label>
-										{%else%}
-									 <label class="apm-logtime-modal-label"><input type="checkbox" value="" id="task_completed" name="task_completed" >Task is now complete</label>	{%endif%}
-									</div>
-								</div>		
-							</div>
-							
-				  </div>
-				 <input type="hidden" id="key" name="key" value="{{timelog_info.key.urlsafe}}">
-				  <div class="modal-footer add-task-modal-footer">
-					<button type="button" class="add-task-btn-modal" data-dismiss="modal" id="edit_timelog">Edit Time log</button>
-					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
-				  </div>
-				  </form>
+		<div class="row apm-logtime-modal-row">
+			<div class="col-md-12">
+				<label class="apm-logtime-task-label">Task :
+					{{timelog_info.task_key.get.name}}</label>
+			</div>
+		</div>
+
+		<hr class="apm-logtime-separator">
+
+		<div class="row apm-logtime-modal-row">
+			<div class="col-md-4">
+				<div class="form-group">
+					<label class="apm-logtime-modal-label">Date</label> <input
+						type="text"
+						class="form-control apm-landing-textbox-reg datepicker" id="date"
+						name="date" readonly="true"
+						value="{{timelog_info.today_date|date:'d/m/Y'}}"> <i
+						class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="form-group">
+					<label class="apm-logtime-modal-label">Time Spent</label> <br>
+					<input type="text" class="apm-landing-textbox-reg hour-text"
+						placeholder="hours" id="hours" name="hours"
+						value="{{timelog_info.hour}}"> <input type="text"
+						class="apm-landing-textbox-reg min-text" placeholder="minutes"
+						id="minutes" name="minutes" value="{{timelog_info.minute}}">
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="checkbox billable-check">
+					{%if timelog_info.billable%} <label class="apm-logtime-modal-label"><input
+						type="checkbox" value="" name="billable" id="billable" checked>Billable?</label>
+					{%else%} <label class="apm-logtime-modal-label"><input
+						type="checkbox" value="" name="billable" id="billable">Billable?</label>
+					{%endif%}
+				</div>
+			</div>
+		</div>
+
+		<div class="row apm-logtime-modal-row">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="apm-logtime-modal-label">Description</label>
+					<textarea class="form-control apm-text-area" rows="3"
+						id="description" name="description">{{timelog_info.description}}</textarea>
+				</div>
+			</div>
+		</div>
+
+		<div class="row apm-logtime-modal-row">
+			<div class="col-md-4">
+				<div class="checkbox">
+					{%if timelog_info.billable%} <label class="apm-logtime-modal-label"><input
+						type="checkbox" value="" id="task_completed" name="task_completed"
+						checked>Task is now complete</label> {%else%} <label
+						class="apm-logtime-modal-label"><input type="checkbox"
+						value="" id="task_completed" name="task_completed">Task
+						is now complete</label> {%endif%}
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<input type="hidden" id="key" name="key"
+		value="{{timelog_info.key.urlsafe}}">
+	<div class="modal-footer add-task-modal-footer">
+		<button type="button" class="add-task-btn-modal" data-dismiss="modal"
+			id="edit_timelog">Edit Time log</button>
+		<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
+	</div>
+</form>
