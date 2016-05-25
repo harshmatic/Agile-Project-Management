@@ -8,6 +8,7 @@ indexes:
   - name: assigne_key
   - name: project_key
   - name: today_date
-  
-  
-  
+ kind: EffortEstimation
+  properties:
+  - name: sprint
+  - name: date

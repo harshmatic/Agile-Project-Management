@@ -24,5 +24,5 @@ class EffortEstimation(BaseClass):
         return res
     
     def get_esti_by_sprint(self,sprint_id):
-        res = self.query(EffortEstimation.sprint==sprint_id).fetch()
+        res = self.query(EffortEstimation.sprint==sprint_id).order(EffortEstimation.date).fetch()
         return res

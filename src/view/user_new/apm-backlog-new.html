@@ -42,11 +42,75 @@
     			font-size: 10px!important;
     			letter-spacing: 0!important;
 			}
+			.error{
+			color:red;
+			}
 		</style>
 		
 			
 		<script>
 				$(document).ready(function(){
+					
+				//	alert($('.table').children("tr:eq(1)").text());
+			//		console.log($('.table').children("tr:eq(1)"));
+				
+					var validator=   $("#backlog_form").validate({
+						      rules: {
+						    	  sprint: 
+						    	  {
+						           		 required: true
+						          },
+						          backlog_name: 
+						          {
+							      		 required: true
+							      },
+							      description: 
+							      {
+								  		 required: true
+						          },
+						          rough_estimate: 
+						          {
+										 required: true
+										
+								  },
+								  priority: 
+								  {
+										 required: true
+										
+									
+								  }
+					   
+					   
+						         },
+						         messages: 
+						         {
+						        	 sprint: 
+						           {
+						             required: "Please select a sprint."
+						           },
+						           backlog_name: 
+						           {
+						             required: "Please enter story name."
+						           },
+						           description:
+						           {
+							             required: "Please enter story description."
+							       },
+							       rough_estimate:
+							       {
+							             required: "Please enter rough estimation."
+							            
+							       },
+							       priority: 
+							       {
+							             required: "Please enter priority."
+							       }
+						           
+						         }
+						     });
+					
+					
+					
 					//$("#details").hide();
 					$(".nav-tabs a").click(function(){
 						$(this).tab('show');
@@ -72,8 +136,20 @@
 					});
 					
 					
+					
+					
+					
+					/* if ($('#backlog_form').valid())
+					{} */
 					$("#add_backlogs").on("click",function(){
-						$.post( '/backlog/addbacklog', $("#backlog_form").serialize())
+						 if (!$('#backlog_form').valid()){
+							    event.preventDefault();
+							    event.stopImmediatePropagation();
+							    return false;
+						 }
+						 else
+							 {
+							$.post( '/backlog/addbacklog', $("#backlog_form").serialize())
 							.done(function( data ) {
 								if (data!="true"){
 									alert("Backlog cannot be added");
@@ -86,19 +162,26 @@
 							});
 							
 							
+						 	}		
 								
-								
-							})
-							
-							
-								$('#add-issue-modal').on('hidden.bs.modal', function(e)
+						})
+					
+						$('#add-issue-modal').on('hidden.bs.modal', function(e)
 									    { 
+									 	
 									        $(this).removeData('bs.modal');
-									        
+									        $(this).find('form')[0].reset();
+									        validator.resetForm();
 									        $('.table').load('/backlog .table', function(result) {
 							  				});
+										
+									 
+										
 									    }) ;
-					
+	
+
+							
+							
 					
 					$(".table").on("click",".clickable-row",function(){
 					//	$(".clickable-row").click(function() {
@@ -225,6 +308,14 @@
 
 				});
 					
+				function minmax(value, min, max) 
+				{
+				    if(parseInt(value) < min || isNaN(value)) 
+				        return 0; 
+				    else if(parseInt(value) > max) 
+				        return 5; 
+				    else return value;
+				}					
 		</script>
 		
 {% endblock %}	
@@ -526,7 +617,7 @@
 											  <div class="form-group task-form-group">
 												<label class="task-label">Sprint</label>
 												<select class="form-control add-task-textbox apm-modal-textbox" name="sprint" id="sprint">
-													<option value="None">None</option>
+													<option value="">None</option>
 													{%for i in sprint%}
 													{%if i.status%}
 														
@@ -584,7 +675,7 @@
 													  <!-- Last Name --> 
 													  <div class="form-group task-form-group">
 														<label class="task-label">Rough Estimate(In hrs)</label>
-														<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="rough_estimate">
+														<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="rough_estimate" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;">
 													  </div>
 												  </div>
 											
@@ -592,7 +683,7 @@
 													  <!-- Designation --> 
 													  <div class="form-group task-form-group">
 														<label class="task-label">Priority</label>
-														<input type="number" class="form-control add-task-textbox apm-modal-textbox" name="priority" min="1" max="5">
+														<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="priority" min="1" max="5" maxlength="1" onkeypress="this.value = minmax(this.value, 0, 5)">
 													  </div>
 												  </div>
 												  
@@ -607,8 +698,10 @@
 							
 				  </div>
 				  <div class="modal-footer add-task-modal-footer">
-					<input type="submit" class="add-task-btn-modal" data-dismiss="modal" value="Add" name="add_backlogs" id="add_backlogs">
-					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
+				  <button type="button" class="add-task-btn-modal" data-dismiss="modal" value="Add" name="add_backlogs" id="add_backlogs" >Add</button>
+					<!-- <input type="submit" class="add-task-btn-modal" data-dismiss="modal" value="Add" name="add_backlogs" id="add_backlogs"> -->
+					
+				<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
 				  </div>
 				  </form>
 				</div>
