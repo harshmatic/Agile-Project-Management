@@ -1655,3 +1655,110 @@ div.Tokenize {
  margin-bottom: 20px;
 }
 /**** For TASKS DETAILS page ENDS ***/
+
+/************** For Efforts Estimates page STARTS *****************/
+.apm-effort-est-lbl{
+	font-size: 12px!important;
+    letter-spacing: 1px!important;
+    font-family: Raleway;
+    font-weight: 600;
+}
+.apm-effort-est-dropdown{
+	
+}
+.apm-eff-est-table th{
+	vertical-align: middle!important;
+}
+.apm-eff-est-table select{
+	cursor:pointer;
+}
+.apm-eff-est-table td{
+	font-size:13px!important;
+}
+
+.apm-eff-est-sprint-name{
+	font-size: 16px!important;
+	letter-spacing:2px!important;
+	font-family:Raleway;
+	font-weight:600;
+	margin:0;
+}
+.apm-eff-est-table-box{
+	/*border-left:1px solid #eee;*/
+}
+@media (max-width: 600px){
+	.apm-eff-est-table-box{
+		border:none;
+		margin-top:50px;
+	}
+}
+.apm-eff-est-hr-num{
+	cursor:pointer;
+}
+
+.apm-eff-est-hr-text{
+	display:none;	
+}
+
+.apm-eff-est-hr-text input[type='text']{
+	width: 35px!important;
+    margin: 0 auto!important;
+    height: 18px!important;
+	padding:4px 0!important;
+	text-align:center!important;
+	font-size:12px!important;
+	font-weight:500;
+}
+.apm-eff-est-add-member-btn{
+	margin:0!important;
+	padding: 5px 15px!important;
+}
+.apm-eff-est-form-grp{
+	margin-bottom:32px;
+}
+.eff-est-modal-box{
+	margin-bottom:15px;
+}
+.eff-est-modal-box .task-label{
+	font-family: Arial!important;
+    font-weight: 400!important;
+    font-size: 12px!important;
+}
+.apm-eff-est-dropdown-box{
+	margin-bottom:20px;
+}
+.eff-est-label-box{
+	padding-top:3px;
+}
+.apm-eff-est-hour-box{
+	height:200px;
+	overflow-y:auto;
+	overflow-x:hidden!important;
+}
+.day-wise-eff-label{
+	margin-bottom:12px;
+}
+.apm-eff-est-table tr:last-child{
+	background: #f6f6f6;
+}
+.apm-eff-est-table tr:last-child td{
+	font-weight: 900!important;
+	font-size:15px;
+}
+
+/******23 May 2016 **********/
+.apm-select-sprint-dropdown{
+	margin-bottom: 25px;
+}
+.est-eff-information-modal-text{
+	color: #000;
+    letter-spacing:1px;
+    font-size: 12px;
+    font-family: Raleway;
+	line-height:1.6em;
+	margin:0;
+}
+.est-eff-information-modal-text b{ 
+	margin-bottom:8px;
+}
+/************** For Efforts Estimates page ENDS *****************/

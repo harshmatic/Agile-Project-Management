@@ -3,3 +3,8 @@ indexes:
   properties:
   - name: role
   - name: permissions
+
+- kind: EffortEstimation
+  properties:
+  - name: sprint
+  - name: date
