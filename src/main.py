@@ -9,6 +9,7 @@ from controller.timesheet import *
 from controller.release import *
 from controller.mytasks import *
 from controller.timelog import *
+from controller.effort_estimation_controller import *
 from webapp2_extras import routes
 from webapp2_extras.routes import DomainRoute
 from google.appengine.ext.webapp import template
@@ -104,7 +105,12 @@ app = webapp2.WSGIApplication([
         #Timesheet
         webapp2.Route('/timesheet', Timesheet,name='Timesheet'),
         
-        webapp2.Route('/setsession', SetSessionProject)
+        webapp2.Route('/setsession', SetSessionProject),
+        
+        #Effort Estimation
+        webapp2.Route('/efforts', EffortEstimationView,name='estimationView'), 
+        webapp2.Route('/effortspersist', PersistDefaulEstimation),
+        webapp2.Route('/efforts/edit', EditEffortEstimation)
         
     ]),
         webapp2.Route('/', SignupUser, name='home'),
