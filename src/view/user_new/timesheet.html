@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}User | Sprint{% endblock %}
+{% block header_links%}
+<script>
+				$(document).ready(function(){
+					$(".nav-tabs a").click(function(){
+						$(this).tab('show');
+					});
+					
+		</script>		
+{% endblock %}
+{%block content%}
+		
+  <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+					
+						<h2 class="apm-all-reports-heading">Timesheet</h2>
+						
+						<hr>
+						
+					<!-- Main Timesheet content starts-->
+						
+					<!-- Task Details content starts-->
+						<div class="row">
+							<div class="col-md-6">
+								<!--  <h3 class="apm-all-reports-empname"><b>Team Member Name - </b> Chaitanya Belsare.</h3>
+								
+								<h3 class="apm-all-reports-empname"><b>Employee ID - </b> 10178</h3>
+								
+								<hr>-->
+							
+								<div class="row">
+									<div class="col-md-3 col-sm-3">
+											<div class="form-group">
+												<label class="apm-effort-est-lbl">Select Month:</label>
+												<select class="form-control add-task-textbox apm-modal-textbox apm-effort-est-dropdown">
+													<option>January</option>
+													<option>February</option>
+													<option>March</option>
+													<option>April</option>
+													<option>May</option>
+													<option>June</option>
+													<option>July</option>
+													<option>August</option>
+													<option>september</option>
+													<option>October</option>
+													<option>November</option>
+													<option>December</option>
+												</select>
+												
+											</div>
+									</div>
+									<div class="col-md-3 col-sm-3">
+											<div class="form-group">
+												<label class="apm-effort-est-lbl">Select Week:</label>
+												<select class="form-control add-task-textbox apm-modal-textbox apm-effort-est-dropdown">
+													<option>Week 1</option>
+													<option>Week 2</option>
+													<option>Week 3</option>
+													<option>Week 4</option>
+												</select>
+											</div>
+									</div>
+									<div class="col-md-1 col-sm-1">
+										<button type="button" class="apm-timesheet-go-btn">Go</button>
+									</div>
+								</div>
+							
+								<h4 class="apm-timesheet-monthname-weekname">
+									{% for k,v in logs%} 
+										{% if forloop.first%}
+											{{k}} <span class="to-span">To</span> 
+										{%endif%}
+									
+									
+									{% if forloop.last%}
+											{{k}}
+										{%endif%}
+									{%endfor%}
+									
+								</h4>
+								
+								<hr class="apm-timesheet-separator">
+								
+								<div class="table-responsive">
+									<table class="table table-bordered table-condensed apm-task-descr-table apm-timesheet-table">
+										<thead>
+										  <tr>
+											<th>Day</th>
+											<th>Tasks</th>
+											<th>Hours</th>
+											
+										  </tr>
+										</thead>
+										<tbody class="apm-timesheet-body">
+										{%for k,v in logs%}
+										  
+											{%if v %}
+												{% for task in v %}
+													{%if task.status%}
+										<tr>
+											{%if forloop.first%}<td rowspan="{{v|length}}" class="apm-timesheet-td-bold">{{k}}</td>{%endif%}
+											
+											
+												<td><a href="/mytasks/view?key={{task.task_key}}">{{task.task_key.get.name}}</a></td>
+												<td>{%if task.hour %}{{task.hour"}}{%else%}00{%endif%}:{%if task.minute %}{{task.minute}}{%else%}00{%endif%}</td>
+										</tr>
+													{%endif%}
+												{%endfor%}
+											{%else%}
+											<tr>
+												<td  class="apm-timesheet-td-bold">{{k}}</td>
+												<td>-</td>
+												<td>-</td>
+											</tr>
+										  	{%endif%}
+										  	
+										  {%endfor%}	  
+										  
+										  
+												
+										  
+										</tbody>
+									</table>
+								</div>
+								
+								<div class="table-responsive">
+									<table class="table table-bordered table-condensed apm-task-descr-table">
+											<thead>
+											  <tr>
+												<th>Day</th>
+												<th>Day 1</th>
+												<th>Day 2</th>
+												<th>Day 3</th>
+												<th>Day 4</th>
+												<th>Day 5</th>
+												<th>Total</th>
+												
+											  </tr>
+											</thead>
+											<tbody>
+											  <tr>
+												<td>Efforts</td>
+												<td>20</td>
+												<td>10</td>
+												<td>8</td>
+												<td>10</td>
+												<td>8</td>
+												<td>56</td>
+											  </tr>
+											  
+											</tbody>
+									</table>
+								</div>
+								
+							</div>	
+						</div>
+						
+					<!-- Task Details content ENDS -->
+						
+						
+						<hr>
+					
+					<!-- Main timesheet content ENDS-->
+						
+						
+                    </div> <!-- .col-lg-12 ends -->
+                </div>
+            </div> <!-- .container ends -->
+        </div>    
+        
+		
+	
+{%endblock%}		
+		
+		
+		
+		
+</body>
+</html>

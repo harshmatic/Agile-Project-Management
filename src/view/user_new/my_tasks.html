@@ -54,7 +54,10 @@
 					
 					
 					
-				
+					 $('table tr').click(function(){
+					        window.location = $(this).attr('href');
+					        return false;
+					    });
 
 				});
 					
@@ -142,7 +145,7 @@
                													  <td><b>Task Description</b></td>
                 												  <td><b>Effort Estimate</b></td>
               													   <td><b>Status</b></td>
-                 													<td></td>
+                 												
              													   </tr>
              												
 														<tr class="separator" />
@@ -150,12 +153,16 @@
 															{%for task in tasks%}
 															{%if task.status%}
 															
-															  <tr class='clickable-row' >
+															  <tr class='clickable-row' href="/mytasks/view?key={{task.key.urlsafe}}" >
+															<!--   <a class="task_key" href="/mytasks/view?key={{task.key.urlsafe}}" ></a> -->
 																<td>{{task.name}}</td>
 																<td>{{task.description}}</td>
 																<td>{{task.actual_efforts}}</td>
-																<td>{{task.task_status}}</td>
-																<td><a href="/mytasks/view?key={{task.key.urlsafe}}" class="fa fa-eye fa-2x"></a></td>
+																<td>{%for status in task.task_status%}
+																{{status}}
+																{%endfor%}
+																</td>
+																
 															  </tr>
 															  
 															  <tr class="separator" />

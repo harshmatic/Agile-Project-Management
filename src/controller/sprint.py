@@ -47,6 +47,8 @@ class Tasks(BaseHandler):
         task_data.created_by = currentUser['email_address']
         task_data.status = True
         task_data.put()
+        
+        
         self.response.out.write("true")
 class EditTask(BaseHandler):
     

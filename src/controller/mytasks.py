@@ -6,6 +6,7 @@ import json as json
 from model import sprint,task,time_log
 from datetime import datetime
 
+
 class Comment(BaseHandler):
     def post(self,*args,**kargs):
         currentUser=self.auth.get_user_by_session()
@@ -61,26 +62,46 @@ class MyTaskView(BaseHandler):
         
         if (self.request.get('date')):
             timelog_key.today_date= datetime.strptime(self.request.get('date'), '%d/%m/%Y').date()
-      #  timelog_key.time=float(self.request.get('hours')+'.'+self.request.get('minutes'))
+    
         
         if (self.request.get('hours')):
             timelog_key.hour=int(self.request.get('hours'))
+        else:
+            timelog_key.hour=00
         
         if (self.request.get('minutes')):
             timelog_key.minute=int(self.request.get('minutes'))
+        else:
+            timelog_key.minute=00
         
         timelog_key.created_by=currentUser['email_address']
         timelog_key.status=True
         
         if (self.request.get('billable')):
             timelog_key.billable=True
+        else:
+            timelog_key.billable=False
         
         timelog_key.description=self.request.get('description')
         
-        if (self.request.get('task_completed')):
-            timelog_key.task_completed=True
-       
         timelog_key.set()
+        
+        task_key = ndb.Key(urlsafe=self.request.get('task_key'))
+        tasks=task_key.get()
+        
+        if (self.request.get('task_completed')):
+       
+            tasks.task_status=2
+            tasks.modified_by = currentUser['email_address']
+            tasks.modified_date = datetime.now()
+            tasks.put()
+        else:
+            logging.info('not equal')
+            tasks.task_status=0
+            tasks.modified_by = currentUser['email_address']
+            tasks.modified_date = datetime.now()
+            tasks.put()
+    
         self.response.write('true')
         
 class EditTimelog(BaseHandler):
@@ -117,11 +138,24 @@ class EditTimelog(BaseHandler):
                 timelog_key.billable=True
         
             timelog_key.description=self.request.get('description')
+            
+            timelog_key.set()
+            task_key = ndb.Key(urlsafe=self.request.get('task_key'))
+            tasks=task_key.get()
         
             if (self.request.get('task_completed')):
-                timelog_key.task_completed=True
-       
-            timelog_key.set()
+             
+                tasks.task_status=2
+                tasks.modified_by = currentUser['email_address']
+                tasks.modified_date = datetime.now()
+                tasks.put()
+            else:
+                logging.info('not equal')
+                tasks.task_status=0
+                tasks.modified_by = currentUser['email_address']
+                tasks.modified_date = datetime.now()
+                tasks.put()
+            
             
             self.response.write('true')
 
@@ -142,6 +176,43 @@ class DeleteTimelog(BaseHandler):
             timelog_key.status = False
            
             timelog_key.put()
+            
+            key = ndb.Key(urlsafe=self.request.get('task_key'))
+            tasks=key.get()
+     
+        
+            timelog = time_log.Time_Log()
+            timelog_data=timelog.query().fetch()
+        
+            count=0
+            
+            for i in timelog_data:
+                if (i.status == True):
+                    if (i.task_key == key):
+                        count=count+1 
+                   
+        
+            logging.info(count)                
+              
+            if (count != 0 ): 
+                logging.info('time log exist')
+                tasks.task_status=2
+                tasks.modified_by = user_info['email_address']
+                tasks.modified_date = datetime.now()
+                tasks.put()
+            else:
+                logging.info('time log does not exist')
+                tasks.task_status=0
+                tasks.modified_by = user_info['email_address']
+                tasks.modified_date = datetime.now()
+                tasks.put()
+    
+            
+            
+           
+            
+            
+            
             #user_key.delete()  
             self.response.write("true")     
             

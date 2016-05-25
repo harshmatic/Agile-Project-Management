@@ -57,13 +57,13 @@ $("#delete_timelog").on("click",function(){
       
       <tr>
         <td>Time Spent : </td>
-        <td>{{timelog_info.hour}}:{{timelog_info.minute}}</td>
+        <td>{%if timelog_info.hour %}{{timelog_info.hour}}{%else%}00{%endif%}:{%if timelog_info.minute %}{{timelog_info.minute}}{%else%}00{%endif%}</td>
         
       </tr>
       
       <tr>
         <td>Billable : </td>
-        <td>{{timelog_info.billable}}</td>
+        <td>{%if timelog_info.billable%} Yes {%else%} No {%endif%}</td>
         
       </tr>
       
@@ -74,8 +74,8 @@ $("#delete_timelog").on("click",function(){
       </tr>
       
         <tr>
-        <td>Task is now complete: </td>
-        <td>{{timelog_info.task_completed}}</td>
+        <td>Task Status: </td>
+        <td>{{timelog_info.task_key.get.task_status}}</td>
         
       </tr>
       
@@ -86,7 +86,7 @@ $("#delete_timelog").on("click",function(){
 									
 											
 										
-										 
+										 <input type="hidden" id="task_key" name="task_key" value="{{timelog_info.task_key.urlsafe}}">
 											<input type="hidden" id="key" name="delete_key" value="{{timelog_info.key.urlsafe}}">
 								</div>	
 								<div class="col-md-1">

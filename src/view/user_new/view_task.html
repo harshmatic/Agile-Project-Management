@@ -86,6 +86,8 @@
 						  				});
 							    }) ;
 
+						
+					
 				});
 					
 		</script>
@@ -139,7 +141,7 @@
 											<td>{{task.sprint.get.name}}</td>
 											<td>{{task.assignee.get.userName}}</td>	
 											<td>{{task.actual_efforts}}</td>
-											<td>{{task.task_status}}</td>
+											<td>{%for status in task.task_status%}{{status}}{%endfor%}</td>
 										  </tr>
 										</tbody>
 									</table>
@@ -189,7 +191,7 @@
 													No
 													{%endif%}
 												</td>
-												<td>{{i.hour}}:{{i.minute}}</td>
+												<td>{%if i.hour %}{{i.hour}}{%else%}00{%endif%}:{%if i.minute %}{{i.minute}}{%else%}00{%endif%}</td>
 												<td>
 												<a href="/timelog/edit?edit_key={{i.key.urlsafe}}" data-toggle="modal" data-target="#edit-timelog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Time Log"  id="{{i.key.urlsafe}}"></a></i>
 												<a href="/timelog/delete?delete_key={{i.key.urlsafe}}" data-toggle="modal" data-target="#delete-timelog-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Time Log"  id="{{i.key.urlsafe}}"></a></i>
