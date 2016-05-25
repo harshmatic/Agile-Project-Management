@@ -45,7 +45,7 @@ class PersistDefaulEstimation(BaseHandler):
         projectmembermodel = project.ProjectMembers()
         projmem = projectmembermodel.get_all(projectKey)
         
-        
+        total = 0
         
         estlist= []  
         
@@ -54,6 +54,7 @@ class PersistDefaulEstimation(BaseHandler):
             usereffort.userKey    =  mem.userid
             usereffort.userName   =  mem.userName
             usereffort.effortHours = working_hours
+            total =  total + int(working_hours)
             estlist.append(usereffort)
             
         logging.info(estlist)  
@@ -71,6 +72,7 @@ class PersistDefaulEstimation(BaseHandler):
             estimationmodel.effort  = estlist  
             estimationmodel.date    =  d1 + td(days=i)
             estimationmodel.createdby = createdBy
+            estimationmodel.total_effort = str(total)
             estimationmodel.set()
         
         logging.info(datelist)
@@ -80,24 +82,51 @@ class EditEffortEstimation(BaseHandler):
     def post(self,*args,**kargs):
         logging.info("it is here "+self.request.__str__())
         
-        value = self.request.get("estival")
-        effestKey = ndb.Key('EffortEstimation',int(self.request.get("effestid")))
-        user_id = self.request.get("userid")
-        
-        effortmodel = effestKey.get()
-        eff = effortmodel.effort
-        
-        for e in eff:
-            logging.info(e.userKey.id())
-            logging.info("the js value is"+user_id)
-            if(str(e.userKey.id()) == user_id):
-                logging.info("comes here user name is"+e.userName)
-                e.effortHours = value
+        if(self.request.get("estiper") != ''):
+            logging.info("comes inside if loop")
+            percentage = self.request.get("estiper")
+            user_id = self.request.get("userid")
+            sprint_id = self.request.get("sprintid")
+            sprint_key = ndb.Key('Sprint',int(sprint_id))
+            sprint = sprint_key.get()
+            work_hour = sprint.workinghours
+            newval = ((int(work_hour)) * (int(percentage))) / 100.0
+            logging.info("the new val is"+str(newval))
+            logging.info("The estiper is"+percentage+"the user_id is"+user_id+"the sprint id is"+sprint_id)
+            estimates = effort_estimation.EffortEstimation().get_esti_by_sprint(sprint_key)
+            for est in estimates:
+                total_effort = est.total_effort
+                for eff in est.effort:
+                    if(str(eff.userKey.id()) == user_id):
+                        oldval = eff.effortHours
+                        eff.effortHours = str(newval)
+                newtotal_effort = float(total_effort) - float(oldval) + newval
+                est.total_effort = str(newtotal_effort)
+                est.set()
+            self.response.write("reload")    
                 
-        
-             
-        effortmodel.set()
-        
-        self.response.write("success")
+                
+            
+        else:    
+            value = self.request.get("estival")
+            effestKey = ndb.Key('EffortEstimation',int(self.request.get("effestid")))
+            user_id = self.request.get("userid")
+            
+            effortmodel = effestKey.get()
+            eff = effortmodel.effort
+            
+            for e in eff:
+                logging.info(e.userKey.id())
+                logging.info("the js value is"+user_id)
+                if(str(e.userKey.id()) == user_id):
+                    logging.info("comes here user name is"+e.userName)
+                    oldval = e.effortHours
+                    e.effortHours = value
+                    
+            newval = int(effortmodel.total_effort) - int(oldval) + int(value)
+            effortmodel.total_effort = str(newval)     
+            effortmodel.set()
+            
+            self.response.write("success")
           
             
