@@ -1666,7 +1666,7 @@ div.Tokenize {
 /************** For TASKS DETAILS page ENDS *****************/
 
 
-/************** For Timesheet Page STARTS *****************/
+/** For Timesheet Page STARTS ***/
 .apm-all-reports-empname {
     margin-top: 10px;
     margin-bottom: 15px;
@@ -1677,7 +1677,7 @@ div.Tokenize {
     font-weight: 500;
 }
 .apm-timesheet-monthname-weekname{
-	font-size: 18px;
+ font-size: 18px;
     letter-spacing: 1px;
     line-height: 1.2em;
     font-family: Raleway;
@@ -1685,16 +1685,16 @@ div.Tokenize {
     margin-top: 20px;
 }
 .total-efforts-label{
-	font-size: 14px;
+ font-size: 14px;
     letter-spacing: 2px;
     line-height: 1.2em;
     font-family: Raleway;
     font-weight: 600;
-	text-transform:uppercase;
-	text-align:right;
+ text-transform:uppercase;
+ text-align:right;
 }
 .apm-timesheet-go-btn{
-	font-size: 13px;
+ font-size: 13px;
     border: 2px solid #3978BF!important;
     letter-spacing: 2px;
     padding: 3px 15px;
@@ -1704,29 +1704,36 @@ div.Tokenize {
     outline: none!important;
     font-family: Raleway;
     margin-top: 24px;
-}	
+} 
 .apm-timesheet-separator{
-	margin-bottom:4px;
+ margin-bottom:4px;
 }
 @media (max-width: 767px){
-	.apm-timesheet-monthname-weekname {
-		font-size: 15px;
-		margin-top: 30px;	
-	}	
-	.apm-timesheet-separator {
-		margin-bottom: 24px;
-	}
+ .apm-timesheet-monthname-weekname {
+  font-size: 15px;
+  margin-top: 30px; 
+ } 
+ .apm-timesheet-separator {
+  margin-bottom: 24px;
+ }
 }
 .to-span{
-	margin-left: 10px;
+ margin-left: 10px;
     margin-right: 10px;
 }
 .apm-timesheet-table{
-	
+ 
 }
 .apm-timesheet-td-bold{
-	vertical-align: middle!important;
-	font-weight:600;
-	font-size: 14px;
+ vertical-align: middle!important;
+ font-weight:600;
+ font-size: 14px;
 }
-/************** For Timesheet Page ENDs *****************/
+.week-total-hrs-label{
+ text-align:right;
+ font-weight:600;
+ font-size: 16px;
+ font-family: Raleway;
+ letter-spacing:1px;
+}
+/*** For Timesheet Page ENDs ***/

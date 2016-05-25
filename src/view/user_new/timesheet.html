@@ -7,12 +7,13 @@
 					$(".nav-tabs a").click(function(){
 						$(this).tab('show');
 					});
+				});
+					
 					
 		</script>		
 {% endblock %}
 {%block content%}
-		
-  <div id="page-content-wrapper">
+<div id="page-content-wrapper">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
@@ -25,43 +26,22 @@
 						
 					<!-- Task Details content starts-->
 						<div class="row">
-							<div class="col-md-6">
-								<!--  <h3 class="apm-all-reports-empname"><b>Team Member Name - </b> Chaitanya Belsare.</h3>
+							<div class="col-md-11">
 								
-								<h3 class="apm-all-reports-empname"><b>Employee ID - </b> 10178</h3>
-								
-								<hr>-->
 							
 								<div class="row">
-									<div class="col-md-3 col-sm-3">
+									<div class="col-md-2 col-sm-2">
 											<div class="form-group">
-												<label class="apm-effort-est-lbl">Select Month:</label>
-												<select class="form-control add-task-textbox apm-modal-textbox apm-effort-est-dropdown">
-													<option>January</option>
-													<option>February</option>
-													<option>March</option>
-													<option>April</option>
-													<option>May</option>
-													<option>June</option>
-													<option>July</option>
-													<option>August</option>
-													<option>september</option>
-													<option>October</option>
-													<option>November</option>
-													<option>December</option>
-												</select>
-												
+														<label class="apm-landing-reg-label">From:</label>
+														<input type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true">
+														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
 											</div>
 									</div>
-									<div class="col-md-3 col-sm-3">
+									<div class="col-md-2 col-sm-2">
 											<div class="form-group">
-												<label class="apm-effort-est-lbl">Select Week:</label>
-												<select class="form-control add-task-textbox apm-modal-textbox apm-effort-est-dropdown">
-													<option>Week 1</option>
-													<option>Week 2</option>
-													<option>Week 3</option>
-													<option>Week 4</option>
-												</select>
+														<label class="apm-landing-reg-label">To:</label>
+														<input type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true">
+														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
 											</div>
 									</div>
 									<div class="col-md-1 col-sm-1">
@@ -70,17 +50,7 @@
 								</div>
 							
 								<h4 class="apm-timesheet-monthname-weekname">
-									{% for k,v in logs%} 
-										{% if forloop.first%}
-											{{k}} <span class="to-span">To</span> 
-										{%endif%}
-									
-									
-									{% if forloop.last%}
-											{{k}}
-										{%endif%}
-									{%endfor%}
-									
+									{%for a in logs%}{%if forloop.first%} {{a.date}} {%endif%}{%endfor%}<span class="to-span">To</span> {%for a in logs%}{%if forloop.last%} {{a.date}} {%endif%}{%endfor%}
 								</h4>
 								
 								<hr class="apm-timesheet-separator">
@@ -91,77 +61,44 @@
 										  <tr>
 											<th>Day</th>
 											<th>Tasks</th>
-											<th>Hours</th>
-											
+											<th>Efforts (Hrs.)</th>
+											<th>Total Efforts (Hrs.)</th>
 										  </tr>
 										</thead>
 										<tbody class="apm-timesheet-body">
-										{%for k,v in logs%}
-										  
-											{%if v %}
-												{% for task in v %}
-													{%if task.status%}
+										{% for log in logs%}
+										{%if log.items%}
+										{%for item in log.items%}
+											{%if forloop.first%}
+										  <tr>
+											<td rowspan="{{log.items|length}}" class="apm-timesheet-td-bold">{{log.date|date:"l, d N, Y"}}</td>
+											<td><a href="/mytasks/view?key={{item.task_key.urlsafe}}">{{item.task_key.get.name}}</a></td>
+											<td>	{{ item.total_effort|floatformat:2 }}</td>
+											
+											<td rowspan="{{log.items|length}}" class="apm-timesheet-td-bold">{{log.total|floatformat:2}}</td>
+										  </tr>
+										  {%else%}
+										  <tr>
+											<td><a href="/mytasks/view?key={{item.task_key.urlsafe}}">{{item.task_key.get.name}}</a></td>
+											<td>	{{ item.total_effort|floatformat:2 }}</td>
+										  </tr>
+										  {%endif%}
+										 {%endfor%}
+										{%else%}
 										<tr>
-											{%if forloop.first%}<td rowspan="{{v|length}}" class="apm-timesheet-td-bold">{{k}}</td>{%endif%}
-											
-											
-												<td><a href="/mytasks/view?key={{task.task_key.urlsafe}}">{{task.task_key.get.name}}</a></td>
-												<td>	{{ task.total_effort|floatformat:2 }}</td>
-										</tr>
-													{%endif%}
-												{%endfor%}
-											{%else%}
-											<tr>
-												<td  class="apm-timesheet-td-bold">{{k}}</td>
-												<td>-</td>
-												<td>-</td>
-											</tr>
-										  	{%endif%}
-										  	
-										  {%endfor%}	  
-										  
-										  
-												
-										  
+											<td class="apm-timesheet-td-bold">{{log.date|date:"l, d N, Y"}}</td>
+											<td>-</td>
+											<td>-</td>
+											<td class="apm-timesheet-td-bold">-</td>
+										  </tr>
+										  {%endif%}
+										  {%endfor%}
+										 
 										</tbody>
 									</table>
 								</div>
 								
-								<div class="table-responsive">
-									<table class="table table-bordered table-condensed apm-task-descr-table">
-											<thead>
-											  <tr>
-												<th>Day</th>
-												{%for k,v in logs%}
-												<th>{{k}}</th>
-												
-												{%endfor%}
-												<th>Total</th>
-												
-											  </tr>
-											</thead>
-											<tbody>
-											  <tr>
-												<td>Efforts</td>
-												{%for k,v in logs%}
-													{%if v %}
-														<td>{% for task in v %}
-															{%if task.status%}
-												{{task.total_effort|floatformat:2}}
-															{%endif%}
-														{%endfor%}
-														</td>
-													{%else%}
-												<td>00</td>
-													{%endif%}
-										  	
-										  		{%endfor%}	
-												
-											  </tr>
-											  
-											</tbody>
-									</table>
-								</div>
+								<h4 class="week-total-hrs-label">Total Efforts of Week : {{week_total|floatformat:2}} Hours</h4>
 								
 							</div>	
 						</div>
@@ -177,7 +114,9 @@
                     </div> <!-- .col-lg-12 ends -->
                 </div>
             </div> <!-- .container ends -->
-        </div>    
+        </div>
+        <!-- /#page-content-wrapper ENDS -->		
+
         
 		
 	

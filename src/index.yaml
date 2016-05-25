@@ -3,3 +3,11 @@ indexes:
   properties:
   - name: role
   - name: permissions
+- kind: Time_Log
+  properties:
+  - name: assigne_key
+  - name: project_key
+  - name: today_date
+  
+  
+  
