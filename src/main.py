@@ -109,11 +109,12 @@ app = webapp2.WSGIApplication([
         
         #Effort Estimation
         webapp2.Route('/efforts', EffortEstimationView,name='estimationView'), 
-        webapp2.Route('/effortspersist', PersistDefaulEstimation),
+       
         webapp2.Route('/efforts/edit', EditEffortEstimation)
         
     ]),
         webapp2.Route('/', SignupUser, name='home'),
+        webapp2.Route('/effortspersist', PersistDefaulEstimation),
         webapp2.Route('/signupuser', SignupUser, name='signuphome'),
         webapp2.Route('/sprint', Sprint,name='sprint'),
         webapp2.Route('/checkdomain', CheckDomain,name="checkdomain"),
