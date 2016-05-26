@@ -695,7 +695,7 @@
 											  	<div class="form-group task-form-group">
 														<label class="task-label">Release</label>
 														<select class="form-control add-task-textbox apm-modal-textbox" name="release" id="release">
-														<option value="">None</option>
+														<option value="None">None</option>
 														{%for i in release%}
 														{%if i.status%}
 															<option value={{i.key.urlsafe}}>{{i.name}}</option>
@@ -761,7 +761,7 @@
 											  <div class="form-group task-form-group">
 												<label class="task-label">Sprint</label>
 												<select class="form-control add-task-textbox apm-modal-textbox" name="sprint" id="sprint">
-													<option value="">None</option>
+													<option value="None">None</option>
 													{%for i in sprint%}
 													{%if i.status%}
 														
