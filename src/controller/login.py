@@ -24,8 +24,11 @@ def check_permission(self,*args,**kargs):
     else:
         u=model.user.OurUser()
         uw = self.auth.get_user_by_session()
-        qry=u.query().filter(ndb.GenericProperty("email_address")==uw['email_address'])
-        for acct in qry.fetch():
+        qry=u.query().filter(ndb.GenericProperty("email_address")==uw['email_address']).fetch()
+        logging.info(qry)
+        logging.info(qry[0].role.get().permissions)
+        
+        for acct in qry:
             for acct1 in acct.role.get().permissions:
                 logging.info(self.request.path.split('/')[1])
                 if acct1.get().url in (self.request.path.split('/')[1]):

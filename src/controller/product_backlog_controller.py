@@ -19,7 +19,7 @@ from model.status import Status
 
 class AllBacklogs(BaseHandler):
     def get(self,*args,**kargs):
-       if check_permission(self):  
+       #if check_permission(self):  
         productBacklog = product_backlog.ProductUserStory()
         productBacklog = productBacklog.get_all()
         
@@ -58,8 +58,8 @@ class AllBacklogs(BaseHandler):
         releases=release.get_by_project(self.session['current_project'])
         
         self.render_template("user_new/apm-backlog-new.html",{"user_data":user1,"productBacklog":productBacklog,"type":type,"project":proj,"sprint":sprints,"company_name":company_name,"release":releases})
-       else:
-        self.response.write("you are not allowed")   
+       #else:
+        #self.response.write("you are not allowed")   
         
 class Backlog(BaseHandler):
     def get(self,*args,**kargs):

@@ -96,7 +96,7 @@ class EditTask(BaseHandler):
 class Sprint(BaseHandler):
     
     def get(self,*args,**kargs):
-        if check_permission(self):
+        #if check_permission(self):
            # project = ndb.Key(urlsafe=self.request.get("key"))
             project1 =self.session['current_project']   
             sprint_data=sprint.Sprint().get_by_project(project1)
@@ -106,8 +106,8 @@ class Sprint(BaseHandler):
             release=project.ProjectRelease()
             releases=release.get_by_project(self.session['current_project'])
             self.render_template("user_new/apm-sprint-items.html",{"sprints":sprint_data,"tasks":tasks,"release":releases})
-        else:
-            self.response.write("you are not allowed")
+        #else:
+            #self.response.write("you are not allowed")
     
     def post(self,*args,**kargs):
         currentUser=self.auth.get_user_by_session()
@@ -131,7 +131,7 @@ class Sprint(BaseHandler):
         sprint_data.created_by = currentUser['email_address']
         sprint_data.status = True
         
-        if (self.request.get('release') != 'None'):
+        if (self.request.get('release') != ''):
             sprint_data.release_key=ndb.Key(urlsafe=self.request.get('release'))
         
         sprint_data.set()

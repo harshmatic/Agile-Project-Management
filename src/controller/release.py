@@ -29,7 +29,7 @@ from datetime import datetime
 
 class Release(BaseHandler):
     def get(self,*args,**kargs):
-        if check_permission(self):
+        #if check_permission(self):
             
            # company=model.user.Tenant()
           #  company_data=company().query(user.OurUser.tenant_domain == kargs['subdomain']).fetch()
@@ -48,8 +48,8 @@ class Release(BaseHandler):
             release=release_data.getall()
             
             self.render_template("user_new/release.html",{"project":proj,"company_name":company_name,"release":release})
-        else:
-            self.response.write("you are not allowed")
+        #else:
+            #self.response.write("you are not allowed")
     
     def post(self,*args,**kargs):
         release_obj= project.ProjectRelease()

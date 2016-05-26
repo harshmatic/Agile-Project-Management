@@ -220,7 +220,7 @@ $(document).ready(function(){
 											  <div class="col-sm-6">
 											  <div class="form-group task-form-group">
 												<label class="task-label">Issue Type</label>
-												<select name="type" class="form-control add-task-textbox apm-modal-textbox" disabled="disabled">
+												<select name="type" class="form-control add-task-textbox apm-modal-textbox" readonly="readonly" >
 													{% for type in type%}
 													{%if type.name == 'Task'%}
 														<option value="{{type.key.urlsafe}}">{{type.name}}</option>
