@@ -135,7 +135,11 @@ class AddProject(BaseHandler):
         projemem.projectid = projkey
         projemem.companyid = companyId
         projemem.userid =   self.user_model.get_by_id(currentUser['user_id']).key
-        projemem.userRole = "Product Owner"
+        group = user.Groups()
+        groupmodel = group.get_default_role()
+        for g in groupmodel:
+            projemem.userRole = g.role
+            projemem.roleid = g.key
         projemem.created_by = currentUser['email_address']
         projemem.status = True
         projemem.set()
@@ -168,10 +172,10 @@ class AddProjectMembers(BaseHandler):
         logging.info("it is here "+self.request.__str__())
         userid = self.request.get("userid")
         projid = self.request.get("projid")
-        role   = self.request.get("role")
+        roleid   = self.request.get("role")
         logging.info("it is here and the userId is"+userid)
         logging.info("it is here and the projid is"+projid)
-        logging.info("it is here and the role is"+role)
+        logging.info("it is here and the role is"+roleid)
         
         companyId= self.user_model.get_by_id(currentUser['user_id']).tenant_key
         
@@ -182,7 +186,8 @@ class AddProjectMembers(BaseHandler):
         projemem.projectid = ndb.Key('Project',int(projid))
         projemem.companyid = companyId
         projemem.userid =    userkey
-        projemem.userRole = role
+        projemem.roleid = ndb.Key('Groups',int(roleid))
+        projemem.userRole = ndb.Key('Groups',int(roleid)).get().role
         
         user_info = self.auth.get_user_by_session()
         projemem.created_by = user_info['email_address']
@@ -370,8 +375,9 @@ class ViewProject(BaseHandler):
         projectmembermodel = project.ProjectMembers()
         projmem = projectmembermodel.get_all(ndb.Key('Project',projkey))
         
-        groupmodel = user.Groups().query(ndb.AND(user.Groups.tenant_key==self.user_model.get_by_id(currentUser['user_id']).tenant_key,user.Groups.application_level == False))
-        
+        groupmodel = user.Groups().query(ndb.AND(user.Groups.tenant_key==self.user_model.get_by_id(currentUser['user_id']).tenant_key,user.Groups.application_level == False,user.Groups.status == True)).fetch()
+        groupmodel1 = user.Groups().query(ndb.AND(user.Groups.tenant_key==None,user.Groups.application_level == False,user.Groups.status == True)).fetch()
+        groupmodel.extend(groupmodel1)
         currentUser=self.auth.get_user_by_session()
         usermodel = user.OurUser().query(ndb.AND(user.OurUser.tenant_key==self.user_model.get_by_id(currentUser['user_id']).tenant_key, user.OurUser.status == True ))
         self.render_template("user_new/viewproject.html",{"project":proj,"userslist":usermodel,'estimation':esti,'projmem':projmem,'roles':groupmodel})

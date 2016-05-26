@@ -79,6 +79,9 @@ class Groups(BaseClass):
     def get_all(self):
         res = self.query().fetch()
         return res
+    def get_default_role(self):
+        res = self.query(ndb.AND(Groups.role== "Product Owner",Groups.tenant_domain== None)).fetch()
+        return res
     def get(self,**keyargs):
         group =Groups()
         for k, v in keyargs.iteritems():
