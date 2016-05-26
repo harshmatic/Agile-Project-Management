@@ -23,8 +23,16 @@ class ProjectManagement(BaseHandler):
     def get(self,*args,**kargs):
         if check_permission(self):
             projmodel=project.Project()
+            projmemmodel = project.ProjectMembers()
             currentUser=self.auth.get_user_by_session()
-            proj=projmodel.get_proj_by_user(self.user_model.get_by_id(currentUser['user_id']).tenant_key)
+            #proj=projmodel.get_proj_by_user(self.user_model.get_by_id(currentUser['user_id']).tenant_key)
+            projformem = projmemmodel.get_proj_by_user(self.user_model.get_by_id(currentUser['user_id']).tenant_key,self.user_model.get_by_id(currentUser['user_id']).key)
+            keys=[]
+            for promem in projformem:
+                keys.append(promem.projectid)
+                
+            proj = ndb.get_multi(keys)
+                    
             #usermodel = user.OurUser().query(user.OurUser.tenant_key==self.user_model.get_by_id(currentUser['user_id']).tenant_key)
             self.render_template("user_new/apm-all-projects.html",{"project":proj})
             #self.render_template("user_new/apm-add-project.html")
@@ -362,10 +370,10 @@ class ViewProject(BaseHandler):
         projectmembermodel = project.ProjectMembers()
         projmem = projectmembermodel.get_all(ndb.Key('Project',projkey))
         
-        groupmodel = user.Groups().query(user.Groups.tenant_key==self.user_model.get_by_id(currentUser['user_id']).tenant_key)
+        groupmodel = user.Groups().query(ndb.AND(user.Groups.tenant_key==self.user_model.get_by_id(currentUser['user_id']).tenant_key,user.Groups.application_level == False))
         
         currentUser=self.auth.get_user_by_session()
-        usermodel = user.OurUser().query(user.OurUser.tenant_key==self.user_model.get_by_id(currentUser['user_id']).tenant_key)
+        usermodel = user.OurUser().query(ndb.AND(user.OurUser.tenant_key==self.user_model.get_by_id(currentUser['user_id']).tenant_key, user.OurUser.status == True ))
         self.render_template("user_new/viewproject.html",{"project":proj,"userslist":usermodel,'estimation':esti,'projmem':projmem,'roles':groupmodel})
         
         
