@@ -5,7 +5,7 @@ from login import BaseHandler,check_permission
 import json as json
 from model import sprint,task,time_log
 from datetime import datetime
-
+from model.status import Status
 
 class Comment(BaseHandler):
     def post(self,*args,**kargs):
@@ -91,13 +91,13 @@ class MyTaskView(BaseHandler):
         
         if (self.request.get('task_completed')):
        
-            tasks.task_status=2
+            tasks.task_status=Status[2]
             tasks.modified_by = currentUser['email_address']
             tasks.modified_date = datetime.now()
             tasks.put()
         else:
             logging.info('not equal')
-            tasks.task_status=0
+            tasks.task_status=Status[0]
             tasks.modified_by = currentUser['email_address']
             tasks.modified_date = datetime.now()
             tasks.put()
@@ -151,7 +151,7 @@ class EditTimelog(BaseHandler):
                 tasks.put()
             else:
                 logging.info('not equal')
-                tasks.task_status=0
+                tasks.task_status=Status[0]
                 tasks.modified_by = currentUser['email_address']
                 tasks.modified_date = datetime.now()
                 tasks.put()
@@ -196,13 +196,13 @@ class DeleteTimelog(BaseHandler):
               
             if (count != 0 ): 
                 logging.info('time log exist')
-                tasks.task_status=2
+                tasks.task_status=Status[2]
                 tasks.modified_by = user_info['email_address']
                 tasks.modified_date = datetime.now()
                 tasks.put()
             else:
                 logging.info('time log does not exist')
-                tasks.task_status=0
+                tasks.task_status=Status[0]
                 tasks.modified_by = user_info['email_address']
                 tasks.modified_date = datetime.now()
                 tasks.put()

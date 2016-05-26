@@ -23,16 +23,16 @@ class ProjectManagement(BaseHandler):
     def get(self,*args,**kargs):
         if check_permission(self):
             projmodel=project.Project()
-            proj=projmodel.get_all()
             currentUser=self.auth.get_user_by_session()
-            usermodel = user.OurUser().query(user.OurUser.tenant_key==self.user_model.get_by_id(currentUser['user_id']).tenant_key)
+            proj=projmodel.get_proj_by_user(self.user_model.get_by_id(currentUser['user_id']).tenant_key)
+            #usermodel = user.OurUser().query(user.OurUser.tenant_key==self.user_model.get_by_id(currentUser['user_id']).tenant_key)
             self.render_template("user_new/apm-all-projects.html",{"project":proj})
             #self.render_template("user_new/apm-add-project.html")
            
         else:
             #self.response.write("you are not allowed")
             #self.render_template("apm-add-project.html",{'not_permitted':'You are not authorized to view this page'})    
-            self.render_template("user_new/apm-all-projects.html")
+            self.response.write("You have no permissions to access this page")
 
 
 class AddProjectView(BaseHandler):

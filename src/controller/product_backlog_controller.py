@@ -4,6 +4,7 @@ from google.appengine.ext.webapp.template import render
 from model import product_backlog
 from model import task
 from model import project
+from model import status
 import json
 import logging
 import os.path
@@ -14,6 +15,7 @@ from model import user
 from model import sprint
 import model
 from datetime import datetime
+from model.status import Status
 
 class AllBacklogs(BaseHandler):
     def get(self,*args,**kargs):
@@ -52,7 +54,10 @@ class AllBacklogs(BaseHandler):
         u=user.OurUser()
         user1=u.query(user.OurUser.tenant_domain==kargs['subdomain']).fetch()
         
-        self.render_template("user_new/apm-backlog-new.html",{"user_data":user1,"productBacklog":productBacklog,"type":type,"project":proj,"sprint":sprints,"company_name":company_name})
+        release=project.ProjectRelease()
+        releases=release.get_by_project(self.session['current_project'])
+        
+        self.render_template("user_new/apm-backlog-new.html",{"user_data":user1,"productBacklog":productBacklog,"type":type,"project":proj,"sprint":sprints,"company_name":company_name,"release":releases})
        else:
         self.response.write("you are not allowed")   
         
@@ -102,12 +107,18 @@ class AddBacklog(BaseHandler):
         backlog.backlog_name=self.request.get('backlog_name')
         backlog.roughEstimate = float(self.request.get("rough_estimate"))
         backlog.priority = int(self.request.get("priority"))
-        backlog.user_story_status = 0
+        
+        backlog.user_story_status = Status[0]
+   
         user_info = self.auth.get_user_by_session()
         backlog.created_by = user_info['email_address']
         backlog.status = True
         
+       
+        
         projkey = backlog.set()
+        
+        
         self.response.write('true')
         
 class DeleteBacklog(BaseHandler):
@@ -186,6 +197,7 @@ class UpdateBacklog(BaseHandler):
             backlog_key=key.get()
             if (self.request.get('assignee') != 'None'):
                 backlog_key.assignee=ndb.Key(urlsafe=self.request.get('assignee'))
+            
             
             user_info = self.auth.get_user_by_session()
             backlog_key.modified_by = user_info['email_address']

@@ -81,9 +81,10 @@
 							    { 
 									$(this).removeData('bs.modal');
 									$(this).find('form')[0].reset();
-									 $('#success').load('/mytasks/view?key={{task.key.urlsafe}} #table1', function(result) {
+									$('#success').load('/mytasks/view?key={{task.key.urlsafe}} #table1', function(result) {
 						  				   
 						  				});
+									
 							    }) ;
 
 						
