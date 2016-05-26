@@ -3,10 +3,146 @@
 {% block title %}Super Admin - Roles Management{% endblock %}
 {% block header_links%}
 		
-
+<style>
+.error{
+			color:red;
+			}
+</style>
 		
 		<script>
 				$(document).ready(function(){
+					/*******************add user validation starts************************/	
+					var user_validator=   $("#user_form").validate({
+						      rules: {
+						    	  email: 
+						    	  {
+						           		 required: true,
+						           		 email: true
+						          },
+						          emp_id: 
+						          {
+							      		 required: true
+							      },
+							      first_name: 
+							      {
+								  		 required: true
+						          },
+						          last_name: 
+						          {
+										 required: true
+										
+								  },
+								
+								  designation: 
+								  {
+										 required: true
+										
+									
+								  },
+								  contact_no:
+								  {
+									  
+									  required: true
+									  
+								 },
+								company_name:
+								{
+									
+									required: true
+								
+								},
+								company_domain :
+									  {
+									  required:true
+									  }
+					   
+					   
+						         },
+						         messages: 
+						         {
+						        	 email: 
+						           {
+						             required: "Please enter email address.",
+						             email:"Please enter valid email address."
+						           },
+						           emp_id: 
+						           {
+						             required: "Please enter employee id."
+						           },
+						           first_name:
+						           {
+							             required: "Please enter first name."
+							       },
+							       last_name:
+							       {
+							             required: "Please enter last name."
+							            
+							       },
+							       designation: 
+							       {
+							             required: "Please enter designation."
+							       },
+							       contact_no:
+							    	   {
+							    	   required: "Please enter contact number."
+							    	   },
+							    	company_name :
+							    	   {
+							    	   
+							    	   required:"Please enter company name."
+							    	   },
+							    	   company_domain :   
+							    	   {
+								    	   
+								    	   required:"Please enter company domain."
+								     }
+						           
+						         }
+						     });
+					
+					/*******************add user validation ends************************/	
+					
+						/****************************add user ***************************************/
+			
+			
+				$("#add_user").click(function(){
+					 if (!$('#user_form').valid()){
+							    event.preventDefault();
+							    event.stopImmediatePropagation();
+							    return false;
+						 }
+						 else
+							 {
+								$.post( "/superadmin/signupadmin", $("#user_form").serialize())
+						  		.done(function( data ) {
+						  			if (data!="true"){
+						  				alert(data);
+						  				return false;
+						  			} else {
+						  				alert("A verification mail has been sent to the user's email id");
+						  			}
+						  	});
+							
+							
+						 	}		
+								
+						})
+			
+			
+			
+			
+			/*******************************add user ends************************************/
+			
+						$('#add-user-modal').on('hidden.bs.modal', function(e)
+							{ 
+								$(this).removeData();
+								$(this).find('form')[0].reset();
+								user_validator.resetForm();
+								  $('.table').load('/superadmin/usermanagment .table', function(result) {
+					  				    //var variable = $('#edit_permissions').html();
+					  				});
+					    	}) ;
+					
 					$(".nav-tabs a").click(function(){
 						$(this).tab('show');
 					});
@@ -103,6 +239,7 @@
 													</thead>
 													<tbody>
 													{%for user1 in user1%}
+													
 													  <tr>
 														<td><i class="fa fa-user" aria-hidden="true"></i></td>
 														<td>{{user1.name}}</td>

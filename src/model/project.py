@@ -45,6 +45,7 @@ class Estimation(BaseClass):
     
 class ProjectMembers(BaseClass):
     projectid = ndb.KeyProperty(required=True)
+    roleid = ndb.KeyProperty(required=True)
     companyid = ndb.KeyProperty(required=True)
     userName = ndb.StringProperty(required=True)
     userid   = ndb.KeyProperty(required=True)
