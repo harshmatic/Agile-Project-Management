@@ -21,7 +21,7 @@ import json
 
 class ProjectManagement(BaseHandler):
     def get(self,*args,**kargs):
-        if check_permission(self):
+        #if check_permission(self):
             projmodel=project.Project()
             projmemmodel = project.ProjectMembers()
             currentUser=self.auth.get_user_by_session()
@@ -37,10 +37,10 @@ class ProjectManagement(BaseHandler):
             self.render_template("user_new/apm-all-projects.html",{"project":proj})
             #self.render_template("user_new/apm-add-project.html")
            
-        else:
+        #else:
             #self.response.write("you are not allowed")
             #self.render_template("apm-add-project.html",{'not_permitted':'You are not authorized to view this page'})    
-            self.response.write("You have no permissions to access this page")
+            #self.response.write("You have no permissions to access this page")
 
 
 class AddProjectView(BaseHandler):
