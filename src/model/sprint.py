@@ -15,7 +15,7 @@ class Sprint(BaseClass):
     workinghours = ndb.StringProperty()
     release_key=ndb.KeyProperty()
     def set(self):
-        self.put()
+        return self.put()
     def get_all(self): 
         return self.query().fetch()
     def get_by_project(self,projId): 

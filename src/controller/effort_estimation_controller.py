@@ -29,16 +29,16 @@ class EffortEstimationView(BaseHandler):
 
 class PersistDefaulEstimation(BaseHandler):
     
-    def get(self,*args,**kargs):
+    def post(self):
         
-        logging.info("The sprintid is"+self.request.get("sprinid"))
-        sprintKey = ndb.Key('Sprint',int(self.request.get("sprinid")))
+        logging.info("The sprintid is"+self.request.get("sprintid"))
+        sprintKey = ndb.Key('Sprint',int(self.request.get("sprintid")))
         sprint = sprintKey.get()
-        currentUser=self.auth.get_user_by_session()
-        createdBy=self.user_model.get_by_id(currentUser['user_id']).key
+        createdBy= self.request.get("createdBy")
         start_date = sprint.startDate
         end_date = sprint.endDate
         working_hours = sprint.workinghours
+        logging.info("the working hours"+working_hours)
         projectKey = sprint.project
         
         
@@ -54,7 +54,7 @@ class PersistDefaulEstimation(BaseHandler):
             usereffort.userKey    =  mem.userid
             usereffort.userName   =  mem.userName
             usereffort.effortHours = working_hours
-            total =  total + int(working_hours)
+            total =  total + float(working_hours)
             estlist.append(usereffort)
             
         logging.info(estlist)  
