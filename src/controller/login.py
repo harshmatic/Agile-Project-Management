@@ -48,7 +48,6 @@ class BaseHandler(webapp2.RequestHandler):
     def get_domain(self):
         domain = self.request.url
         domain=urlparse.urlparse(domain)
-        logging.info(self.request.get('subdomain'))
         return domain
         '''if domain:
             return None
@@ -88,9 +87,7 @@ class BaseHandler(webapp2.RequestHandler):
             params = {}
         user = self.user_info
         params['user'] = user
-        #permission={}
         pa=[]
-        logging.info(self.session)
         if user:
             user_obj=self.user_model.get_by_id(user['user_id'])
             user_key=user_obj.key
@@ -116,9 +113,8 @@ class BaseHandler(webapp2.RequestHandler):
             
         if user != None :
             params['blob'] = self.user_model.get_by_id(user['user_id']).blob_key
-        
+        logging.info(self.session)
         params['session']=self.session
-        logging.info(params)
         path = os.path.join(os.path.dirname(__file__), '../view', view_filename)
         self.response.out.write(template.render(path, params))
 

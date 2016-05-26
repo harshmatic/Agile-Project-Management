@@ -114,9 +114,11 @@
                     <!-- Project Name in dropdown -->
 					<span class="dropdown">
 					{% regroup sidebar by parentName as sidebars %}
-						<a class="navbar-brand apm-nav-brand-1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{session.current_project.get.name}}<span class="caret"></span></a></a>
+						<a class="navbar-brand apm-nav-brand-1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{%if projects%}{{session.current_project.get.name}}{%else%}No Projects{%endif%}<span class="caret"></span></a></a>
 						<ul class="dropdown-menu apm-dropdown-projects">
+						{%if projects%}
 						{% for project in projects %}
+							
 							{%ifnotequal project.projectid session.current_project%}
 						    <li><a href="/setsession?project_key={{project.projectid.urlsafe}}"><i class="fa fa-cog"></i> {{project.projectid.get.name}}</a></li>
 						    {%endifnotequal%}
@@ -130,7 +132,12 @@
 							<li><a href="/project/addnewproject">Create New Project</a></li>
 									{%endifequal%}
 								{%endfor%}
+								
 							{%endfor%}
+							{%else%}
+							<li><a href="/project/addnewproject">Create New Project</a></li>
+							{%endif%}
+							
 						</ul>
 					</span>
                

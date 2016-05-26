@@ -7,6 +7,35 @@
 					$(".nav-tabs a").click(function(){
 						$(this).tab('show');
 					});
+					
+					$('#to').datepicker({
+						format: 'dd/mm/yyyy',
+						endDate:'0d'
+					});
+					$('#from').datepicker({
+						format: 'dd/mm/yyyy',
+						endDate:'0d'
+					});
+					$('body').on('focus',".prev_next", function(){
+						$(".prev_next").on('click',function(){
+							var date_val=$(this).val();
+							$('#timesheet').load('/timesheet?from='+date_val+' #timesheet', function(result) {
+			  				    //var variable = $('#edit_permissions').html();
+			  				});
+					    
+					});
+					
+					})
+					$('body').on('focus',"#range_date", function(){
+					$("#range_date").on('click',function(){
+						var date_frm=$("#from").val();
+						var date_to=$("#to").val();
+						$('#timesheet').load('/timesheet?from='+date_frm+'&to='+date_to+' #timesheet', function(result) {
+		  				    //var variable = $('#edit_permissions').html();
+		  				});
+					})
+					});
+						
 				});
 					
 					
@@ -33,24 +62,32 @@
 									<div class="col-md-2 col-sm-2">
 											<div class="form-group">
 														<label class="apm-landing-reg-label">From:</label>
-														<input type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true">
+														<input type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true" id="from">
 														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
 											</div>
 									</div>
 									<div class="col-md-2 col-sm-2">
 											<div class="form-group">
 														<label class="apm-landing-reg-label">To:</label>
-														<input type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true">
+														<input type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true" id="to">
 														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
 											</div>
 									</div>
 									<div class="col-md-1 col-sm-1">
-										<button type="button" class="apm-timesheet-go-btn">Go</button>
+										<button type="button" class="apm-timesheet-go-btn" id="range_date">Go</button>
 									</div>
+									
 								</div>
-							
+								<div id="timesheet">
+									
 								<h4 class="apm-timesheet-monthname-weekname">
 									{%for a in logs%}{%if forloop.first%} {{a.date}} {%endif%}{%endfor%}<span class="to-span">To</span> {%for a in logs%}{%if forloop.last%} {{a.date}} {%endif%}{%endfor%}
+								<!-- Timesheet Previous / Next week buttons -->
+        <div class="timesheet-navigation-box">
+         <button class="prev_next" value="{{previous}}"> << Prev Week </button>
+         <button class="prev_next" value="{{next}}"> Next Week >> </button>
+        </div>
+								
 								</h4>
 								
 								<hr class="apm-timesheet-separator">
@@ -65,6 +102,7 @@
 											<th>Total Efforts (Hrs.)</th>
 										  </tr>
 										</thead>
+										
 										<tbody class="apm-timesheet-body">
 										{% for log in logs%}
 										{%if log.items%}
@@ -84,6 +122,7 @@
 										  </tr>
 										  {%endif%}
 										 {%endfor%}
+										 <tr class="timesheet-row-separator"></tr>
 										{%else%}
 										<tr>
 											<td class="apm-timesheet-td-bold">{{log.date|date:"l, d N, Y"}}</td>
@@ -91,6 +130,7 @@
 											<td>-</td>
 											<td class="apm-timesheet-td-bold">-</td>
 										  </tr>
+										  <tr class="timesheet-row-separator"></tr>
 										  {%endif%}
 										  {%endfor%}
 										 
@@ -101,6 +141,7 @@
 								<h4 class="week-total-hrs-label">Total Efforts of Week : {{week_total|floatformat:2}} Hours</h4>
 								
 							</div>	
+							</div>
 						</div>
 						
 					<!-- Task Details content ENDS -->

@@ -72,6 +72,7 @@ class Groups(BaseClass):
     date = ndb.DateTimeProperty(auto_now_add=True)
     tenant_domain = ndb.StringProperty()
     tenant_key = ndb.KeyProperty(kind=Tenant)
+    application_level=ndb.BooleanProperty()
     
     def set(self):
         self.put()
