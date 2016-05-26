@@ -6,6 +6,7 @@ from login import BaseHandler,check_permission
 import json as json
 from model import sprint,task
 from datetime import datetime
+from model import project
 
 class Tasks(BaseHandler):
     
@@ -15,7 +16,9 @@ class Tasks(BaseHandler):
             type_data=task.Type().get_all()
             team=project.ProjectMembers().get_all(key)
             complexity=project.Estimation().get_all(key)
+            logging.info(complexity)
             sprints = sprint.Sprint().get_by_project(key)
+            
             self.render_template("user_new/addtask.html",{"type":type_data,"team":team,"complex":complexity,'sprints':sprints})
         #else:
             #self.response.write("you are not allowed")
@@ -95,11 +98,14 @@ class Sprint(BaseHandler):
     def get(self,*args,**kargs):
         if check_permission(self):
            # project = ndb.Key(urlsafe=self.request.get("key"))
-            project =self.session['current_project']   
-            sprint_data=sprint.Sprint().get_by_project(project)
-            tasks=task.Task().get_all(project)
+            project1 =self.session['current_project']   
+            sprint_data=sprint.Sprint().get_by_project(project1)
+            tasks=task.Task().get_all(project1)
             logging.info(tasks)
-            self.render_template("user_new/apm-sprint-items.html",{"sprints":sprint_data,"tasks":tasks})
+            
+            release=project.ProjectRelease()
+            releases=release.get_by_project(self.session['current_project'])
+            self.render_template("user_new/apm-sprint-items.html",{"sprints":sprint_data,"tasks":tasks,"release":releases})
         else:
             self.response.write("you are not allowed")
     
@@ -124,6 +130,9 @@ class Sprint(BaseHandler):
         
         sprint_data.created_by = currentUser['email_address']
         sprint_data.status = True
+        
+        if (self.request.get('release') != 'None'):
+            sprint_data.release_key=ndb.Key(urlsafe=self.request.get('release'))
         
         sprint_data.set()
         self.response.out.write("true")

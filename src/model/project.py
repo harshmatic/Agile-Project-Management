@@ -82,3 +82,5 @@ class ProjectRelease(BaseClass):
     def getall(self):
         res = self.query().fetch()
         return res
+    def get_by_project(self,projId): 
+        return self.query(ProjectRelease.projectid == projId).fetch()

@@ -13,6 +13,7 @@ class Sprint(BaseClass):
     createdby = ndb.KeyProperty()
     sprint_status = ndb.StringProperty()
     workinghours = ndb.StringProperty()
+    release_key=ndb.KeyProperty()
     def set(self):
         self.put()
     def get_all(self): 

@@ -1,6 +1,115 @@
 
 <script>
-		$("#submit_item").on("click",function(){
+$(document).ready(function(){
+	/*******************task validation starts************************/	
+	var task_validator=   $("#addtask").validate({
+		      rules: {
+		    	  name: 
+		    	  {
+		           		 required: true
+		          },
+		          desc: 
+		          {
+			      		 required: true
+			      },
+			      start: 
+			      {
+				  		 required: true
+		          },
+		          end: 
+		          {
+						 required: true
+						
+				  },
+				  complexity: 
+				  {
+						 required: true
+						
+					
+				  },
+				  actual_efforts:
+				  {
+						 required: true
+						
+					
+				  }
+	   
+		         },
+		         messages: 
+		         {
+		        	 name: 
+		           {
+		             required: "Please enter title."
+		           },
+		           desc: 
+		           {
+		             required: "Please enter description."
+		           },
+		           start:
+		           {
+			             required: "Please select start date."
+			       },
+			       end:
+			       {
+			             required: "Please select end date."
+			            
+			       },
+			       complexity: 
+			       {
+			             required: "Please select complexity."
+			       },
+			       actual_efforts:
+			       {
+			             required: "Please enter estimated efforts."
+			       }
+		         }
+		     });
+	
+	/*******************task validation ends************************/	
+	$("#submit_item").on("click",function(){
+						 if (!$('#addtask').valid()){
+							    event.preventDefault();
+							    event.stopImmediatePropagation();
+							    return false;
+						 }
+						 else
+							 {
+								$.post( "/task/addtask?key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA", $("#addtask").serialize())
+						  		.done(function( data ) {
+						  			if (data!="true"){
+						  				alert("Something Went Wrong");
+						  				return false
+						  			} 
+						  		});
+							/* 	$('#add-issue-modal').on('hidden.bs.modal', function(e)
+									    { 
+									        $(this).removeData();
+									        task_validator.resetForm();
+									        $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
+							  				    //var variable = $('#edit_permissions').html();
+							  				});
+									    }) ; */
+								
+							
+						 	}		
+								
+						})
+						
+					$('#add-issue-modal').on('hidden.bs.modal', function(e)
+									    { 
+									 	
+									        $(this).removeData('bs.modal');
+									        $(this).find('form')[0].reset();
+									        task_validator.resetForm();
+									        $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
+							  				    //var variable = $('#edit_permissions').html();
+							  				});
+									 
+										
+									    }) ;		
+						
+	
+		/* $("#submit_item").on("click",function(){
 			$.post( "/task/addtask?key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA", $("#addtask").serialize())
 	  		.done(function( data ) {
 	  			if (data!="true"){
@@ -11,13 +120,16 @@
 			$('#add-issue-modal').on('hidden.bs.modal', function(e)
 				    { 
 				        $(this).removeData();
+				        task_validator.resetForm();
 				        $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
 		  				    //var variable = $('#edit_permissions').html();
 		  				});
 				    }) ;
 			
 			
-		})
+		}) */
+		
+});
 	</script>
 <div class="modal-header add-task-modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -43,7 +155,7 @@
 												</select>
 											  </div>
 											  <div class="form-group task-form-group">
-												<label class="task-label">Name</label>
+												<label class="task-label">Title</label>
 												<input name="name" type="text" class="form-control add-task-textbox apm-modal-textbox">
 											  </div>
 											  
@@ -95,6 +207,7 @@
 											  <div class="form-group task-form-group">
 												<label class="task-label">Complexity</label>
 												<select name="complexity" class="form-control add-task-textbox apm-modal-textbox">
+													<option value="None">None</option>
 													{% for complex in complex%}
 													{%if complex.status%}
 														<option value="{{complex.key.urlsafe}}">{{complex.estimationLevel}}</option>
@@ -107,18 +220,18 @@
 											  <div class="col-sm-6">
 											  <div class="form-group task-form-group">
 												<label class="task-label">Issue Type</label>
-												<select name="type" class="form-control add-task-textbox apm-modal-textbox">
+												<select name="type" class="form-control add-task-textbox apm-modal-textbox" disabled="disabled">
 													{% for type in type%}
-													
+													{%if type.name == 'Task'%}
 														<option value="{{type.key.urlsafe}}">{{type.name}}</option>
-													
+													{%endif%}
 													{%endfor%}
 												</select>
 											  </div>
 											  </div>
 											  </div>
 											  <div class="form-group task-form-group">
-												<label class="task-label">Actual Efforts</label>
+												<label class="task-label">Estimated Efforts</label>
 												<input name="actual_efforts" type="text" class="form-control add-task-textbox apm-modal-textbox">
 											  </div>
 										</form>

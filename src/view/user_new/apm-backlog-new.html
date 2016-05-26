@@ -51,9 +51,55 @@
 		<script>
 				$(document).ready(function(){
 					
-				//	alert($('.table').children("tr:eq(1)").text());
-			//		console.log($('.table').children("tr:eq(1)"));
+				/*******************for detail table start************************/	
+					 var a=$(".table tr:eq(2) td").map(function() {
+				           return $(this).text();
+				       }).get().join("|");
+					 
+					 row_key=$(".table tr:eq(2)").attr("id");
+					
+					 $("#edit_key").attr("href", "/backlog/edit?edit_key="+row_key)
+					 $("#delete_key").attr("href", "/backlog/delete?delete_key="+row_key)
+				     
+					 var update="/backlog/update?update_key="+row_key;
+					 var edit="/backlog/edit?edit_key="+row_key;
+				     var delete_key ="/backlog/delete?delete_key="+row_key;
+				     
+				     
+				     
+				       var myList =a;
+				       var myArray = myList.split( '|' );  
+				       
+				       
+				     
+				       $('#edit_delete_panel').html('<a href="'+edit+'" id="edit_key" data-toggle="modal" data-target="#edit-backlog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Release"  id="{{i.key.urlsafe}}"></i></a><a id="delete_key" href="'+delete_key+'" data-toggle="modal" data-target="#delete-backlog-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Release"  id="{{i.key.urlsafe}}"></i></a>');
+						
+				       $('#sprint').html(myArray[0]);
+				       $('#sprint_name').html(myArray[0]);
+				       $('#backlog_name').html(myArray[1]);
+				       $('#description').html(myArray[2]);
+				      
+				       if( myArray[3] == '' || myArray[3] == 'None')
+				    	   {
+				    	   $('#assignee').html('<a href="'+update+'" id="update_key" data-toggle="modal" data-target="#add-assignee-modal">Assign<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Update User Story" id="{{i.key.urlsafe}}"></i></a>');
+				    	   }
+				       else
+				    	   {
+				      			 $('#assignee').html(myArray[3]);
+				    	   }
+				       $('#rough_estimate').html(myArray[4]);
+				       $('#priority').html(myArray[5]);
+				       $('#status').html(myArray[6]);
+				      
+					 
+					 
+					//alert( $.trim(a));
+					//console.log(a);
+					
+					/*******************for detail table end************************/	
+					
 				
+					/*******************user story validation starts************************/	
 					var validator=   $("#backlog_form").validate({
 						      rules: {
 						    	  sprint: 
@@ -109,8 +155,78 @@
 						         }
 						     });
 					
+					/*******************user story validation ends************************/	
 					
 					
+					/***********************sprint validation starts******************************/
+					
+					var sprint_validator=   $("#add_sprint").validate({
+						      rules: {
+						    	  name: 
+						    	  {
+						           		 required: true
+						          },
+						          desc: 
+						          {
+							      		 required: true
+							      },
+							      start: 
+							      {
+								  		 required: true
+						          },
+						          end: 
+						          {
+										 required: true
+										
+								  },
+								  workinghours: 
+								  {
+										 required: true
+										
+									
+								  }
+								 /*  ,
+								  release: 
+								  {
+										 required: true
+										
+									
+								  }
+					    */
+					   
+						         },
+						         messages: 
+						         {
+						        	 name: 
+						           {
+						             required: "Please enter sprint name."
+						           },
+						           desc: 
+						           {
+						             required: "Please enter sprint description."
+						           },
+						           start:
+						           {
+							             required: "Please select start date."
+							       },
+							       end:
+							       {
+							             required: "Please select end date."
+							            
+							       },
+							       workinghours: 
+							       {
+							             required: "Please enter working hours."
+							       }
+							    /*    ,
+							       release: 
+							       {
+							             required: "Please select release."
+							       } */
+						           
+						         }
+						     });
+					/***********************sprint validation ends******************************/
 					//$("#details").hide();
 					$(".nav-tabs a").click(function(){
 						$(this).tab('show');
@@ -138,9 +254,7 @@
 					
 					
 					
-					
-					/* if ($('#backlog_form').valid())
-					{} */
+				/********************user story starts**********************************/
 					$("#add_backlogs").on("click",function(){
 						 if (!$('#backlog_form').valid()){
 							    event.preventDefault();
@@ -181,7 +295,7 @@
 	
 
 							
-							
+					/********************user story ends**********************************/		
 					
 					$(".table").on("click",".clickable-row",function(){
 					//	$(".clickable-row").click(function() {
@@ -275,36 +389,62 @@
 				    	}
 				    });
 					
+					
+					
+					/**********************for sprint***********************************/
 						$("#add-sprint").click(function(e) {
 							$('#add-sprint-modal').modal('show');
 						});
 						
+						
 						$("#submit_sprint").on("click",function(){
-							$.post( "/sprint", $("#add_sprint").serialize())
-					  		.done(function( data ) {
-					  			if (data!="true"){
-					  				alert("Something Went Wrong");
-					  				return false
-					  			} 
-					  		//	$("#backlog_form").reset();
-					  			
-					  			
-					  			 $('#backlog_form').load('/backlog #backlog_form', function(result) {
-					  				}); 
-					  		
-					  		});
+							 if (!$('#add_sprint').valid()){
+								    event.preventDefault();
+								    event.stopImmediatePropagation();
+								    return false;
+							 }
+							 else
+								 {
+								 $.post( "/sprint", $("#add_sprint").serialize())
+							  		.done(function( data ) {
+							  			if (data!="true"){
+							  				alert("Something Went Wrong");
+							  				return false
+							  			} 
+							  		//	$("#backlog_form").reset();
+							  			
+							  			
+							  			 $('#backlog_form').load('/backlog #backlog_form', function(result) {
+							  				}); 
+							  		
+							  		});
+								
+								
+							 	}		
+									
+							})
+						
+						
+					
 							
 							
 							
-						});
+							
+					
 						
 						
 						$('#add-sprint-modal').on('hidden.bs.modal', function(e)
 							    { 
 									$(this).removeData('bs.modal');
+									sprint_validator.resetForm();
 									$(this).find('form')[0].reset();
+									
 							
 							    }) ;
+						
+						
+						/**************sprint ends*************************/
+						
 
 				});
 					
@@ -417,7 +557,7 @@
 														
 															{%if i.status%}
 															{%if i.project_key.get.name == session.current_project.get.name %}
-															  <tr class='clickable-row' id="{{i.key.urlsafe}}">
+															  <tr class='clickable-row' id="{{i.key.urlsafe}}" >
 																<td>{%if i.sprintId != None  %}
 																		{{i.sprintId.get.name}}
 																	{%else%}
@@ -430,9 +570,8 @@
 																<td>{{i.assignee.get.name}}</td>
 																<td>{{i.roughEstimate}}</td>
 																<td>{{i.priority}}</td>
-																<td>{%if i.user_story_status == 0 %}
-																		Defined
-																	{%endif%}
+																<td>
+																	{{i.user_story_status}}
 																</td>
 															  </tr>
 															  
@@ -559,6 +698,17 @@
 														<input disabled type="text" class="form-control add-task-textbox apm-modal-textbox" value="0 weeks" id="length">
 													  </div>
 											  
+											  	<div class="form-group task-form-group">
+														<label class="task-label">Release</label>
+														<select class="form-control add-task-textbox apm-modal-textbox" name="release" id="release">
+														<option value="">None</option>
+														{%for i in release%}
+														{%if i.status%}
+															<option value={{i.key.urlsafe}}>{{i.name}}</option>
+														{%endif%}
+														{%endfor%}
+												</select>
+												 </div>
 										</form>
 								</div>	
 								<div class="col-md-1">

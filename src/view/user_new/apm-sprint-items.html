@@ -2,8 +2,87 @@
 
 {% block title %}User | Sprint{% endblock %}
 {% block header_links%}
+<style>
+.error{
+		color:red;
+	}
+</style>
 <script>
 				$(document).ready(function(){
+					
+	/***********************sprint validation starts******************************/
+					
+					var sprint_validator=   $("#add_sprint").validate({
+						      rules: {
+						    	  name: 
+						    	  {
+						           		 required: true
+						          },
+						          desc: 
+						          {
+							      		 required: true
+							      },
+							      start: 
+							      {
+								  		 required: true
+						          },
+						          end: 
+						          {
+										 required: true
+										
+								  },
+								  workinghours: 
+								  {
+										 required: true
+										
+									
+								  }
+								 /*  ,
+								  release: 
+								  {
+										 required: true
+										
+									
+								  }
+					    */
+					   
+						         },
+						         messages: 
+						         {
+						        	 name: 
+						           {
+						             required: "Please enter sprint name."
+						           },
+						           desc: 
+						           {
+						             required: "Please enter sprint description."
+						           },
+						           start:
+						           {
+							             required: "Please select start date."
+							       },
+							       end:
+							       {
+							             required: "Please select end date."
+							            
+							       },
+							       workinghours: 
+							       {
+							             required: "Please enter working hours."
+							       }
+							    /*    ,
+							       release: 
+							       {
+							             required: "Please select release."
+							       } */
+						           
+						         }
+						     });
+					/***********************sprint validation ends******************************/
+					
+					
+					
+					
 					$(".nav-tabs a").click(function(){
 						$(this).tab('show');
 					});
@@ -79,6 +158,34 @@
 					});
 					
 					$("#submit_sprint").on("click",function(){
+						 if (!$('#add_sprint').valid()){
+							    event.preventDefault();
+							    event.stopImmediatePropagation();
+							    return false;
+						 }
+						 else
+							 {
+							 $.post( "/sprint", $("#add_sprint").serialize())
+						  		.done(function( data ) {
+						  			if (data!="true"){
+						  				alert("Something Went Wrong");
+						  				return false
+						  			} 
+						  		//	$("#backlog_form").reset();
+						  			
+						  			
+						  			 $('#backlog_form').load('/backlog #backlog_form', function(result) {
+						  				}); 
+						  		
+						  		});
+							
+							
+						 	}		
+								
+						})
+					
+						
+			/* 		$("#submit_sprint").on("click",function(){
 						$.post( "/sprint", $("#add_sprint").serialize())
 				  		.done(function( data ) {
 				  			if (data!="true"){
@@ -87,13 +194,14 @@
 				  			} 
 				  		})
 					});
-						
+						 */
 				  			
 				  			$('#add-sprint-modal').on('hidden.bs.modal', function(e)
 								    { 
 									//	alert("hey");
 										$(this).removeData('bs.modal');
 										$(this).find('form')[0].reset();
+										sprint_validator.resetForm();
 										$('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
 						  				    //var variable = $('#edit_permissions').html();
 						  				});
@@ -327,6 +435,18 @@
 														<label class="task-label">Sprint Length</label>
 														<input disabled type="text" class="form-control add-task-textbox apm-modal-textbox" value="0 weeks" id="length">
 													  </div>
+													  
+												<div class="form-group task-form-group">
+														<label class="task-label">Release</label>
+														<select class="form-control add-task-textbox apm-modal-textbox" name="release" id="release">
+														<option value="">None</option>
+														{%for i in release%}
+														{%if i.status%}
+															<option value={{i.key.urlsafe}}>{{i.name}}</option>
+														{%endif%}
+														{%endfor%}
+												</select>
+												 </div>
 											  
 										</form>
 								</div>	

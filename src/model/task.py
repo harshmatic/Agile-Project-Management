@@ -18,7 +18,7 @@ class Task(BaseClass):
     project = ndb.KeyProperty()
     sprint = ndb.KeyProperty()
     type = ndb.KeyProperty()
-    task_status = ndb.StringProperty(repeated=True, choices=Status)
+    task_status = ndb.StringProperty(choices=Status)
     
     actual_efforts = ndb.StringProperty()
     comments = ndb.StructuredProperty(Comments,repeated=True)
