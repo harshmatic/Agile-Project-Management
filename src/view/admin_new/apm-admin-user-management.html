@@ -3,8 +3,94 @@
 
 
 {% block header_links%}
+<style>
+.error{
+			color:red;
+			}
+</style>
+
+
 		<script>
 				$(document).ready(function(){
+					
+					/*******************add user validation starts************************/	
+					var user_validator=   $("#user_form").validate({
+						      rules: {
+						    	  email: 
+						    	  {
+						           		 required: true,
+						           		 email: true
+						          },
+						          emp_id: 
+						          {
+							      		 required: true
+							      },
+							      first_name: 
+							      {
+								  		 required: true
+						          },
+						          last_name: 
+						          {
+										 required: true
+										
+								  },
+								  designation: 
+								  {
+										 required: true
+										
+									
+								  },
+								  contact_no:
+									  {
+									  required: true
+									  },
+								  role :
+									  {
+									  required:true
+									  }
+					   
+					   
+						         },
+						         messages: 
+						         {
+						        	 email: 
+						           {
+						             required: "Please enter email address.",
+						             email:"Please enter valid email address."
+						           },
+						           emp_id: 
+						           {
+						             required: "Please enter employee id."
+						           },
+						           first_name:
+						           {
+							             required: "Please enter first name."
+							       },
+							       last_name:
+							       {
+							             required: "Please enter last name."
+							            
+							       },
+							       designation: 
+							       {
+							             required: "Please enter designation."
+							       },
+							       contact_no:
+							    	   {
+							    	   required: "Please enter contact number."
+							    	   },
+							       role :
+							    	   {
+							    	   
+							    	   required:"Please select a role"
+							    	   }
+						           
+						         }
+						     });
+					
+					/*******************add user validation ends************************/	
+					
+					
 					$(".nav-tabs a").click(function(){
 						$(this).tab('show');
 					});
@@ -44,7 +130,43 @@
 		  			}
 		  		})
 			})
-					$("#add_user").click(function(){
+				
+			/*******************************************************************/
+			
+			
+				$("#add_user").click(function(){
+					 if (!$('#user_form').valid()){
+							    event.preventDefault();
+							    event.stopImmediatePropagation();
+							    return false;
+						 }
+						 else
+							 {
+								$.post( "/admin/usermanagment", $("#user_form").serialize())
+						  		.done(function( data ) {
+						  			if (data!="true"){
+						  				alert(data);
+						  				return false;
+						  			} else {
+						  				alert("A verification mail has been sent to the user's email id");
+						  			}
+						  	});
+							
+							
+						 	}		
+								
+						})
+			
+			
+			
+			
+			/*******************************************************************/
+			
+			
+			
+			
+		/* 	
+			$("#add_user").click(function(){
 						
 						
 						$.post( "/admin/usermanagment", $("#user_form").serialize())
@@ -59,13 +181,14 @@
 						
 					});
 				
-				
+				 */
 				
 				
 					$('#add-user-modal').on('hidden.bs.modal', function(e)
 							{ 
 								$(this).removeData();
 								$(this).find('form')[0].reset();
+								user_validator.resetForm();
 								$('.table').load('/admin/usermanagment .table', function(result) {
 				  				    var variable = $('#edit_permissions').html();
 				  				});
@@ -234,6 +357,7 @@
 											  <div class="form-group task-form-group">
 												<label class="task-label">Role</label>
 												<select class="form-control add-task-textbox apm-modal-textbox" name="role">
+												<option value="">None</option>
 												{% for admin in admin %}
 													
 													<option value="{{admin.key.urlsafe}}">{{admin.role}}</option>

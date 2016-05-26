@@ -1,6 +1,103 @@
 <script>
-		
-$("#edit_user").on("click",function(){
+$(document).ready(function(){		
+	
+
+	/*******************add user validation starts************************/	
+	var user_validator=   $("#edit_form").validate({
+		      rules: {
+		    	
+		          emp_id: 
+		          {
+			      		 required: true
+			      },
+			      first_name: 
+			      {
+				  		 required: true
+		          },
+		          last_name: 
+		          {
+						 required: true
+						
+				  },
+				
+				  designation: 
+				  {
+						 required: true
+						
+					
+				  },
+				  contact_no:
+				  {
+					  
+					  required: true
+					  
+				 }
+				
+	   
+		         },
+		         messages: 
+		         {
+		        	
+		           emp_id: 
+		           {
+		             required: "Please enter employee id."
+		           },
+		           first_name:
+		           {
+			             required: "Please enter first name."
+			       },
+			       last_name:
+			       {
+			             required: "Please enter last name."
+			            
+			       },
+			       designation: 
+			       {
+			             required: "Please enter designation."
+			       },
+			       contact_no:
+			    	   {
+			    	   required: "Please enter contact number."
+			    	   }
+			    
+		           
+		         }
+		     });
+	
+	/*******************add user validation ends************************/	
+	/****************************add user ***************************************/
+			
+			
+			$("#edit_user").on("click",function(){
+					 if (!$('#edit_form').valid()){
+							    event.preventDefault();
+							    event.stopImmediatePropagation();
+							    return false;
+						 }
+						 else
+							 {
+								$.post( '/admin/edit', $("#edit_form").serialize())
+								.done(function( data ) {
+									if (data!="true"){
+										alert("User not updated");
+										return false
+									} else {
+										
+										
+										
+									}
+								});
+							
+							
+						 	}		
+								
+						})
+			
+			
+			
+			
+			/*******************************add user ends************************************/
+/* $("#edit_user").on("click",function(){
 	$.post( '/admin/edit', $("#edit_form").serialize())
 		.done(function( data ) {
 			if (data!="true"){
@@ -16,16 +113,17 @@ $("#edit_user").on("click",function(){
 		
 			
 			
-		})
+		}) */
 		
 		
 			$('#edit-user-modal').on('hidden.bs.modal', function(e)
 				    { 
 				        $(this).removeData('bs.modal');
-				        
+				       // user_validator.resetForm();
 				        $('.table').load('/admin/usermanagment .table', function(result) {
 		  				});
 				    }) ;
+});
 	</script>			
 
 
