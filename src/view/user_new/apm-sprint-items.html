@@ -22,7 +22,7 @@
 						          {
 							      		 required: true
 							      },
-							      start: 
+							    /*   start: 
 							      {
 								  		 required: true
 						          },
@@ -30,7 +30,7 @@
 						          {
 										 required: true
 										
-								  },
+								  }, */
 								  workinghours: 
 								  {
 										 required: true
@@ -57,7 +57,7 @@
 						           {
 						             required: "Please enter sprint description."
 						           },
-						           start:
+						        /*    start:
 						           {
 							             required: "Please select start date."
 							       },
@@ -65,7 +65,7 @@
 							       {
 							             required: "Please select end date."
 							            
-							       },
+							       }, */
 							       workinghours: 
 							       {
 							             required: "Please enter working hours."
@@ -260,6 +260,7 @@
 							<div class="row" id="tasks_sprints">
 								<div class="col-md-12">
 									<div class="">
+									{%if sprints%}
 									{% for sprint in sprints%}
 									{%if sprint.status%}
 											<!-- Sprint 1 panel -->
@@ -287,7 +288,7 @@
 															</thead>
 															<tr class="separator" />
 															<tbody>
-															
+															{%if tasks%}
 															{%for task in tasks %}
 															{%if task.status%}
 																{%ifequal task.sprint sprint.key%}
@@ -306,14 +307,22 @@
 																<a href="/task/deletetask?delete_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#delete-user-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Task"  id="{{task.key.urlsafe}}"></i></a></td>
 															  </tr>
 															  <tr class="separator" />
-															  
+															   
 															  {% endifequal %}
+															    {%else%}
+															  <tr>
+																<td colspan="10" style="text-align:center;">No Task Found.</td>
+															</tr>
+															 <tr class="separator" />
 															  {%endif%}
 															  {% endfor %}
 															  
-															  
-															  
-															  
+															  {%else%}
+															  <tr>
+																<td colspan="10" style="text-align:center;">No Task Found.</td>
+															</tr>
+															 <tr class="separator" />
+															  {%endif%}
 															</tbody>
 														</table>
 													</div>
@@ -321,11 +330,48 @@
 											</div>
 											<!-- Sprint 1 panel ENDS -->
 											{%endif%}
-									{% endfor%}		
+									{% endfor%}	
+										
+									{%else%}	
+											<!-- Sprint 1 panel -->
+											<div class="panel panel-default apm-sprint-panel" id="sprint">
+												<div class="panel-heading">
+													
+												</div>
+												<div class="panel-body">
+													<div class="table-responsive">
+														<table class="table apm-sprint-table apm-sprint-item-table">
+															<thead>
+																<tr>	
+																	
+																	<th>Name</th>
+																	<th>Task Description</th>
+																	<th>Task Created On</th>
+																	<th>Assigned To</th>
+																	<th>Status</th>
+																	<th>Complexity</th>
+																	<th>Complexity Points</th>
+																	<th>Estimated Efforts (Hrs.)</th>
+																	<th>Actual Efforts (Hrs.)</th>
+																	<th>Action Items</th>
+																</tr>
+															</thead>
+															<tr class="separator" />
+															<tbody>
+														
+															  <tr>
+																<td colspan="10" style="text-align:center;">No Sprint Found.</td>
+															</tr>
+															 <tr class="separator" />
+															
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>	
 											
-											
-											
-											
+									
+									{%endif%}
 											
 											
 											

@@ -164,7 +164,7 @@
 						          {
 							      		 required: true
 							      },
-							      start: 
+							   /*    start: 
 							      {
 								  		 required: true
 						          },
@@ -172,7 +172,7 @@
 						          {
 										 required: true
 										
-								  },
+								  }, */
 								  workinghours: 
 								  {
 										 required: true
@@ -199,7 +199,7 @@
 						           {
 						             required: "Please enter sprint description."
 						           },
-						           start:
+						          /*  start:
 						           {
 							             required: "Please select start date."
 							       },
@@ -207,7 +207,7 @@
 							       {
 							             required: "Please select end date."
 							            
-							       },
+							       }, */
 							       workinghours: 
 							       {
 							             required: "Please enter working hours."
@@ -547,6 +547,7 @@
              													   </tr>
              												
 														<tr class="separator" />
+														{%if productBacklog%}
 															{%for i in productBacklog%}
 														
 															{%if i.status%}
@@ -571,8 +572,22 @@
 															  
 															  <tr class="separator" />
 															    {%endif%}
+															   {%else%}
+															
+															<tr>
+																<td colspan="7" style="text-align:center;">No User Story Found.</td>
+															</tr>
+															 <tr class="separator" /> 
+															   
 															  {%endif%}
 															  {%endfor%}
+															{%else%}
+															
+															<tr>
+																<td colspan="7" style="text-align:center;">No User Story Found.</td>
+															</tr>
+															 <tr class="separator" />
+															{%endif%}
 															
 															</tbody>
 														</table>
