@@ -51,8 +51,7 @@
 					
 					<!-- Project Name in dropdown -->
 					<span class="dropdown">
-						<a class="navbar-brand apm-nav-brand-1" href="/dashboard"  role="button" aria-haspopup="true" aria-expanded="false">APM<span class="caret"></span></a>
-						
+						<a class="navbar-brand apm-nav-brand-1" href="/project"  role="button" aria-haspopup="true" aria-expanded="false">View All Projects<span class="caret"></span></a>
 					</span>
                 </div><!-- navbar-header-->
  
@@ -197,8 +196,8 @@
 									</div>
 								</div>
 								<div class="apm-add-proj-btnbox">
-							<button class="apm-add-proj-btn" id="submit">SAVE</button>
-							<button class="apm-add-proj-btn">CANCEL</button>
+							<button class="apm-add-proj-btn" id="submit">EDIT</button>
+							<button class="apm-add-proj-btn" id="cancel">CANCEL</button>
 						</div>
 							</div>
 							<!-- Project Details ENDS-->
@@ -625,6 +624,12 @@
 			  		});
 					
 					
+				})
+				
+				$("#cancel").on("click",function(){
+						
+						window.location.href = "/project";
+							
 				})
 				
 					$("#addmember").on("click",function(){

@@ -55,8 +55,12 @@
 					
 					
 					 $('table tr').click(function(){
-					        window.location = $(this).attr('href');
-					        return false;
+						
+					
+					       		 window.location = $(this).attr('href');
+					        	 return false;
+						
+					        
 					    });
 
 				});
@@ -140,7 +144,7 @@
 													<div class="table-responsive">
 														<table class="table apm-sprint-table">
 															<tbody>
-               													 <tr> 
+               													 <tr id="table_header" href="#"> 
                													  <td><b>Title</b></td>
                													  <td><b>Task Description</b></td>
                 												  <td><b>Effort Estimate</b></td>
@@ -167,7 +171,7 @@
 															  {%endif%}
 															  {%endfor%}
 														{%else%}
-															<tr class='clickable-row' >
+															<tr id="blank_row" href="#">
 																<td colspan="5" style="text-align:center;">Hurray! There are no tasks assigned to you for now .</td>
 														{%endif%}
 																

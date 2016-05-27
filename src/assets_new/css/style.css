@@ -1870,3 +1870,10 @@ div.Tokenize {
  margin-bottom:8px;
 }
 /************** For Efforts Estimates page ENDS *****************/
+
+.cell-effort{
+ cursor:pointer;
+}
+.cell-effort:hover{
+ background:#eee;
+}
