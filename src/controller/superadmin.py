@@ -12,6 +12,7 @@ from datetime import datetime
 from google.appengine.api import users
 
 
+
 class SuperAdminVerify(BaseHandler):
     def post(self):
         key = ndb.Key(urlsafe=self.request.get('key_user'))
@@ -115,16 +116,18 @@ class SuperUsers(BaseHandler):
         
         
         
-class SuperEditRole(BaseHandler):
+class SuperEditRole(webapp2.RequestHandler):
     def get(self):
         key = ndb.Key(urlsafe=self.request.get('key'))
         role = key.get()
         permiss=user.Permissions()
         list_per=permiss.sa_get_all()
-        self.render_template("superadmin_new/editrole.html",{"role":role,"permission":list_per})
+        path = os.path.join(os.path.dirname(__file__), '../view/superadmin_new/editrole.html')
+        self.response.out.write(render(path,{"role":role,"permission":list_per}))
+        #self.render_template("superadmin_new/editrole.html",{"role":role,"permission":list_per})
         
     def post(self):
-        user_info = self.auth.get_user_by_session()
+        #user_info = self.auth.get_user_by_session()
         key = ndb.Key(urlsafe=self.request.get('key_role'))
         role =key.get()
         role.role=self.request.get("role")
@@ -135,17 +138,20 @@ class SuperEditRole(BaseHandler):
             perm.append(ndb.Key(urlsafe=permission))
         role.permissions=perm
         
-        role.modified_by = user_info['email_address']
+        role.modified_by = users.get_current_user().email()
         role.modified_date = datetime.now()
         
         role.put()
         self.response.write("true")
                
-class SuperEditPermission(BaseHandler):
+class SuperEditPermission(webapp2.RequestHandler):
     def get(self):
         key = ndb.Key(urlsafe=self.request.get('key'))
         permission = key.get()
-        self.render_template("superadmin_new/editpermission.html",{"permission":permission})
+        logging.info(permission)
+        path = os.path.join(os.path.dirname(__file__), '../view/superadmin_new/editpermission.html')
+        self.response.out.write(render(path,{"permissions":permission}))
+        #self.render_template("superadmin_new/editpermission.html",{"permission":permission})
         
     def post(self):
         key = ndb.Key(urlsafe=self.request.get('key_permission'))
@@ -156,8 +162,8 @@ class SuperEditPermission(BaseHandler):
             permission.order=int(self.request.get("perm_order"))
         if self.request.get("perm_parent") != "":
             permission.parentName=self.request.get("perm_parent")
-        user_info = self.auth.get_user_by_session()
-        permission.modified_by = user_info['email_address']
+        #user_info = self.auth.get_user_by_session()
+        permission.modified_by = users.get_current_user().email()
         permission.modified_date = datetime.now()
         permission.icon=self.request.get("icon")
         permission.put()

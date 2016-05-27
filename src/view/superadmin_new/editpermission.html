@@ -56,34 +56,33 @@
 								<div class="col-md-10">
 										<form role="form" id="editpermission">
 											  <!-- Permission Name --> 
-											  
 											  <div class="form-group task-form-group">
 												<label class="task-label">Permission Name</label>
-												<input type="text" class="form-control add-task-textbox" name="name_permission" value="{{permission.permission}}">
+												<input type="text" class="form-control add-task-textbox" name="name_permission" value="{{permissions.permission}}">
 											  </div>
 											  
 											  <!-- Permission URL --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Permission URL</label>
-												<input type="text" class="form-control add-task-textbox" name="url_permission" value="{{permission.url}}">
+												<input type="text" class="form-control add-task-textbox" name="url_permission" value="{{permissions.url}}">
 											  </div>
-											  <input type="hidden" name="key_permission" value="{{permission.key.urlsafe}}">
+											  <input type="hidden" name="key_permission" value="{{permissions.key.urlsafe}}">
 										
 											  <div class="form-group task-form-group">
 												<label class="task-label">Permission Parent Name</label>
-												<input name="perm_parent" type="text" class="form-control add-task-textbox" value="{% if permission.parentName %}{{permission.parentName}}{%endif%}">
+												<input name="perm_parent" type="text" class="form-control add-task-textbox" value="{% if permissions.parentName %}{{permissions.parentName}}{%endif%}">
 											  </div>
 											  
 											  <!-- Permission URL --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Permission order</label>
-												<input name="perm_order" type="text" class="form-control add-task-textbox" value="{{permission.order}}">
+												<input name="perm_order" type="text" class="form-control add-task-textbox" value="{{permissions.order}}">
 											  </div>
 											  <div class="form-group task-form-group">
 												<label class="task-label">Icon</label>
 												<div class="row">
 												<div class="col-md-11">
-												<select name="icon" class="form-control add-task-textbox apm-modal-textbox" id="icon_edit" value="{{permission.icon}}">
+												<select name="icon" class="form-control add-task-textbox apm-modal-textbox" id="icon_edit" value="{{permissions.icon}}">
 												
 													<option value="">None</option>
 													<option value="fa fa-area-chart">Area Chart</option>

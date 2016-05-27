@@ -123,7 +123,7 @@ class EditEffortEstimation(BaseHandler):
                     oldval = e.effortHours
                     e.effortHours = value
                     
-            newval = int(effortmodel.total_effort) - int(oldval) + int(value)
+            newval = float(effortmodel.total_effort) - float(oldval) + float(value)
             effortmodel.total_effort = str(newval)     
             effortmodel.set()
             

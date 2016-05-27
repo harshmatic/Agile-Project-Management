@@ -7,6 +7,7 @@ import json as json
 from model import sprint,task
 from datetime import datetime
 from model import project
+from google.appengine.api.taskqueue import taskqueue
 
 class Tasks(BaseHandler):
     
@@ -131,10 +132,17 @@ class Sprint(BaseHandler):
         sprint_data.created_by = currentUser['email_address']
         sprint_data.status = True
         
-        if (self.request.get('release') != ''):
+        if (self.request.get('release') != 'None'):
             sprint_data.release_key=ndb.Key(urlsafe=self.request.get('release'))
         
-        sprint_data.set()
+        sprintkey = sprint_data.set()
+        sprintid = sprintkey.id()
+        logging.info("before setting task");
+        task = taskqueue.add(
+            queue_name = "my-push-queue",                 
+            url='/effortspersist',
+            params={'sprintid': sprintid,'createdBy':createdBy})
+        logging.info("after setting task")
         self.response.out.write("true")
         
         

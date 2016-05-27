@@ -7,6 +7,7 @@ indexes:
   properties:
   - name: assigne_key
   - name: project_key
+  - name: status
   - name: today_date
 - kind: EffortEstimation
   properties:

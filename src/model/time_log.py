@@ -24,5 +24,5 @@ class Time_Log(BaseClass):
         res = self.query(Time_Log.task_key==task).fetch()
         return res
     def getByProjectUser(self,project,user):
-        res = self.query(ndb.AND(Time_Log.assigne_key==user,Time_Log.project_key==project)).order(Time_Log.assigne_key,Time_Log.project_key,Time_Log.today_date).fetch()
+        res = self.query(ndb.AND(Time_Log.assigne_key==user,Time_Log.project_key==project,Time_Log.status==True)).order(Time_Log.assigne_key,Time_Log.project_key,Time_Log.status,Time_Log.today_date).fetch()
         return res
