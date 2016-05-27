@@ -1,6 +1,9 @@
 /***************************** Styles according to new designs *******************************/
-.apm-modal-textarea{
- resize:none;
+.table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+    border-bottom-width: 0!important;
+}
+.table>thead>tr>th {
+    border-bottom:  0!important;
 }
 .apm-nav-brand{
 	padding-top: 14px!important;
@@ -39,14 +42,17 @@
 .apm-all-reports-heading{
 	margin-top: 10px;
     margin-bottom: 10px;
-    font-size: 20px;
+    font-size: 26px;
     letter-spacing: 1px;
     line-height: 1.2em;
     font-family: Raleway;
+    font-weight: 500;
 }
 .apm-numbox-dashboard{
-	padding:20px;
-	height:150px;
+	/*padding:20px;*/
+	/*height:150px;*/
+	padding:15px;
+	height:110px;
 	border:1px solid transparent;
 	text-align:right;
 }
@@ -73,6 +79,7 @@
     color: #fff;
     font-family: Raleway;
     font-weight: 400;
+	margin-top: -8px;
 }
 .apm-numbox-label{
 	color: #fff;
@@ -288,6 +295,11 @@
 }
 .apm-text-area{
 	resize:none;
+	border-radius:0!important;
+	box-shadow:none!important;
+}
+.apm-text-area:focus{
+	border-color:grey;
 }
 .datepicker{
 	font-family: Raleway;
@@ -350,21 +362,7 @@
 	cursor:pointer;
 	color:#F59829;
 }
-
-.apm-add-esti-edit{
-	font-size:18px!important;
-	margin: 0 5px;
-	cursor:pointer;
-	color:#F59829;
-}
 .apm-add-proj-delete{
-	font-size:18px!important;
-	margin: 0 5px;
-	cursor:pointer;
-	color:#F04D50;
-}
-
-.apm-add-esti-delete{
 	font-size:18px!important;
 	margin: 0 5px;
 	cursor:pointer;
@@ -438,7 +436,7 @@
 	font-weight:600!important;
 }
 .apm-all-proj-table a:focus, .apm-all-proj-table a:active, .apm-all-proj-table a:visited{
-	color:#3978BF!important;
+	color:#3978BF;
 }
 .apm-listing-add-proj-btn{
     border: none;
@@ -504,13 +502,16 @@
 	font-size: 12px!important;
     height: 28px!important;
 }
+
 .roll-link, .roll-link:visited, .roll-link:active, .roll-link:focus{
 	color:#fff!important;
 	cursor:pointer;
+	outline:none!important;
 }
 .permission-link, .permission-link:visited, .permission-link:active, .permission-link:focus{
 	color:#000!important;
 	cursor:pointer;
+	outline:none!important;
 }
 /************** For Admin Project permission page ENDS *****************/
 
@@ -539,8 +540,8 @@
 .apm-backlog-filter-dropdown button{
 	font-size: 12px!important;
     letter-spacing: 1px;
-	font-weight:600;
-    padding: 4px 12px;
+    font-weight: 600;
+    padding: 5px 12px 5px 13px;
     border-radius: 0;
 	background: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#FEFEFD),color-stop(3%,#F9F9F9),color-stop(100%,#E6E6E6));
 }
@@ -585,7 +586,7 @@
 	margin:0;
 }
 .apm-sprint-table td{
-	padding: 8px 10px!important;
+	padding: 10px 10px!important;
 	font-family:Raleway;
 }
 .apm-sprint-table tr{
@@ -600,8 +601,12 @@
 	border:1px solid #ccc;
 	border-left:4px solid #3978BF;
 	color:#000;
+	cursor:pointer;
 }
-table tr.separator { height: 5px; }
+.apm-sprint-table tr:hover{
+	background: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#FEFEFD),color-stop(3%,#F9F9F9),color-stop(100%,#D8D8D8));
+}
+table tr.separator { height: 8px; }
 
 .apm-sprint-detail-list{
 	padding:0;
@@ -630,6 +635,29 @@ table tr.separator { height: 5px; }
 	.btn-separator{
 		display:block;
 	}
+}
+@media (max-width: 767px){
+	.apm-backlog-filter-box{
+		float:none;
+		margin-top:0;
+	}
+}
+.apm-sprint-table thead tr:first-child {
+    padding: 2px 2px!important;
+    color: #000!important;
+    border: none!important;
+    background: transparent!important;
+    font-size: 10px!important;
+    letter-spacing: 0!important;
+}
+
+.panel-edit-link{
+	float:right;
+}
+.panel-edit-link a, .panel-edit-link a:active, .panel-edit-link a:visited, .panel-edit-link a:focus{
+	color:#fff!important;
+	text-transform:uppercase;
+	letter-spacing:1px;
 }
 /************** For BACKLOGS page ENDS *****************/
 
@@ -736,9 +764,437 @@ table tr.separator { height: 5px; }
 }
 /************** For USER PROFILE page ENDS *****************/
 
+.apm-sprint-item-table thead tr:first-child{
+	padding: 2px 2px!important;
+    color: #000!important;
+	border:none!important;
+	background:transparent!important;
+	font-size: 10px!important;
+	letter-spacing:0!important;
+}
+.loader {
+    position: fixed;
+    left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url('../img/Loading_icon.gif') 50% 50% no-repeat rgb(253,253,253);
+	opacity: .6;
+				 
+}
+/************** For Efforts Estimates page STARTS *****************/
+.apm-effort-est-lbl{
+	font-size: 12px!important;
+    letter-spacing: 1px!important;
+    font-family: Raleway;
+    font-weight: 600;
+}
+.apm-effort-est-dropdown{
+	
+}
+.apm-eff-est-table th{
+	vertical-align: middle!important;
+}
+.apm-eff-est-table select{
+	cursor:pointer;
+}
+.apm-eff-est-table td{
+	font-size:13px!important;
+}
+
+.apm-eff-est-sprint-name{
+	font-size: 16px!important;
+	letter-spacing:2px!important;
+	font-family:Raleway;
+	font-weight:600;
+	margin:0;
+}
+.apm-eff-est-table-box{
+	/*border-left:1px solid #eee;*/
+}
+@media (max-width: 600px){
+	.apm-eff-est-table-box{
+		border:none;
+		margin-top:50px;
+	}
+}
+.apm-eff-est-hr-num{
+	cursor:pointer;
+}
+
+.apm-eff-est-hr-text{
+	display:none;	
+}
+
+.apm-eff-est-hr-text input[type='text']{
+	width: 35px!important;
+    margin: 0 auto!important;
+    height: 18px!important;
+	padding:4px 0!important;
+	text-align:center!important;
+	font-size:12px!important;
+	font-weight:500;
+}
+.apm-eff-est-add-member-btn{
+	margin:0!important;
+	padding: 5px 15px!important;
+}
+.apm-eff-est-form-grp{
+	margin-bottom:32px;
+}
+.eff-est-modal-box{
+	margin-bottom:15px;
+}
+.eff-est-modal-box .task-label{
+	font-family: Arial!important;
+    font-weight: 400!important;
+    font-size: 12px!important;
+}
+.apm-eff-est-dropdown-box{
+	margin-bottom:20px;
+}
+.eff-est-label-box{
+	padding-top:3px;
+}
+.apm-eff-est-hour-box{
+	height:200px;
+	overflow-y:auto;
+	overflow-x:hidden!important;
+}
+.day-wise-eff-label{
+	margin-bottom:12px;
+}
+.apm-eff-est-table tr:last-child{
+	background: #f6f6f6;
+}
+.apm-eff-est-table tr:last-child td{
+	font-weight: 900!important;
+	font-size:15px;
+}
+
+/******23 May 2016 **********/
+.apm-select-sprint-dropdown{
+	margin-bottom: 25px;
+}
+.est-eff-information-modal-text{
+	color: #000;
+    letter-spacing:1px;
+    font-size: 12px;
+    font-family: Raleway;
+	line-height:1.6em;
+	margin:0;
+}
+.est-eff-information-modal-text b{ 
+	margin-bottom:8px;
+}
+/************** For Efforts Estimates page ENDS *****************/
+
+/************** For 404 page starts*****************/
+.top-404-section {
+    background: #3978BF;
+    padding-top: 1px;
+    -webkit-box-shadow: -1px 4px 10px 0px rgba(163,163,163,1);
+    -moz-box-shadow: -1px 4px 10px 0px rgba(163,163,163,1);
+    box-shadow: -1px 4px 10px 0px rgba(163,163,163,1);
+}
+.top-404-section-box {
+    padding: 10em 3em;
+}
+.top-404-section-main-heading {
+    color: #3978BF;
+    text-align: center;
+    font-size: 90px;
+    margin: 0;
+    text-shadow: 1px 1px #C9C9C9;
+    font-family: Raleway;
+}
+.top-404-section-sub-heading {
+    color: #000;
+    text-align: center;
+    font-size: 40px;
+    margin-top: 30px;
+	margin-bottom: 30px;
+    text-shadow: 1px 1px #C9C9C9;
+    font-family: Raleway;
+	line-height:1.6em;
+}
+@media (max-width: 767px){
+	.top-404-section-main-heading {
+		font-size: 68px;
+	}
+	.top-404-section-sub-heading {
+		font-size: 28px;
+		line-height:1.6em;
+	}
+}
+.top-404-section-main-heading i{
+	vertical-align:middle;
+}
+.top-404-back-btn-box{
+	text-align:center;
+}
+.top-404-back-btn{
+	background:#3978BF;
+	color:#fff;
+	border:none;
+	font-family: Raleway;
+	padding:15px 30px;
+	letter-spacing:2px;
+	text-transform:uppercase;
+	outline:none;
+}
+.top-404-back-btn:hover{
+	background: #428ADC;
+}
+.top-404-back-btn:before {
+    font-family: 'FontAwesome';
+    content: '\f177';
+    padding-right: 8px;
+    position: relative;
+    font-size: 90%;
+	color:#fff!important;
+}
+.or-label{
+	font-size: 16px;
+    text-align: center;
+    font-weight: 600;
+    font-family: Raleway;
+    margin-bottom: 16px;
+}
+.apm-eff-est-divider{
+	margin-bottom: 14px;
+}
+.day-wise-eff-table td:first-child{
+	font-size: 12px;
+    vertical-align: middle;
+}
+.day-wise-eff-table th{
+	font-size: 12px;
+    vertical-align: middle;
+	text-align:center;
+	font-weight: 400;
+}
+/************** For 404 page starts ENDS *****************/
+
+
+/************** For TASKS DETAILS STARTS *****************/
+.apm-text-area{
+	resize:none;
+	border-radius:0!important;
+	box-shadow:none!important;
+}
+.apm-text-area:focus{
+	border-color:grey;
+}
+.apm-back-task-box{
+	margin-bottom: 20px;
+}
+.apm-all-reports-subheading {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 24px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Raleway;
+    font-weight: 500;
+}
+.apm-all-reports-taskname{
+	margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Raleway;
+    font-weight: 500;
+}
+.apm-task-descr{
+	margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    line-height: 2.2em;
+    font-weight: 500;
+	font-family: Raleway;
+}
+.apm-task-descr-table{
+	margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    border-radius: 5px;
+    font-weight: 500;
+	
+}
+.apm-task-descr-table th{
+	text-align: center;
+    background: #3978BF;
+    color: #fff;
+}
+.apm-task-descr-list{
+	padding-left: 25px;
+    line-height: 2.4em;
+    font-size: 14px;
+    letter-spacing: 1px;
+    margin-bottom: -5px;
+    margin-top: 30px;
+}
+.apm-task-descr-table td{
+	text-align:center;
+	
+}
+.apm-task-timelog-para{
+	margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    line-height: 2.2em;
+    font-weight: 500;
+}
+.hour-text, .min-text{
+	width: 45%;
+	display: inline!important;
+	padding-left: 6px;
+}
+.billable-check{
+	margin-top:26px;
+}
+.apm-logtime-modal-row{
+	margin-bottom:5px;
+}
+.apm-logtime-task-label{
+	font-size: 15px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Raleway;
+    font-weight: 500;
+}
+.apm-logtime-separator{
+	margin-top: 5px;
+    margin-bottom: 10px;
+}
+.apm-logtime-modal-label{
+	font-size: 12px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Raleway;
+    font-weight: 500;
+}
+.apm-logtime-modal-row .checkbox input[type=checkbox]{
+	margin-top:0!important;	
+}
+.apm-comment-username{
+	font-size: 13px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Raleway;
+    font-weight: 600;
+}
+.apm-comment-date-time-span{
+	font-size: 10px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Raleway;
+    font-weight: 500;
+	margin-left:10px;
+}
+.apm-comment-row{
+	padding-left:30px;
+	padding-right:15px;
+}
+.apm-comment-content{
+	margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    line-height: 2.2em;
+    font-weight: 500;
+	padding-left: 44px;
+}
+.apm-comment-username i{
+	margin-right:8px;
+}
+.task-detail-separator{
+	margin-top: 50px;
+    margin-bottom: 50px;
+    border-top: 1px solid #D2D2D2;
+}
+@media (max-width: 767px){
+	.apm-comment-row {
+		padding-left: 16px;
+	}
+}	
+	
+/************** For TASKS DETAILS page ENDS *****************/
+
+
+/************** For Timesheet Page STARTS *****************/
+.apm-all-reports-empname {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Raleway;
+    font-weight: 500;
+}
+.apm-timesheet-monthname-weekname{
+	font-size: 18px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Raleway;
+    font-weight: 600;
+    margin-top: 20px;
+}
+.total-efforts-label{
+	font-size: 14px;
+    letter-spacing: 2px;
+    line-height: 1.2em;
+    font-family: Raleway;
+    font-weight: 600;
+	text-transform:uppercase;
+	text-align:right;
+}
+.apm-timesheet-go-btn{
+	font-size: 13px;
+    border: 2px solid #3978BF!important;
+    letter-spacing: 2px;
+    padding: 3px 15px;
+    transition: all 0.3s ease-out;
+    background: #3978BF!important;
+    color: #fff!important;
+    outline: none!important;
+    font-family: Raleway;
+    margin-top: 24px;
+}	
+.apm-timesheet-separator{
+	margin-bottom:4px;
+}
+@media (max-width: 767px){
+	.apm-timesheet-monthname-weekname {
+		font-size: 15px;
+		margin-top: 30px;	
+	}	
+	.apm-timesheet-separator {
+		margin-bottom: 24px;
+	}
+}
+.to-span{
+	margin-left: 10px;
+    margin-right: 10px;
+}
+.apm-timesheet-table{
+	
+}
+.apm-timesheet-td-bold{
+	vertical-align: middle!important;
+	font-weight:600;
+	font-size: 14px;
+}
+/************** For Timesheet Page ENDs *****************/
+
+
 
 /************************ Styles according to new designs ENDS *******************************/
-
 body{
 	font-family: Arial;
 	overflow-x:hidden;
@@ -810,11 +1266,10 @@ body{
 	font-weight:bold;
 }
 .user-link{
-	padding:9px 10px 0 0!important;
+	padding:8px 10px 0 0!important;
 }
 .user-link img{
-	width:32px!important;
-	height:32px!important;
+	width:35px!important;
 	border-radius: 50%;
 }
 @media (min-width: 768px){
@@ -1466,6 +1921,11 @@ div.Tokenize {
     font-family:Raleway;
 	font-weight:500;
 }
+@media (max-width: 500px){
+	.add-task-modal-heading{
+		font-size: 14px;
+	}			
+}
 .add-task-modal-content{
 	border-radius:0!important;
 }
@@ -1525,348 +1985,3 @@ div.Tokenize {
 #menu-toggle img{
 	width:35px!important;
 }
-/************** For TASKS DETAILS STARTS *****************/
-.apm-text-area{
-	resize:none;
-	border-radius:0!important;
-	box-shadow:none!important;
-}
-.apm-text-area:focus{
-	border-color:grey;
-}
-.apm-back-task-box{
-	margin-bottom: 20px;
-}
-.apm-all-reports-subheading {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-size: 24px;
-    letter-spacing: 1px;
-    line-height: 1.2em;
-    font-family: Raleway;
-    font-weight: 500;
-}
-.apm-all-reports-taskname{
-	margin-top: 10px;
-    margin-bottom: 10px;
-    font-size: 15px;
-    letter-spacing: 1px;
-    line-height: 1.2em;
-    font-family: Raleway;
-    font-weight: 500;
-}
-.apm-task-descr{
-	margin-top: 10px;
-    margin-bottom: 10px;
-    font-size: 13px;
-    letter-spacing: 1px;
-    line-height: 2.2em;
-    font-weight: 500;
-	font-family: Raleway;
-}
-.apm-task-descr-table{
-	margin-top: 20px;
-    margin-bottom: 10px;
-    font-size: 13px;
-    border-radius: 5px;
-    font-weight: 500;
-	
-}
-.apm-task-descr-table th{
-	text-align: center;
-    background: #3978BF;
-    color: #fff;
-}
-.apm-task-descr-table td{
-	text-align:center;
-	
-}
-.apm-task-timelog-para{
-	margin-top: 10px;
-    margin-bottom: 10px;
-    font-size: 13px;
-    letter-spacing: 1px;
-    line-height: 2.2em;
-    font-weight: 500;
-}
-.hour-text, .min-text{
-	width: 45%;
-	display: inline!important;
-	padding-left: 6px;
-}
-.billable-check{
-	margin-top:26px;
-}
-.apm-logtime-modal-row{
-	margin-bottom:5px;
-}
-.apm-logtime-task-label{
-	font-size: 15px;
-    letter-spacing: 1px;
-    line-height: 1.2em;
-    font-family: Raleway;
-    font-weight: 500;
-}
-.apm-logtime-separator{
-	margin-top: 5px;
-    margin-bottom: 10px;
-}
-.apm-logtime-modal-label{
-	font-size: 12px;
-    letter-spacing: 1px;
-    line-height: 1.2em;
-    font-family: Raleway;
-    font-weight: 500;
-}
-.apm-logtime-modal-row .checkbox input[type=checkbox]{
-	margin-top:0!important;	
-}
-.apm-comment-username{
-	font-size: 13px;
-    letter-spacing: 1px;
-    line-height: 1.2em;
-    font-family: Raleway;
-    font-weight: 600;
-}
-.apm-comment-date-time-span{
-	font-size: 10px;
-    letter-spacing: 1px;
-    line-height: 1.2em;
-    font-family: Raleway;
-    font-weight: 500;
-	margin-left:10px;
-}
-.apm-comment-row{
-	padding-left:30px;
-	padding-right:15px;
-}
-.apm-comment-content{
-	margin-top: 10px;
-    margin-bottom: 10px;
-    font-size: 13px;
-    letter-spacing: 1px;
-    line-height: 2.2em;
-    font-weight: 500;
-	padding-left:20px;
-}
-.apm-comment-username i{
-	margin-right:8px;
-}
-.task-detail-separator{
-	margin-top: 50px;
-    margin-bottom: 50px;
-    border-top: 1px solid #D2D2D2;
-}
-@media (max-width: 767px){
-	.apm-comment-row {
-		padding-left: 16px;
-	}
-}	
-	
-/************** For TASKS DETAILS page ENDS *****************/
-
-
-/** For Timesheet Page STARTS ***/
-.apm-all-reports-empname {
-    margin-top: 10px;
-    margin-bottom: 15px;
-    font-size: 13px;
-    letter-spacing: 1px;
-    line-height: 1.2em;
-    font-family: Raleway;
-    font-weight: 500;
-}
-.apm-timesheet-monthname-weekname{
- font-size: 18px;
-    letter-spacing: 1px;
-    line-height: 1.2em;
-    font-family: Raleway;
-    font-weight: 600;
-    margin-top: 20px;
-}
-.total-efforts-label{
- font-size: 14px;
-    letter-spacing: 2px;
-    line-height: 1.2em;
-    font-family: Raleway;
-    font-weight: 600;
- text-transform:uppercase;
- text-align:right;
-}
-.apm-timesheet-go-btn{
- font-size: 13px;
-    border: 2px solid #3978BF!important;
-    letter-spacing: 2px;
-    padding: 3px 15px;
-    transition: all 0.3s ease-out;
-    background: #3978BF!important;
-    color: #fff!important;
-    outline: none!important;
-    font-family: Raleway;
-    margin-top: 24px;
-} 
-.apm-timesheet-separator{
- margin-bottom:4px;
-}
-@media (max-width: 767px){
- .apm-timesheet-monthname-weekname {
-  font-size: 15px;
-  margin-top: 30px; 
- } 
- .apm-timesheet-separator {
-  margin-bottom: 24px;
- }
-}
-.to-span{
- margin-left: 10px;
-    margin-right: 10px;
-}
-.apm-timesheet-table{
- 
-}
-.apm-timesheet-td-bold{
- vertical-align: middle!important;
- font-weight:600;
- font-size: 14px;
-}
-.week-total-hrs-label{
- text-align:right;
- font-weight:600;
- font-size: 16px;
- font-family: Raleway;
- letter-spacing:1px;
-}
-.timesheet-navigation-box{
- text-align: right;
-    margin-top: -33px;
-}
-.timesheet-navigation-box button{
- font-size: 10px;
-    border: 2px solid #3978BF!important;
-    letter-spacing: 2px;
-    padding: 5px 10px;
-    transition: all 0.3s ease-out;
-    background: #3978BF!important;
-    color: #fff!important;
-    outline: none!important;
-    font-family: Raleway;
-}
-@media (max-width: 650px){
- .timesheet-navigation-box{
-  text-align: left;
-  margin-top: 15px;
- }
-}
-.timesheet-row-separator{
- height:6px;
- border:none!important;
-}
-
-/*** For Timesheet Page ENDs ***/
-
-/************** For Efforts Estimates page STARTS *****************/
-.apm-effort-est-lbl{
-	font-size: 12px!important;
-    letter-spacing: 1px!important;
-    font-family: Raleway;
-    font-weight: 600;
-}
-.apm-effort-est-dropdown{
-	
-}
-.apm-eff-est-table th{
-	vertical-align: middle!important;
-}
-.apm-eff-est-table select{
-	cursor:pointer;
-}
-.apm-eff-est-table td{
-	font-size:13px!important;
-}
-
-.apm-eff-est-sprint-name{
-	font-size: 16px!important;
-	letter-spacing:2px!important;
-	font-family:Raleway;
-	font-weight:600;
-	margin:0;
-}
-.apm-eff-est-table-box{
-	/*border-left:1px solid #eee;*/
-}
-@media (max-width: 600px){
-	.apm-eff-est-table-box{
-		border:none;
-		margin-top:50px;
-	}
-}
-.apm-eff-est-hr-num{
-	cursor:pointer;
-}
-
-.apm-eff-est-hr-text{
-	display:none;	
-}
-
-.apm-eff-est-hr-text input[type='text']{
-	width: 35px!important;
-    margin: 0 auto!important;
-    height: 18px!important;
-	padding:4px 0!important;
-	text-align:center!important;
-	font-size:12px!important;
-	font-weight:500;
-}
-.apm-eff-est-add-member-btn{
-	margin:0!important;
-	padding: 5px 15px!important;
-}
-.apm-eff-est-form-grp{
-	margin-bottom:32px;
-}
-.eff-est-modal-box{
-	margin-bottom:15px;
-}
-.eff-est-modal-box .task-label{
-	font-family: Arial!important;
-    font-weight: 400!important;
-    font-size: 12px!important;
-}
-.apm-eff-est-dropdown-box{
-	margin-bottom:20px;
-}
-.eff-est-label-box{
-	padding-top:3px;
-}
-.apm-eff-est-hour-box{
-	height:200px;
-	overflow-y:auto;
-	overflow-x:hidden!important;
-}
-.day-wise-eff-label{
-	margin-bottom:12px;
-}
-.apm-eff-est-table tr:last-child{
-	background: #f6f6f6;
-}
-.apm-eff-est-table tr:last-child td{
-	font-weight: 900!important;
-	font-size:15px;
-}
-
-/******23 May 2016 **********/
-.apm-select-sprint-dropdown{
- margin-bottom: 25px;
-}
-.est-eff-information-modal-text{
- color: #000;
-    letter-spacing:1px;
-    font-size: 12px;
-    font-family: Raleway;
- line-height:1.6em;
- margin:0;
-}
-.est-eff-information-modal-text b{ 
- margin-bottom:8px;
-}
-/************** For Efforts Estimates page ENDS *****************/
