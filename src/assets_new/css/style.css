@@ -764,11 +764,11 @@ body{
 .logo-img{
 	width:180px;
 }
-@media (min-width: 768px){
+/**@media (min-width: 768px){
 	.navbar-brand {
 		margin-right: 100px;
 	}
-}
+}**/
 .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>a:hover {
     color: #fff;
     background-color: transparent!important;
@@ -1870,9 +1870,3 @@ div.Tokenize {
  margin-bottom:8px;
 }
 /************** For Efforts Estimates page ENDS *****************/
-.cell-effort{
- cursor:pointer;
-}
-.cell-effort:hover{
- background:#eee;
-}

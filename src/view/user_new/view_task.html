@@ -21,6 +21,63 @@
 			
 		<script>
 				$(document).ready(function(){
+					
+		/***********************time log validation starts******************************/
+					
+					var time_validator=   $("#time_log_form").validate({
+						      rules: {
+						    	  hours: 
+						    	  {
+						    		  number: true
+						    	
+						          },
+						          minutes: 
+						          {
+						        	  number: true
+							      }
+							 
+					   
+						         },
+						         messages: 
+						         {
+						        	 hours: 
+						           {
+						        		 number: "Please enter hours in numbers."
+						           },
+						           minutes: 
+						           {
+						        	   number: "Please enter minutes in numbers."
+						           }
+						         
+						         }
+						     });
+					/***********************time log validation ends******************************/	
+				
+					
+					
+					$("#log_time_button").on("click",function(){
+						 if (!$('#time_log_form').valid()){
+							    event.preventDefault();
+							    event.stopImmediatePropagation();
+							    return false;
+						 }
+						 else
+							 {
+								$.post( "/mytasks/view", $("#time_log_form").serialize())
+						  		.done(function( data ) {
+						  			if (data!="true"){
+						  				alert("Something Went Wrong");
+						  				return false
+						  			} 
+						  		})
+							
+						 	}		
+								
+						})
+					
+					
+					
+					
 					//$("#details").hide();
 					$("#post_comment").on("click",function(){
 						if($("#comment_form").val()!=""){
@@ -65,7 +122,7 @@
 						});
 				
 						
-						$("#log_time_button").on("click",function(){
+						/* $("#log_time_button").on("click",function(){
 							$.post( "/mytasks/view", $("#time_log_form").serialize())
 					  		.done(function( data ) {
 					  			if (data!="true"){
@@ -73,7 +130,7 @@
 					  				return false
 					  			} 
 					  		})
-						});
+						}); */
 							
 
 					
@@ -81,6 +138,7 @@
 							    { 
 									$(this).removeData('bs.modal');
 									$(this).find('form')[0].reset();
+									time_validator.resetForm();
 									$('#success').load('/mytasks/view?key={{task.key.urlsafe}} #table1', function(result) {
 						  				   
 						  				});
@@ -125,7 +183,7 @@
 									{{task.description}} 
 								</p>
 								
-								<div class="table-responsive">
+							<!-- 	<div class="table-responsive">
 									<table class="table table-bordered table-condensed apm-task-descr-table">
 										<thead>
 										  <tr>
@@ -146,7 +204,16 @@
 										  </tr>
 										</tbody>
 									</table>
-								</div>
+								</div> -->
+								
+								<ul class="apm-task-descr-list">
+									<li><b>Project Name:</b>{{task.project.get.name}}</li>	
+									<li><b>Sprint:</b> {{task.sprint.get.name}}</li>
+									<li><b>Assigned To:</b> {{task.assignee.get.userName}}</li>
+									<li><b>Estimated Hours:</b>{{task.actual_efforts}}</li>
+									<li><b>Status:</b>{{task.task_status}}</li>
+								</ul>
+								
 							</div>	
 						</div>
 						{%endif%}	
@@ -236,18 +303,18 @@
 									<!-- Comment Row 1 -->
 									
 									{%for comment in task.comments|dictsortreversed:"created_date"%}
-										
 										<div class="row apm-comment-row">
-											<h4 class="apm-comment-username">
-												<i class="fa fa-user"></i>{{comment.created_by}} <span class="apm-comment-date-time-span">{{comment.created_date}}</span>
-											</h4>
-											
-											<p class="apm-comment-content">
-												{{comment.comment}} 
-											</p>
-										</div>
+										<h4 class="apm-comment-username">
+											<img src="../assets_new/img/user-comment.png" style="width:32px;height:32px;margin-right: 8px;"> {{comment.created_by}} <span class="apm-comment-date-time-span">{{comment.created_date}}</span>
+										</h4>
 										
-										<hr>
+										<p class="apm-comment-content">
+											{{comment.comment}} 	
+										</p>
+									</div>
+									
+									<hr>
+										
 									{%endfor%}
 									
 									
@@ -305,8 +372,8 @@
 									<div class="form-group">
 										<label class="apm-logtime-modal-label">Time Spent</label>
 										<br>
-										<input type="text" class="apm-landing-textbox-reg hour-text" placeholder="hours" id="hours" name="hours" min="0" max="24" maxlength="2" onkeypress="this.value = minmax(this.value, 0, 24)">
-										<input type="text" class="apm-landing-textbox-reg min-text" placeholder="minutes" id="minutes" name="minutes" min="0" max="60" maxlength="2" onkeypress="this.value = minmax(this.value, 0, 60)">
+										<input type="number" class="apm-landing-textbox-reg hour-text" placeholder="hours" id="hours" name="hours" >
+										<input type="number" class="apm-landing-textbox-reg min-text" placeholder="minutes" id="minutes" name="minutes" >
 									</div>
 								</div>	
 
@@ -374,3 +441,4 @@
 	<!--delete Modal Ends -->
 	
 	{%endblock%}
+	
