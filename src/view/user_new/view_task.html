@@ -21,6 +21,63 @@
 			
 		<script>
 				$(document).ready(function(){
+					
+		/***********************time log validation starts******************************/
+					
+					var time_validator=   $("#time_log_form").validate({
+						      rules: {
+						    	  hours: 
+						    	  {
+						    		  number: true
+						    	
+						          },
+						          minutes: 
+						          {
+						        	  number: true
+							      }
+							 
+					   
+						         },
+						         messages: 
+						         {
+						        	 hours: 
+						           {
+						        		 number: "Please enter hours in numbers."
+						           },
+						           minutes: 
+						           {
+						        	   number: "Please enter minutes in numbers."
+						           }
+						         
+						         }
+						     });
+					/***********************time log validation ends******************************/	
+				
+					
+					
+					$("#log_time_button").on("click",function(){
+						 if (!$('#time_log_form').valid()){
+							    event.preventDefault();
+							    event.stopImmediatePropagation();
+							    return false;
+						 }
+						 else
+							 {
+								$.post( "/mytasks/view", $("#time_log_form").serialize())
+						  		.done(function( data ) {
+						  			if (data!="true"){
+						  				alert("Something Went Wrong");
+						  				return false
+						  			} 
+						  		})
+							
+						 	}		
+								
+						})
+					
+					
+					
+					
 					//$("#details").hide();
 					$("#post_comment").on("click",function(){
 						if($("#comment_form").val()!=""){
@@ -65,7 +122,7 @@
 						});
 				
 						
-						$("#log_time_button").on("click",function(){
+						/* $("#log_time_button").on("click",function(){
 							$.post( "/mytasks/view", $("#time_log_form").serialize())
 					  		.done(function( data ) {
 					  			if (data!="true"){
@@ -73,7 +130,7 @@
 					  				return false
 					  			} 
 					  		})
-						});
+						}); */
 							
 
 					
@@ -81,6 +138,7 @@
 							    { 
 									$(this).removeData('bs.modal');
 									$(this).find('form')[0].reset();
+									time_validator.resetForm();
 									$('#success').load('/mytasks/view?key={{task.key.urlsafe}} #table1', function(result) {
 						  				   
 						  				});
@@ -305,8 +363,8 @@
 									<div class="form-group">
 										<label class="apm-logtime-modal-label">Time Spent</label>
 										<br>
-										<input type="text" class="apm-landing-textbox-reg hour-text" placeholder="hours" id="hours" name="hours" min="0" max="24" maxlength="2" onkeypress="this.value = minmax(this.value, 0, 24)">
-										<input type="text" class="apm-landing-textbox-reg min-text" placeholder="minutes" id="minutes" name="minutes" min="0" max="60" maxlength="2" onkeypress="this.value = minmax(this.value, 0, 60)">
+										<input type="number" class="apm-landing-textbox-reg hour-text" placeholder="hours" id="hours" name="hours" >
+										<input type="number" class="apm-landing-textbox-reg min-text" placeholder="minutes" id="minutes" name="minutes" >
 									</div>
 								</div>	
 
