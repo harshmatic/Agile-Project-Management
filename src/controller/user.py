@@ -90,52 +90,95 @@ class EndUserProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobs
          user_db = OurUser.query().fetch()
           
          user = self.user
+       #  logging.info(self.get_uploads()[0])
           
        #  logging.info(self.request.get('file'))  
-         if (self.request.get('file') != ""):
-                
-            upload = self.get_uploads()[0]
-            user.blob_key=upload.key()
-            logging.info("hello")
-            logging.info(upload.key())
+         if (self.request.get('file')):
+         #   a=len(self.get_uploads()[0])
+        #    logging.info(a)
+            try:
+           # if (self.request.get('filename') != ''):
+                upload = self.get_uploads()[0]
+                user.blob_key=upload.key()
+              #  logging.info("hello")
+              #  logging.info(upload.key())
          
                 
-         user_name = self.request.get('email')
-         email = self.request.get('email')
-         name = self.request.get('first_name')
+                user_name = self.request.get('email')
+                email = self.request.get('email')
+                name = self.request.get('first_name')
           #  role= ndb.Key(urlsafe=self.request.get('role'))
         #    logging.info(role)
-         last_name = self.request.get('last_name')
-         designation = self.request.get('designation')
-         empid=self.request.get('emp_id')
-         contact=self.request.get('contact_no')
+                last_name = self.request.get('last_name')
+                designation = self.request.get('designation')
+                empid=self.request.get('emp_id')
+                contact=self.request.get('contact_no')
             
            # id=self.request.get('user_id')
             
             
             
             
-         user.name=name
-         user.last_name=last_name
-         user.email=email
-         user.designation=designation
-         user.empid=empid
-         user.contact=contact
+                user.name=name
+                user.last_name=last_name
+                user.email=email
+                user.designation=designation
+                user.empid=empid
+                user.contact=contact
          
-         user_info = self.auth.get_user_by_session()
-         user.modified_by = user_info['email_address']
-         user.modified_date = datetime.now()
+                user_info = self.auth.get_user_by_session()
+                user.modified_by = user_info['email_address']
+                user.modified_date = datetime.now()
          
-         user.put()
+                user.put()
             
            
              #current_user =self.auth.get_user_by_session()
-         user_db = OurUser.query().fetch()
-         user1=self.auth.get_user_by_session()
-         role=self.user_model.get_by_id(user1['user_id']).role.get().role
-         upload_url = blobstore.create_upload_url('/profile') 
+                user_db = OurUser.query().fetch()
+                user1=self.auth.get_user_by_session()
+                role=self.user_model.get_by_id(user1['user_id']).role.get().role
+                upload_url = blobstore.create_upload_url('/profile') 
            # self.render_template("profile.html",{'permission':'success', 'user_db':user_db, 'role':role,"upload_url":upload_url})
-         self.redirect("/profile")
+                self.redirect("/profile")
+            
+            except (IndexError, ValueError):
+                
+                user_name = self.request.get('email')
+                email = self.request.get('email')
+                name = self.request.get('first_name')
+          #  role= ndb.Key(urlsafe=self.request.get('role'))
+        #    logging.info(role)
+                last_name = self.request.get('last_name')
+                designation = self.request.get('designation')
+                empid=self.request.get('emp_id')
+                contact=self.request.get('contact_no')
+            
+           # id=self.request.get('user_id')
+            
+            
+            
+            
+                user.name=name
+                user.last_name=last_name
+                user.email=email
+                user.designation=designation
+                user.empid=empid
+                user.contact=contact
+         
+                user_info = self.auth.get_user_by_session()
+                user.modified_by = user_info['email_address']
+                user.modified_date = datetime.now()
+         
+                user.put()
+            
+           
+             #current_user =self.auth.get_user_by_session()
+                user_db = OurUser.query().fetch()
+                user1=self.auth.get_user_by_session()
+                role=self.user_model.get_by_id(user1['user_id']).role.get().role
+                upload_url = blobstore.create_upload_url('/profile') 
+           # self.render_template("profile.html",{'permission':'success', 'user_db':user_db, 'role':role,"upload_url":upload_url})
+                self.redirect("/profile")
     
 
             
