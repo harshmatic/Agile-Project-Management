@@ -305,8 +305,8 @@
 									<div class="form-group">
 										<label class="apm-logtime-modal-label">Time Spent</label>
 										<br>
-										<input type="text" class="apm-landing-textbox-reg hour-text" placeholder="hours" id="hours" name="hours">
-										<input type="text" class="apm-landing-textbox-reg min-text" placeholder="minutes" id="minutes" name="minutes">
+										<input type="text" class="apm-landing-textbox-reg hour-text" placeholder="hours" id="hours" name="hours" min="0" max="24" maxlength="2" onkeypress="this.value = minmax(this.value, 0, 24)">
+										<input type="text" class="apm-landing-textbox-reg min-text" placeholder="minutes" id="minutes" name="minutes" min="0" max="60" maxlength="2" onkeypress="this.value = minmax(this.value, 0, 60)">
 									</div>
 								</div>	
 
