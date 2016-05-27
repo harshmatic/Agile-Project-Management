@@ -119,9 +119,9 @@
 						{%if projects%}
 						{% for project in projects %}
 							
-							{%ifnotequal project.projectid session.current_project%}
+							
 						    <li><a href="/setsession?project_key={{project.projectid.urlsafe}}"><i class="fa fa-cog"></i> {{project.projectid.get.name}}</a></li>
-						    {%endifnotequal%}
+						    
 						{%endfor%}	
 							
 							{%for side in sidebars%}
@@ -361,7 +361,7 @@
 		<script src="../assets_new/js/bootstrap.min.js"></script>
 		<script src="../assets_new/js/side-menu.js"></script>
 		<script src="../assets_new/js/bootstrap-datepicker.min.js"></script>
-		<script src="../assets_new/js/main.js"></script>
+		<!-- <script src="../assets_new/js/main.js"></script> -->
 		<script src="../assets_new/js/jquery.validate.min.js"></script>
 </body>
 </html>

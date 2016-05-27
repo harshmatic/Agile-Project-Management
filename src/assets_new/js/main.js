@@ -20,6 +20,8 @@ $(document).ready(function() {
 					});
 				}
 				$(modalVerticalCenterClass).on('show.bs.modal', function(e) {centerModals($(this));});
+				
+				
 				$(window).on('resize', centerModals);
 				
 		/***************************** To center Modal ENDs ***************************************/

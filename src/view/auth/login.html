@@ -49,6 +49,23 @@
 				 
 				  }
 				});	
+			
+			$("#login_submit").on("click",function(){
+				
+				$.post( "/login", $("#login_form").serialize())
+			  		.done(function( data ) {
+			  			da=data.split("*&*")
+			  			if (da[0]=="false"){
+			  				alert(da[1]);
+			  				return false
+			  			} else{
+			  				window.location.href=data;
+			  			}
+			  		});
+				
+				return false;
+			});	
+			
 	
 			
 		});
@@ -118,7 +135,7 @@
 							<div class="col-md-6">
 								<div class="panel panel-default login-panel">
 									<div class="panel-heading main-box-panel-heading login-panel-heading red-panel-heading">
-										Login
+										{{company}} Login
 									</div>
 									<div class="panel-body login-panel-body">
 										<div class="col-md-1">
@@ -126,7 +143,7 @@
 										
 										<div class="col-md-10">
 										
-										<form method="post" action="/login" name="login_form" id="login_form">
+										<form name="login_form" id="login_form">
 																			
 										
 												<!-- Username -->
@@ -134,7 +151,7 @@
 											
 												<!-- Password -->
 												<input type="password" class="form-control search-field project-management-textbox login-textbox" name="password" placeholder="&#xf13e; Password">
-											<input type="submit" class="login-btn pro-button"value="Login">
+											<button  class="login-btn pro-button" id="login_submit">Login</button>
 											<!-- 	<button class="login-btn pro-button">Login</button>-->
 										</form>			
 												<!-- Forgot Password -->

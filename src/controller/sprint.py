@@ -33,8 +33,10 @@ class Tasks(BaseHandler):
         task_data.complexity = ndb.Key(urlsafe=self.request.get('complexity'))
         task_data.startDate = datetime.strptime(self.request.get("start"), '%d/%m/%Y').date()
         task_data.endDate = datetime.strptime(self.request.get("start"), '%d/%m/%Y').date()
-        if (self.request.get('assignee') != None):
+        if (self.request.get('assignee') != 'None'):
             task_data.assignee = ndb.Key(urlsafe=self.request.get('assignee'))
+        if (self.request.get('sprint') != 'None'):
+            task_data.sprint = ndb.Key(urlsafe=self.request.get('sprint'))
         
        # task_data.project = ndb.Key(urlsafe=self.request.get('key'))
         
@@ -42,8 +44,7 @@ class Tasks(BaseHandler):
         
         task_data.createdby = createdBy
         task_data.type = ndb.Key(urlsafe=self.request.get('type'))
-        if (self.request.get('sprint') != None):
-            task_data.sprint = ndb.Key(urlsafe=self.request.get('sprint'))
+        
         task_data.actual_efforts = self.request.get('actual_efforts')
         task_data.task_status = "Open"
         
@@ -79,14 +80,16 @@ class EditTask(BaseHandler):
         task_data.complexity = ndb.Key(urlsafe=self.request.get('complexity'))
         task_data.startDate = datetime.strptime(self.request.get("start"), '%d/%m/%Y').date()
         task_data.endDate = datetime.strptime(self.request.get("start"), '%d/%m/%Y').date()
-        task_data.assignee = ndb.Key(urlsafe=self.request.get('assignee'))
+        if (self.request.get('assignee') != 'None'):
+            task_data.assignee = ndb.Key(urlsafe=self.request.get('assignee'))
+        if (self.request.get('sprint') != 'None'):
+            task_data.sprint = ndb.Key(urlsafe=self.request.get('sprint'))
         
        # task_data.project = ndb.Key(urlsafe=self.request.get('key'))
         task_data.project =self.session['current_project']   
         
         task_data.createdby = createdBy
         task_data.type = ndb.Key(urlsafe=self.request.get('type'))
-        task_data.sprint = ndb.Key(urlsafe=self.request.get('sprint'))
         task_data.actual_efforts = self.request.get('actual_efforts')
         task_data.task_status = "Open"
         task_data.modified_by = currentUser['email_address']

@@ -347,15 +347,16 @@
 					        end=$('#sprint_end').val();
 					        secs=(new Date(end)).getTime()/1000-(new Date(start)).getTime()/1000
 					        secs=secs/60/60/24;
-					        if (secs>7){
+					        if (secs>=7){
 					        	week=parseInt(secs/7);
-					        	days=secs%7;
+					        	days=secs%6;
 					        	$("#length").val(week+" weeks "+days+" days")
 					        }
 					        else {
 					        	if(secs==0){
 					        		$("#length").val("1 Day")
 					        	} else {
+					        		secs=secs+1;
 					        	$("#length").val(secs+" Days")
 					        	}
 					        }
@@ -368,15 +369,16 @@
 					        end=$('#sprint_end').val();
 					        secs=(new Date(end)).getTime()/1000-(new Date(start)).getTime()/1000
 					        secs=secs/60/60/24;
-					        if (secs>7){
+					        if (secs>=7){
 					        	week=parseInt(secs/7);
-					        	days=secs%7;
+					        	days=secs%6;
 					        	$("#length").val(week+" weeks "+days+" days")
 					        }
 					        else {
 					        	if(secs==0){
 					        		$("#length").val("1 Day")
 					        	} else {
+					        		secs=secs+1;
 					        	$("#length").val(secs+" Days")
 					        	}
 					        }

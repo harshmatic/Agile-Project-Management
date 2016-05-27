@@ -30,7 +30,7 @@
 												</select>
 											  </div>
 											  <div class="form-group task-form-group">
-												<label class="task-label">Name</label>
+												<label class="task-label">Title</label>
 												<input name="name" type="text" class="form-control add-task-textbox apm-modal-textbox" value="{{task_data.name}}">
 											  </div>
 											  
@@ -86,14 +86,14 @@
 											  <!-- Permissions/Role --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Complexity</label>
-												<select name="complexity" class="form-control add-task-textbox apm-modal-textbox">
+												<select name="complexity" class="form-control add-task-textbox apm-modal-textbox" id="complex_pts">
 													
 													{% for complex in complex%}
 														{%if complex.status%}
 															{%ifequal task_data.complexity complex.key%}
-																<option value="{{complex.key.urlsafe}}" selected="selected">{{complex.estimationLevel}}</option>
+																<option value="{{complex.key.urlsafe}}" selected="selected" data="{{complex.estimationHours}}">{{complex.estimationLevel}}</option>
 																{%else%}
-																<option value="{{complex.key.urlsafe}}">{{complex.estimationLevel}}</option>
+																<option value="{{complex.key.urlsafe}}" data="{{complex.estimationHours}}">{{complex.estimationLevel}}</option>
 															{%endifequal%}
 															
 														{%endif%}
@@ -122,8 +122,8 @@
 											  </div>
 											  </div>
 											  <div class="form-group task-form-group">
-												<label class="task-label">Actual Efforts</label>
-												<input name="actual_efforts" type="text" class="form-control add-task-textbox apm-modal-textbox" value="{{task_data.actual_efforts}}">
+												<label class="task-label">Estimated Efforts</label>
+												<input name="actual_efforts" id="est_effort" type="text" class="form-control add-task-textbox apm-modal-textbox" value="{{task_data.actual_efforts}}">
 											  </div>
 										</form>
 								</div>	
@@ -154,6 +154,13 @@
 		  				});
 				    }) ;
 			
+			$('body').on('focus',"#complex_pts", function(){
+				$(this).on("change", function() {
+
+			        $("#est_effort").val($(this).find("option:selected").attr("data"));
+			    });
+			});
+		    
 			
 		})
 	</script>

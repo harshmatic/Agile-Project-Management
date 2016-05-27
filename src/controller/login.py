@@ -229,7 +229,7 @@ class SignupUser(BaseHandler):
         #unique_properties = ['email_address']
         user_data = self.user_model.create_user(user_name,
             email_address=email, name=name, password_raw=password,designation=designation,empid=empid,contact=contact,
-            last_name=last_name,role=role,tenant_domain=tenant_domain,tenant_key=tenant_key, verified=False)
+            last_name=last_name,role=role,tenant_domain=tenant_domain,status = True,tenant_key=tenant_key, verified=False)
         if not user_data[0]: #user_data is a tuple
             self.response.write('User already exists with the same email.')
             return
@@ -248,7 +248,8 @@ class SignupUser(BaseHandler):
         message.to = email
         message.body = msg.format(url=verification_url)
         logging.info(msg.format(url=verification_url))
-        self.response.write("true")           
+        logging.info(verification_url)
+        self.response.write("true*%*"+verification_url)        
 class SignupHandler(BaseHandler):
     def get(self,*args,**kargs):
         if check_permission(self):
@@ -293,7 +294,7 @@ class SignupHandler(BaseHandler):
         message.to = email
         message.body = msg.format(url=verification_url)
         message.send()
-        logging.info(msg.format(url=verification_url))
+        logging.info(verification_url)
         self.response.write("true")        
         
 class SignupAdminHandler(BaseHandler):
@@ -436,27 +437,42 @@ class SetPasswordHandler(BaseHandler):
         
 class LoginHandler(BaseHandler):
     def get(self,*args,**kargs):
-        self._serve_page()
+        company_domain=urlparse.urlparse(self.request.url).netloc.split(".")[0]
+        
+        company_name=model.user.Tenant().query(model.user.Tenant.domain==company_domain).fetch()
+        logging.info(company_name)
+        if not company_name:
+            self.render_template('404.html')
+        else:
+            company=company_name[0].name
+            self.render_template('auth/login.html', {'company':company})
 
     def post(self,*args,**kargs):
         username = self.request.get('username')
         password = self.request.get('password')
         try:
+            company_domain=urlparse.urlparse(self.request.url).netloc.split(".")[0]
             u = self.auth.get_user_by_password(username, password, remember=True,save_session=True)
             domain=str(self.user_model.get_by_id(u['user_id']).tenant_domain)
             logging.info(u)
-            self.redirect(self.uri_for('subdomain-home'))
+            if domain==company_domain:
+                self.response.write(self.uri_for('subdomain-home'))
+            else:
+                self.auth.unset_session()
+                self.response.write("false*&*You are not registered to this company")
+                
         except (InvalidAuthIdError, InvalidPasswordError) as e:
             logging.info('Login failed for user %s because of %s', username, type(e))
-            self._serve_page(True)
+            self.response.write("false*&*Invalid Email or password")
+            #self._serve_page(True)
 
-    def _serve_page(self, failed=False):
+    '''def _serve_page(self, failed=False, err_msg):
         username = self.request.get('username')
         params = {
             'username': username,
             'failed': failed
-        }
-        self.render_template('auth/login.html', params)
+        }'''
+        
 
 class LoginBaseHandler(BaseHandler):
 

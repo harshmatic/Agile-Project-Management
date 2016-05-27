@@ -81,8 +81,30 @@
 					/***********************sprint validation ends******************************/
 					
 					
-					
-					
+					$(".table").each(function(){
+						if (!$(this).find("tr.find_empty").length){
+						a=$(this).find("tbody")[0];
+						$(a).append("<tr><td colspan='10' align='center'>There are no tasks in the sprint</td></tr>")
+						}
+						
+					})
+					if (!$('#empty_sprint').find("tr.find_empty").length){
+						$('#empty_sprint').remove();
+						
+					}
+					$('#tasks_sprints').on('load',function(){
+						$(".table").each(function(){
+												if (!$(this).find("tr.find_empty").length){
+												a=$(this).find("tbody")[0];
+												$(a).append("<tr><td colspan='10' align='center'>There are no tasks in the sprint</td></tr>")
+												}
+												
+											})
+											if (!$('#empty_sprint').find("tr.find_empty").length){
+												$('#empty_sprint').remove();
+												
+											}
+						})
 					$(".nav-tabs a").click(function(){
 						$(this).tab('show');
 					});
@@ -115,15 +137,16 @@
 					        end=$('#sprint_end').val();
 					        secs=(new Date(end)).getTime()/1000-(new Date(start)).getTime()/1000
 					        secs=secs/60/60/24;
-					        if (secs>7){
+					        if (secs>=7){
 					        	week=parseInt(secs/7);
-					        	days=secs%7;
+					        	days=secs%6;
 					        	$("#length").val(week+" weeks "+days+" days")
 					        }
 					        else {
 					        	if(secs==0){
 					        		$("#length").val("1 Day")
 					        	} else {
+					        		secs=secs+1;
 					        	$("#length").val(secs+" Days")
 					        	}
 					        }
@@ -136,15 +159,16 @@
 					        end=$('#sprint_end').val();
 					        secs=(new Date(end)).getTime()/1000-(new Date(start)).getTime()/1000
 					        secs=secs/60/60/24;
-					        if (secs>7){
+					        if (secs>=7){
 					        	week=parseInt(secs/7);
-					        	days=secs%7;
+					        	days=secs%6;
 					        	$("#length").val(week+" weeks "+days+" days")
 					        }
 					        else {
 					        	if(secs==0){
 					        		$("#length").val("1 Day")
 					        	} else {
+					        		secs=secs+1;
 					        	$("#length").val(secs+" Days")
 					        	}
 					        }
@@ -281,7 +305,6 @@
 																	<th>Complexity</th>
 																	<th>Complexity Points</th>
 																	<th>Estimated Efforts (Hrs.)</th>
-																	<th>Actual Efforts (Hrs.)</th>
 																	<th>Action Items</th>
 																</tr>
 															</thead>
@@ -291,7 +314,7 @@
 															{%for task in tasks %}
 															{%if task.status%}
 																{%ifequal task.sprint sprint.key%}
-															  <tr>
+															  <tr class="find_empty">
 																
 																<td title="User Story">{{task.name}}</td>
 																<td title="Task Description">{{task.description}}</td>
@@ -300,7 +323,6 @@
 																<td title="Status">Open</td>
 																<td title="Complexity">{{task.complexity.get.estimationLevel}}</td>
 																<td title="Complexity Points">{{task.complexity.get.estimationPoint}}</td>
-																<td title="Estimated Efforts (Hrs.)">{{task.complexity.get.estimationHours}}</td>
 																<td title="Actual Efforts (Hrs.)">{{task.actual_efforts}}</td>
 															  	<td><a href="/task/edittask?edit_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#edit-issue-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Task"  id="{{task.key.urlsafe}}"></i></a>
 																<a href="/task/deletetask?delete_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#delete-user-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Task"  id="{{task.key.urlsafe}}"></i></a></td>
@@ -323,7 +345,63 @@
 											{%endif%}
 									{% endfor%}		
 											
+									
+											<!--  <div class="panel panel-default apm-sprint-panel" id="empty_sprint">
+												<div class="panel-heading">
+													Unassigned Sprint
+												</div>
+												<div class="panel-body">
+													<div class="table-responsive">
+														<table class="table apm-sprint-table apm-sprint-item-table">
+															<thead>
+																<tr>	
+																	
+																	<th>Name</th>
+																	<th>Task Description</th>
+																	<th>Task Created On</th>
+																	<th>Assigned To</th>
+																	<th>Status</th>
+																	<th>Complexity</th>
+																	<th>Complexity Points</th>
+																	<th>Estimated Efforts (Hrs.)</th>
+																	<th>Action Items</th>
+																</tr>
+															</thead>
+															<tr class="separator" />
+															<tbody>
+															
+															{%for task in tasks %}
+															{%if task.status%}
+																{%if not task.sprint %}
+															  <tr class="find_empty">
+																
+																<td title="User Story">{{task.name}}</td>
+																<td title="Task Description">{{task.description}}</td>
+																<td title="Task Created On">{{task.createdDate}}</td>
+																<td title="Assigned To">{{task.assignee.get.userName}}</td>
+																<td title="Status">Open</td>
+																<td title="Complexity">{{task.complexity.get.estimationLevel}}</td>
+																<td title="Complexity Points">{{task.complexity.get.estimationPoint}}</td>
+																<td title="Actual Efforts (Hrs.)">{{task.actual_efforts}}</td>
+															  	<td><a href="/task/edittask?edit_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#edit-issue-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Task"  id="{{task.key.urlsafe}}"></i></a>
+																<a href="/task/deletetask?delete_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#delete-user-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Task"  id="{{task.key.urlsafe}}"></i></a></td>
+															  </tr>
+															  <tr class="separator" />
+															  
+															  {% endif %}
+															  {%endif%}
+															  {% endfor %}
+															  
+															  
+															  
+															  
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div> -->
 											
+													
 											
 											
 											

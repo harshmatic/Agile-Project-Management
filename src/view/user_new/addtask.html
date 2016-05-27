@@ -1,6 +1,16 @@
 
 <script>
+
 $(document).ready(function(){
+	
+	$("#complex_pt option").filter(function() {
+        return $(this).val() == $("#est_efforts").val();
+    }).attr('selected', true);
+
+    $("#complex_pt").on("change", function() {
+
+        $("#est_efforts").val($(this).find("option:selected").attr("data"));
+    });
 	/*******************task validation starts************************/	
 	var task_validator=   $("#addtask").validate({
 		      rules: {
@@ -108,29 +118,9 @@ $(document).ready(function(){
 										
 									    }) ;		
 						
-	
-		/* $("#submit_item").on("click",function(){
-			$.post( "/task/addtask?key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA", $("#addtask").serialize())
-	  		.done(function( data ) {
-	  			if (data!="true"){
-	  				alert("Something Went Wrong");
-	  				return false
-	  			} 
-	  		});
-			$('#add-issue-modal').on('hidden.bs.modal', function(e)
-				    { 
-				        $(this).removeData();
-				        task_validator.resetForm();
-				        $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
-		  				    //var variable = $('#edit_permissions').html();
-		  				});
-				    }) ;
-			
-			
-		}) */
-		
-});
+					});
 	</script>
+
 <div class="modal-header add-task-modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title add-task-modal-heading">Add New Issue</h4>
@@ -146,7 +136,6 @@ $(document).ready(function(){
 											  <div class="form-group task-form-group">
 												<label class="task-label">Sprint</label>
 												<select name="sprint" class="form-control add-task-textbox apm-modal-textbox">
-														<option value="None">None</option>
 													{% for sprint in sprints%}
 													{%if sprint.status%}
 														<option value="{{sprint.key.urlsafe}}">{{sprint.name}}</option>
@@ -206,11 +195,11 @@ $(document).ready(function(){
 											  <!-- Permissions/Role --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Complexity</label>
-												<select name="complexity" class="form-control add-task-textbox apm-modal-textbox">
+												<select name="complexity" class="form-control add-task-textbox apm-modal-textbox" id="complex_pt">
 													<option value="None">None</option>
 													{% for complex in complex%}
 													{%if complex.status%}
-														<option value="{{complex.key.urlsafe}}" id="complex_pt"data="{{complex.estimationHours}}">{{complex.estimationLevel}}</option>
+														<option value="{{complex.key.urlsafe}}"  data="{{complex.estimationHours}}">{{complex.estimationLevel}}</option>
 													{%endif%}
 													{%endfor%}
 												</select>
