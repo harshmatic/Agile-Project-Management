@@ -63,7 +63,94 @@
 					        
 					    });
 
+					 
+					 //for filter 
+					 var query_string= getParameterByName('status').trim();
+					 var data;
+					 
+					
+					 
+					 if (query_string == 'open')
+					{
+					 	//data1='Open';
+						//document.getElementById("status_dropdown").value = "banana";
+						var retval=0;   
+					
+						$("#fbody").find("tr td").not("#table_header").filter(function() {
+						    if($(this).text() == "Open"){
+						        retval=1;
+						        
+						      	$('#table_header').show();
+						        $(this).parent().show();
+						       // alert('Same item found');
+						        return false;
+						    }else{
+						        retval=0;
+						        $(this).parent().hide();
+						        $('#table_header').show();
+						    }
+						});
+					 
+					}
+					 else
+						 if(query_string == 'done')
+						 {
+							 	//data1='Done';
+						
+								var retval=0;   
+							
+								$("#fbody").find("tr td").not("#table_header").filter(function() {
+								    if($(this).text() == "Done"){
+								        retval=1;
+								        
+								      	$('#table_header').show();
+								        $(this).parent().show();
+								       // alert('Same item found');
+								        return false;
+								    }else{
+								        retval=0;
+								        $(this).parent().hide();
+								        $('#table_header').show();
+								    }
+								});
+							 
+							}
+						 else
+							
+								 if(query_string == 'inprogress')
+								 {
+									 	//data1='Done';
+								
+										var retval=0;   
+									
+										$("#fbody").find("tr td").not("#table_header").filter(function() {
+										    if($(this).text() == "In Progress"){
+										        retval=1;
+										        
+										      	$('#table_header').show();
+										        $(this).parent().show();
+										       // alert('Same item found');
+										        return false;
+										    }else{
+										        retval=0;
+										        $(this).parent().hide();
+										        $('#table_header').show();
+										    }
+										});
+									 
+							}
+					 
 				});
+				
+				function getParameterByName(name, url) {
+				    if (!url) url = window.location.href;
+				    name = name.replace(/[\[\]]/g, "\\$&");
+				    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+				        results = regex.exec(url);
+				    if (!results) return null;
+				    if (!results[2]) return '';
+				    return decodeURIComponent(results[2].replace(/\+/g, " "));
+				}
 					
 		</script>
 		
@@ -90,12 +177,13 @@
 							<!-- Filter 1 -->
 							<div class="dropdown apm-backlog-filter-dropdown">
 							  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-							  <i class="fa fa-filter backlog-filter-icon" aria-hidden="true"></i>Filter 1
+							  <i class="fa fa-filter backlog-filter-icon" aria-hidden="true"></i>Status
 							  <span class="caret"></span></button>
-							  <ul class="dropdown-menu">
-								<li><a href="#">option 1</a></li>
-								<li><a href="#">option 2</a></li>
-								<li><a href="#">option 3</a></li>
+							  <ul class="dropdown-menu" id="status_dropdown">
+								<li><a href="#">Pending Tasks</a></li>
+								<li><a href="#">Ongoing Tasks</a></li>
+								<li><a href="#">Completed Tasks</a></li>
+								<li><a href="#">All Tasks</a></li>
 							  </ul>
 							</div>
 							
@@ -143,7 +231,7 @@
 												<div class="panel-body">
 													<div class="table-responsive">
 														<table class="table apm-sprint-table">
-															<tbody>
+															<tbody id="fbody">
                													 <tr id="table_header" href="#"> 
                													  <td><b>Title</b></td>
                													  <td><b>Task Description</b></td>

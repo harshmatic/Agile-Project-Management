@@ -20,10 +20,26 @@ $(document).ready(function() {
 					});
 				}
 				$(modalVerticalCenterClass).on('show.bs.modal', function(e) {centerModals($(this));});
-				
-				
 				$(window).on('resize', centerModals);
 				
 		/***************************** To center Modal ENDs ***************************************/
+		
+		
+		/***************************** To hide page data for sidebar on mobile  ********************/
+		
+				if($( window ).width() <= 767) {
 
+					$( "#menu-toggle-2" ).click(function() {
+						var toggle = $( "#wrapper" ).hasClass("toggled");
+							
+						if(toggle == false){
+							$('#page-content-wrapper').css('display','block');
+									
+						} else {
+							$('#page-content-wrapper').css('display','none');
+						}
+						
+					});
+				}
+		/***************************** To hide page data for sidebar on mobile ENDS ********************/
 });

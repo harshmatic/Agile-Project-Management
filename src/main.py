@@ -9,6 +9,7 @@ from controller.timesheet import *
 from controller.release import *
 from controller.mytasks import *
 from controller.timelog import *
+from controller.testuserdashboard import *
 from controller.effort_estimation_controller import *
 from webapp2_extras import routes
 from webapp2_extras.routes import DomainRoute
@@ -110,7 +111,9 @@ app = webapp2.WSGIApplication([
         #Effort Estimation
         webapp2.Route('/efforts', EffortEstimationView,name='estimationView'), 
        
-        webapp2.Route('/efforts/edit', EditEffortEstimation)
+        webapp2.Route('/efforts/edit', EditEffortEstimation),
+        
+        webapp2.Route('/test', TestUserDashboard)
         
     ]),
         webapp2.Route('/', SignupUser, name='home'),

@@ -145,7 +145,7 @@ class EditTimelog(BaseHandler):
         
             if (self.request.get('task_completed')):
              
-                tasks.task_status=2
+                tasks.task_status=Status[2]
                 tasks.modified_by = currentUser['email_address']
                 tasks.modified_date = datetime.now()
                 tasks.put()
