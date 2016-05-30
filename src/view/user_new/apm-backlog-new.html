@@ -549,11 +549,11 @@
              													   </tr>
              												
 														<tr class="separator" />
-														{%if productBacklog%}
-															{%for i in productBacklog%}
+														{%for i in productBacklog%}
 														
-															{%if i.status%}
-															{%if i.project_key.get.name == session.current_project.get.name %}
+															
+															
+																
 															  <tr class='clickable-row' id="{{i.key.urlsafe}}" >
 																<td>{%if i.sprintId != None  %}
 																		{{i.sprintId.get.name}}
@@ -573,23 +573,16 @@
 															  </tr>
 															  
 															  <tr class="separator" />
-															    {%endif%}
-															   {%else%}
-															
-															<tr>
+															    
+														  														   
+														  	
+														  {%empty%}
+														  <tr>
 																<td colspan="7" style="text-align:center;">No User Story Found.</td>
 															</tr>
 															 <tr class="separator" /> 
-															   
-															  {%endif%}
-															  {%endfor%}
-															{%else%}
+													  {%endfor%}
 															
-															<tr>
-																<td colspan="7" style="text-align:center;">No User Story Found.</td>
-															</tr>
-															 <tr class="separator" />
-															{%endif%}
 															
 															</tbody>
 														</table>

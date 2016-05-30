@@ -19,7 +19,10 @@ class ProductUserStory(BaseClass):
     def set(self):
         return self.put()
     def get_all(self):
-        res = self.query().fetch()
+        res = self.query(ProductUserStory.status==True, ).fetch()
+        return res
+    def get_all_by_project(self,projid):
+        res = self.query(ndb.AND(ProductUserStory.project_key==projid,ProductUserStory.status==True)).fetch()
         return res
     def get(self,id):
         res = ndb.Key(ProductUserStory,int(id)).get()
