@@ -92,19 +92,7 @@
 						$('#empty_sprint').remove();
 						
 					}
-					$('#tasks_sprints').on('load',function(){
-						$(".table").each(function(){
-												if (!$(this).find("tr.find_empty").length){
-												a=$(this).find("tbody")[0];
-												$(a).append("<tr><td colspan='10' align='center'>There are no tasks in the sprint</td></tr>")
-												}
-												
-											})
-											if (!$('#empty_sprint').find("tr.find_empty").length){
-												$('#empty_sprint').remove();
-												
-											}
-						})
+					
 					$(".nav-tabs a").click(function(){
 						$(this).tab('show');
 					});
@@ -354,83 +342,9 @@
 											{%endif%}
 
 									{% endfor%}		
-											
+										{%endif%}	
 									
-											<!--  <div class="panel panel-default apm-sprint-panel" id="empty_sprint">
-												<div class="panel-heading">
-													Unassigned Sprint
-
-									{% endfor%}	
-										
-									{%else%}	
 											
-											<div class="panel panel-default apm-sprint-panel" id="sprint">
-												<div class="panel-heading">
-													
-
-												</div>
-												<div class="panel-body">
-													<div class="table-responsive">
-														<table class="table apm-sprint-table apm-sprint-item-table">
-															<thead>
-																<tr>	
-																	
-																	<th>Name</th>
-																	<th>Task Description</th>
-																	<th>Task Created On</th>
-																	<th>Assigned To</th>
-																	<th>Status</th>
-																	<th>Complexity</th>
-																	<th>Complexity Points</th>
-																	<th>Estimated Efforts (Hrs.)</th>
-
-																	<th>Actual Efforts (Hrs.)</th>
-
-																	<th>Action Items</th>
-																</tr>
-															</thead>
-															<tr class="separator" />
-															<tbody>
-
-															
-															{%for task in tasks %}
-															{%if task.status%}
-																{%if not task.sprint %}
-															  <tr class="find_empty">
-																
-																<td title="User Story">{{task.name}}</td>
-																<td title="Task Description">{{task.description}}</td>
-																<td title="Task Created On">{{task.createdDate}}</td>
-																<td title="Assigned To">{{task.assignee.get.userName}}</td>
-																<td title="Status">Open</td>
-																<td title="Complexity">{{task.complexity.get.estimationLevel}}</td>
-																<td title="Complexity Points">{{task.complexity.get.estimationPoint}}</td>
-																<td title="Actual Efforts (Hrs.)">{{task.actual_efforts}}</td>
-															  	<td><a href="/task/edittask?edit_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#edit-issue-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Task"  id="{{task.key.urlsafe}}"></i></a>
-																<a href="/task/deletetask?delete_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#delete-user-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Task"  id="{{task.key.urlsafe}}"></i></a></td>
-															  </tr>
-															  <tr class="separator" />
-															  
-															  {% endif %}
-															  {%endif%}
-															  {% endfor %}
-															  
-															  
-															  
-															  
-
-														
-															  <tr>
-																<td colspan="10" style="text-align:center;">No Sprint Found.</td>
-															</tr>
-															 <tr class="separator" />
-
-															</tbody>
-														</table>
-													</div>
-												</div>
-
-											</div> -->
 											
 													
 											

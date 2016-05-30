@@ -99,18 +99,21 @@ class BaseHandler(webapp2.RequestHandler):
             if projects:
                 if not self.session.has_key('current_project'):
                     self.session['current_project']=projects[0].projectid
+                
                 for current in projects:
                     if current.projectid==self.session['current_project']:
-                        current_project= current
-                permit=model.user.Groups().query(model.user.Groups.role==current_project.userRole).fetch()
+                        current_project_id= current
+                permit=model.user.Groups().query(model.user.Groups.role==current_project_id.userRole).fetch()
                 urls=model.user.Permissions().query().order(model.user.Permissions.order).fetch()
                 sidebars=[]
                 for sidebar in urls:
                     if sidebar.key in permit[0].permissions:
                         sidebars.append(sidebar)
-                pa.append({'project':current_project.projectid,"permit_for":permit[0].permissions})
+                pa.append({'project':current_project_id.projectid,"permit_for":permit[0].permissions})
                 params['permissions']=pa
                 params['sidebar']=sidebars
+            else:
+                self.session['current_project']=None
             if projects != None:
                 params['projects'] = projects
             

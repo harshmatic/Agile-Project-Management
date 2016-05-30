@@ -21,7 +21,7 @@ class AllBacklogs(BaseHandler):
     def get(self,*args,**kargs):
        #if check_permission(self):  
         productBacklog = product_backlog.ProductUserStory()
-        productBacklog = productBacklog.get_all()
+        productBacklog = productBacklog.get_all_by_project(self.session['current_project'])
         
         list= []
         

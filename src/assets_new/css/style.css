@@ -1495,9 +1495,9 @@ div.Tokenize {
 	font-size: 12px!important;
     letter-spacing: 1px!important;
 }
-.fa-calendar{
+/**.fa-calendar{
 	margin-left:10px;
-}
+}*/
 .datepicker table tr td.active, .datepicker table tr td.active:hover, .datepicker table tr td.active.disabled, .datepicker table tr td.active.disabled:hover{
 	background-color:#3978BF!important;
 	background-image:none!important;
@@ -1877,3 +1877,67 @@ div.Tokenize {
 .cell-effort:hover{
  background:#eee;
 }
+
+/* draggable targets */
+			[data-draggable="target"]
+			{
+			   	list-style-type: none;
+				height: 500px;
+				overflow-y: auto;
+				padding: 15px;
+				border-radius: 0.2em;
+				color: #555;
+				background:#f8f8f8;
+				border:1px solid #eee;
+			}
+
+			/* draggable items */
+			[data-draggable="item"]
+			{
+				display: block;
+				list-style-type: none;
+				margin: 0 0 2px 0;
+				padding: 12px;
+				border: 1px solid #fff;
+				margin-bottom: 15px;
+				background:#fff;
+				cursor:move;
+				height: 115px;
+				-webkit-box-shadow: -1px 1px 3px 0px rgba(122,122,122,1);
+				-moz-box-shadow: -1px 1px 3px 0px rgba(122,122,122,1);
+				box-shadow: -1px 1px 3px 0px rgba(122,122,122,1);
+			}
+			@media (max-width: 991px){
+				[data-draggable="item"]{
+					height: auto;
+				}
+			}	
+			.to-do-list [data-draggable="item"]{
+				border-left:5px solid #ff0000;
+			}
+			.in-progress-list [data-draggable="item"]{
+				border-left:5px solid #F0AD4E;
+			}
+			.done-list [data-draggable="item"]{
+				border-left:5px solid #5CB85C;
+			}
+			.drag-task-heading{
+				margin:0;
+				margin-bottom:8px;
+				font-size:12px;
+				letter-spacing:1px;
+				font-weight:600;
+				text-transform:uppercase;
+			}
+			.drag-task-descr{
+				margin:0;
+				font-size:12px;
+				letter-spacing:1px;
+				font-weight:500;
+				line-height: 1.8em;
+			}
+			.apm-user-actionitem-label{
+				font-family:Raleway;
+				letter-spacing:1px;
+				font-size: 16px;
+			}
