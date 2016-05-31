@@ -42,4 +42,22 @@ $(document).ready(function() {
 					});
 				}
 		/***************************** To hide page data for sidebar on mobile ENDS ********************/
+		/********************************new js*********************************************************/
+				if($( window ).width() <= 767) {
+
+				     $( "#menu-toggle-2" ).click(function() {
+				      var toggle = $( "#wrapper" ).hasClass("toggled");
+				       
+				      if(toggle == false){
+				       $('#page-content-wrapper').css('display','block');
+				         
+				      } else {
+				       $('#page-content-wrapper').css('display','none');
+				      }
+				      
+				     });
+				    }		
+				
+		/***********************************************************************************************/		
+				
 });

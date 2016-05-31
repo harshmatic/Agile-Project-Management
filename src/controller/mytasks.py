@@ -57,6 +57,8 @@ class MyTaskView(BaseHandler):
         
         timelog_key.task_key=ndb.Key(urlsafe=self.request.get('task_key'))
         
+       # if self.request.get('sprint_key'):
+        timelog_key.sprint_key=ndb.Key(urlsafe=self.request.get('sprint_key'))
         
         timelog_key.assigne_key=self.user_model.get_by_id(currentUser['user_id']).key
         

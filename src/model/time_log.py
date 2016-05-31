@@ -6,6 +6,7 @@ class Time_Log(BaseClass):
     project_key = ndb.KeyProperty(required=True)
     task_key = ndb.KeyProperty(required=True)
     assigne_key =ndb.KeyProperty(required=True)
+    sprint_key=ndb.KeyProperty(required=True)
     today_date = ndb.DateProperty()
     hour=ndb.IntegerProperty()
     minute=ndb.IntegerProperty()
