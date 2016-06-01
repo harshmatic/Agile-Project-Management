@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <script src="assets_new/js/jquery.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+    
+    
+    google.charts.load('current', {packages: ['corechart', 'line']});
+    google.charts.setOnLoadCallback(drawTrendlines);
+
+    function drawTrendlines() {
+    	  var rows = "{{data}}"
+    		  
+    		  var replacedrow = rows.replace(/&#39;/g, '"');
+    	  var arr = JSON.parse(replacedrow);
+    	  console.log("the data is"+arr[0][0]);
+    	  var rwsfinal = [];
+    	  for(r in arr)
+    		  {
+    		  var rws = [];
+    		  console.log("the r is"+arr[r]);
+    		  rws.push(new Date(arr[r][0]),arr[r][1]);
+    		  rwsfinal.push(rws);
+    		  }
+    	  console.log("the changed data is"+rwsfinal);
+          var data = new google.visualization.DataTable();
+          data.addColumn('date', 'X');
+          data.addColumn('number', 'Remaining');
+          //data.addColumn('number', 'Steady Pace');
+
+          data.addRows(rwsfinal);
+
+          var options = {
+            hAxis: {
+              title: 'Date',
+              format: 'MMM dd'
+            },
+            vAxis: {
+              title: 'Estimates'
+            },
+            colors: ['#AB0D06', '#007329']
+            
+          };
+
+          var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+          chart.draw(data, options);
+        }
+    </script>
+  </head>
+  <body>
+    
+  <div id="chart_div"></div>
+  </body>
+</html>

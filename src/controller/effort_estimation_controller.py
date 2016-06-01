@@ -128,5 +128,40 @@ class EditEffortEstimation(BaseHandler):
             effortmodel.set()
             
             self.response.write("success")
+            
+class Barchart(BaseHandler):
+    
+    def get(self,*args,**kargs):
+        
+        sprintid = self.request.get("sprint_id")
+        sprint_key = ndb.Key('Sprint',int(sprintid))
+        taskmodel = task.Task().query(task.Task.sprint == sprint_key).fetch()
+        
+        
+        listest = []
+        estimates = effort_estimation.EffortEstimation().get_esti_by_sprint(sprint_key)
+        est_total = 0
+        
+        for est in estimates:
+            est_total = float(est_total) + float(est.total_effort)
+        #for t in taskmodel:
+            #timelogmodel = time_log.Time_Log.query(time_log.Time_Log().task_key==t.key).fetch()
+                         
+        for e in estimates:
+            #for time in timelogmodel:
+                #total_timesheethours = 0
+                #if(e.date == time.today_date):
+                    #total_timesheethours = float(total_timesheethours) + float(time.total_effort)
+            entry = []
+            d = (e.date).strftime("%Y,%m,%d")
+            entry.append(d)
+            entry.append(float(est_total) - float(e.total_effort))
+            entry.append(float(est_total) - float(est_total))
+            est_total = float(est_total) - float(e.total_effort)
+            listest.append(entry)
+            logging.info("the list is"+listest.__str__())
+        self.render_template("user_new/bar_chart.html",{"data":listest})
+        #else:
+            #self.response.write("you are not allowed")
           
             
