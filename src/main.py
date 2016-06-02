@@ -114,7 +114,8 @@ app = webapp2.WSGIApplication([
        
         webapp2.Route('/efforts/edit', EditEffortEstimation),
         
-        webapp2.Route('/test', TestUserDashboard)
+        webapp2.Route('/test', TestUserDashboard),
+        webapp2.Route('/barchart', Barchart)
         
     ]),
         webapp2.Route('/', SignupUser, name='home'),
