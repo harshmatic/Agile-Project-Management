@@ -132,12 +132,20 @@ class EditEffortEstimation(BaseHandler):
 class Barchart(BaseHandler):
     
     def get(self,*args,**kargs):
-        
-        sprintid = self.request.get("sprint_id")
-        sprint_key = ndb.Key('Sprint',int(sprintid))
-        taskmodel = task.Task().query(task.Task.sprint == sprint_key).fetch()
-        
-        
+        projectKey=self.session['current_project']
+        sprints = sprint.Sprint().get_by_project(projectKey)
+        if(self.request.get("sprint_id") != ''):
+            sprintid = self.request.get("sprint_id")
+            sprint_key = ndb.Key('Sprint',int(sprintid))
+        else:
+            sprint_key = sprints[0].key
+         
+                    
+        timelog = {}
+        timelogmodel =  time_log.Time_Log.query(time_log.Time_Log.sprint_key==sprint_key).fetch()
+        for t in timelogmodel:
+            timelog[t.today_date] = float(timelog.get(t.today_date,0)) + float(t.total_effort)
+        logging.info(timelog)
         listest = []
         estimates = effort_estimation.EffortEstimation().get_esti_by_sprint(sprint_key)
         est_total = 0
@@ -152,15 +160,25 @@ class Barchart(BaseHandler):
                 #total_timesheethours = 0
                 #if(e.date == time.today_date):
                     #total_timesheethours = float(total_timesheethours) + float(time.total_effort)
-            entry = []
-            d = (e.date).strftime("%Y,%m,%d")
-            entry.append(d)
-            entry.append(float(est_total) - float(e.total_effort))
-            entry.append(float(est_total) - float(est_total))
-            est_total = float(est_total) - float(e.total_effort)
-            listest.append(entry)
-            logging.info("the list is"+listest.__str__())
-        self.render_template("user_new/bar_chart.html",{"data":listest})
+            if e.date in timelog:        
+                entry = []
+                d = (e.date).strftime("%Y,%m,%d")
+                entry.append(d)
+                entry.append(float(est_total) - float(e.total_effort))
+                entry.append(float(est_total) - float(timelog.get(e.date)))
+                est_total = float(est_total) - float(e.total_effort)
+                listest.append(entry)
+                logging.info("the list is"+listest.__str__())
+            else:
+                entry = []
+                d = (e.date).strftime("%Y,%m,%d")
+                entry.append(d)
+                entry.append(float(est_total) - float(e.total_effort))
+                entry.append(None)
+                est_total = float(est_total) - float(e.total_effort)
+                listest.append(entry)
+                logging.info("the list is"+listest.__str__())
+        self.render_template("user_new/bar_chart.html",{"sprint":sprints,"data":json.dumps(listest),"currentsprint":sprint_key})
         #else:
             #self.response.write("you are not allowed")
           

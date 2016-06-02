@@ -1,54 +1,193 @@
-<html>
-  <head>
-    <script src="assets_new/js/jquery.js"></script>
+{% extends "base.html" %}
+
+{% block title %}User | Reports{% endblock %}
+		
+{% block header_links%}
+
+
+    <style>
+    .burndown-chart-box{
+				margin-top:30px;
+			}
+			.burndown-chart-summary-heading{
+				font-family:Raleway;
+				font-size:16px;
+				font-weight:500;
+				letter-spacing:1px;
+			}
+    </style>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
     
     
     google.charts.load('current', {packages: ['corechart', 'line']});
     google.charts.setOnLoadCallback(drawTrendlines);
-
-    function drawTrendlines() {
-    	  var rows = "{{data}}"
-    		  
-    		  var replacedrow = rows.replace(/&#39;/g, '"');
-    	  var arr = JSON.parse(replacedrow);
-    	  console.log("the data is"+arr[0][0]);
-    	  var rwsfinal = [];
-    	  for(r in arr)
-    		  {
-    		  var rws = [];
-    		  console.log("the r is"+arr[r]);
-    		  rws.push(new Date(arr[r][0]),arr[r][1]);
-    		  rwsfinal.push(rws);
-    		  }
-    	  console.log("the changed data is"+rwsfinal);
-          var data = new google.visualization.DataTable();
-          data.addColumn('date', 'X');
-          data.addColumn('number', 'Remaining');
-          //data.addColumn('number', 'Steady Pace');
-
-          data.addRows(rwsfinal);
-
-          var options = {
-            hAxis: {
-              title: 'Date',
-              format: 'MMM dd'
-            },
-            vAxis: {
-              title: 'Estimates'
-            },
-            colors: ['#AB0D06', '#007329']
-            
-          };
-
-          var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-          chart.draw(data, options);
-        }
-    </script>
-  </head>
-  <body>
+    $(document).ready(function(){
     
-  <div id="chart_div"></div>
-  </body>
-</html>
+    
+    $(".sprint-dropdown").change(function () {
+		var e = document.getElementById("sprintselect");
+		var strSprint = e.options[e.selectedIndex].value;
+		console.log("the sprint id is"+strSprint)
+		window.location.href = "/barchart?sprint_id="+strSprint;
+	});
+    
+    });
+    
+    function drawTrendlines() {
+  	  var rows = "{{data}}"
+  		 
+  		  //var replacedrow = rows.replace(/&#39;/g, '"');
+  		  var replacedrow = rows.replace(/&quot;/g, '"');
+  		  console.log("the replace row is"+replacedrow);
+  	       //replacedrow = replacedrow.replace("None", null);
+  	  var arr = JSON.parse(replacedrow);
+  	  console.log("the data is"+arr[0][0]);
+  	  var rwsfinal = [];
+  	  for(r in arr)
+  		  {
+  		  var rws = [];
+  		  console.log("the r is"+arr[r]);
+  		  rws.push(new Date(arr[r][0]),arr[r][1],arr[r][2]);
+  		  rwsfinal.push(rws);
+  		  }
+  	  console.log("the changed data is"+rwsfinal);
+        var data = new google.visualization.DataTable();
+        data.addColumn('date', 'X');
+        data.addColumn('number', 'Remaining');
+        data.addColumn('number', 'Steady Pace');
+
+        data.addRows(rwsfinal);
+
+        var options = {
+        		title: 'Sprint Performance',
+  			  legend: { position: 'bottom' },
+          hAxis: {
+            title: 'Date',
+            format: 'MMM dd',
+          	  textStyle: {
+                    color: '#01579b',
+                    fontSize: 13,
+                    fontName: 'Arial',
+                    bold: true,
+                    italic: true
+                  },
+                  titleTextStyle: {
+                    color: '#01579b',
+                    fontSize: 13,
+                    fontName: 'Arial',
+                    bold: false,
+                    italic: true
+                  }
+          },
+          vAxis: {
+            title: 'Estimates',
+          	  textStyle: {
+                    color: '#1a237e',
+                    fontSize: 13,
+                    bold: true
+                  },
+                  titleTextStyle: {
+                    color: '#1a237e',
+                    fontSize: 13,
+                    bold: true
+                  }
+          },
+          colors: ['#a52714', '#097138']
+          
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+    
+   
+    
+    {% endblock %}	
+	
+
+
+     
+{%block content%}
+    <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                   <div class="col-lg-12">
+					
+					<h2 class="apm-all-reports-heading">Burndown Charts</h2>
+						
+					<hr>
+						
+					
+							
+			<!--****************************** Burndown chart section Starts ******************************************-->
+					
+					<div class="row apm-select-sprint-dropdown">
+							<div class="col-sm-2 col-xs-12">
+							
+										<label class="apm-effort-est-lbl">Select Sprint:</label>
+										<select class="form-control add-task-textbox apm-modal-textbox apm-effort-est-dropdown sprint-dropdown" id="sprintselect">
+										
+										{% for sprints in sprint %}
+										    {% if sprints.key == currentsprint %}
+											<option  value= "{{ sprints.key.id }}" selected> {{ sprints.name }}</option>
+											
+											{%else%}
+											
+											<option  value= "{{ sprints.key.id }}"> {{ sprints.name }}</option>
+											{%endif%}
+										{%endfor%}
+										</select>
+								
+							</div>
+						</div
+					
+					<div class="row">
+						<!--Burndown Chart-->
+						<div class="col-md-9 burndown-chart-box" style="padding-left: 0px;">
+							<div class="panel panel-default">
+									<!-- <div class="panel-heading apm-panel-heading">
+										Sprint 1
+									</div> -->
+									<div class="panel-body">
+										<div id="chart_div" style="width: 100%; height: auto;"></div>
+									</div>
+							</div>		
+						</div>
+					</div>
+					
+					<!--Burndown Chart Summary-->
+					<div class="row">
+						<div class="col-md-4" style="padding-left: 30px;">
+						
+							<h4 class="burndown-chart-summary-heading">Summary:</h4>
+							
+							<div class="table-responsive">
+								<table class="table table-bordered apm-member-listing-table table-condensed">
+									<thead>
+										<tr>
+											<th>Total Efforts</th>
+											<th>Total Tasks</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>40</td>
+											<td>16</td>
+										</tr>
+										
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					
+					<!--***************** Burndown chart section ENDs *******************-->		
+					
+                    </div> <!-- .col-lg-12 ends -->
+                </div>
+            </div> <!-- .container ends -->
+        </div>
+        <!-- /#page-content-wrapper ENDS -->
+ {%endblock%}
