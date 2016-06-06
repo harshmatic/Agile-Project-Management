@@ -1,0 +1,160 @@
+ <script>
+$(document).ready(function(){	
+	$('.datepicker').datepicker({
+		format: 'dd/mm/yyyy',
+		startDate: '0d'
+	});
+	
+	$('#task_completed').on('click', function () {
+	    $(this).val(this.checked ? 1 : 0);
+	    console.log($(this).val());
+	});
+	
+	$('#billable').on('click', function () {
+	    $(this).val(this.checked ? 1 : 0);
+	    console.log($(this).val());
+	});
+	/***********************time log validation starts******************************/
+	
+	var time_validator=   $("#time_log_form").validate({
+		      rules: {
+		    	  hours: 
+		    	  {
+		    		  number: true
+		    	
+		          },
+		          minutes: 
+		          {
+		        	  number: true
+			      }
+			 
+	   
+		         },
+		         messages: 
+		         {
+		        	 hours: 
+		           {
+		        		 number: "Please enter hours in numbers."
+		           },
+		           minutes: 
+		           {
+		        	   number: "Please enter minutes in numbers."
+		           }
+		         
+		         }
+		     });
+	/***********************time log validation ends******************************/	
+	    
+	$("#log_time_button").on("click",function(){
+		 if (!$('#time_log_form').valid()){
+			    event.preventDefault();
+			    event.stopImmediatePropagation();
+			    return false;
+		 }
+		 else
+			 {
+				$.post( "/mytasks/view", $("#time_log_form").serialize())
+		  		.done(function( data ) {
+		  			if (data!="true"){
+		  				alert("Something Went Wrong");
+		  				return false
+		  			} 
+		  		})
+			
+		 	}		
+				
+		})
+		
+		$('#apm-task-add-timelog-modal').on('hidden.bs.modal', function(e)
+			    { 
+					$(this).removeData('bs.modal');
+					$(this).find('form')[0].reset();
+				//	time_validator.resetForm();
+					$('#success').load('/mytasks/view?key={{task.key.urlsafe}} #table1', function(result) {
+		  				   
+		  				});
+					 $('#new_status').load('/mytasks/view?key={{task.key.urlsafe}} #new_status', function(result) {
+		  				   
+		  				});
+					/*  $('#apm-task-add-timelog-modal').load('/mytasks/view?key={{task.key.urlsafe}} #apm-task-add-timelog-modal', function(result) {
+		  				   
+		  				});  */
+		  				
+						
+		  				
+			  		
+		  				
+		  				
+		  				
+			    }) ;
+
+});
+
+	</script>
+ <form id="time_log_form" action="/mytasks/view" method="post">
+  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Log Time</h4>
+				  </div>
+				   
+				 
+					<div class="modal-body user-management-body">
+							
+							<div class="row apm-logtime-modal-row">
+								<div class="col-md-12">
+									<label class="apm-logtime-task-label">Task : {{task.name}}</label>
+								</div>
+							</div>
+							
+							<hr class="apm-logtime-separator">
+							
+							<div class="row apm-logtime-modal-row">
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="apm-logtime-modal-label">Date</label>
+										<input type="text" class="form-control apm-landing-textbox-reg datepicker" id="date" name="date" readonly="true">
+										<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+									</div>
+								</div>
+							
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="apm-logtime-modal-label">Time Spent</label>
+										<br>
+										<input type="number" class="apm-landing-textbox-reg hour-text" placeholder="hours" id="hours" name="hours" >
+										<input type="number" class="apm-landing-textbox-reg min-text" placeholder="minutes" id="minutes" name="minutes" >
+									</div>
+								</div>	
+
+								<div class="col-md-4">
+									<div class="checkbox billable-check">
+									  <label class="apm-logtime-modal-label"><input type="checkbox" value="" name="billable" id="billable">Billable?</label>
+									</div>
+								</div>		
+							</div>
+							
+							<div class="row apm-logtime-modal-row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label class="apm-logtime-modal-label">Description</label>
+										<textarea class="form-control apm-text-area" rows="3" id="description" name="description"></textarea>
+									</div>
+								</div>
+							</div>
+							
+							<div class="row apm-logtime-modal-row">
+								<div class="col-md-4">
+									<div class="checkbox">
+									  <label class="apm-logtime-modal-label"><input type="checkbox" value="" id="task_completed" name="task_completed" {%if status == 'Done'%}checked{%endif%}>Task is now complete</label>
+									</div>
+								</div>		
+							</div>
+							
+				  </div>
+				 <input type="hidden" id="task_key" name="task_key" value="{{task_key.urlsafe}}">
+				 <input type="hidden" id="sprint_key" name="sprint_key" value="{{task_key.get.sprint.urlsafe}}">
+				  <div class="modal-footer add-task-modal-footer">
+					<button type="button" class="add-task-btn-modal" data-dismiss="modal" id="log_time_button">Log Time</button>
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
+				  </div>
+				  </form>

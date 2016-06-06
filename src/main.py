@@ -103,7 +103,7 @@ app = webapp2.WSGIApplication([
         
         webapp2.Route('/timelog/edit', EditTimelog),
         webapp2.Route('/timelog/delete', DeleteTimelog),
-        
+        webapp2.Route('/timelog/add', AddTimelog), 
         #Timesheet
         webapp2.Route('/timesheet', Timesheet,name='Timesheet'),
         
@@ -115,6 +115,7 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/efforts/edit', EditEffortEstimation),
         
         webapp2.Route('/test', TestUserDashboard),
+        webapp2.Route('/task/status', TaskStatusUpdate),
         webapp2.Route('/barchart', Barchart)
         
     ]),

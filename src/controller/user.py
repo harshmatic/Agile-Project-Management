@@ -17,6 +17,7 @@ from login import BaseHandler,check_permission
 from google.appengine.ext import ndb
 from model.user import Permissions ,OurUser , Groups
 import model
+from model import sprint,task,time_log
 from google.appengine.api import users
 from webapp2_extras.appengine.auth.models import User
 from model import project
@@ -31,16 +32,23 @@ from datetime import datetime
 class EndUserDashboardHandler(BaseHandler):
     def get(self,*args,**kargs):
         if check_permission(self):
+            projectKey=self.session['current_project']
+            currentUser=self.auth.get_user_by_session()
+            currentUser=self.user_model.get_by_id(currentUser['user_id']).key
+            project_member=project.ProjectMembers().get_by_project_user(projectKey,currentUser)
+            tasks=task.Task().get_by_project_user(projectKey,project_member[0])
             
-       #     current_user =self.auth.get_user_by_session()
-            
-         #   user = int(current_user['user_id'])
-        #    user_id = repr(user).rstrip('L')
-            
-          #  logging.info(type(current_user['user_id']))
-            
-         #   user_db = OurUser.query().fetch()
-            self.render_template("user_new/apm-user-dashboard.html")
+            open_count=0
+            inprogress_count =0
+            completed_count=0
+            for i in tasks:
+                if i.task_status == 'Open':
+                    open_count=open_count+1
+                if i.task_status == 'In Progress':
+                    inprogress_count=inprogress_count+1
+                if i.task_status == 'Done':
+                    completed_count=completed_count+1   
+            self.render_template("user_new/apm-user-dashboard.html",{"tasks":tasks,"open_count":open_count,"inprogress_count":inprogress_count,"completed_count":completed_count})
         else:
             self.response.write("you are not allowed")
             

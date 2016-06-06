@@ -31,6 +31,7 @@ class MyTasks(BaseHandler):
         logging.info(projectKey)
         logging.info(project_member)
         tasks=task.Task().get_by_project_user(projectKey,project_member[0])
+       
         self.render_template("user_new/my_tasks.html",{"tasks":tasks})
 
 class MyTaskView(BaseHandler):
@@ -45,8 +46,8 @@ class MyTaskView(BaseHandler):
         time_log_data=time_log.Time_Log()
         
         time_log_data=time_log_data.getByTask(taskKey)
-        
-        self.render_template("user_new/view_task.html",{"task":task,"time_log":time_log_data})
+        status=task.task_status
+        self.render_template("user_new/view_task.html",{"task":task,"time_log":time_log_data,"status":status})
     
     def post(self,*args,**kargs):
         currentUser=self.auth.get_user_by_session()
@@ -218,3 +219,22 @@ class DeleteTimelog(BaseHandler):
             #user_key.delete()  
             self.response.write("true")     
             
+class TaskStatusUpdate(BaseHandler):
+    def post(self,*args,**kargs):
+        status = int(self.request.get('status'))
+        currentUser=self.auth.get_user_by_session()
+        task_key = ndb.Key(urlsafe=self.request.get('task_key'))
+        tasks=task_key.get()
+        tasks.task_status=Status[status]
+        tasks.modified_by = currentUser['email_address']
+        tasks.modified_date = datetime.now()
+        tasks.put()
+        self.response.write("true")     
+        
+        
+class AddTimelog(BaseHandler):  
+        def get(self,*args,**kargs):
+            taskKey = ndb.Key(urlsafe=self.request.get('key'))
+            task=taskKey.get()
+            status=task.task_status
+            self.render_template("user_new/add_timelog.html",{"task_key":taskKey,"status":status})

@@ -118,36 +118,49 @@
 					<div class="col-md-8 user-dashboard-left-box">
 						<!-- Number Boxes -->
 						<div class="row apm-numbox-row">
+							
 							<div class="col-md-4 col-sm-4">
+							<a href="/mytasks?status=open"  style="text-decoration: none; color: white;">
 								<div class="apm-numbox-dashboard apm-numbox-1">
 									<h2 class="apm-numbox-heading">{{open_count}}</h2>
-									<label class="apm-numbox-label"> <a href="/mytasks?status=open"  style="text-decoration: none; color: white;">Pending Tasks</a></label>
-								</div>	
+									<label class="apm-numbox-label"> Pending Tasks</label>
+								</div>
+							</a>	
 							</div>
+							
 						
+							
 							<div class="col-md-4 col-sm-4">
+							<a href="/mytasks?status=inprogress" style="text-decoration: none; color: white;">
 								<div class="apm-numbox-dashboard apm-numbox-3">
 									<h2 class="apm-numbox-heading">{{inprogress_count}}</h2>
-									<label class="apm-numbox-label"> <a href="/mytasks?status=inprogress" style="text-decoration: none; color: white;">Ongoing Tasks</a></label>
+									<label class="apm-numbox-label"> Ongoing Tasks</label>
 								</div>	
+							</a>
 							</div>
+							
+							
+							
 							<div class="col-md-4 col-sm-4">
+							<a href="/mytasks?status=done" style="text-decoration: none; color: white;">
 								<div class="apm-numbox-dashboard apm-numbox-4">
 									<h2 class="apm-numbox-heading">{{completed_count}}</h2>
-									<label class="apm-numbox-label"> <a href="/mytasks?status=done" style="text-decoration: none; color: white;">Completed Tasks</a></label>
+									<label class="apm-numbox-label"> Completed Tasks</label>
 								</div>	
+							</a>
 							</div>
+							
 						</div>
 						<!-- Number Boxes ENDS -->
 						
 						
 						
 						<div class="row">
+						
+						
 							<div class="col-md-4 col-sm-4">
-								<h4 class="apm-user-actionitem-label">Pending Tasks:</h4>
-								<!--<div class="apm-user-action-item">
-									
-								</div>-->
+								<h4 class="apm-user-actionitem-label">Pending Tasks:</h4>	
+						
 								<ol data-draggable="target" class="to-do-list">
 								{%for i in tasks%}
 								{%if i.task_status == 'Open' %}
@@ -157,47 +170,60 @@
 									<p class="drag-task-descr">{{i.description}}</p>
 								  </a>
 								  </li>
-								  {%endif%}
-								  {%endfor%}
+								  	
+								{%endif%}
+								{%endfor%}
+								 </ol>
+							
 								
-								
-								</ol>
 							</div>
+							
+							
+						
+							
 							<div class="col-md-4 col-sm-4">
 								<h4 class="apm-user-actionitem-label">Ongoing Tasks:</h4>
+									
 								<ol data-draggable="target" class="in-progress-list">
-								{%for i in tasks%}
+									{%for i in tasks%}
 									{%if i.task_status == 'In Progress' %}
 								   <li data-draggable="item">
 								   <a href="/mytasks/view?key={{i.key.urlsafe}}" style="text-decoration: none;">
 									<h5 class="drag-task-heading">Task-{{i.name}}</h5>
 									<p class="drag-task-descr">{{i.description}}</p>
-								 	</a>
-								  </li>
-								  	{%endif%}
-								  	{%endfor%}
+									</a>
+								 	</li>
+								 	{%endif%}
+									{%endfor%}
+								</ol>
+								
+							
+							</div>
+							
 								 
 								
-								</ol>
-							</div>
+						
+							
 							<div class="col-md-4 col-sm-4">
 								<h4 class="apm-user-actionitem-label">Completed Tasks:</h4>
+								
 								<ol data-draggable="target" class="done-list">
-									{%for i in tasks%}
-									{%if i.task_status == 'Done' %}
-								   <li data-draggable="item">
-								     	<a href="/mytasks/view?key={{i.key.urlsafe}}" style="text-decoration: none;">
-									<h5 class="drag-task-heading">Task -{{i.name}}</h5>
-									<p class="drag-task-descr">{{i.description}}</p>
+								  {%for i in tasks%}
+								  {%if i.task_status == 'Done' %}
+								  <li data-draggable="item">
+								  <a href="/mytasks/view?key={{i.key.urlsafe}}" style="text-decoration: none;">
+								  <h5 class="drag-task-heading">Task -{{i.name}}</h5>
+								  <p class="drag-task-descr">{{i.description}}</p>
 								  </a>
 								  </li>
-								 	{%endif%}
-								  	{%endfor%}
-								
-								  
-								 
+								  {%endif%}
+								  {%endfor%}
 								</ol>
+								
 							</div>
+							
+							
+								
 							
 						</div>
 					</div> <!-- .col-md-8 ends -->

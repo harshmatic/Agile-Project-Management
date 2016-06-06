@@ -16,11 +16,74 @@
 				margin-top: 50px!important;
 				z-index:99999999;
 			}
+			.apm-task-descr-list{
+    line-height: 2.4em;
+    font-size: 13px;
+    letter-spacing: 1px;
+    margin-bottom: -5px;
+    margin-top: 30px;
+    list-style-type: square;
+}
 		</style>
 		
 			
 		<script>
 				$(document).ready(function(){
+					
+				
+				var default_status= $('#new_status').text().replace('Status:', '');
+				if (default_status == 'Open')
+				{
+				 $('#status_dropdown').val( '0' );
+				
+				}
+				else
+				if (default_status == 'In Progress')
+				{
+					 $('#status_dropdown').val( '1' );
+				}
+				else
+				if (default_status == 'Done')
+				{
+					 $('#status_dropdown').val( '2' );
+					 $("#apm-task-add-timelog-modal #task_completed").prop( "checked", true );
+				}
+				else
+					if (default_status == 'Deferred')
+					{
+						 $('#status_dropdown').val( '4' );
+					}
+				
+				
+				var task_key=$('#task_key').val();
+				 
+				 
+				 
+					$( "#status_dropdown" ).on("click",function() {
+						
+						var status =this.value;
+						$.post( "/task/status",  {status: status,task_key: task_key},function( data ) {
+							
+							  //alert(data);
+							if (data!="true"){
+				  				alert("Status cannot be updated ");
+				  				return false
+				  			}  else {
+				  				 $('#new_status').load('/mytasks/view?key={{task.key.urlsafe}} #new_status', function(result) {
+					  				   
+					  				});
+				  				$('.apm-task-timelog-para').load('/mytasks/view?key={{task.key.urlsafe}} .apm-task-timelog-para', function(result) {
+					  				   
+				  				});
+				  				
+				  				$("#apm-task-add-timelog-modal #task_completed").prop( "checked", true );
+				  				
+				  		}	
+						
+						});
+					});
+					
+					
 					
 		/***********************time log validation starts******************************/
 					
@@ -108,7 +171,19 @@
 						
 						
 						$(".apm-task-add-timelog-link").click(function(e) {
-							$('#apm-task-add-timelog-modal').modal('show');
+						
+							/* if (default_status == 'Done')
+							{
+					  					  			
+					  			  		$("#apm-task-add-timelog-modal #task_completed").prop( "checked", true );
+					  			}
+					  			else
+					  			{
+	  					  			
+				  			  		$("#apm-task-add-timelog-modal #task_completed").prop( "checked", false );
+				  				}  */
+								$('#apm-task-add-timelog-modal').modal('show');
+							
 						});
 
 						$('#task_completed').on('click', function () {
@@ -142,9 +217,24 @@
 									$('#success').load('/mytasks/view?key={{task.key.urlsafe}} #table1', function(result) {
 						  				   
 						  				});
-									
+									 $('#new_status').load('/mytasks/view?key={{task.key.urlsafe}} #new_status', function(result) {
+						  				   
+						  				});
+									/*  $('#apm-task-add-timelog-modal').load('/mytasks/view?key={{task.key.urlsafe}} #apm-task-add-timelog-modal', function(result) {
+						  				   
+						  				});  */
+						  				
+										
+						  				
+							  		
+						  				
+						  				
+						  				
 							    }) ;
 
+						
+						
+						
 						
 					
 				});
@@ -166,9 +256,19 @@
 					
 						<h2 class="apm-all-reports-heading">Task / Issue Details</h2>
 						
-						<hr>
-				
-														
+						
+						<div class="dropdown apm-backlog-filter-dropdown" style="float: right;margin-top: -30px;">
+							  <select id="status_dropdown" style="font-size: 13px;padding: 2px 12px;letter-spacing: 1px;">
+  							
+  								<option value="0">Open</option>
+  								<option value="1">In Progress</option>
+  								<option value="2">Done</option>
+  								<option value="4">Deferred</option>
+							</select>
+							</div>
+							
+						
+							<hr>							
 													
 					<!-- Main Task description content starts-->
 							{%if task.status%}
@@ -211,9 +311,11 @@
 									<li><b>Sprint:</b> {{task.sprint.get.name}}</li>
 									<li><b>Assigned To:</b> {{task.assignee.get.userName}}</li>
 									<li><b>Estimated Hours:</b>{{task.actual_efforts}}</li>
-									<li><b>Status:</b>{{task.task_status}}</li>
+									<li id="new_status"><b>Status:</b>{{task.task_status}}</li>
+									
 								</ul>
 								
+						
 							</div>	
 						</div>
 						{%endif%}	
@@ -226,7 +328,9 @@
 							<h3 class="apm-all-reports-subheading">Time Logs</h3>
 							
 							<p class="apm-task-timelog-para">
-								There are no time logs for this task - <a href="#" class="apm-task-add-timelog-link">Log Time for this task</a>
+								There are no time logs for this task -<!--  <a href="#" class="apm-task-add-timelog-link">Log Time for this task</a> -->
+							<a href="/timelog/add?key={{task.key.urlsafe}}" data-toggle="modal" data-target="#apm-task-add-timelog-modal">Log Time for this task</a>
+												
 							</p>
 							
 							<div id="success">
@@ -273,7 +377,8 @@
 											</tbody>
 								</table>
 								<p class="apm-task-timelog-para">
-								<a href="#" class="apm-task-add-timelog-link">Log More Time for this task</a>
+								<!-- <a href="#" class="apm-task-add-timelog-link">Log More Time for this task</a> -->
+								<a href="/timelog/add" data-toggle="modal" data-target="#apm-task-add-timelog-modal">Log Time for this task</a>
 							</p>
 							  {%endif%}
 							</div>
@@ -322,7 +427,7 @@
 							</div>
 							
 						<!-- Task Comments content ENDs-->
-						
+						 <input type="hidden" id="task_key" name="task_key" value="{{task.key.urlsafe}}">
 						<hr>
 						
 						<div class="apm-back-task-box">
@@ -336,12 +441,24 @@
                 </div>
             </div> <!-- .container ends -->
         </div>
-		
         
+<!-- add timelog  Modal Starts -->
 <div id="apm-task-add-timelog-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
 			  <div class="modal-dialog">
 
 				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				 
+				</div>
+
+			  </div>
+			</div>
+	<!--add timelog Modal Ends -->		
+        
+<!-- <div id="apm-task-add-timelog-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				Modal content
 				<div class="modal-content add-task-modal-content">
 				  <div class="modal-header add-task-modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -396,7 +513,7 @@
 							<div class="row apm-logtime-modal-row">
 								<div class="col-md-4">
 									<div class="checkbox">
-									  <label class="apm-logtime-modal-label"><input type="checkbox" value="" id="task_completed" name="task_completed">Task is now complete</label>
+									  <label class="apm-logtime-modal-label"><input type="checkbox" value="" id="task_completed" name="task_completed" {%if status == 'Done'%}checked{%endif%}>Task is now complete</label>
 									</div>
 								</div>		
 							</div>
@@ -412,7 +529,7 @@
 				</div>
 
 			  </div>
-			</div>
+			</div> -->
 	<!-- Add Time Logs Modal Ends -->
   
 			<!--Edit Modal Starts -->
