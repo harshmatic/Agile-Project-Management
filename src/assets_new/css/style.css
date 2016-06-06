@@ -39,10 +39,11 @@
 .apm-all-reports-heading{
 	margin-top: 10px;
     margin-bottom: 10px;
-    font-size: 20px;
+    font-size: 24px;
     letter-spacing: 1px;
     line-height: 1.2em;
     font-family: Raleway;
+    font-weight: 500;
 }
 .apm-numbox-dashboard{
 	padding:20px;
@@ -92,18 +93,25 @@
 .landing-top-section{
 	padding: 15px;
     background: #3978BF;
-    padding-top: 1px;
+    padding-top: 15px;
 	-webkit-box-shadow: -1px 4px 10px 0px rgba(163,163,163,1);
 	-moz-box-shadow: -1px 4px 10px 0px rgba(163,163,163,1);
 	box-shadow: -1px 4px 10px 0px rgba(163,163,163,1);
 }
-.landing-top-left-box img{
-	width: 200px;
+/***********6 june 2016 ****************/
+.landing-top-left-box{
+ float:left;
 }
 .landing-top-right-box{
-	text-align: right;
-    margin-top: -47px;
+ text-align: right;
+   
 }
+@media (max-width: 767px){
+ .landing-top-left-box{
+  float:none;
+ }
+}
+/*************************************/
 @media (max-width: 900px){
 	.landing-top-right-box{
 		text-align: left;
@@ -144,9 +152,9 @@
 .apm-landing-login-btn:hover{
 	background: #F9F9F9;
 }
-.apm-landing-body{
+/* .apm-landing-body{
 	background: #EEF1F6;
-}
+} */
 .apm-landing-middle-box{
 	padding:6em 3em;
 }
@@ -389,7 +397,7 @@
 	
 }
 .apm-add-proj-btnbox{
-	padding-left: 3em;
+	/*padding-left: 3em;*/
 }
 @media (max-width: 767px){
 	.apm-add-proj-btnbox{
@@ -762,7 +770,10 @@ body{
 	padding:0;
 }
 .logo-img{
-	width:180px;
+	/*width:180px;*/
+	width: 160px;
+    margin-top: 14px;
+    margin-left: 10px;
 }
 /**@media (min-width: 768px){
 	.navbar-brand {
@@ -1194,7 +1205,7 @@ body{
 	padding: 10px;
 	transition: all 0.3s ease-out;
 	background:#3978BF!important;
-	outline:none!important;
+	
 }
 .login-btn:hover{
 	
@@ -1215,7 +1226,7 @@ body{
     transition: all 0.3s ease-out;
     background:#3978BF!important;
 	color:#fff!important;
-	outline:none!important;
+	
 }
 .change-pass-btn:hover{
 	

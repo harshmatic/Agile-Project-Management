@@ -331,6 +331,14 @@ class DeleteProject(BaseHandler):
         project_key.modified_date = datetime.now()
         project_key.status = False
         project_key.put()
+        
+        projmem = project.ProjectMembers().get_all(key)
+        
+        for mem in projmem:
+            mem.modified_by = user_info['email_address']
+            mem.modified_date = datetime.now()
+            mem.status = False
+            mem.put()
         #user_key.delete()  
         self.response.write("true")     
               
