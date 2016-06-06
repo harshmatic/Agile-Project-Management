@@ -7,7 +7,7 @@ $("#delete_project").on("click",function(){
 				alert("Project cannot be deleted");
 				return false
 			} else {
-				
+				console.log("comes inside del success");
 				
 				
 			}
@@ -20,8 +20,8 @@ $("#delete_project").on("click",function(){
 				    { 
 				        $(this).removeData('bs.modal');
 				        
-				       /*  $('.table').load('/project .table', function(result) {
-		  				}); */
+				         $('.table').load('/project .table', function(result) {
+		  				}); 
 				    }) ;
 	</script>			
 
@@ -31,7 +31,7 @@ $("#delete_project").on("click",function(){
 				
 				  <div class="modal-header add-task-modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title add-task-modal-heading">Delete Release</h4>
+					<h4 class="modal-title add-task-modal-heading">Delete Project</h4>
 				  </div>
 					<div class="modal-body user-management-body">
 							<div class="row">

@@ -144,12 +144,13 @@
 						<hr>
 						
 					<!-- Main add project content starts-->
+					<div id="tb">
 						<ul class="nav nav-tabs">
-							<li class="active"><a href="#proj-details" class="apm-add-proj-tab-title">Project Details</a></li>
-							<li><a href="#proj-team" class="apm-add-proj-tab-title">Project Team</a></li>
+							<li id="prj-details"class="active"><a href="#proj-details" class="apm-add-proj-tab-title">Project Details</a></li>
+							<li id="prj-team"><a href="#proj-team" class="apm-add-proj-tab-title">Project Team</a></li>
 							<li><a href="#estimation-guidelines" class="apm-add-proj-tab-title">Estimation Guidelines</a></li>
 						</ul>
-
+                      </div>
 						<div class="tab-content">
 							
 							<!-- Project Details -->
@@ -552,8 +553,19 @@
 		<script>
 				$(document).ready(function(){
 					$(".nav-tabs a").click(function(){
+						console.log("this is"+this)
 						$(this).tab('show');
 					});
+					
+					
+					
+					if(window.location.hash.substr(1) == "proj-team")
+						{
+						console.log("the has value is"+window.location.hash.substr(1));
+						$(window.location).tab('show');	
+						$('#prj-details').removeClass('active');
+						$('#prj-team').addClass('active');
+						}
 					$('.datepicker').datepicker({
 						format: 'dd/mm/yyyy',
 						startDate: '0d'
