@@ -116,7 +116,10 @@ app = webapp2.WSGIApplication([
         
         webapp2.Route('/test', TestUserDashboard),
         webapp2.Route('/task/status', TaskStatusUpdate),
-        webapp2.Route('/barchart', Barchart)
+        
+        webapp2.Route('/barchart', Barchart),
+        webapp2.Route('/uchart', Utilizationchart),
+        webapp2.Route('/velchart', Velocitychart)
         
     ]),
         webapp2.Route('/', SignupUser, name='home'),
