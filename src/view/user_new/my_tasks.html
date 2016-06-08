@@ -5,6 +5,9 @@
 {% block header_links%}
 		
 		<style>
+		.cr{
+			cursor:pointer;
+		}
 			.apm-nav-brand-1{
 				padding: 15px!important;
 				font-size: 15px!important;
@@ -323,7 +326,7 @@
 															{%for task in tasks%}
 															{%if task.status%}
 															
-															  <tr class='clickable-row' href="/mytasks/view?key={{task.key.urlsafe}}" >
+															  <tr class='clickable-row cr' href="/mytasks/view?key={{task.key.urlsafe}}" style="{cursor: pointer;}">
 															<!--   <a class="task_key" href="/mytasks/view?key={{task.key.urlsafe}}" ></a> -->
 																<td>{{task.name}}</td>
 																<td>{{task.description}}</td>
