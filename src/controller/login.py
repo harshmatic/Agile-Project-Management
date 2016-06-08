@@ -104,6 +104,9 @@ class BaseHandler(webapp2.RequestHandler):
                     logging.info("2 project")
                     self.session['current_project']=projects[0].projectid
                 
+                if(self.session['current_project'] == None):
+                   self.session['current_project']=projects[0].projectid
+                   
                 for current in projects:
                     if current.projectid==self.session['current_project']:
                         current_project_id= current
@@ -127,6 +130,10 @@ class BaseHandler(webapp2.RequestHandler):
             else:
                 projpermission = user_obj.project_permission
                 params['per'] = projpermission
+                role = (user_obj.role).get()
+                role = role.role
+                logging.info("the roles is::::"+role)
+                params['approle'] = role
                 self.session['current_project']=None
             if projects != None:
                 params['projects'] = projects
@@ -334,7 +341,7 @@ class SignupAdminHandler(BaseHandler):
         #unique_properties = ['email_address']
         user_data = self.user_model.create_user(user_name,
             email_address=email, name=name, password_raw=password,designation=designation,empid=empid,contact=contact,
-            last_name=last_name,role=role, verified=False)
+            last_name=last_name,role=role,project_permission=True,verified=False)
         if not user_data[0]: #user_data is a tuple
             self.response.write('User already exists with the same name')
             return
