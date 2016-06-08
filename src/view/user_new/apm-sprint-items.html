@@ -344,6 +344,7 @@
 																	<th>Title</th>
 																	<th>Task Description</th>
 																	<th>Planned Start Date</th>
+																	<th>Planned End Date</th>
 																	<th>Assigned To</th>
 																	<th>Status</th>
 																	<th>Complexity</th>
@@ -361,7 +362,8 @@
 																
 																<td title="User Story">{{task.name}}</td>
 																<td title="Task Description">{{task.description}}</td>
-																<td title="Task Created On">{{task.createdDate}}</td>
+																<td title="Task Created On">{{task.startDate}}</td>
+																<td title="Task Created On">{{task.endDate}}</td>
 																<td title="Assigned To">{{task.assignee.get.userName}}</td>
 																<td title="Status">Open</td>
 																<td title="Complexity">{{task.complexity.get.estimationLevel}}</td>
