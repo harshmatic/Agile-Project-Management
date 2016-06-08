@@ -28,6 +28,11 @@
 				margin-top: 50px!important;
 				z-index:99999999;
 			}
+			.apm-add-proj-descr-box {
+			    border: 1px solid #BBB9B9;
+			    padding: 20px 20px;
+			    background: #f8f8f8;
+			}
 			
 		</style>
 		
@@ -129,7 +134,7 @@
     </nav>
 	
 	
-    <div id="wrapper">
+    <div>
 		
 		
 		
@@ -156,7 +161,7 @@
 							<!-- Project Details -->
 							<div id="proj-details" class="tab-pane fade in active">
 								<div class="row">
-									<div  class="col-md-3">
+									<div  class="col-md-4 apm-add-proj-descr-box">
 										<form role="form" id="prj">
 										
 											<!-- Project Title -->
@@ -193,7 +198,7 @@
 											</div>
 										</form>
 									</div>
-									<div class="col-md-9">
+									<div class="col-md-8">
 									</div>
 								</div>
 								<div class="apm-add-proj-btnbox">
@@ -213,7 +218,7 @@
 								
 								<div class="apm-member-listing-box">
 									<div class="row">
-										<div class="col-md-5">
+										<div class="col-md-8">
 											
 											<div class="apm-nomember-box-listing">
 												<button class="apm-addmember-btn" id="apm-addmember-btn2">Add Member</button>
@@ -243,7 +248,7 @@
 												</table>
 											</div>
 										</div>
-										<div class="col-md-7">
+										<div class="col-md-4">
 											
 										</div>
 									</div>
@@ -258,7 +263,7 @@
 							<div id="estimation-guidelines" class="tab-pane fade">
 								<div class="apm-member-listing-box">
 									<div class="row">
-										<div class="col-md-5">
+										<div class="col-md-8">
 											
 											<div class="apm-nomember-box-listing">
 												<button class="apm-addmember-btn" id="apm-addestimates-btn">Add Estimates</button>
@@ -293,7 +298,7 @@
 												</table>
 											</div>
 										</div>
-										<div class="col-md-7">
+										<div class="col-md-4">
 											
 										</div>
 									</div>
@@ -576,7 +581,8 @@
 						$('#add-member-modal').modal('show');
 					});
 					
-					$(".apm-add-proj-edit").click(function(e) {
+					$(document).on('click', ".apm-add-proj-edit", function(){
+					//$(".apm-add-proj-edit").click(function(e) {
 						
 						
 						var cells = [];
@@ -595,8 +601,8 @@
 						$('#edit-member-modal').modal('show');
 					});
 					
-					
-                  $(".apm-add-esti-edit").click(function(e) {
+					$(document).on('click', ".apm-add-esti-edit", function(){	
+                 // $(".apm-add-esti-edit").click(function(e) {
 						
 						    var cells = [];
 					        var id = $(this).closest('tr').attr('id')
@@ -733,7 +739,7 @@
 		                var d = data ;
 		                var esti = JSON.parse(data);
 		                $('#' +d.id).remove();
-		                $("#estilist").append('<tr id='+esti.id+'> <td>'+esti.estimationLevel+'</td> <td>'+esti.estimationPoint+'</td> <td>'+esti.estimationHours+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i> <i id="delestimate" class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
+		                $("#estilist").append('<tr id='+esti.id+'> <td>'+esti.estimationLevel+'</td> <td>'+esti.estimationPoint+'</td> <td>'+esti.estimationHours+'</td> <td> <i class="fa fa-pencil apm-add-esti-edit" aria-hidden="true" title="Edit"></i> <i id="delestimate" class="fa fa-trash apm-add-esti-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
 			  				
 			  			
 			  		}); 
@@ -775,7 +781,8 @@
 					
 				})
 				
-					$(".apm-add-esti-delete").on("click",function(){
+				    $(document).on('click', ".apm-add-esti-delete", function(){	
+					//$(".apm-add-esti-delete").on("click",function(){
 						
 						console.log("comes here"); 
 						var ser =  $(this).closest('tr').attr('id');
@@ -795,8 +802,8 @@
 					
 					
 				})
-				
-				$(".apm-add-proj-delete").on("click",function(){
+				$(document).on('click', ".apm-add-proj-delete", function(){	
+				//$(".apm-add-proj-delete").on("click",function(){
 						
 						console.log("comes here"); 
 						var ser =  $(this).closest('tr').attr('id');

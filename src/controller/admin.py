@@ -222,6 +222,10 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
         email = self.request.get('email')
         name = self.request.get('first_name')
         role= ndb.Key(urlsafe=self.request.get('role'))
+        if(self.request.get('proj') == 'True'):
+            project_permission = True
+        else:
+            project_permission = False
         logging.info(role)
         last_name = self.request.get('last_name')
         designation = self.request.get('designation')
@@ -238,7 +242,7 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
         #unique_properties = ['email_address']
         user_data = self.user_model.create_user(user_name,
         email_address=email, name=name, password_raw=password,designation=designation,empid=empid,contact=contact,
-        last_name=last_name,role=role,tenant_key=company_key,tenant_domain=company_domain,created_by=created_by,status=status, verified=False)
+        last_name=last_name,role=role,tenant_key=company_key,tenant_domain=company_domain,created_by=created_by,status=status,project_permission=project_permission,verified=False)
         if not user_data[0]: #user_data is a tuple
             self.response.write('User already exists with the same email')
             return

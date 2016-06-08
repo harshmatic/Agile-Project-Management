@@ -91,13 +91,17 @@ class BaseHandler(webapp2.RequestHandler):
         user = self.user_info
         params['user'] = user
         pa=[]
+        approle=[]
         if user:
             user_obj=self.user_model.get_by_id(user['user_id'])
             user_key=user_obj.key
             comp_key=user_obj.tenant_key
             projects= model.project.ProjectMembers().get_proj_by_user(comp_key,user_key)
+            logging.info("the projects")
             if projects:
+                logging.info("1 project")
                 if not self.session.has_key('current_project'):
+                    logging.info("2 project")
                     self.session['current_project']=projects[0].projectid
                 
                 for current in projects:
@@ -112,7 +116,16 @@ class BaseHandler(webapp2.RequestHandler):
                 pa.append({'project':current_project_id.projectid,"permit_for":permit[0].permissions})
                 params['permissions']=pa
                 params['sidebar']=sidebars
+                role = (user_obj.role).get()
+                role = role.role
+                
+                logging.info("the roles is::::"+role)
+                
+                
+                params['approle'] = role
             else:
+                projpermission = user_obj.project_permission
+                params['per'] = projpermission
                 self.session['current_project']=None
             if projects != None:
                 params['projects'] = projects

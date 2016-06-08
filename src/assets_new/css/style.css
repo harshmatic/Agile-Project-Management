@@ -353,28 +353,28 @@
     font-weight: 500;
 }
 .apm-add-proj-edit{
-	font-size:18px!important;
-	margin: 0 5px;
+	font-size:14px!important;
+	margin: 0 3px;
 	cursor:pointer;
 	color:#F59829;
 }
 
 .apm-add-esti-edit{
-	font-size:18px!important;
-	margin: 0 5px;
+	font-size:14px!important;
+	margin: 0 3px;
 	cursor:pointer;
 	color:#F59829;
 }
 .apm-add-proj-delete{
-	font-size:18px!important;
-	margin: 0 5px;
+	font-size:14px!important;
+	margin: 0 3px;
 	cursor:pointer;
 	color:#F04D50;
 }
 
 .apm-add-esti-delete{
-	font-size:18px!important;
-	margin: 0 5px;
+	font-size:14px!important;
+	margin: 0 3px;
 	cursor:pointer;
 	color:#F04D50;
 }

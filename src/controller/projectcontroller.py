@@ -358,11 +358,20 @@ class DeleteEstimates(BaseHandler):
     def post(self,*args,**kargs):
         logging.info("it is here "+self.request.__str__())
         estimatesid = self.request.get("id")
-        esti = project.Estimation()
+        key= ndb.Key('Estimation',int(estimatesid))
+        est_info = key.get()
+        user_info = self.auth.get_user_by_session()
+        est_info.modified_by = user_info['email_address']
+        est_info.modified_date = datetime.now()
+        est_info.status = False
+        est_info.put()
+        
+        #esti = project.Estimation()
         
        # esti.status = 'False'
        # esti.set()
-        esti.delete_entity(estimatesid)
+        
+        #esti.delete_entity(estimatesid)
         self.response.write("success")
         
 class ViewProject(BaseHandler):

@@ -19,6 +19,7 @@ class OurUser(auth_user.User,BaseClass):
     tenant_domain = ndb.StringProperty()
     tenant_key = ndb.KeyProperty(kind=Tenant)
     blob_key=ndb.BlobKeyProperty()
+    project_permission = ndb.BooleanProperty()
     def set_password(self, raw_password):
         self.password = security.generate_password_hash(raw_password, length=12)
     @classmethod

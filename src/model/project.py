@@ -38,7 +38,7 @@ class Estimation(BaseClass):
     def set(self):
         return self.put()
     def get_all(self,projId):
-        res = self.query(Estimation.projectid == projId).fetch()
+        res = self.query(ndb.AND(Estimation.projectid == projId,Estimation.status == True)).fetch()
         return res
     def delete_entity(self,estid):
         ndb.Key(Estimation, int(estid)).delete()

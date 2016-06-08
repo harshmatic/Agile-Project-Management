@@ -181,5 +181,101 @@ class Barchart(BaseHandler):
         self.render_template("user_new/bar_chart.html",{"sprint":sprints,"data":json.dumps(listest),"currentsprint":sprint_key})
         #else:
             #self.response.write("you are not allowed")
-          
+ 
+class Utilizationchart(BaseHandler):
+    def get(self,*args,**kargs):
+        projectKey=self.session['current_project']
+        sprints = sprint.Sprint().get_by_project(projectKey)
+        if(self.request.get("sprint_id") != ''):
+            sprintid = self.request.get("sprint_id")
+            sprint_key = ndb.Key('Sprint',int(sprintid))
+        else:
+            sprint_key = sprints[0].key
+        userest = {}
+        username = {}
+        userlog = {}    
+        datalist = []
+        entry = []
+        entry.append("Name")
+        entry.append("Percentage")
+        datalist.append(entry);
+        estimates = effort_estimation.EffortEstimation().get_esti_by_sprint(sprint_key)
+        timelogmodel =  time_log.Time_Log.query(time_log.Time_Log.sprint_key==sprint_key).fetch()
+        
+        for est in estimates:
+            for user in est.effort:
+                userest[user.userKey] = float(userest.get(user.userKey,0)) + float(user.effortHours)
+                username[user.userKey] =  user.userName
+        for time in timelogmodel:
+            userlog[time.assigne_key] = float(userlog.get(time.assigne_key,0)) + float(time.total_effort)
+        logging.info("the estimated effort is"+userest.__str__())  
+        logging.info("the estimated effort is"+userlog.__str__())
+        for k in userest:
+            entry = []
+            if(userlog.get(k) != None):
+                percentage = (float(userlog.get(k)) / float(userest.get(k))) * 100 
+                entry.append(username.get(k))
+                entry.append(percentage)
+                datalist.append(entry)
+            else:
+                entry.append(username.get(k))
+                entry.append(0.0)
+                datalist.append(entry)
             
+        logging.info("the list is"+datalist.__str__())    
+        self.render_template("user_new/utilization_chart.html",{"sprint":sprints,"data":json.dumps(datalist),"currentsprint":sprint_key})
+        
+class Velocitychart(BaseHandler):
+    def get(self,*args,**kargs):
+        projectKey=self.session['current_project']
+        taskmodel = task.Task.query(task.Task.project==projectKey).fetch()
+        estmodel = project.Estimation.query(project.Estimation.projectid==projectKey).fetch()
+        sprintmodel =  sprint.Sprint.query(sprint.Sprint.project==projectKey).fetch()
+        
+        estguidelines = {}
+        commitedpoints = {}
+        completedpoints = {}
+        sprintentry = {}
+        datalist = []
+        entry = []
+        entry.append("Sprint Name")
+        entry.append("Commited")
+        entry.append("Completed")
+        datalist.append(entry)
+        
+        for spr in sprintmodel:
+            sprintentry[spr.key] = spr.name
+        
+        for est in estmodel:
+            estguidelines[est.key] = est.estimationPoint
+            
+        for tas in taskmodel :
+            complexity = estguidelines.get(tas.complexity)
+            commitedpoints[tas.sprint] = commitedpoints.get(tas.sprint,0) + complexity
+            
+            if(tas.task_status == "Done"):
+                completedpoints[tas.sprint] = completedpoints.get(tas.sprint,0) + complexity
+            
+        
+        for k in sprintentry:
+            entry = []
+            if(commitedpoints.get(k) != None):
+                if(completedpoints.get(k) != None):
+                    entry.append(sprintentry.get(k))
+                    entry.append(commitedpoints.get(k))
+                    entry.append(completedpoints.get(k))
+                    datalist.append(entry)
+                else:
+                    entry.append(sprintentry.get(k))
+                    entry.append(commitedpoints.get(k))
+                    entry.append(0)
+                    datalist.append(entry)
+            else:
+                    entry.append(sprintentry.get(k))
+                    entry.append(0)
+                    entry.append(0)
+                    datalist.append(entry)
+                    
+                         
+              
+        self.render_template("user_new/velocitychart.html" ,{"data":json.dumps(datalist)})    
