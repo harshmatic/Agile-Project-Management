@@ -303,7 +303,8 @@ class SignupHandler(BaseHandler):
         msg = """Hi """+name+""",
         Thank you for registering on APM. Please follow the below url to activate your account.
         Remeber to change your password.
-        You will be able to do so by visiting{url}"""
+        You will be able to do so by visiting
+        {url}"""
         message = mail.EmailMessage(sender="support@apm-eternus.appspotmail.com",
                             subject="Account Verification")
         
@@ -344,7 +345,8 @@ class SignupAdminHandler(BaseHandler):
         msg = """Hi """+name+""",
         Thank you for registering on APM. Please follow the below url to activate your account.
         Remeber to change your password.
-        You will be able to do so by visiting {url}"""
+        You will be able to do so by visiting 
+        {url}"""
         message = mail.EmailMessage(sender="support@apm-eternus.appspotmail.com",
                             subject="Account Verification")
         message.to = email
@@ -491,7 +493,9 @@ class LoginHandler(BaseHandler):
         
 
 class LoginBaseHandler(BaseHandler):
-
+    def get(self,*args,**kargs):        
+        self.render_template('auth/login.html')  
+    
     def post(self,*args,**kargs):
         username = self.request.get('username')
         password = self.request.get('password')
@@ -503,6 +507,8 @@ class LoginBaseHandler(BaseHandler):
             self.redirect(self.uri_for('subdomain-home',_netloc=str(domain+"."+urlparse.urlparse(self.request.url).netloc)))
         except (InvalidAuthIdError, InvalidPasswordError) as e:
             logging.info('Login failed for user %s because of %s', username, type(e))
+            #self.response.write("login failed")        
+            self.render_template('auth/main.html', {'error':'login failed'})
             self._serve_page(True)
 
     def _serve_page(self, failed=False):

@@ -88,7 +88,8 @@ app = webapp2.WSGIApplication([
         
         #Sprint
         webapp2.Route('/sprint', Sprint,name='sprint'),
-        
+        webapp2.Route('/sprint/edit', EditSprint),                
+        webapp2.Route('/sprint/delete', DeleteSprint),
         #Task
         webapp2.Route('/task', Tasks,name='Task'),
         webapp2.Route('/task/addtask', Tasks,name='addTask'),

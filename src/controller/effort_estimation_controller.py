@@ -20,7 +20,7 @@ class EffortEstimationView(BaseHandler):
              estimates = effort_estimation.EffortEstimation().get_esti_by_sprint(ndb.Key('Sprint',int(self.request.get("sprint_id"))))
             else:   
              estimates = effort_estimation.EffortEstimation().get_esti_by_sprint(sprints[0].key)
-            projectKey = estimates[0].project
+           # projectKey = estimates[0].project
             projectmembermodel = project.ProjectMembers()
             projmem = projectmembermodel.get_all(projectKey)
             self.render_template("user_new/apm-effort-estimation.html",{"sprint":sprints,"efforestimate":estimates,"users":projmem})

@@ -251,10 +251,10 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
         user_id = user.get_id()
         token = self.user_model.create_signup_token(user_id)
         verification_url = self.uri_for('verification', type='v', user_id=user_id,signup_token=token, _full=True)
-        msg = """Hi """+name+""",
-        Thank you for registering on APM. Please follow the below url to activate your account.
-        Remeber to change your password.
-        You will be able to do so by visiting{url}"""
+        msg = """Hi """+name.upper()+""",
+        """+ user_info['name'].upper() +""" has registered you on APM . Please follow the below url to activate your account.
+        Remember to change your password. You will be able to do so by visiting
+        {url}"""
         message = mail.EmailMessage(sender="support@apm-eternus.appspotmail.com",
                             subject="Account Verification")
         
