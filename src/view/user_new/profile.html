@@ -45,7 +45,14 @@
 						  $(".edit_my_profile_fields").hide();
 						  
 						  $(".label_my_profile_fields").show();
-						  
+						  $('#preview_image').load('/profile #preview_image');
+						if ('{{user_image}}') {
+								$("#preview_image").attr('src', '/view_photo?photo_key={{user_image}}');
+							}
+						else
+							{
+							$('#preview_image').attr('src', '../assets_new/img/user1.png');
+							}
 						});
 					
 					//for image
@@ -61,11 +68,21 @@
 			
 			
 		    $("#file").change(function() {
-		    	readURL(this);
+		    	var fileExtension = ['jpeg', 'jpg','png'];
+	            if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+	               
+	            	alert("Only '.jpeg','.jpg','.png' formats are allowed. Please upload correct file.");
+	            
+	            	 $('#my_profile').prop('disabled', 'disabled');
+	            }
+	            else {
+	            	readURL(this);
+	            	
+	            	  $('#my_profile').prop('disabled', false);
+	            } 
+		    	
 		    });
 		});
-		
-		
 		
 		   
 		function readURL(input) {
@@ -80,7 +97,6 @@
 		    }
 		}
 
-		
 		</script>
 		
 {% endblock %}	
@@ -114,11 +130,11 @@
 										
 											{%if not i.blob_key%}	
 								
-										<img id="preview_image" src="../assets_new/img/user1.png" class="img-responsive" >
+										<img id="preview_image" src="../assets_new/img/user1.png" class="img-responsive">
 									<!-- <img id="preview_image" src="http://placehold.it/240x240" height="240" width="240" value="img?entity_id={{ i.blob_key }}"> 
 									 -->
 										{%else%}
-									<img id="preview_image"  class="img-responsive" src="/view_photo?photo_key={{i.blob_key}}" > 
+									<img id="preview_image"  class="img-responsive" src="/view_photo?photo_key={{i.blob_key}}"> 
 								{%endif%}
 										
 										
@@ -154,7 +170,7 @@
 															<!-- 	<label class="label_my_profile_fields apm-user-info-label2">{{i.empid}}</label> -->
 																
 																	<!-- <input type="text" class="edit_my_profile_fields form-control project-management-textbox" name="emp_id" value="{{i.empid}}">-->
-																<input type="file" class="edit_my_profile_fields" id="file" name="file">
+																<input type="file" class="edit_my_profile_fields" id="file" name="file" accept=".jpeg,.jpg,.png">
 																
 																
 															</div>
@@ -171,7 +187,7 @@
 															<div class="col-md-6 col-xs-6">
 																<label class="label_my_profile_fields apm-user-info-label2">{{i.empid}}</label>
 																
-																	<input type="text" class="edit_my_profile_fields form-control project-management-textbox" name="emp_id" value="{{i.empid}}">
+																	<input type="text" class="edit_my_profile_fields form-control project-management-textbox" name="emp_id" value="{{i.empid}}" readonly>
 										
 																
 																
@@ -219,7 +235,7 @@
 															</div>
 															<div class="col-md-6 col-xs-6">
 																<label class="label_my_profile_fields apm-user-info-label2">{{i.designation}}</label>
-																<input type="text" class="edit_my_profile_fields form-control project-management-textbox" name="designation" value="{{i.designation}}">
+																<input type="text" class="edit_my_profile_fields form-control project-management-textbox" name="designation" value="{{i.designation}}" readonly> 
 										
 															</div>
 														</div>

@@ -40,20 +40,36 @@
 				  },
 				  messages: {
 					  username: {
-						  required: "Please enter email id"
+						  required: "Please enter email address."
 				    
 				    },
 				    password:{
-					  required:"Please enter password"
+					  required:"Please enter password."
 				  }
 				 
 				  }
 				});	
 			
-			$("#login_submit").on("click",function(){
+			var error= '{{error}}' ;
+			
+			if(error == 'login failed' )
+			{
+				$('#login_error_msg').html("Please check username and password.");
+				alert('Please check username and password.');
+			}
+			else
+			{
+				$('#login_error_msg').html('');
+			}	
+			
+			
+			/* $("#login_submit").on("click",function(){
 				
-				$.post( "/login", $("#login_form").serialize())
+				if ($('#login_form').valid()){
+				
+					$.post( "/login", $("#login_form").serialize())
 			  		.done(function( data ) {
+			  			alert(data);
 			  			da=data.split("*&*")
 			  			if (da[0]=="false"){
 			  				alert(da[1]);
@@ -64,7 +80,9 @@
 			  		});
 				
 				return false;
-			});	
+				 }
+			});	 */
+			
 			
 	
 			
@@ -139,19 +157,21 @@
 									</div>
 									<div class="panel-body login-panel-body">
 										<div class="col-md-1">
+										<div class="error" id="login_error_msg"></div>
 										</div>
 										
 										<div class="col-md-10">
 										
-										<form name="login_form" id="login_form">
+										<form name="login_form" id="login_form" method="post" action="/login" >
 																			
 										
 												<!-- Username -->
-												<input type="text" class="form-control search-field project-management-textbox login-textbox" name="username" placeholder="&#xf007 Username">
+												<input type="text" class="form-control search-field project-management-textbox login-textbox" name="username" placeholder="&#xf007 Username" autofocus>
 											
 												<!-- Password -->
 												<input type="password" class="form-control search-field project-management-textbox login-textbox" name="password" placeholder="&#xf13e; Password">
 											<button  class="login-btn pro-button" id="login_submit">Login</button>
+											
 											<!-- 	<button class="login-btn pro-button">Login</button>-->
 										</form>			
 												<!-- Forgot Password -->

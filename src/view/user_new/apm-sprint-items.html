@@ -6,6 +6,33 @@
 .error{
 		color:red;
 	}
+	
+ .sprint-action-dropdown-box{
+    list-style-type: none;
+    float: right;
+   }
+   .sprint-action-dropdown{
+    margin-left: -58px;
+    min-width: 130px;
+    margin-top: 2px;
+   }
+   .sprint-action-dropdown li a {
+    padding: 6px 12px!important;
+    font-size: 11px;
+    font-weight: bold;
+    color:#000!important;
+   }
+   .sprint-action-dropdown li a:hover{
+    color:#3978BF!important; 
+   }
+   .sprint-action-link{
+    font-size: 12px!important;
+    letter-spacing: 1px!important;
+    text-decoration:none!important;
+   }
+   .apm-sprint-listing-box{
+    padding:0!important;
+   }
 </style>
 <script>
 				$(document).ready(function(){
@@ -295,6 +322,18 @@
 											<div class="panel panel-default apm-sprint-panel" id="sprint">
 												<div class="panel-heading">
 													{{sprint.name}}
+												<!-- Sprint Action dropdown starts -->
+              									<li class="dropdown sprint-action-dropdown-box">
+              									 <a href="#" class="dropdown-toggle sprint-action-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+             									  <i class="fa fa-cogs"></i> Action
+            									   <span class="caret"></span></a>
+            								   <ul class="dropdown-menu sprint-action-dropdown bullet">
+           								      <li><a href="/sprint/edit?edit_key={{sprint.key.urlsafe}}" class="roll-link" data-toggle="modal" data-target="#edit-sprint-modal"><i class="fa fa-pencil"></i> Edit Sprint</a></li>
+                 						<!-- 	 <li><a href="#"><i class="fa fa-check-circle"></i> Complete Sprint</a></li>  -->
+                						<li><a href="/sprint/delete?delete_key={{sprint.key.urlsafe}}" class="roll-link" data-toggle="modal" data-target="#delete-sprint-modal"><i class="fa fa-trash"></i> Delete Sprint</a></li>
+               								</ul>
+            								  </li>
+										<!-- Sprint Action dropdown Ends -->
 												</div>
 												<div class="panel-body">
 													<div class="table-responsive">
@@ -302,13 +341,12 @@
 															<thead>
 																<tr>	
 																	
-																	<th>Name</th>
+																	<th>Title</th>
 																	<th>Task Description</th>
-																	<th>Task Created On</th>
+																	<th>Planned Start Date</th>
 																	<th>Assigned To</th>
 																	<th>Status</th>
 																	<th>Complexity</th>
-																	<th>Complexity Points</th>
 																	<th>Estimated Efforts (Hrs.)</th>
 																	<th>Action Items</th>
 																</tr>
@@ -327,7 +365,7 @@
 																<td title="Assigned To">{{task.assignee.get.userName}}</td>
 																<td title="Status">Open</td>
 																<td title="Complexity">{{task.complexity.get.estimationLevel}}</td>
-																<td title="Complexity Points">{{task.complexity.get.estimationPoint}}</td>
+																
 																<td title="Actual Efforts (Hrs.)">{{task.actual_efforts}}</td>
 															  	<td><a href="/task/edittask?edit_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#edit-issue-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Task"  id="{{task.key.urlsafe}}"></i></a>
 																<a href="/task/deletetask?delete_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#delete-user-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Task"  id="{{task.key.urlsafe}}"></i></a></td>
@@ -335,19 +373,10 @@
 															  <tr class="separator" />
 															   
 															  {% endifequal %}
-															    {%else%}
-															  <tr>
-																<td colspan="10" style="text-align:center;">No Task Found.</td>
-															</tr>
-															 <tr class="separator" />
+															 
 															  {%endif%}
 															  {% endfor %}
 															  
-															  {%else%}
-															  <tr>
-																<td colspan="10" style="text-align:center;">No Task Found.</td>
-															</tr>
-															 <tr class="separator" />
 															  {%endif%}
 															</tbody>
 														</table>
@@ -400,6 +429,31 @@
 			  </div>
 			</div>
 	<!-- edit Issue Modal Ends -->
+		<!-- edit Issue Modal Starts -->
+			<div id="delete-sprint-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				  
+				</div>
+
+			  </div>
+			</div>
+	<!-- edit Issue Modal Ends -->
+	
+	<!-- edit Issue Modal Starts -->
+			<div id="edit-sprint-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				  
+				</div>
+
+			  </div>
+			</div>
+	<!-- edit Issue Modal Ends -->
 		
 	<!-- Create Issue Modal Starts -->
 			<div id="add-issue-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
@@ -433,7 +487,7 @@
 										<input type="hidden" value="ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" name="project_key">
 											  <!-- Project Name --> 
 											  <div class="form-group task-form-group">
-												<label class="task-label">Title</label>
+												<label class="task-label">Title<font color="red">*</font></label>
 												<input name="name" type="text" class="form-control add-task-textbox apm-modal-textbox">
 											  </div>
 											  
@@ -442,7 +496,7 @@
 											  
 													
 													  <div class="form-group task-form-group">
-														<label class="task-label">Description</label>
+														<label class="task-label">Description<font color="red">*</font></label>
 														<textarea name="desc" rows="4" class="form-control add-task-textbox apm-modal-textarea"></textarea>
 													  </div>
 												  
@@ -470,7 +524,7 @@
 												
 											</div>
 											<div class="form-group task-form-group">
-														<label class="task-label">Working Hours/Day (Hrs)</label>
+														<label class="task-label">Working Hours/Day (Hrs)<font color="red">*</font></label>
 														<input name="workinghours" type="number" class="form-control add-task-textbox apm-modal-textbox" value="" id="" maxlength="3">
 													  </div>
 											<div class="form-group task-form-group">

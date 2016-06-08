@@ -22,10 +22,63 @@
 		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="../assets_new/js/jquery.validate.min.js"></script>
+		<style>
+			.error{
+			color:red !important;
+			}
+			
+			#submit_form:focus{
+			border: 5px;
+			}
+			
+		</style>
 		<script>
-		
+
 $(document).ready(function() {
+	$('input:text:first').focus();
+	
+/* 	$('body').keyup(function(e) {
+	   // console.log('keyup called');
+	    var code = e.keyCode || e.which;
+	    if (code == '9') {
+	    	console.log($(this));
+	    //	alert($(this));
+	  //  alert('Tab pressed');
+	    }
+	 }); */
+	
+	 var result =  validSubdomain();
+	 
 	$("#submit_form").on("click",function(e){
+		 if ($('#signup_user').valid()){
+			if(result == 1)
+			{
+			 e.preventDefault();
+				$.post( "/signupuser", $("#signup_user").serialize()).done(function( data ) {
+					da =data.split("*%*")
+					console.log(da)
+		  			if (da[0]!="true"){
+		  				alert(data);
+		  				return false;
+		  			} else {
+		  				alert("You are succesfully registered");
+		  				window.location.href = da[1];
+		  				
+		  			}
+		  		});
+				return false;
+			} 
+			else
+				{
+				alert("Please remove all the errors and then proceed.");
+				}
+		 }
+			
+				
+		})
+	
+	
+	/* $("#submit_form").on("click",function(e){
 		e.preventDefault();
 		$.post( "/signupuser", $("#signup_user").serialize()).done(function( data ) {
 			da =data.split("*%*")
@@ -40,7 +93,7 @@ $(document).ready(function() {
   			}
   		});
 		return false;
-	});
+	}); */
 	
 			
 			
@@ -59,35 +112,97 @@ $(document).ready(function() {
 				  },
 				  messages: {
 					  username: {
-						  required: "Please enter email id"
+						  required: "Please enter email address.",
+						  email:"Please enter a correct email address."
 				    
 				    },
 				    password:{
-					  required:"Please enter password"
+					  required:"Please enter password."
 				  }
 				 
 				  }
 				});	
 	
-			
-			
-			$("#checkdomain").click(function(){
-				$.post( "/checkdomain", $("#signup_user").serialize())
+			$("#signup_user").validate({
+				  rules: {
+					  company_name: {
+				      required: true,
+				      maxlength:30
+				    },
+				    
+				    company_domain:{
+				    	required:true,
+				    	maxlength: 30
+				    	
+				    },
+				    
+				    email: {
+					      required: true,
+					      email: true
+					    }
+					    
+				    
+				  },
+				  messages: {
+					  company_name: {
+						  required: "Please enter company name.",
+						  maxlength:"Only 30 characters are allowed."
+						  
+				    },
+				    company_domain:{
+					  required:"Please enter company domain.",
+					  maxlength:"Only 30 characters are allowed."
+				  },
+				  email: {
+					  required: "Please enter email address.",
+					  email:"Please enter a correct email address."
+			    
+			    }
+				 
+				  }
+				});	
+		
+			if(validSubdomain() == 1)
+			{
+				$("#checkdomain").click(function(){
+				
+					$.post( "/checkdomain", $("#signup_user").serialize())
 			  		.done(function( data ) {
 			  			$(".success-dom-name").text(data)
-			  	});
-			});
-				$("#domain_name").blur(function(){
+			  		});
+				
+				});
+			}
+			
+			
+			$("#domain_name").blur(function(){
+				if(validSubdomain() == 1)
+				{
 					$.post( "/checkdomain", $("#signup_user").serialize())
 				  		.done(function( data ) {
 				  			$(".success-dom-name").text(data)
 				  			
 				  	});
-			});
+				} 
+			}); 
 			
 		
-});
 		
+});
+function validSubdomain() {
+    var re = /[^a-zA-Z0-9\-]/;
+    var val = document.getElementById("domain_name").value;
+    if(re.test(val)) {
+   
+        $('#sub-domain-error').html("Please enter valid sub-domain(No speacial character).")
+        return 0;
+    }
+    else
+    	{
+    	$('#sub-domain-error').html("");
+    	return 1;
+    	}
+}
 		</script>
 		
 		<style>
@@ -111,7 +226,7 @@ $(document).ready(function() {
 		
 		
 			<div class="landing-top-right-box">
-				<form class="form-inline" role="form" id="login_form" method="post" action="/login" >
+				<form class="form-inline" role="form" id="login_form" method="post" action="/login1" >
 				  <div class="form-group apm-landing-form-grp">
 					<label for="email">E-Mail</label>
 					<input type="email" class="form-control apm-landing-textbox" name="username" >
@@ -169,17 +284,18 @@ $(document).ready(function() {
 						<form role="form" id="signup_user">
 						
 						  <div class="form-group">
-							<label class="apm-landing-reg-label">Company Name</label>
+							<label class="apm-landing-reg-label">Company Name<font color="red">*</font></label>
 							<input type="text" class="form-control apm-landing-textbox-reg" name="company_name">
 						  </div>
 						  <div class="form-group">
-							<label class="apm-landing-reg-label">Sub-domain Name</label>
-							<input id ='domain_name' type="text" class="form-control apm-landing-textbox-reg" name="company_domain">
+							<label class="apm-landing-reg-label">Sub-domain Name<font color="red">*</font></label>
+							<input id ='domain_name' type="text" class="form-control apm-landing-textbox-reg" name="company_domain" onblur="validSubdomain()" >
 							<a href="#" class="apm-landing-reg-label" style="color: #337ab7;" id="checkdomain">Check Availability</a> : 
 							<span class="success-dom-name"></span>
+							<div class="error" id="sub-domain-error"></div>
 						  </div>
 						  <div class="form-group">
-							<label class="apm-landing-reg-label">Email Address</label>
+							<label class="apm-landing-reg-label">Email Address<font color="red">*</font></label>
 							<input type="text" class="form-control apm-landing-textbox-reg" name="email">
 						  </div>
 						  

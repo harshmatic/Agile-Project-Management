@@ -47,6 +47,78 @@
 			
 		<script>
 				$(document).ready(function(){
+					
+					 $("#status_dropdown li").on("click", function(){
+						//  alert($(this).text());
+						  
+						  var filter_name=$(this).text();
+						  
+						  if(filter_name == 'Pending Tasks')
+						
+						  {
+							  
+						  $("#fbody").find("tr td").not("#table_header").filter(function() {
+							    if($(this).text() == "Open"){
+							        retval=1;
+							        
+							      	$('#table_header').show();
+							        $(this).parent().show();
+							       // alert('Same item found');
+							        return false;
+							    }else{
+							        retval=0;
+							        $(this).parent().hide();
+							        $('#table_header').show();
+							    }
+							});
+							  }
+						  else
+						  if(filter_name == 'Completed Tasks')
+								
+						  {
+							  $("#fbody").find("tr td").not("#table_header").filter(function() {
+								    if($(this).text() == "Done"){
+								        retval=1;
+								        
+								      	$('#table_header').show();
+								        $(this).parent().show();
+								       // alert('Same item found');
+								        return false;
+								    }else{
+								        retval=0;
+								        $(this).parent().hide();
+								        $('#table_header').show();
+								    }
+								});  
+						  }
+						  else
+						  if(filter_name == 'Ongoing Tasks')
+								
+						  {
+							  $("#fbody").find("tr td").not("#table_header").filter(function() {
+								    if($(this).text() == "In Progress"){
+								        retval=1;
+								        
+								      	$('#table_header').show();
+								        $(this).parent().show();
+								       // alert('Same item found');
+								        return false;
+								    }else{
+								        retval=0;
+								        $(this).parent().hide();
+								        $('#table_header').show();
+								    }
+								});
+						  }
+						  
+						  else
+						  {
+							  $("#fbody").find("tr").show()
+						  }
+						  
+						  
+						});
+					 
 					//$("#details").hide();
 					$(".nav-tabs a").click(function(){
 						$(this).tab('show');
@@ -65,9 +137,14 @@
 
 					 
 					 //for filter 
-					 var query_string= getParameterByName('status').trim();
-					 var data;
+					 var query_string= getParameterByName('status');
+					 if (query_string)
+						 {
+						 query_string= query_string.trim();
+						 }
 					 
+					 var data;
+					
 					
 					 
 					 if (query_string == 'open')

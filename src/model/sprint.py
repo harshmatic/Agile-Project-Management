@@ -19,5 +19,5 @@ class Sprint(BaseClass):
     def get_all(self): 
         return self.query().fetch()
     def get_by_project(self,projId): 
-        return self.query(Sprint.project == projId).fetch()
+        return self.query(ndb.AND(Sprint.project == projId,Sprint.status == True)).fetch()
     

@@ -1,0 +1,303 @@
+<script>
+				$(document).ready(function(){
+					
+	/***********************sprint validation starts******************************/
+					
+					var sprint_validator=   $("#add_sprint").validate({
+						      rules: {
+						    	  name: 
+						    	  {
+						           		 required: true
+						          },
+						          desc: 
+						          {
+							      		 required: true
+							      },
+							    /*   start: 
+							      {
+								  		 required: true
+						          },
+						          end: 
+						          {
+										 required: true
+										
+								  }, */
+								  workinghours: 
+								  {
+										 required: true
+										
+									
+								  }
+								 /*  ,
+								  release: 
+								  {
+										 required: true
+										
+									
+								  }
+					    */
+					   
+						         },
+						         messages: 
+						         {
+						        	 name: 
+						           {
+						             required: "Please enter sprint name."
+						           },
+						           desc: 
+						           {
+						             required: "Please enter sprint description."
+						           },
+						        /*    start:
+						           {
+							             required: "Please select start date."
+							       },
+							       end:
+							       {
+							             required: "Please select end date."
+							            
+							       }, */
+							       workinghours: 
+							       {
+							             required: "Please enter working hours."
+							       }
+							    /*    ,
+							       release: 
+							       {
+							             required: "Please select release."
+							       } */
+						           
+						         }
+						     });
+					/***********************sprint validation ends******************************/
+					
+					$('body').on('focus',"#start,#start_edit", function(){
+					    $(this).datepicker({
+							format: 'dd/mm/yyyy',
+							startDate: '0d'
+						});
+					});
+					$('body').on('focus',"#end,#end_edit", function(){
+					    $(this).datepicker({
+							format: 'dd/mm/yyyy',
+							startDate: '0d'
+						});
+					});
+					$('.datepicker').datepicker({
+						format: 'mm/dd/yyyy',
+						startDate: '0d'
+					});
+					$('.datepicker').datepicker()
+				    .on('changeDate', function(e) {
+				        $('.datepicker').datepicker('hide');
+				    });
+					
+					
+				/* 	//var oneDay = 24*60*60*1000; 
+					start = $('#sprint_start').val();
+					end = $('#sprint_end').val();
+
+					 secs=(new Date(end)).getTime()/1000-(new Date(start)).getTime()/1000
+				        secs=secs/60/60/24;
+				        if (secs>=7){
+				        	week=parseInt(secs/7);
+				        	days=secs%6;
+				        	$("#length").val(week+" weeks "+days+" days")
+				        }
+				        else {
+				        	if(secs==0){
+				        		$("#length").val("1 Day")
+				        	} else {
+				        		secs=secs+1;
+				        	$("#length").val(secs+" Days")
+				        	}
+				        } */
+					
+					
+					
+					$('#sprint_end').datepicker()
+				    .on('changeDate', function(e) {
+				    	if ($('#sprint_start').val()!=""){
+					        start=$('#sprint_start').val();
+					        end=$('#sprint_end').val();
+					        secs=(new Date(end)).getTime()/1000-(new Date(start)).getTime()/1000
+					        secs=secs/60/60/24;
+					        if (secs>=7){
+					        	week=parseInt(secs/7);
+					        	days=secs%6;
+					        	$("#length").val(week+" weeks "+days+" days")
+					        }
+					        else {
+					        	if(secs==0){
+					        		$("#length").val("1 Day")
+					        	} else {
+					        		secs=secs+1;
+					        	$("#length").val(secs+" Days")
+					        	}
+					        }
+				    	}
+				    });
+					$('#sprint_start').datepicker()
+				    .on('changeDate', function(e) {
+				    	if ($('#sprint_end').val()!=""){
+				    		start=$('#sprint_start').val();
+					        end=$('#sprint_end').val();
+					        secs=(new Date(end)).getTime()/1000-(new Date(start)).getTime()/1000
+					        secs=secs/60/60/24;
+					        if (secs>=7){
+					        	week=parseInt(secs/7);
+					        	days=secs%6;
+					        	$("#length").val(week+" weeks "+days+" days")
+					        }
+					        else {
+					        	if(secs==0){
+					        		$("#length").val("1 Day")
+					        	} else {
+					        		secs=secs+1;
+					        	$("#length").val(secs+" Days")
+					        	}
+					        }
+				    	}
+				    });
+					/*$("#add-issue").click(function(e) {
+						$('#add-issue-modal').modal('show');
+					});*/
+				
+					$("#submit_sprint").on("click",function(){
+						 if (!$('#add_sprint').valid()){
+							    event.preventDefault();
+							    event.stopImmediatePropagation();
+							    return false;
+						 }
+						 else
+							 {
+							 $.post( "/sprint/edit", $("#add_sprint").serialize())
+						  		.done(function( data ) {
+						  			if (data!="true"){
+						  				alert("Something Went Wrong");
+						  				return false
+						  			} 
+						  		//	$("#backlog_form").reset();
+						  			
+						  			
+						  			 
+						  		
+						  		});
+							
+							
+						 	}		
+								
+						})
+					
+						
+			/* 		$("#submit_sprint").on("click",function(){
+						$.post( "/sprint", $("#add_sprint").serialize())
+				  		.done(function( data ) {
+				  			if (data!="true"){
+				  				alert("Something Went Wrong");
+				  				return false
+				  			} 
+				  		})
+					});
+						 */
+				  			
+				  			$('#edit-sprint-modal').on('hidden.bs.modal', function(e)
+								    { 
+									//	alert("hey");
+										$(this).removeData('bs.modal');
+										$(this).find('form')[0].reset();
+										sprint_validator.resetForm();
+										$('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
+						  				    //var variable = $('#edit_permissions').html();
+						  				});
+								
+								    }) ;
+							
+				  		
+				
+				});
+		</script>		
+			 
+ <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Add New Sprint</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								<div class="col-md-10">
+										<form role="form" id="add_sprint">
+										<input type="hidden" value="ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" name="project_key">
+											  <!-- Project Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Title<font color="red">*</font></label>
+												<input name="name" type="text" class="form-control add-task-textbox apm-modal-textbox" value="{{sprint_info.name}}">
+											  </div>
+											  
+											  <div class="form-group task-form-group">
+												<label class="task-label">Description<font color="red">*</font></label>
+												<textarea name="desc" rows="4" class="form-control add-task-textbox apm-modal-textarea">{{sprint_info.description}}</textarea>
+											  </div>
+												  
+												  
+												
+											  
+											  <div class="row">
+												<!-- Start Date -->
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="apm-landing-reg-label">Start Date</label>
+														<input name="start" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true" id="sprint_start" value="{{sprint_info.startDate|date:'m/d/Y'}}">
+														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+													</div>
+												</div>
+												
+												<!-- End Date -->
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="apm-landing-reg-label">End Date</label>
+														<input name="end" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true" id="sprint_end" value="{{sprint_info.endDate|date:'m/d/Y'}}">
+														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+													</div>
+												</div>
+												
+											</div>
+											<div class="form-group task-form-group">
+														<label class="task-label">Working Hours/Day (Hrs)<font color="red">*</font></label>
+														<input name="new_workinghours" type="number" class="form-control add-task-textbox apm-modal-textbox" id="" maxlength="3" value="{{sprint_info.workinghours}}">
+														<input name="old_workinghours" type="hidden" class="form-control add-task-textbox apm-modal-textbox" value="{{sprint_info.workinghours}}" readonly>
+													  </div>
+											<!-- <div class="form-group task-form-group">
+														<label class="task-label">Sprint Length</label>
+														<input disabled type="text" class="form-control add-task-textbox apm-modal-textbox" value="0 weeks" id="length" value="{{sprint_info.workinghours}}">
+													  </div>  -->
+													  
+												<div class="form-group task-form-group">
+														<label class="task-label">Release</label>
+														<select class="form-control add-task-textbox apm-modal-textbox" name="release" id="release" >
+														{%if sprint_info.release_key%}
+														<option value="{{sprint_info.release_key.urlsafe}}">{{sprint_info.release_key.get.releaseName}}</option>
+														{%endif%}
+														<option value="None">None</option>
+														{%for i in release%}
+														{%if i.status%}
+														{%if i.releaseName != sprint_info.%}
+															<option value={{i.key.urlsafe}}>{{i.releaseName}}</option>
+														{%endif%}
+														{%endif%}
+														{%endfor%}
+												</select>
+												 </div>
+											  <input name="edit_key" type="hidden" value="{{sprint_info.key.urlsafe}}">
+										</form>
+								</div>	
+								<div class="col-md-1">
+								</div>		
+							</div>
+							
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<button type="button"  class="add-task-btn-modal" data-dismiss="modal" id="submit_sprint" >Update</button>
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
+				  </div>

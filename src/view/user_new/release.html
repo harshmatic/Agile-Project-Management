@@ -55,7 +55,7 @@
 					$('#add-release-modal').on('hidden.bs.modal', function(e)
 									    { 
 									        $(this).removeData('bs.modal');
-									        
+									        $(this).find('form')[0].reset();
 									        $('.table').load('/release .table', function(result) {
 							  				});
 									    }) ;
