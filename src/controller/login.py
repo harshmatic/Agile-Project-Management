@@ -253,7 +253,7 @@ class SignupUser(BaseHandler):
         #unique_properties = ['email_address']
         user_data = self.user_model.create_user(user_name,
             email_address=email, name=name, password_raw=password,designation=designation,empid=empid,contact=contact,
-            last_name=last_name,role=role,tenant_domain=tenant_domain,status = True,tenant_key=tenant_key, verified=False)
+            last_name=last_name,role=role,tenant_domain=tenant_domain,status = True,tenant_key=tenant_key,project_permission=True,verified=False)
         if not user_data[0]: #user_data is a tuple
             self.response.write('User already exists with the same email.')
             return
@@ -299,7 +299,7 @@ class SignupHandler(BaseHandler):
         #unique_properties = ['email_address']
         user_data = self.user_model.create_user(user_name,
             email_address=email, name=name, password_raw=password,designation=designation,empid=empid,contact=contact,
-            last_name=last_name,role=role,tenant_key=company_key,tenant_domain=company_domain,project_permission=True,verified=False)
+            last_name=last_name,role=role,tenant_key=company_key,tenant_domain=company_domain,verified=False)
         if not user_data[0]: #user_data is a tuple
             self.response.write('User already exists with the same name')
             return
@@ -341,7 +341,7 @@ class SignupAdminHandler(BaseHandler):
         #unique_properties = ['email_address']
         user_data = self.user_model.create_user(user_name,
             email_address=email, name=name, password_raw=password,designation=designation,empid=empid,contact=contact,
-            last_name=last_name,role=role,project_permission=True,verified=False)
+            last_name=last_name,role=role,verified=False)
         if not user_data[0]: #user_data is a tuple
             self.response.write('User already exists with the same name')
             return
