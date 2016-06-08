@@ -54,12 +54,12 @@
 			
 			if(error == 'login failed' )
 			{
-				$('#login_error_msg').html("Please check username and password.");
+				//$('#login_error_msg').html("Please check username and password.");
 				alert('Please check username and password.');
 			}
 			else
 			{
-				$('#login_error_msg').html('');
+			//	$('#login_error_msg').html('');
 			}	
 			
 			
@@ -112,6 +112,10 @@
 			{
 			color: red;
 			}
+		.error
+			{
+			color: red;
+			}
 	
 			
 		</style>
@@ -157,11 +161,11 @@
 									</div>
 									<div class="panel-body login-panel-body">
 										<div class="col-md-1">
-										<div class="error" id="login_error_msg"></div>
+										
 										</div>
 										
 										<div class="col-md-10">
-										
+										<div class="error" id="login_error_msg"></div>
 										<form name="login_form" id="login_form" method="post" action="/login" >
 																			
 										

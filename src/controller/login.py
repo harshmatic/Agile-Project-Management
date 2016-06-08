@@ -107,6 +107,7 @@ class BaseHandler(webapp2.RequestHandler):
                 for current in projects:
                     if current.projectid==self.session['current_project']:
                         current_project_id= current
+                        logging.info(current)
                 permit=model.user.Groups().query(model.user.Groups.role==current_project_id.userRole).fetch()
                 urls=model.user.Permissions().query().order(model.user.Permissions.order).fetch()
                 sidebars=[]
@@ -474,14 +475,17 @@ class LoginHandler(BaseHandler):
             domain=str(self.user_model.get_by_id(u['user_id']).tenant_domain)
             logging.info(u)
             if domain==company_domain:
-                self.response.write(self.uri_for('subdomain-home'))
+             #   self.response.write(self.uri_for('subdomain-home'))
+                
+                self.redirect(self.uri_for('subdomain-home'))
             else:
                 self.auth.unset_session()
-                self.response.write("false*&*You are not registered to this company")
-                
+               # self.response.write("false*&*You are not registered to this company")
+                self.render_template('auth/login.html', {'error':'login failed'})
         except (InvalidAuthIdError, InvalidPasswordError) as e:
             logging.info('Login failed for user %s because of %s', username, type(e))
-            self.response.write("false*&*Invalid Email or password")
+           # self.response.write("false*&*Invalid Email or password")
+            self.render_template('auth/login.html', {'error':'login failed'})
             #self._serve_page(True)
 
     '''def _serve_page(self, failed=False, err_msg):
@@ -508,7 +512,8 @@ class LoginBaseHandler(BaseHandler):
         except (InvalidAuthIdError, InvalidPasswordError) as e:
             logging.info('Login failed for user %s because of %s', username, type(e))
             #self.response.write("login failed")        
-            self.render_template('auth/main.html', {'error':'login failed'})
+            #self.render_template('auth/login.html', {'error':'login failed'})
+            self.render_template('auth/login.html', {'error':'login failed'})
             self._serve_page(True)
 
     def _serve_page(self, failed=False):
@@ -517,7 +522,7 @@ class LoginBaseHandler(BaseHandler):
             'username': username,
             'failed': failed
         }
-        self.render_template('auth/login.html', params)       
+      #  self.render_template('auth/login.html', params)       
 class LogoutHandler(BaseHandler):
     def get(self,*args,**kargs):
         self.auth.unset_session()
