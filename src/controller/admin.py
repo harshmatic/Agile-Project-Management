@@ -10,6 +10,7 @@ from google.appengine.ext.webapp import blobstore_handlers
 from google.appengine.ext import blobstore
 import webapp2
 from datetime import datetime
+from google.appengine.api.taskqueue import taskqueue 
 
 class AdminVerify(BaseHandler):
     def post(self,*args,**kargs):
@@ -252,17 +253,27 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
         user_id = user.get_id()
         token = self.user_model.create_signup_token(user_id)
         verification_url = self.uri_for('verification', type='v', user_id=user_id,signup_token=token, _full=True)
-        msg = """Hi """+name.upper()+""",
+        
+        
+        
+        message = """Hi """+name.upper()+""",
         """+ user_info['name'].upper() +""" has registered you on APM . Please follow the below url to activate your account.
         Remember to change your password. You will be able to do so by visiting
         {url}"""
-        message = mail.EmailMessage(sender="support@apm-eternus.appspotmail.com",
-                            subject="Account Verification")
         
-        message.to = email
-        message.body = msg.format(url=verification_url)
-        message.send()
-        logging.info(msg.format(url=verification_url))
+        task = taskqueue.add(        
+            queue_name = "my-push-queue",                         
+            url='/email',        
+            params={'To_email':email,'verification_url':verification_url,'message':message})        
+        logging.info("after email")
+        
+     #   message = mail.EmailMessage(sender="support@apm-eternus.appspotmail.com",
+      #                      subject="Account Verification")
+        
+     #   message.to = email
+    #    message.body = msg.format(url=verification_url)
+     #   message.send()
+     #   logging.info(msg.format(url=verification_url))
         self.response.write("true")        
         
             

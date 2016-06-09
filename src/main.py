@@ -10,6 +10,7 @@ from controller.timesheet import *
 from controller.release import *
 from controller.mytasks import *
 from controller.timelog import *
+from controller.email_handler import *
 from controller.testuserdashboard import *
 from controller.effort_estimation_controller import *
 from webapp2_extras import routes
@@ -124,6 +125,7 @@ app = webapp2.WSGIApplication([
         
     ]),
         webapp2.Route('/', SignupUser, name='home'),
+        webapp2.Route('/email', EmailHandler),
         webapp2.Route('/effortspersist', PersistDefaulEstimation),
         webapp2.Route('/newusereffortspersist', NewUserPersistDefaulEstimation),
         webapp2.Route('/deleteusereffortspersist', DeleteUserPersistDefaulEstimation),
