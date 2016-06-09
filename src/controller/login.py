@@ -264,7 +264,7 @@ class SignupUser(BaseHandler):
         verification_url = self.uri_for('verification', type='v', user_id=user_id,signup_token=token, _full=True)
         msg = """Hi """+name+""",
         Thank you for registering on APM. Please follow the below url to activate your account.
-        Remeber to change your password.
+        Remember to change your password.
         You will be able to do so by visiting {url}"""
         #body = msg.format(url=verification_url)
         message = mail.EmailMessage(sender="support@apm-eternus.appspotmail.com",
@@ -352,7 +352,7 @@ class SignupAdminHandler(BaseHandler):
         verification_url = self.uri_for('verification', type='v', user_id=user_id,signup_token=token, _full=True)
         msg = """Hi """+name+""",
         Thank you for registering on APM. Please follow the below url to activate your account.
-        Remeber to change your password.
+        Remember to change your password.
         You will be able to do so by visiting 
         {url}"""
         message = mail.EmailMessage(sender="support@apm-eternus.appspotmail.com",
@@ -366,7 +366,7 @@ class SignupAdminHandler(BaseHandler):
 class ForgotPasswordHandler(BaseHandler):
     def get(self,*args,**kargs):
         self._serve_page()
-
+        
     def post(self,*args,**kargs):
         username = self.request.get('username')
 
@@ -382,15 +382,23 @@ class ForgotPasswordHandler(BaseHandler):
             signup_token=token, _full=True)
 
         msg = """Hi """+username+""",
-       Follow the ;ink to reset your password
-        You will be able to do so by visiting<a href="{url}">{url}</a>'"""
+        Follow the link to reset your password
+        You will be able to do so by visiting
+        {url}"""
         
         message = mail.EmailMessage(sender="support@apm-eternus.appspotmail.com",
                             subject="Reset Password")
         message.to = username
         message.body = msg.format(url=verification_url)
         message.send()
-        self.response.write("true")
+      #  self.response.write("true")
+        
+      
+        domain=str(self.user_model.get_by_id(user_id).tenant_domain)
+        new_url=self.uri_for('login',_netloc=str(domain+"."+urlparse.urlparse(self.request.url).netloc))
+       # self.redirect(self.uri_for('login',_netloc=str(domain+"."+urlparse.urlparse(self.request.url).netloc)))
+        self.response.write(new_url)    
+        
         
     def _serve_page(self, not_found=False):
         username = self.request.get('username')
@@ -534,7 +542,8 @@ class LogoutHandler(BaseHandler):
     def get(self,*args,**kargs):
         self.auth.unset_session()
         self.session.pop('current_project')
-        self.redirect(self.uri_for('home'))
+      #  self.redirect(self.uri_for('home'))
+        self.redirect('/')
 
 class AuthenticatedHandler(BaseHandler):
     @user_required

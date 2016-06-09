@@ -93,25 +93,25 @@
 				    });
 					
 					
-				/* 	//var oneDay = 24*60*60*1000; 
+				 	//var oneDay = 24*60*60*1000; 
 					start = $('#sprint_start').val();
 					end = $('#sprint_end').val();
 
-					 secs=(new Date(end)).getTime()/1000-(new Date(start)).getTime()/1000
-				        secs=secs/60/60/24;
-				        if (secs>=7){
-				        	week=parseInt(secs/7);
-				        	days=secs%6;
-				        	$("#length").val(week+" weeks "+days+" days")
-				        }
-				        else {
-				        	if(secs==0){
-				        		$("#length").val("1 Day")
-				        	} else {
-				        		secs=secs+1;
-				        	$("#length").val(secs+" Days")
-				        	}
-				        } */
+					 function showDays(firstDate,secondDate){
+	                
+	                  
+
+	                  var startDay = new Date(firstDate);
+	                  var endDay = new Date(secondDate);
+	                  var millisecondsPerDay = 1000 * 60 * 60 * 24;
+
+	                  var millisBetween = startDay.getTime() - endDay.getTime();
+	                  var days = millisBetween / millisecondsPerDay;
+
+	                  // Round down.
+	                  alert( Math.floor(days));
+
+	              }
 					
 					
 					
