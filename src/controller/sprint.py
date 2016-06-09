@@ -32,7 +32,7 @@ class Tasks(BaseHandler):
         task_data.description = self.request.get('desc')
         task_data.complexity = ndb.Key(urlsafe=self.request.get('complexity'))
         task_data.startDate = datetime.strptime(self.request.get("start"), '%d/%m/%Y').date()
-        task_data.endDate = datetime.strptime(self.request.get("start"), '%d/%m/%Y').date()
+        task_data.endDate = datetime.strptime(self.request.get("end"), '%d/%m/%Y').date()
         if (self.request.get('assignee') != 'None'):
             task_data.assignee = ndb.Key(urlsafe=self.request.get('assignee'))
         if (self.request.get('sprint') != 'None'):
