@@ -3,7 +3,7 @@ from login import BaseHandler,check_permission
 import logging
 
 class EmailHandler(BaseHandler):
-    def get(self):
+    def post(self):
         
         
         email = self.request.get('To_email')
@@ -14,7 +14,7 @@ class EmailHandler(BaseHandler):
         
         msg = self.request.get('message')
      
-        message = mail.EmailMessage(sender="support@apm-eternus.appspotmail.com",
+        message = mail.EmailMessage(sender="support@ner-monty.appspotmail.com",
                             subject="Account Verification")
         message.to = email
         message.body = msg.format(url=verification_url)

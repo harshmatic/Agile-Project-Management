@@ -393,7 +393,7 @@ class ForgotPasswordHandler(BaseHandler):
         You will be able to do so by visiting
         {url}"""
         
-        message = mail.EmailMessage(sender="support@apm-eternus.appspotmail.com",
+        message = mail.EmailMessage(sender="support@ner-monty.appspotmail.com",
                             subject="Reset Password")
         message.to = username
         message.body = msg.format(url=verification_url)
