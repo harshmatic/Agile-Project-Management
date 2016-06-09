@@ -3,7 +3,7 @@ from login import BaseHandler,check_permission
 import logging
 
 class EmailHandler(BaseHandler):
-    def get(self):
+    def post(self):
         
         
         email = self.request.get('To_email')

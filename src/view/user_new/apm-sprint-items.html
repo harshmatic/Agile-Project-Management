@@ -3,6 +3,9 @@
 {% block title %}User | Sprint{% endblock %}
 {% block header_links%}
 <style>
+.cr{
+			cursor:pointer;
+		}
 .error{
 		color:red;
 	}
@@ -358,7 +361,7 @@
 															{%for task in tasks %}
 															{%if task.status%}
 																{%ifequal task.sprint sprint.key%}
-															  <tr class="find_empty">
+															  <tr class="find_empty cr clickable-row" onclick="window.document.location='/mytasks/view?key={{task.key.urlsafe}}';">
 																
 																<td title="User Story">{{task.name}}</td>
 																<td title="Task Description">{{task.description}}</td>
