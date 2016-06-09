@@ -6,7 +6,7 @@ import os.path
 import webapp2
 import time
 from model import user
-from model import project
+from model import project,sprint
 import webapp2_extras.appengine.auth.models as auth_user
 from webapp2_extras import auth
 from webapp2_extras import sessions
@@ -18,6 +18,7 @@ from login import BaseHandler,check_permission
 from google.appengine.ext import ndb
 from datetime import datetime
 import json
+from google.appengine.api.taskqueue import taskqueue 
 
 class ProjectManagement(BaseHandler):
     def get(self,*args,**kargs):
@@ -196,6 +197,17 @@ class AddProjectMembers(BaseHandler):
         projekey = projemem.set()
         projmodel = projekey.get()
         
+        sprints = sprint.Sprint().get_by_project(projmodel.projectid)
+        logging.info
+        if not sprints:
+            logging.info("No sprints")
+        else:
+            task = taskqueue.add(
+            queue_name = "my-push-queue",                 
+            url='/newusereffortspersist',
+            params={'projectid': projmodel.projectid.id(),'userid':projmodel.userid.id()})
+        
+        
         data = {}
         data['id'] = projmodel.key.id()
         data['projectid'] = projmodel.projectid.id()
@@ -347,11 +359,29 @@ class DeleteProjectMember(BaseHandler):
     def post(self,*args,**kargs):
         logging.info("it is here "+self.request.__str__())
         projmemid = self.request.get("id")
-        projmem = project.ProjectMembers()
+        user_info = self.auth.get_user_by_session()
+        key= ndb.Key('ProjectMembers',int(projmemid))
+        projmem = key.get()
+        
+        projmem.modified_by = user_info['email_address']
+        projmem.modified_date = datetime.now()
+        projmem.status = False
+        projmem.put()
+        
+        sprints = sprint.Sprint().get_by_project(projmem.projectid)
+        logging.info
+        if not sprints:
+            logging.info("No sprints")
+        else:
+            task = taskqueue.add(
+            queue_name = "my-push-queue",                 
+            url='/deleteusereffortspersist',
+            params={'projectid': projmem.projectid.id(),'userid':projmem.userid.id()})
+        
         
      #   projmem.status = 'False'
      #   projmem.set()
-        projmem.delete_entity(projmemid)
+        #projmem.delete_entity(projmemid)
         self.response.write("success")
         
 class DeleteEstimates(BaseHandler):
@@ -390,7 +420,7 @@ class ViewProject(BaseHandler):
         esti = estimationmodel.get_all(ndb.Key('Project',projkey))
         
         projectmembermodel = project.ProjectMembers()
-        projmem = projectmembermodel.get_all(ndb.Key('Project',projkey))
+        projmem = projectmembermodel.get_active(ndb.Key('Project',projkey))
         
         groupmodel = user.Groups().query(ndb.AND(user.Groups.tenant_key==self.user_model.get_by_id(currentUser['user_id']).tenant_key,user.Groups.application_level == False,user.Groups.status == True)).fetch()
         groupmodel1 = user.Groups().query(ndb.AND(user.Groups.tenant_key==None,user.Groups.application_level == False,user.Groups.status == True)).fetch()

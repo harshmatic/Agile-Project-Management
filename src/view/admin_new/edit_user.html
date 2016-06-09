@@ -195,6 +195,21 @@ $(document).ready(function(){
 												<input type="text" class="form-control add-task-textbox" name="contact_no" value="{{user_info.contact}}">
 											  </div>
 											  
+											  
+											  <div class="form-group task-form-group">
+												<label class="task-label">Project Creation Privilege</label>
+												<select class="form-control add-task-textbox apm-modal-textbox" name="proj">
+													
+													{%if user_info.project_permission %}
+													<option value="True" selected> Yes </option>
+													<option value="False"> No </option>
+													{%else%}
+													<option value="True"> Yes </option>
+													<option value="False" selected> No </option>
+													{%endif%}
+													
+												</select>
+											  </div>
 											  <!-- Permissions/Role --> 
 											<!--   <div class="form-group task-form-group">
 												<label class="task-label">Assign Role</label>

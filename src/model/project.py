@@ -56,6 +56,9 @@ class ProjectMembers(BaseClass):
     def get_all(self,projId):
         res = self.query(ProjectMembers.projectid == projId).fetch()
         return res
+    def get_active(self,projId):
+        res = self.query(ndb.AND(ProjectMembers.projectid == projId,ProjectMembers.status == True)).fetch()
+        return res
     def delete_entity(self,projmemid):
         ndb.Key(ProjectMembers, int(projmemid)).delete()
     def get_proj_by_user(self,comp_id,user_id):

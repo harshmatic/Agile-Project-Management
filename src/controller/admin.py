@@ -141,6 +141,7 @@ class AddRole(BaseHandler):
         role=self.request.get("role")
         u=user.Groups()
         u.role=role
+        u.application_level = False
         u.tenant_domain=kargs['subdomain']
         ten=user.Tenant.query(user.Tenant.domain==kargs['subdomain']).fetch(keys_only=True)
         u.tenant_key=ten[0]
@@ -294,7 +295,10 @@ class AdminEditUser(BaseHandler):
 #             tenant.domain = tenant_domain
 #             tenant.created_by = self.request.get('email')
 #             tenant_key_added = tenant.put()
-            
+            if(self.request.get('proj') == 'True'):
+                project_permission = True
+            else:
+                project_permission = False
             key= ndb.Key(urlsafe=self.request.get('key'))
             user_key=key.get()
             
@@ -304,7 +308,8 @@ class AdminEditUser(BaseHandler):
             user_key.last_name = self.request.get('last_name')
             user_key.designation = self.request.get('designation')
             user_key.empid=self.request.get('emp_id')
-            user_key.contact=self.request.get('contact_no') 
+            user_key.contact=self.request.get('contact_no')
+            user_key.project_permission = project_permission 
             
             user_info = self.auth.get_user_by_session()
             user_key.modified_by = user_info['email_address']

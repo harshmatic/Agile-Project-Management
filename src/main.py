@@ -125,6 +125,8 @@ app = webapp2.WSGIApplication([
     ]),
         webapp2.Route('/', SignupUser, name='home'),
         webapp2.Route('/effortspersist', PersistDefaulEstimation),
+        webapp2.Route('/newusereffortspersist', NewUserPersistDefaulEstimation),
+        webapp2.Route('/deleteusereffortspersist', DeleteUserPersistDefaulEstimation),
         webapp2.Route('/signupuser', SignupUser, name='signuphome'),
         webapp2.Route('/sprint', Sprint,name='sprint'),
         webapp2.Route('/checkdomain', CheckDomain,name="checkdomain"),

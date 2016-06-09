@@ -77,6 +77,57 @@ class PersistDefaulEstimation(BaseHandler):
         
         logging.info(datelist)
         
+class NewUserPersistDefaulEstimation(BaseHandler):
+    
+    def post(self):
+        
+        logging.info("The projectid is"+self.request.get("projectid"))
+        logging.info("The userid is"+self.request.get("userid"))
+        projectKey = ndb.Key('Project',int(self.request.get("projectid")))
+        userKey = ndb.Key('OurUser',int(self.request.get("userid")))
+        sprints = sprint.Sprint().get_by_project(projectKey)
+        
+        for spr in sprints :
+            estimates = effort_estimation.EffortEstimation().get_esti_by_sprint(spr.key)
+            for est in estimates:
+                total_effort = float(est.total_effort) + float(spr.workinghours)
+                estlist = est.effort
+                usereffort = effort_estimation.UserEffort()
+                usereffort.userKey    =  userKey
+                usereffort.userName   =  userKey.get().name
+                usereffort.effortHours = spr.workinghours
+                estlist.append(usereffort)
+                est.effort = estlist
+                est.total_effort = str(total_effort)
+                est.set()
+
+class DeleteUserPersistDefaulEstimation(BaseHandler):
+    
+    def post(self):
+        
+        logging.info("The projectid is"+self.request.get("projectid"))
+        logging.info("The userid is"+self.request.get("userid"))
+        projectKey = ndb.Key('Project',int(self.request.get("projectid")))
+        userKey = ndb.Key('OurUser',int(self.request.get("userid")))
+        sprints = sprint.Sprint().get_by_project(projectKey)
+        
+        for spr in sprints :
+            estimates = effort_estimation.EffortEstimation().get_esti_by_sprint(spr.key)
+            for est in estimates:
+                total_effort = est.total_effort
+                if(est.date > date.today()):
+                    estlist = est.effort
+                    for e in estlist :
+                        if(e.userKey == userKey):
+                            oldval = e.effortHours
+                            e.effortHours = "0"
+            newtotal_effort = float(total_effort) - float(oldval)
+            est.total_effort = str(newtotal_effort)
+            est.set()
+            
+                
+            
+        
 class EditEffortEstimation(BaseHandler):
     
     def post(self,*args,**kargs):
