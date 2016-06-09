@@ -564,6 +564,6 @@ config = {
     },
     'webapp2_extras.sessions': {
         'secret_key': 'AIzaSyCLBiLQ5B1QJ2BGlQXvUqJysqFjjc_lw00',
-        'cookie_args':  {'domain':'.apm-eternus.appspot.com'}
+        'cookie_args':  {'domain':'.ner-monty.appspot.com'}
     }
 }
