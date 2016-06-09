@@ -15,7 +15,7 @@ from google.appengine.api import mail,mail_errors
 from webapp2_extras import security
 import urlparse
 import urllib
-
+from google.appengine.api.taskqueue import taskqueue 
 
 def check_permission(self,*args,**kargs):
     auth = self.auth
@@ -262,18 +262,25 @@ class SignupUser(BaseHandler):
         user_id = user.get_id()
         token = self.user_model.create_signup_token(user_id)
         verification_url = self.uri_for('verification', type='v', user_id=user_id,signup_token=token, _full=True)
-        msg = """Hi """+name+""",
+        
+        logging.info("before email");
+        message= """Hi """+name+""",
         Thank you for registering on APM. Please follow the below url to activate your account.
         Remember to change your password.
-        You will be able to do so by visiting {url}"""
-        #body = msg.format(url=verification_url)
-        message = mail.EmailMessage(sender="support@apm-eternus.appspotmail.com",
-                            subject="Account Verification")
-        message.to = email
-        message.body = msg.format(url=verification_url)
-        logging.info(msg.format(url=verification_url))
+        You will be able to do so by visiting 
+        {url}"""
+        
+        task = taskqueue.add(
+            queue_name = "my-push-queue",                 
+            url='/email',
+            params={'To_email':email,'verification_url':verification_url,'message':message})
+        logging.info("after email")
+        
+        
+        
         logging.info(verification_url)
-        self.response.write("true*%*"+verification_url)        
+        self.response.write('true')
+      #  self.response.write("true*%*"+verification_url)        
 class SignupHandler(BaseHandler):
     def get(self,*args,**kargs):
         if check_permission(self):
