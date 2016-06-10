@@ -57,6 +57,7 @@ $(document).ready(function() {
 				$.post( "/signupuser", $("#signup_user").serialize()).done(function( data ) {
 					da =data.split("*%*")
 					console.log(da)
+					$('#submit_form').prop('disabled', true);
 		  			if (da[0]!="true"){
 		  				alert(data);
 		  				return false;
