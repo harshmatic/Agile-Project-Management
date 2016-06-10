@@ -56,7 +56,7 @@
 						  
 						  var filter_name=$(this).text();
 						  
-						  if(filter_name == 'Pending Tasks')
+						  if(filter_name == 'Open')
 						
 						  {
 							  
@@ -76,7 +76,7 @@
 							});
 							  }
 						  else
-						  if(filter_name == 'Completed Tasks')
+						  if(filter_name == 'Done')
 								
 						  {
 							  $("#fbody").find("tr td").not("#table_header").filter(function() {
@@ -95,7 +95,7 @@
 								});  
 						  }
 						  else
-						  if(filter_name == 'Ongoing Tasks')
+						  if(filter_name == 'In Progress')
 								
 						  {
 							  $("#fbody").find("tr td").not("#table_header").filter(function() {
@@ -153,7 +153,7 @@
 					 if (query_string == 'open')
 					{
 					 
-						$('#status_button').html(" <i class='fa fa-filter backlog-filter-icon' aria-hidden='true'></i>Pending Tasks<span class='caret'></span>");
+						$('#status_button').html(" <i class='fa fa-filter backlog-filter-icon' aria-hidden='true'></i>Open<span class='caret'></span>");
 						
 						var retval=0;   
 					
@@ -177,7 +177,7 @@
 						 if(query_string == 'done')
 						 {
 							 	//data1='Done';
-								$('#status_button').html("<i class='fa fa-filter backlog-filter-icon' aria-hidden='true'></i>Completed Tasks<span class='caret'></span>");
+								$('#status_button').html("<i class='fa fa-filter backlog-filter-icon' aria-hidden='true'></i>Done<span class='caret'></span>");
 								var retval=0;   
 							
 								$("#fbody").find("tr td").not("#table_header").filter(function() {
@@ -201,7 +201,7 @@
 								 if(query_string == 'inprogress')
 								 {
 								
-								$('#status_button').html(" <i class='fa fa-filter backlog-filter-icon' aria-hidden='true'></i>Ongoing Tasks<span class='caret'></span>");
+								$('#status_button').html(" <i class='fa fa-filter backlog-filter-icon' aria-hidden='true'></i>In Progress<span class='caret'></span>");
 										var retval=0;   
 									
 										$("#fbody").find("tr td").not("#table_header").filter(function() {
@@ -261,9 +261,9 @@
 							  <i class="fa fa-filter backlog-filter-icon" aria-hidden="true"></i>Status
 							  <span class="caret"></span></button>
 							  <ul class="dropdown-menu" id="status_dropdown">
-								<li><a href="#" value="Pending Tasks">Pending Tasks</a></li>
-								<li><a href="#" value="Ongoing Tasks">Ongoing Tasks</a></li>
-								<li><a href="#" value="Completed Tasks">Completed Tasks</a></li>
+								<li><a href="#" value="Pending Tasks">Open</a></li>
+								<li><a href="#" value="Ongoing Tasks">In Progress</a></li>
+								<li><a href="#" value="Completed Tasks">Done</a></li>
 								<li><a href="#" value="All Tasks">All Tasks</a></li>
 							  </ul>
 							</div>

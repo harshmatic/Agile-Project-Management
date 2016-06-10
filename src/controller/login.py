@@ -17,6 +17,7 @@ import urlparse
 import urllib
 from google.appengine.api.taskqueue import taskqueue 
 
+
 def check_permission(self,*args,**kargs):
     auth = self.auth
     if not auth.get_user_by_session():
@@ -393,7 +394,7 @@ class ForgotPasswordHandler(BaseHandler):
         You will be able to do so by visiting
         {url}"""
         
-        message = mail.EmailMessage(sender="support@ner-monty.appspotmail.com",
+        message = mail.EmailMessage(sender='support@ner-monty.appspotmail.com',
                             subject="Reset Password")
         message.to = username
         message.body = msg.format(url=verification_url)
@@ -411,7 +412,8 @@ class ForgotPasswordHandler(BaseHandler):
         username = self.request.get('username')
         params = {
             'username': username,
-            'not_found': not_found
+            'not_found': not_found,
+            'forgot_password_url':"http://ner-monty.appspot.com/forgot"
         }
         self.render_template('auth/forgot-password.html', params)
 

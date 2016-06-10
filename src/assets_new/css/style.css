@@ -1952,3 +1952,10 @@ div.Tokenize {
 				letter-spacing:1px;
 				font-size: 16px;
 			}
+			
+			.apm-add-proj-view{
+				font-size: 14px!important;
+    			margin: 0 3px;
+    			cursor: pointer;
+    			color: #3978BF;
+			}

@@ -21,6 +21,12 @@
 		</style>
 	<script>
 				$(document).ready(function(){
+					
+					$('.form-group').find('.open-datetimepicker').on('click', function(){
+					    $('#release_date').trigger('focus');
+					});
+				
+					
 					$(".nav-tabs a").click(function(){
 						$(this).tab('show');
 					});
@@ -195,7 +201,7 @@
 													<div class="form-group">
 														<label class="apm-landing-reg-label">Release Date</label>
 														<input name="release_date" type="text" class="form-control apm-landing-textbox-reg datepicker">
-														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+														<i class="fa fa-calendar datepicker-cal open-datetimepicker" aria-hidden="true"></i>
 													</div>
 												</div>
 												

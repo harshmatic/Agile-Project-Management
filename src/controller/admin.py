@@ -13,6 +13,7 @@ from datetime import datetime
 from google.appengine.api.taskqueue import taskqueue 
 from urlparse import urlparse
 
+
 class AdminVerify(BaseHandler):
     def post(self,*args,**kargs):
         key = ndb.Key(urlsafe=self.request.get('key_user'))
@@ -254,7 +255,7 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
         user_id = user.get_id()
         token = self.user_model.create_signup_token(user_id)
         verification_url = self.uri_for('verification', type='v', user_id=user_id,signup_token=token, _full=True)
-        verification_url = 'http://ner-monty.appspot.com'+urlparse(verification_url)[2]
+        verification_url ='http://apm-eternus.appspot.com' +urlparse(verification_url)[2]
         
         
         message = """Hi """+name.upper()+""",

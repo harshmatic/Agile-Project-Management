@@ -96,6 +96,33 @@ class EditTask(BaseHandler):
         task_data.modified_date = datetime.now()
         task_data.put()
         self.response.out.write("true")
+        
+        
+        
+class DeleteTask(BaseHandler):
+    
+    def get(self,*args,**kargs):
+        #if check_permission(self):
+            edit_key=ndb.Key(urlsafe=self.request.get('delete_key'))
+            task_data=edit_key.get()
+            self.render_template("user_new/deletetask.html",{'task_data':task_data})
+        #else:
+            #self.response.write("you are not allowed")
+    
+    def post(self,*args,**kargs):
+        key= ndb.Key(urlsafe=self.request.get('delete_key'))
+        task_key=key.get()
+         
+        user_info = self.auth.get_user_by_session()
+        task_key.modified_by = user_info['email_address']
+        task_key.modified_date = datetime.now()
+        task_key.status = False
+           
+        task_key.put()
+            #user_key.delete()  
+        self.response.write("true")     
+        
+        
             
 class Sprint(BaseHandler):
     

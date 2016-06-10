@@ -1,0 +1,120 @@
+<script>
+		
+$(document).on("click","#delete_task",function(){
+	$.post( "/task/deletetask", $("#delete_form").serialize())
+		.done(function( data ) {
+			if (data!="true"){
+				alert("Task cannot be deleted");
+				return false
+			} else {
+				
+				 $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
+	  				  
+	  				});
+				
+			}
+		});
+		
+		
+			
+		})
+		$('#delete-timelog-modal').on('hidden.bs.modal', function(e)
+				    { 
+				        $(this).removeData('bs.modal');
+				      /*   $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
+			  				  
+		  				}); */
+					
+				    
+				    }) ;
+	</script>			
+
+
+	<form role="form" id="delete_form" enctype="multipart/form-data">
+				
+				
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Delete Task</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								
+								<div class="col-md-10">
+										
+									<table class="table table-condensed">
+    
+    <tbody>
+    <tr>
+        <td>Sprint : </td>
+        <td>{{task_data.sprint.get.name}}</td>
+        
+      </tr>
+    
+      <tr>
+        <td>Title : </td>
+        <td>{{task_data.name}}</td>
+        
+      </tr>
+     
+     <tr>
+        <td>Description : </td>
+        <td>{{task_data.description}}</td>
+        
+      </tr>
+      
+      <tr>
+        <td>Assignee : </td>
+        <td>{{task_data.assignee.get.userName}}</td>
+        
+      </tr>
+      
+      <tr>
+        <td>Planned Start Date: </td>
+        <td>{{task_data.startDate|date:'d/m/Y'}}</td>
+        
+      </tr>
+      
+      <tr>
+        <td>Planned End Date : </td>
+        <td>{{task_data.endDate|date:'d/m/Y'}}</td>
+        
+      </tr>
+      
+        <tr>
+        <td>Complexity: </td>
+        <td>{{task_data.complexity.get.estimationLevel}}</td>
+        
+      </tr>
+       <tr>
+        <td>Issue Type : </td>
+        <td>{{task_data.type.get.name}}</td>
+        
+      </tr>
+       <tr>
+        <td>Estimated Efforts : </td>
+        <td>{{task_data.actual_efforts}}</td>
+        
+      </tr>
+       
+    </tbody>
+</table>
+										
+									
+											
+										
+		 <input type="hidden" id="delete_key" name="delete_key" value="{{task_data.key.urlsafe}}">
+											
+								</div>	
+								<div class="col-md-1">
+								</div>		
+							</div>
+						
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<input type="submit" class="add-task-btn-modal" data-dismiss="modal" id="delete_task" value="Delete task">
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</button>
+				  </div>
+	</form>			

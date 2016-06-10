@@ -40,6 +40,15 @@
 <script>
 				$(document).ready(function(){
 					
+					
+					$('.form-group').find('.open-datetimepicker').on('click', function(){
+					    $('#sprint_start').trigger('focus');
+					});
+					
+					$('.form-group').find('.open-datetimepicker1').on('click', function(){
+					    $('#sprint_end').trigger('focus');
+					});
+					
 	/***********************sprint validation starts******************************/
 					
 					var sprint_validator=   $("#add_sprint").validate({
@@ -361,19 +370,23 @@
 															{%for task in tasks %}
 															{%if task.status%}
 																{%ifequal task.sprint sprint.key%}
-															  <tr class="find_empty cr clickable-row" onclick="window.document.location='/mytasks/view?key={{task.key.urlsafe}}';">
+															  <tr class="find_empty">
 																
 																<td title="User Story">{{task.name}}</td>
 																<td title="Task Description">{{task.description}}</td>
 																<td title="Planned Start Date">{{task.startDate}}</td>
 																<td title="Planned End Date">{{task.endDate}}</td>
 																<td title="Assigned To">{{task.assignee.get.userName}}</td>
-																<td title="Status">Open</td>
+																<td title="Status">{{task.task_status}}</td>
 																<td title="Complexity">{{task.complexity.get.estimationLevel}}</td>
 																
 																<td title="Actual Efforts (Hrs.)">{{task.actual_efforts}}</td>
-															  	<td><a href="/task/edittask?edit_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#edit-issue-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Task"  id="{{task.key.urlsafe}}"></i></a>
-																<a href="/task/deletetask?delete_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#delete-user-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Task"  id="{{task.key.urlsafe}}"></i></a></td>
+															  	<td>
+															  	<a href="/mytasks/view?key={{task.key.urlsafe}}"><i class="fa fa-eye apm-add-proj-view" aria-hidden="true"></i></a>
+															  	<a href="/task/edittask?edit_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#edit-issue-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Task"  id="{{task.key.urlsafe}}"></i></a>
+																<a href="/task/deletetask?delete_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#delete-issue-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Task"  id="{{task.key.urlsafe}}"></i></a>
+															  	</td>
+															  	
 															  </tr>
 															  <tr class="separator" />
 															   
@@ -424,6 +437,18 @@
   
 		<!-- edit Issue Modal Starts -->
 			<div id="edit-issue-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				  
+				</div>
+
+			  </div>
+			</div>
+	<!-- edit Issue Modal Ends -->
+	<!-- edit Issue Modal Starts -->
+			<div id="delete-issue-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
 			  <div class="modal-dialog">
 
 				<!-- Modal content-->
@@ -514,7 +539,7 @@
 													<div class="form-group">
 														<label class="apm-landing-reg-label">Start Date</label>
 														<input name="start" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true" id="sprint_start">
-														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+														<i class="fa fa-calendar datepicker-cal open-datetimepicker" aria-hidden="true"></i>
 													</div>
 												</div>
 												
@@ -523,7 +548,7 @@
 													<div class="form-group">
 														<label class="apm-landing-reg-label">End Date</label>
 														<input name="end" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true" id="sprint_end">
-														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+														<i class="fa fa-calendar datepicker-cal open-datetimepicker1" aria-hidden="true"></i>
 													</div>
 												</div>
 												

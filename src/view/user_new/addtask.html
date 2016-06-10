@@ -3,6 +3,16 @@
 
 $(document).ready(function(){
 	
+	$('.form-group').find('.open-datetimepicker').on('click', function(){
+	    $('#start').trigger('focus');
+	});
+
+	$('.form-group').find('.open-datetimepicker1').on('click', function(){
+	    $('#end').trigger('focus');
+	});
+	
+	
+	
 	$("#complex_pt option").filter(function() {
         return $(this).val() == $("#est_efforts").val();
     }).attr('selected', true);
@@ -86,19 +96,22 @@ $(document).ready(function(){
 							 {
 								$.post( "/task/addtask?key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA", $("#addtask").serialize())
 						  		.done(function( data ) {
+						  			console.log(data);
 						  			if (data!="true"){
 						  				alert("Something Went Wrong");
 						  				return false
 						  			} 
+						  			else
+						  				{
+						  			
+								        $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
+						  				    //var variable = $('#edit_permissions').html();
+						  				    console.log('inside');
+						  				});
+						  				console.log('out');
+						  				}
 						  		});
-							/* 	$('#add-issue-modal').on('hidden.bs.modal', function(e)
-									    { 
-									        $(this).removeData();
-									        task_validator.resetForm();
-									        $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
-							  				    //var variable = $('#edit_permissions').html();
-							  				});
-									    }) ; */
+						
 								
 							
 						 	}		
@@ -107,14 +120,14 @@ $(document).ready(function(){
 						
 					$('#add-issue-modal').on('hidden.bs.modal', function(e)
 									    { 
-									 	
+									 	 
 									        $(this).removeData('bs.modal');
 									        $(this).find('form')[0].reset();
-									        task_validator.resetForm();
-									        $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
+									     //   task_validator.resetForm();
+									       /* $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
 							  				    //var variable = $('#edit_permissions').html();
-							  				});
-									 
+							  				});*/
+									  
 										
 									    }) ;		
 						
@@ -176,7 +189,7 @@ $(document).ready(function(){
 													<div class="form-group">
 														<label class="apm-landing-reg-label">Planned Start Date</label>
 														<input name="start" id="start" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true">
-														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+														<i class="fa fa-calendar datepicker-cal open-datetimepicker" aria-hidden="true"></i>
 													</div>
 												</div>
 												
@@ -185,7 +198,7 @@ $(document).ready(function(){
 													<div class="form-group">
 														<label class="apm-landing-reg-label">Planned End Date</label>
 														<input name="end" id="end"  type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true">
-														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+														<i class="fa fa-calendar datepicker-cal open-datetimepicker1" aria-hidden="true"></i>
 													</div>
 												</div>
 												

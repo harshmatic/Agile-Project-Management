@@ -142,8 +142,11 @@
 					
 					
 					//$("#details").hide();
-					$("#post_comment").on("click",function(){
+					$(document).on("click",'#post_comment',function(e){
+						 e.preventDefault();
 						if($("#comment_form").val()!=""){
+							 $('#post_comment').prop('disabled', true);
+							
 								$.post( "/mytasks/comment?key={{task.key.urlsafe}}", $("#comment_form"))
 						  		.done(function( data ) {
 						  			if (data!="true"){
@@ -152,6 +155,7 @@
 						  			}  else {
 						  				 $('#comments').load('/mytasks/view?key={{task.key.urlsafe}} #comments', function(result) {
 							  				    //var variable = $('#edit_permissions').html();
+						  					  $('#post_comment').prop('disabled', false);
 							  				});
 						  			}
 						  		});

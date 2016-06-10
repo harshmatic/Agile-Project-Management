@@ -1,5 +1,10 @@
  <script>
 $(document).ready(function(){	
+	
+	$('.form-group').find('.open-datetimepicker').on('click', function(){
+	    $('#date').trigger('focus');
+	});
+	
 	$('.datepicker').datepicker({
 		format: 'dd/mm/yyyy',
 		startDate: '0d'
@@ -113,7 +118,7 @@ $(document).ready(function(){
 									<div class="form-group">
 										<label class="apm-logtime-modal-label">Date</label>
 										<input type="text" class="form-control apm-landing-textbox-reg datepicker" id="date" name="date" readonly="true">
-										<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+										<i class="fa fa-calendar datepicker-cal open-datetimepicker" aria-hidden="true"></i>
 									</div>
 								</div>
 							

@@ -2,6 +2,7 @@ from google.appengine.api import mail,mail_errors
 from login import BaseHandler,check_permission
 import logging
 
+
 class EmailHandler(BaseHandler):
     def post(self):
         

@@ -51,6 +51,18 @@
 		<script>
 				$(document).ready(function(){
 					
+					$('.form-group').find('.open-datetimepicker').on('click', function(){
+					    $('#sprint_start').trigger('focus');
+					});
+
+
+
+					
+					$('.form-group').find('.open-datetimepicker1').on('click', function(){
+					    $('#sprint_end').trigger('focus');
+					});	
+		
+					
 				/*******************for detail table start************************/	
 					 var a=$(".table tr:eq(2) td").map(function() {
 				           return $(this).text();
@@ -679,7 +691,7 @@
 													<div class="form-group">
 														<label class="apm-landing-reg-label">Start Date</label>
 														<input name="start" type="text" class="form-control apm-landing-textbox-reg datepicker1" readonly="true" id="sprint_start">
-														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+														<i class="fa fa-calendar datepicker-cal open-datetimepicker" aria-hidden="true"></i>
 													</div>
 												</div>
 												
@@ -688,7 +700,7 @@
 													<div class="form-group">
 														<label class="apm-landing-reg-label">End Date</label>
 														<input name="end" type="text" class="form-control apm-landing-textbox-reg datepicker1" readonly="true" id="sprint_end">
-														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+														<i class="fa fa-calendar datepicker-cal open-datetimepicker1" aria-hidden="true"></i>
 													</div>
 												</div>
 												

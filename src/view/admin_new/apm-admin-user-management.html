@@ -113,8 +113,10 @@
 						$('#add-user-modal').modal('show');
 					});
 				
+				
+					
 				// harshit 
-					$(".verify").on("click",function(){
+					$(document).on("click",".verify",function(){
 			key = $(this).attr("id");
 				$.post("/admin/verify?key_user="+key)
 		  		.done(function( data ) {
@@ -149,6 +151,7 @@
 						  				return false;
 						  			} else {
 						  				alert("A verification mail has been sent to the user's email id");
+						  			
 						  			}
 						  	});
 							
@@ -163,25 +166,6 @@
 			/*******************************************************************/
 			
 			
-			
-			
-		/* 	
-			$("#add_user").click(function(){
-						
-						
-						$.post( "/admin/usermanagment", $("#user_form").serialize())
-					  		.done(function( data ) {
-					  			if (data!="true"){
-					  				alert(data);
-					  				return false;
-					  			} else {
-					  				alert("A verification mail has been sent to the user's email id");
-					  			}
-					  	});
-						
-					});
-				
-				 */
 				
 				
 					$('#add-user-modal').on('hidden.bs.modal', function(e)
@@ -190,7 +174,7 @@
 								$(this).find('form')[0].reset();
 								user_validator.resetForm();
 								$('.table').load('/admin/usermanagment .table', function(result) {
-				  				    var variable = $('#edit_permissions').html();
+				  				  //  var variable = $('#edit_permissions').html();
 				  				});
 					    	}) ;
 				});

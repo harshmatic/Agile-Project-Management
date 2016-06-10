@@ -95,12 +95,12 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/task', Tasks,name='Task'),
         webapp2.Route('/task/addtask', Tasks,name='addTask'),
         webapp2.Route('/task/edittask', EditTask,name='editTask'),
-        
+        webapp2.Route('/task/deletetask', DeleteTask),
         #MyTasks
         webapp2.Route('/mytasks', MyTasks,name='MyTasks'),
         webapp2.Route('/mytasks/view', MyTaskView,name='MyTaskView'),
         webapp2.Route('/mytasks/comment', Comment,name='Comment'),
-
+        
       #  webapp2.Route('/mytask/timelog',Timelog),
         
         webapp2.Route('/timelog/edit', EditTimelog),
