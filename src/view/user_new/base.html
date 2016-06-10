@@ -240,7 +240,7 @@
 						
 							{%if side.grouper%}
 <li class="find">
-	<a  class="sidebar-main-list-name pro-planning-link openlink" data-toggle="collapse" data-parent="" href="#{{side.grouper|cut:' '|lower}}"><i class="fa fa-list"></i>{{side.grouper}} <span class="caret sidebar-caret"></span></a>
+	<a  class="sidebar-main-list-name pro-planning-link openlink" data-toggle="collapse" data-parent="" href="#{{side.grouper|cut:' '|lower}}">{%ifequal side.grouper 'Sprint Planning'%}<i class="fa fa-circle-o-notch"></i>{{side.grouper}}{%else%}<i class="fa fa-list"></i>{{side.grouper}}{%endifequal%} <span class="caret sidebar-caret"></span></a>
 		<div id="{{side.grouper|cut:' '|lower}}" class="panel-collapse collapse">
 			<div class="panel-body sidebar-list-panel">
 				<ul class="sidebar-list" style="display:block!important;" >						
