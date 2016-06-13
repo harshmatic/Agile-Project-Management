@@ -426,7 +426,11 @@ class ViewProject(BaseHandler):
         groupmodel1 = user.Groups().query(ndb.AND(user.Groups.tenant_key==None,user.Groups.application_level == False,user.Groups.status == True)).fetch()
         groupmodel.extend(groupmodel1)
         currentUser=self.auth.get_user_by_session()
-        usermodel = user.OurUser().query(ndb.AND(user.OurUser.tenant_key==self.user_model.get_by_id(currentUser['user_id']).tenant_key, user.OurUser.status == True ))
+        usermodel = user.OurUser().query(ndb.AND(user.OurUser.tenant_key==self.user_model.get_by_id(currentUser['user_id']).tenant_key, user.OurUser.status == True )).fetch()
+        for usr in usermodel:
+            for mem in projmem:
+                if(usr.key == mem.userid):
+                    usermodel.remove(usr)
         self.render_template("user_new/viewproject.html",{"project":proj,"userslist":usermodel,'estimation':esti,'projmem':projmem,'roles':groupmodel})
         
         

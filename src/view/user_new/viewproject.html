@@ -414,7 +414,7 @@
 											  <div class="form-group task-form-group">
 												<label class="apm-landing-reg-label">Role</label>
 												<select id="editmemrole" class="form-control apm-landing-textbox-reg apm-modal-textbox">
-													
+													<option>- Select -</option>
 													{% for role in roles %}
 													<option  value= "{{ role.key.id }}"> {{ role.role }}</option>
 													{%endfor%}
@@ -594,10 +594,11 @@
 						console.log("the value is"+cells[0])
 						
 						var optionsAsString = "<option value='" + $(this).closest('tr').attr('id') + "' selected>" + cells[0] + "</option>";
-						$( 'select[name ="memsel"]' ).append( optionsAsString );
+						$( 'select[name ="memsel"]' ).append( optionsAsString ); 
 						
-						var optionsAsString1 = "<option selected>" + cells[1] + "</option>";
-						$( 'select[id ="editmemrole"]' ).append( optionsAsString1 );
+						/* var optionsAsString1 = "<option selected>" + cells[1] + "</option>";
+						$( 'select[id ="editmemrole"]' ).append( optionsAsString1 ); */
+						$('#editmemrole').prop('selectedIndex',0);
 						$('#edit-member-modal').modal('show');
 					});
 					
@@ -664,15 +665,19 @@
 						console.log("the projid are"+projid) 
 						
 						var parameters = "role="+strRole+"&projid="+projid+"&userid="+strUser+""
-					    console.log("the param are"+parameters);   
+					    console.log("the param are"+parameters); 
+						
 					$.post( "/project/addmembertoproj", parameters)
 			  		.done(function( data ) {
 			  			console.log("the data is"+data);
 			  			var d = JSON.parse(data);
-		                
+			  			
 			  			
 			  			$("#memlist").append('<tr id='+d.id+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i> <i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
-			  			
+			  			//$("#memselect option[value='"+d.id+"']").remove();
+			  			$("select#memselect option[value='"+d.userid+"']").remove(); 
+			  			$('#memselect').prop('selectedIndex',0);
+			  			$('#memrole').prop('selectedIndex',0);
 			  			
 			  				
 			  			
