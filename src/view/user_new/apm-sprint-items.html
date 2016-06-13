@@ -7,9 +7,12 @@
 			cursor:pointer;
 		}
 .error{
-		color:red;
-	}
-	
+			color:red;
+			display: inline-block;
+    		max-width: 100%;
+    		margin-bottom: 5px;
+    		font-weight: 700;
+		}
  .sprint-action-dropdown-box{
     list-style-type: none;
     float: right;
@@ -227,7 +230,93 @@
 							    return false;
 						 }
 						 else
+						 {
+						 
+						 var start_date=$('#start').val();
+						 var end_date=$('#end').val();
+						 var project_start_date="{{session.current_project.get.startDate|date:'m/d/Y'}}";
+						 var project_end_date="{{session.current_project.get.endDate|date:'m/d/Y'}}";
+						 
+						 if(start_date < project_start_date && start_date!='' && end_date > project_start_date && end_date !='')
+						 {
+							 
+								$('#date_error').text("Start date cannot before project start date("+project_start_date+").")
+								event.preventDefault();
+								 event.stopImmediatePropagation();
+								 return false;
+								 
+							 
+						 }
+						 
+						 if (start_date > project_end_date && start_date!='' && end_date < project_end_date && end_date !='')
+						 {
+								 
+								$('#date_error').text("Start date cannot be after project end date("+project_end_date+").")
+								event.preventDefault();
+								 event.stopImmediatePropagation();
+								 return false;
+								 
+							 
+						 }
+						 else
+							 if (end_date < project_start_date && end_date !='' && start_date > project_start_date && start_date!='')
 							 {
+									 
+									$('#date_error').text("End Date cannot be before project start date("+project_start_date+").")
+									event.preventDefault();
+									 event.stopImmediatePropagation();
+									 return false;
+									 
+								 
+							 }
+							 
+							 else
+							 if (end_date > project_end_date && end_date !='' && start_date < project_end_date && start_date!='')
+							 {
+									 
+									$('#date_error').text("End date cannot be greater than Project Date("+project_end_date+").")
+									event.preventDefault();
+									 event.stopImmediatePropagation();
+									 return false;
+									 
+								 
+							 }
+						 else
+							if (end_date > project_end_date && start_date > project_end_date && end_date !='' && start_date!='')
+								 {
+										 
+										$('#date_error').text("Start date & end date cannot be after project end date("+project_end_date+").")
+										event.preventDefault();
+										 event.stopImmediatePropagation();
+										 return false;
+										 
+									 
+								 } 
+							 else
+							if (end_date < project_start_date && start_date < project_start_date && end_date !='' && start_date!='')
+										 {
+												 
+												$('#date_error').text("Start date & end date cannot be before project start date("+project_start_date+").")
+												event.preventDefault();
+												 event.stopImmediatePropagation();
+												 return false;
+												 
+											 
+										 } 
+							else
+								if(start_date > end_date)
+								{
+									$('#date_error').text("Start date cannot be after end date.")
+									event.preventDefault();
+									 event.stopImmediatePropagation();
+									 return false;
+									
+								}
+						 else
+						
+							 {
+							 
+							 $('#date_error').text("");
 							 $.post( "/sprint", $("#add_sprint").serialize())
 						  		.done(function( data ) {
 						  			if (data!="true"){
@@ -241,8 +330,8 @@
 						  		
 						  		});
 							
-							
-						 	}		
+							 }	
+						 }	
 								
 						})
 					
@@ -261,6 +350,7 @@
 				  			$('#add-sprint-modal').on('hidden.bs.modal', function(e)
 								    { 
 									//	alert("hey");
+										 $('#date_error').text("");
 										$(this).removeData('bs.modal');
 										$(this).find('form')[0].reset();
 										sprint_validator.resetForm();
@@ -308,7 +398,7 @@
 						<div class="apm-backlog-filter-box">
 							
 							<!-- Add issue button -->
-							<a href="/task?key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#add-issue-modal">
+							<a href="/task" data-toggle="modal" data-target="#add-issue-modal">
 												<button class="apm-listing-add-proj-btn pro-button apm-add-sprint-btn" id="add-issue">Add Issue</button>
 											</a>
 								
@@ -340,9 +430,9 @@
              									  <i class="fa fa-cogs"></i> Action
             									   <span class="caret"></span></a>
             								   <ul class="dropdown-menu sprint-action-dropdown bullet">
-           								      <li><a href="/sprint/edit?edit_key={{sprint.key.urlsafe}}" class="roll-link" data-toggle="modal" data-target="#edit-sprint-modal"><i class="fa fa-pencil"></i> Edit Sprint</a></li>
+           								      <li><a href="/sprint/edit?edit_key={{sprint.key.urlsafe}}" data-toggle="modal" data-target="#edit-sprint-modal"><i class="fa fa-pencil"></i> Edit Sprint</a></li>
                  						<!-- 	 <li><a href="#"><i class="fa fa-check-circle"></i> Complete Sprint</a></li>  -->
-                						<li><a href="/sprint/delete?delete_key={{sprint.key.urlsafe}}" class="roll-link" data-toggle="modal" data-target="#delete-sprint-modal"><i class="fa fa-trash"></i> Delete Sprint</a></li>
+                						<li><a href="/sprint/delete?delete_key={{sprint.key.urlsafe}}"  data-toggle="modal" data-target="#delete-sprint-modal"><i class="fa fa-trash"></i> Delete Sprint</a></li>
                								</ul>
             								  </li>
 										<!-- Sprint Action dropdown Ends -->
@@ -532,7 +622,7 @@
 												  
 												  
 												
-											  
+											  <div class="error" id="date_error"></div>	
 											  <div class="row">
 												<!-- Start Date -->
 												<div class="col-md-6">

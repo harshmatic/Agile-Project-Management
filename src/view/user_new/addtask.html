@@ -1,7 +1,50 @@
+<style>
+.error{
+			color:red;
+			display: inline-block;
+    		max-width: 100%;
+    		margin-bottom: 5px;
+    		font-weight: 700;
+			}
+</style>
 
 <script>
 
 $(document).ready(function(){
+	
+	 var sprint=$('#sprint_name').val();
+	 var sprint_start_date;
+	 var sprint_end_date;
+	 
+	if (sprint != 'None')
+	{
+	// $('select').on('change', function (e) {
+		
+		$.post( "/sprint_info?key="+sprint+"")
+  		.done(function( data ) {
+  			//alert(data);
+			console.log(data);
+			var str = data;
+			//var myarray = str.split('(');
+				
+			sprint_start_date= str.substring(2, 12);
+			
+			
+			sprint_end_date= str.substring(16, 26);
+	
+	
+	 		//alert(sprint_start_date);
+	 		//alert(sprint_end_date);
+			
+			
+				
+  		});
+	
+//	});
+	}
+	
+	
+	
 	
 	$('.form-group').find('.open-datetimepicker').on('click', function(){
 	    $('#start').trigger('focus');
@@ -11,7 +54,18 @@ $(document).ready(function(){
 	    $('#end').trigger('focus');
 	});
 	
-	
+	$('body').on('focus',"#start,#start_edit", function(){
+	    $(this).datepicker({
+			format: 'dd/mm/yyyy',
+			startDate: '0d'
+		});
+	});
+	$('body').on('focus',"#end,#end_edit", function(){
+	    $(this).datepicker({
+			format: 'dd/mm/yyyy',
+			startDate: '0d'
+		});
+	});
 	
 	$("#complex_pt option").filter(function() {
         return $(this).val() == $("#est_efforts").val();
@@ -49,7 +103,8 @@ $(document).ready(function(){
 				  },
 				  actual_efforts:
 				  {
-						 required: true
+						 required: true,
+						 number:true
 						
 					
 				  }
@@ -59,11 +114,11 @@ $(document).ready(function(){
 		         {
 		        	 name: 
 		           {
-		             required: "Please enter title."
+		             required: "Please enter task title."
 		           },
 		           desc: 
 		           {
-		             required: "Please enter description."
+		             required: "Please enter task description."
 		           },
 		          /*  start:
 		           {
@@ -80,7 +135,8 @@ $(document).ready(function(){
 			       },
 			       actual_efforts:
 			       {
-			             required: "Please enter estimated efforts."
+			             required: "Please enter estimated efforts.",
+			             number:"Please enter number only."
 			       }
 		         }
 		     });
@@ -92,8 +148,99 @@ $(document).ready(function(){
 							    event.stopImmediatePropagation();
 							    return false;
 						 }
+						 
 						 else
+						 {
+						 
+						 var start_date=$('#start').val();
+						 var end_date=$('#end').val();
+						
+						
+						// alert(sprint_start_date);
+					 	//	alert(sprint_end_date);
+						 
+						
+						 
+						 if(start_date < sprint_start_date && start_date!='' && end_date > sprint_start_date && end_date !='')
+						 {
+							 
+								$('#date_error').text("Planned start date cannot before sprint start date("+sprint_start_date+").")
+								event.preventDefault();
+								 event.stopImmediatePropagation();
+								 return false;
+								 
+							 
+						 }
+						 
+						 if (start_date > sprint_end_date && start_date!='' && end_date < sprint_end_date && end_date !='')
+						 {
+								 
+								$('#date_error').text("Planned start date cannot be after sprint end date("+sprint_end_date+").")
+								event.preventDefault();
+								 event.stopImmediatePropagation();
+								 return false;
+								 
+							 
+						 }
+						 else
+							 if (end_date < sprint_start_date && end_date !='' && start_date > sprint_start_date && start_date!='')
 							 {
+									 
+									$('#date_error').text("Planned end Date cannot be before sprint start date("+sprint_start_date+").")
+									event.preventDefault();
+									 event.stopImmediatePropagation();
+									 return false;
+									 
+								 
+							 }
+							 
+							 else
+							 if (end_date > sprint_end_date && end_date !='' && start_date < sprint_end_date && start_date!='')
+							 {
+									 
+									$('#date_error').text("Planned end date cannot be greater than sprint end date("+sprint_end_date+").")
+									event.preventDefault();
+									 event.stopImmediatePropagation();
+									 return false;
+									 
+								 
+							 }
+						 else
+							if ((end_date > sprint_end_date && end_date !='' && start_date!='') || ( start_date > sprint_end_date && end_date !='' && start_date!=''))
+								 {
+										 
+										$('#date_error').text("Planned start date or end date cannot be after sprint end date("+sprint_end_date+").")
+										event.preventDefault();
+										 event.stopImmediatePropagation();
+										 return false;
+										 
+									 
+								 } 
+							/*  else
+							if ((end_date < sprint_start_date && end_date !='' && start_date!='') || ( start_date < sprint_start_date && end_date !='' && start_date!=''))
+										 {
+												 
+												$('#date_error').text("Planned start date & end date cannot be before sprint start date("+sprint_start_date+").")
+												event.preventDefault();
+												 event.stopImmediatePropagation();
+												 return false;
+												 
+											 
+										 }  */
+							else
+								if(start_date > end_date)
+								{
+									$('#date_error').text("Start date cannot be after end date.")
+									event.preventDefault();
+									 event.stopImmediatePropagation();
+									 return false;
+									
+								}
+						 else
+						
+							 {
+							 
+							 $('#date_error').text("");
 								$.post( "/task/addtask?key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA", $("#addtask").serialize())
 						  		.done(function( data ) {
 						  			console.log(data);
@@ -112,7 +259,7 @@ $(document).ready(function(){
 						  				}
 						  		});
 						
-								
+							 }
 							
 						 	}		
 								
@@ -120,7 +267,7 @@ $(document).ready(function(){
 						
 					$('#add-issue-modal').on('hidden.bs.modal', function(e)
 									    { 
-									 	 
+											$('#date_error').text("");
 									        $(this).removeData('bs.modal');
 									        $(this).find('form')[0].reset();
 									     //   task_validator.resetForm();
@@ -148,7 +295,8 @@ $(document).ready(function(){
 											  <!-- Project Name --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Sprint</label>
-												<select name="sprint" class="form-control add-task-textbox apm-modal-textbox">
+												<select name="sprint" id="sprint_name" class="form-control add-task-textbox apm-modal-textbox">
+											<!-- 	 <option value="None">None</option> -->
 													{% for sprint in sprints%}
 													{%if sprint.status%}
 														<option value="{{sprint.key.urlsafe}}">{{sprint.name}}</option>
@@ -157,7 +305,7 @@ $(document).ready(function(){
 												</select>
 											  </div>
 											  <div class="form-group task-form-group">
-												<label class="task-label">Title</label>
+												<label class="task-label">Title<font color="red">*</font></label>
 												<input name="name" type="text" class="form-control add-task-textbox apm-modal-textbox">
 											  </div>
 											  
@@ -166,7 +314,7 @@ $(document).ready(function(){
 											  
 													
 													  <div class="form-group task-form-group">
-														<label class="task-label">Description</label>
+														<label class="task-label">Description<font color="red">*</font></label>
 														<textarea name="desc" rows="4" class="form-control apm-modal-textarea"></textarea>
 													  </div>
 												  
@@ -183,6 +331,9 @@ $(document).ready(function(){
 												</select>
 											  </div>
 											  
+											  
+											  
+											  <div class="error" id="date_error"></div>	
 											  <div class="row">
 												<!-- Start Date -->
 												<div class="col-md-6">
@@ -207,9 +358,9 @@ $(document).ready(function(){
 												  <div class="col-sm-6">
 											  <!-- Permissions/Role --> 
 											  <div class="form-group task-form-group">
-												<label class="task-label">Complexity</label>
+												<label class="task-label">Complexity<font color="red">*</font></label>
 												<select name="complexity" class="form-control add-task-textbox apm-modal-textbox" id="complex_pt">
-													<option value="None">None</option>
+													<!-- <option value="None">None</option> -->
 													{% for complex in complex%}
 													{%if complex.status%}
 														<option value="{{complex.key.urlsafe}}"  data="{{complex.estimationHours}}">{{complex.estimationLevel}}</option>
@@ -233,7 +384,7 @@ $(document).ready(function(){
 											  </div>
 											  </div>
 											  <div class="form-group task-form-group">
-												<label class="task-label">Estimated Efforts</label>
+												<label class="task-label">Estimated Efforts(In hrs)<font color="red">*</font></label>
 												<input name="actual_efforts" id="est_efforts"type="text" class="form-control add-task-textbox apm-modal-textbox">
 											  </div>
 										</form>
@@ -247,3 +398,4 @@ $(document).ready(function(){
 					<button type="button" class="add-task-btn-modal" data-dismiss="modal" id="submit_item">Add</button>
 					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
 				  </div>
+				  

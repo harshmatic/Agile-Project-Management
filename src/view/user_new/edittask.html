@@ -1,8 +1,281 @@
+<style>
+.error{
+			color:red;
+			display: inline-block;
+    		max-width: 100%;
+    		margin-bottom: 5px;
+    		font-weight: 700;
+			}
+</style>
+<script>
+$(document).ready(function(){
+	
+	 var sprint=$('#sprint_name').val();
+	 var sprint_start_date;
+	 var sprint_end_date;
+	 
+	if (sprint != 'None')
+	{
+	// $('select').on('change', function (e) {
+		
+		$.post( "/sprint_info?key="+sprint+"")
+  		.done(function( data ) {
+  			//alert(data);
+			console.log(data);
+			var str = data;
+			//var myarray = str.split('(');
+				
+			sprint_start_date= str.substring(2, 12);
+			
+			
+			sprint_end_date= str.substring(16, 26);
+	
+	
+	 		//alert(sprint_start_date);
+	 		//alert(sprint_end_date);
+			
+			
+				
+  		});
+	}
+	
+  		$('.form-group').find('.open-datetimepicker').on('click', function(){
+  		    $('#start').trigger('focus');
+  		});
 
+  		$('.form-group').find('.open-datetimepicker1').on('click', function(){
+  		    $('#end').trigger('focus');
+  		});
+  		
+  		$('body').on('focus',"#start,#start_edit", function(){
+  		    $(this).datepicker({
+  				format: 'dd/mm/yyyy',
+  				startDate: '0d'
+  			});
+  		});
+  		$('body').on('focus',"#end,#end_edit", function(){
+  		    $(this).datepicker({
+  				format: 'dd/mm/yyyy',
+  				startDate: '0d'
+  			});
+  		});
+  		
+  		var task_validator=   $("#edittask").validate({
+		      rules: {
+		    	  name: 
+		    	  {
+		           		 required: true
+		          },
+		          desc: 
+		          {
+			      		 required: true
+			      },
+			   /*    start: 
+			      {
+				  		 required: true
+		          },
+		          end: 
+		          {
+						 required: true
+						
+				  }, */
+				  complexity: 
+				  {
+						 required: true
+						
+					
+				  },
+				  actual_efforts:
+				  {
+						 required: true,
+						 number:true
+						
+					
+				  }
+	   
+		         },
+		         messages: 
+		         {
+		        	 name: 
+		           {
+		             required: "Please enter task title."
+		           },
+		           desc: 
+		           {
+		             required: "Please enter task description."
+		           },
+		          /*  start:
+		           {
+			             required: "Please select start date."
+			       },
+			       end:
+			       {
+			             required: "Please select end date."
+			            
+			       }, */
+			       complexity: 
+			       {
+			             required: "Please select complexity."
+			       },
+			       actual_efforts:
+			       {
+			             required: "Please enter estimated efforts.",
+			             number:"Please enter number only."
+			       }
+		         }
+		     });
+	
+  		
+
+		$("#submit_task").on("click",function(){
+			
+			 if (!$('#edittask').valid()){
+				    event.preventDefault();
+				    event.stopImmediatePropagation();
+				    return false;
+			 }
+			 
+			 else
+			 {
+			 
+			 var start_date=$('#start_edit').val();
+			 var end_date=$('#end_edit').val();
+			
+			
+			// alert(sprint_start_date);
+		 	//	alert(sprint_end_date);
+			 
+			
+			 
+			 if(start_date < sprint_start_date && start_date!='' && end_date > sprint_start_date && end_date !='')
+			 {
+				 
+					$('#date_error').text("Planned start date cannot before sprint start date("+sprint_start_date+").")
+					event.preventDefault();
+					 event.stopImmediatePropagation();
+					 return false;
+					 
+				 
+			 }
+			 
+			 if (start_date > sprint_end_date && start_date!='' && end_date < sprint_end_date && end_date !='')
+			 {
+					 
+					$('#date_error').text("Planned start date cannot be after sprint end date("+sprint_end_date+").")
+					event.preventDefault();
+					 event.stopImmediatePropagation();
+					 return false;
+					 
+				 
+			 }
+			 else
+				 if (end_date < sprint_start_date && end_date !='' && start_date > sprint_start_date && start_date!='')
+				 {
+						 
+						$('#date_error').text("Planned end Date cannot be before sprint start date("+sprint_start_date+").")
+						event.preventDefault();
+						 event.stopImmediatePropagation();
+						 return false;
+						 
+					 
+				 }
+				 
+				 else
+				 if (end_date > sprint_end_date && end_date !='' && start_date < sprint_end_date && start_date!='')
+				 {
+						 
+						$('#date_error').text("Planned end date cannot be greater than sprint end date("+sprint_end_date+").")
+						event.preventDefault();
+						 event.stopImmediatePropagation();
+						 return false;
+						 
+					 
+				 }
+				  else
+				if (end_date > sprint_end_date && start_date > sprint_end_date && end_date !='' && start_date!='')
+					 {
+							 
+							$('#date_error').text("Planned start date or end date cannot be after sprint end date("+sprint_end_date+").")
+							event.preventDefault();
+							 event.stopImmediatePropagation();
+							 return false;
+							 
+						 
+					 } 
+				/*  else
+				if (end_date < sprint_start_date && start_date < sprint_start_date && end_date !='' && start_date!='')
+							 {
+									 
+									$('#date_error').text("Planned start date & end date cannot be before sprint start date("+sprint_start_date+").")
+									event.preventDefault();
+									 event.stopImmediatePropagation();
+									 return false;
+									 
+								 
+							 }  */
+				else
+					if(start_date > end_date)
+					{
+						$('#date_error').text("Start date cannot be after end date.")
+						event.preventDefault();
+						 event.stopImmediatePropagation();
+						 return false;
+						
+					}
+			 else
+			
+				 {
+				 
+				 $('#date_error').text("");
+				$.post( "/task/edittask?key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA", $("#edittask").serialize())
+	  			.done(function( data ) {
+	  			if (data!="true"){
+	  				alert("Something Went Wrong");
+	  				return false
+	  			}
+	  			else
+  				{
+  			
+		        $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
+  				    //var variable = $('#edit_permissions').html();
+  				    console.log('inside');
+  				});
+  				console.log('out');
+  				}
+	  		});
+				 }
+				
+			 	}		
+					
+			})
+				
+				
+				
+			$('#edit-issue-modal').on('hidden.bs.modal', function(e)
+				    { 
+					
+						$('#date_error').text("");
+				        $(this).removeData();
+				        $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
+		  				    //var variable = $('#edit_permissions').html();
+		  				});
+				    }) ;
+			
+				$('body').on('focus',"#complex_pts", function(){
+				$(this).on("change", function() {
+
+			        $("#est_effort").val($(this).find("option:selected").attr("data"));
+			    });
+			});
+		    
+		
+		
+			 });
+	</script>
 
 <div class="modal-header add-task-modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title add-task-modal-heading">Add New Issue</h4>
+					<h4 class="modal-title add-task-modal-heading">Edit Issue</h4>
 				  </div>
 					<div class="modal-body user-management-body">
 							<div class="row">
@@ -15,9 +288,9 @@
 											  <!-- Project Name --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Sprint</label>
-												<select name="sprint" class="form-control add-task-textbox apm-modal-textbox">
+												<select name="sprint" id="sprint_name" class="form-control add-task-textbox apm-modal-textbox">
 													
-													<option value="None">None</option>
+													<!-- <option value="None">None</option> -->
 													{% for sprint in sprints%}
 														{%if sprint.status%}
 															{%ifequal task_data.sprint sprint.key%}
@@ -30,7 +303,7 @@
 												</select>
 											  </div>
 											  <div class="form-group task-form-group">
-												<label class="task-label">Title</label>
+												<label class="task-label">Title<font color="red">*</font></label>
 												<input name="name" type="text" class="form-control add-task-textbox apm-modal-textbox" value="{{task_data.name}}">
 											  </div>
 											  
@@ -39,7 +312,7 @@
 											  
 													
 													  <div class="form-group task-form-group">
-														<label class="task-label">Description</label>
+														<label class="task-label">Description<font color="red">*</font></label>
 														<textarea name="desc" rows="4" class="form-control apm-modal-textarea" >{{task_data.description}}</textarea>
 													  </div>
 												  
@@ -60,7 +333,9 @@
 													{%endfor%}
 												</select>
 											  </div>
-											  
+											
+											
+											 <div class="error" id="date_error"></div>	  
 											  <div class="row">
 												<!-- Start Date -->
 												<div class="col-md-6">
@@ -85,7 +360,7 @@
 												  <div class="col-sm-6">
 											  <!-- Permissions/Role --> 
 											  <div class="form-group task-form-group">
-												<label class="task-label">Complexity</label>
+												<label class="task-label">Complexity<font color="red">*</font></label>
 												<select name="complexity" class="form-control add-task-textbox apm-modal-textbox" id="complex_pts">
 													
 													{% for complex in complex%}
@@ -122,7 +397,7 @@
 											  </div>
 											  </div>
 											  <div class="form-group task-form-group">
-												<label class="task-label">Estimated Efforts</label>
+												<label class="task-label">Estimated Efforts(In hrs)<font color="red">*</font></label>
 												<input name="actual_efforts" id="est_effort" type="text" class="form-control add-task-textbox apm-modal-textbox" value="{{task_data.actual_efforts}}">
 											  </div>
 										</form>
@@ -136,31 +411,4 @@
 					<button type="button" class="add-task-btn-modal" data-dismiss="modal" id="submit_task">Save</button>
 					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
 				  </div>
-				  <script>
-		$("#submit_task").on("click",function(){
-			$.post( "/task/edittask?key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA", $("#edittask").serialize())
-	  		.done(function( data ) {
-	  			if (data!="true"){
-	  				alert("Something Went Wrong");
-	  				return false
-	  			}
-	  			return false
-	  		});
-			$('#edit-issue-modal').on('hidden.bs.modal', function(e)
-				    { 
-				        $(this).removeData();
-				        $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
-		  				    //var variable = $('#edit_permissions').html();
-		  				});
-				    }) ;
-			
-			$('body').on('focus',"#complex_pts", function(){
-				$(this).on("change", function() {
-
-			        $("#est_effort").val($(this).find("option:selected").attr("data"));
-			    });
-			});
-		    
-			
-		})
-	</script>
+				  

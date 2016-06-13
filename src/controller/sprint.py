@@ -30,11 +30,20 @@ class Tasks(BaseHandler):
         createdBy=self.user_model.get_by_id(currentUser['user_id']).key
         task_data.name = self.request.get('name')
         task_data.description = self.request.get('desc')
-        task_data.complexity = ndb.Key(urlsafe=self.request.get('complexity'))
-        task_data.startDate = datetime.strptime(self.request.get("start"), '%d/%m/%Y').date()
-        task_data.endDate = datetime.strptime(self.request.get("end"), '%d/%m/%Y').date()
+        task_data.actual_efforts = self.request.get('actual_efforts')
+        
+        if (self.request.get('complexity') != 'None'):
+            task_data.complexity = ndb.Key(urlsafe=self.request.get('complexity'))
+        
+        if (self.request.get("start") != ''):
+            task_data.startDate = datetime.strptime(self.request.get("start"), '%d/%m/%Y').date()
+        
+        if (self.request.get("end")!=''):
+            task_data.endDate = datetime.strptime(self.request.get("end"), '%d/%m/%Y').date()
+            
         if (self.request.get('assignee') != 'None'):
             task_data.assignee = ndb.Key(urlsafe=self.request.get('assignee'))
+            
         if (self.request.get('sprint') != 'None'):
             task_data.sprint = ndb.Key(urlsafe=self.request.get('sprint'))
         
@@ -45,7 +54,7 @@ class Tasks(BaseHandler):
         task_data.createdby = createdBy
         task_data.type = ndb.Key(urlsafe=self.request.get('type'))
         
-        task_data.actual_efforts = self.request.get('actual_efforts')
+        
         task_data.task_status = "Open"
         
         
@@ -146,8 +155,16 @@ class Sprint(BaseHandler):
         sprint_data=sprint.Sprint()
         sprint_data.name = self.request.get("name")
         sprint_data.description = self.request.get("desc")
-        sprint_data.startDate = datetime.strptime(self.request.get("start"), '%m/%d/%Y').date()
-        sprint_data.endDate = datetime.strptime(self.request.get("end"), '%m/%d/%Y').date()
+        sprint_data.workinghours=self.request.get("workinghours")
+        
+        if self.request.get("start") != '':
+            sprint_data.startDate = datetime.strptime(self.request.get("start"), '%m/%d/%Y').date()
+            
+        if self.request.get('end') !='':
+            sprint_data.endDate = datetime.strptime(self.request.get("end"), '%m/%d/%Y').date()
+            
+        if (self.request.get('release') != 'None'):
+            sprint_data.release_key=ndb.Key(urlsafe=self.request.get('release'))
        
      #   sprint_data.project = ndb.Key(urlsafe=self.request.get("project_key"))
         
@@ -157,13 +174,12 @@ class Sprint(BaseHandler):
         sprint_data.createdby = createdBy
         sprint_data.sprint_status = "Open"
         sprint_data.company = self.user_model.get_by_id(currentUser['user_id']).tenant_key
-        sprint_data.workinghours=self.request.get("workinghours")
+        
         
         sprint_data.created_by = currentUser['email_address']
         sprint_data.status = True
         
-        if (self.request.get('release') != 'None'):
-            sprint_data.release_key=ndb.Key(urlsafe=self.request.get('release'))
+       
         
         sprintkey = sprint_data.set()
         sprintid = sprintkey.id()
@@ -200,8 +216,13 @@ class EditSprint(BaseHandler):
        # sprint_data=sprint.Sprint()
         sprint_data.name = self.request.get("name")
         sprint_data.description = self.request.get("desc")
-        sprint_data.startDate = datetime.strptime(self.request.get("start"), '%m/%d/%Y').date()
-        sprint_data.endDate = datetime.strptime(self.request.get("end"), '%m/%d/%Y').date()
+        
+        
+        if self.request.get("start")!='':
+            sprint_data.startDate = datetime.strptime(self.request.get("start"), '%m/%d/%Y').date()
+        
+        if self.request.get("end")!='':
+            sprint_data.endDate = datetime.strptime(self.request.get("end"), '%m/%d/%Y').date()
 
         sprint_data.project=self.session['current_project']  
         sprint_data.sprint_status = "Open"
@@ -285,4 +306,21 @@ class DeleteSprint(BaseHandler):
        # key.delete()
         self.response.write("true")
         
+        
+class SprintInfo(BaseHandler):
+     def post(self,*args,**kargs):
+        #if check_permission(self):
+           # project = ndb.Key(urlsafe=self.request.get("key"))
+            key = ndb.Key(urlsafe=self.request.get('key'))
+            sprint_info=key.get()
+           # self.render_template("user_new/delete_sprint.html",{"sprint_info":sprint_info})
+            startDate = sprint_info.startDate
+            startDate=startDate.strftime('%d/%m/%Y')
+            
+            endDate = sprint_info.endDate
+            endDate=endDate.strftime('%d/%m/%Y')
+           
+            params=startDate,endDate
+           
+            self.response.write(params)
            

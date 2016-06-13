@@ -44,6 +44,10 @@
 			}
 			.error{
 			color:red;
+			display: inline-block;
+    		max-width: 100%;
+    		margin-bottom: 5px;
+    		font-weight: 700;
 			}
 		</style>
 		
@@ -125,7 +129,8 @@
 						          },
 						          rough_estimate: 
 						          {
-										 required: true
+										 required: true,
+										 number:true
 										
 								  },
 								  priority: 
@@ -150,7 +155,8 @@
 							       },
 							       rough_estimate:
 							       {
-							             required: "Please enter rough estimation."
+							             required: "Please enter rough estimation.",
+							             number:"Please enter numbers only."
 							            
 							       },
 							       priority: 
@@ -412,7 +418,93 @@
 								    return false;
 							 }
 							 else
+							 {
+							 
+							 var start_date=$('#start').val();
+							 var end_date=$('#end').val();
+							 var project_start_date="{{session.current_project.get.startDate|date:'m/d/Y'}}";
+							 var project_end_date="{{session.current_project.get.endDate|date:'m/d/Y'}}";
+							 
+							 if(start_date < project_start_date && start_date!='' && end_date > project_start_date && end_date !='')
+							 {
+								 
+									$('#date_error').text("Start date cannot before project start date("+project_start_date+").")
+									event.preventDefault();
+									 event.stopImmediatePropagation();
+									 return false;
+									 
+								 
+							 }
+							 
+							 if (start_date > project_end_date && start_date!='' && end_date < project_end_date && end_date !='')
+							 {
+									 
+									$('#date_error').text("Start date cannot be after project end date("+project_end_date+").")
+									event.preventDefault();
+									 event.stopImmediatePropagation();
+									 return false;
+									 
+								 
+							 }
+							 else
+								 if (end_date < project_start_date && end_date !='' && start_date > project_start_date && start_date!='')
 								 {
+										 
+										$('#date_error').text("End Date cannot be before project start date("+project_start_date+").")
+										event.preventDefault();
+										 event.stopImmediatePropagation();
+										 return false;
+										 
+									 
+								 }
+								 
+								 else
+								 if (end_date > project_end_date && end_date !='' && start_date < project_end_date && start_date!='')
+								 {
+										 
+										$('#date_error').text("End date cannot be greater than Project Date("+project_end_date+").")
+										event.preventDefault();
+										 event.stopImmediatePropagation();
+										 return false;
+										 
+									 
+								 }
+							 else
+								if (end_date > project_end_date && start_date > project_end_date && end_date !='' && start_date!='')
+									 {
+											 
+											$('#date_error').text("Start date & end date cannot be after project end date("+project_end_date+").")
+											event.preventDefault();
+											 event.stopImmediatePropagation();
+											 return false;
+											 
+										 
+									 } 
+								 else
+								if (end_date < project_start_date && start_date < project_start_date && end_date !='' && start_date!='')
+											 {
+													 
+													$('#date_error').text("Start date & end date cannot be before project start date("+project_start_date+").")
+													event.preventDefault();
+													 event.stopImmediatePropagation();
+													 return false;
+													 
+												 
+											 } 
+								else
+									if(start_date > end_date)
+									{
+										$('#date_error').text("Start date cannot be after end date.")
+										event.preventDefault();
+										 event.stopImmediatePropagation();
+										 return false;
+										
+									}
+							 else
+							
+								 {
+								 
+								 $('#date_error').text("");
 								 $.post( "/sprint", $("#add_sprint").serialize())
 							  		.done(function( data ) {
 							  			if (data!="true"){
@@ -428,7 +520,8 @@
 							  		});
 								
 								
-							 	}		
+							 	}	
+							 }
 									
 							})
 						
@@ -443,6 +536,8 @@
 						
 						$('#add-sprint-modal').on('hidden.bs.modal', function(e)
 							    { 
+							
+							 	$('#date_error').text("");
 									$(this).removeData('bs.modal');
 									sprint_validator.resetForm();
 									$(this).find('form')[0].reset();
@@ -669,7 +764,7 @@
 										<input type="hidden" value="ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" name="project_key">
 											  <!-- Project Name --> 
 											  <div class="form-group task-form-group">
-												<label class="task-label">Name</label>
+												<label class="task-label">Name<font color="red">*</font></label>
 												<input name="name" type="text" class="form-control add-task-textbox apm-modal-textbox">
 											  </div>
 											  
@@ -678,19 +773,19 @@
 											  
 													
 													  <div class="form-group task-form-group">
-														<label class="task-label">Description</label>
+														<label class="task-label">Description<font color="red">*</font></label>
 														<textarea name="desc" rows="4" class="form-control add-task-textbox apm-modal-textarea"></textarea>
 													  </div>
 												  
 												  
 												
-											  
+											   <div class="error" id="date_error"></div>	
 											  <div class="row">
 												<!-- Start Date -->
 												<div class="col-md-6">
 													<div class="form-group">
 														<label class="apm-landing-reg-label">Start Date</label>
-														<input name="start" type="text" class="form-control apm-landing-textbox-reg datepicker1" readonly="true" id="sprint_start">
+														<input name="start" id="start" type="text" class="form-control apm-landing-textbox-reg datepicker1" readonly="true" id="sprint_start">
 														<i class="fa fa-calendar datepicker-cal open-datetimepicker" aria-hidden="true"></i>
 													</div>
 												</div>
@@ -699,14 +794,14 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<label class="apm-landing-reg-label">End Date</label>
-														<input name="end" type="text" class="form-control apm-landing-textbox-reg datepicker1" readonly="true" id="sprint_end">
+														<input name="end" id="end" type="text" class="form-control apm-landing-textbox-reg datepicker1" readonly="true" id="sprint_end">
 														<i class="fa fa-calendar datepicker-cal open-datetimepicker1" aria-hidden="true"></i>
 													</div>
 												</div>
 												
 											</div>
 											<div class="form-group task-form-group">
-														<label class="task-label">Working Hours/Day (Hrs)</label>
+														<label class="task-label">Working Hours/Day (Hrs)<font color="red">*</font></label>
 														<input name="workinghours" type="number" class="form-control add-task-textbox apm-modal-textbox" value="" id="" maxlength="3">
 													  </div>
 											<div class="form-group task-form-group">

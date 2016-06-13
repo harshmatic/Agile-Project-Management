@@ -17,10 +17,44 @@
 				margin-top: 50px!important;
 				z-index:99999999;
 			}
+			.error{
+			color:red;
+			display: inline-block;
+    		max-width: 100%;
+    		margin-bottom: 5px;
+    		font-weight: 700;
+			}
 			
 		</style>
 	<script>
 				$(document).ready(function(){
+					
+					var release_validator=   $("#release_form").validate({
+					      rules: {
+					    	  release_name: 
+					    	  {
+					           		 required: true
+					          },
+					          release_date: 
+					          {
+						      		 required: true
+						      }
+				   
+					         },
+					         messages: 
+					         {
+					        	 release_name: 
+					           {
+					             required: "Please enter release name."
+					           },
+					           release_date: 
+					           {
+					             required: "Please enter release date."
+					           }
+					         }
+					     });
+					
+					
 					
 					$('.form-group').find('.open-datetimepicker').on('click', function(){
 					    $('#release_date').trigger('focus');
@@ -39,9 +73,43 @@
 						$('#add-release-modal').modal('show');
 					});
 					
+					
 					$("#submit").on("click",function(){
-						$.post( '/release', $("#release_form").serialize())
-							.done(function( data ) {
+						 if (!$('#release_form').valid()){
+							    event.preventDefault();
+							    event.stopImmediatePropagation();
+							    return false;
+						 }
+						 else
+						 {
+							 var release_date=$('#release_date').val();
+							 var project_start_date="{{session.current_project.get.startDate|date:'d/m/Y'}}";
+							 var project_end_date="{{session.current_project.get.endDate|date:'d/m/Y'}}"
+							
+							 
+							 if (release_date > project_end_date){
+								 
+								 $('#date_error').text("Release date cannot be after project end date("+project_end_date+").")
+								event.preventDefault();
+								 event.stopImmediatePropagation();
+								 return false;
+								 
+							 }
+							 else
+								 if (release_date < project_start_date){
+									 
+									 $('#date_error').text("Release date cannot be before project start date("+project_start_date+").")
+									event.preventDefault();
+									 event.stopImmediatePropagation();
+									 return false;
+									 
+								 } 
+							 
+							 else
+							{	 
+							 $('#date_error').text("");
+								$.post( '/release', $("#release_form").serialize())
+								.done(function( data ) {
 								if (data!="true"){
 									alert("Release cannot be added");
 									return false
@@ -50,9 +118,12 @@
 									
 									
 								}
+								
 							});
+							 
+						 }
 							
-							
+						 }
 								
 								
 							})
@@ -60,6 +131,7 @@
 							
 					$('#add-release-modal').on('hidden.bs.modal', function(e)
 									    { 
+											 $('#date_error').text("");
 									        $(this).removeData('bs.modal');
 									        $(this).find('form')[0].reset();
 									        $('.table').load('/release .table', function(result) {
@@ -165,6 +237,8 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title add-task-modal-heading">Create Release</h4>
 				  </div>
+				 
+				  
 				  <form role="form" id="release_form" action="/release" method="post">
 					<div class="modal-body user-management-body">
 							<div class="row">
@@ -172,26 +246,12 @@
 								</div>
 								
 								<div class="col-md-8">
-										
-											  <!-- Team Mamber Name --> 
-										<!-- 	  <div class="form-group task-form-group">
-												<label class="apm-landing-reg-label">Project Name </label>
-													<select class="form-control apm-landing-textbox-reg" name="proj_name">
-														{%for i in project%}
-														{%if i.status == 'True'%}
-															{%if company_name == i.companyid.get.domain %}
-															{%if i.name == session.current_project.get.name%}
-  																<option value="{{i.key.urlsafe}}">{{i.name}}</option>
-  															{%endif%}
-  															{%endif%}
-  													{%endif%}
-  												{%endfor%}
-												</select>
-											  </div> -->
+								 <div class="error" id="date_error"></div>		
+									
 											  
 												<!-- Project Title -->
 											<div class="form-group task-form-group">
-												<label class="apm-landing-reg-label">Release Name</label>
+												<label class="apm-landing-reg-label">Release Name<font color="red">*</font></label>
 												<input name="release_name" type="text" class="form-control apm-landing-textbox-reg">
 											</div>
 											
@@ -199,8 +259,8 @@
 												<!-- Start Date -->
 												<div class="form-group task-form-group">
 													<div class="form-group">
-														<label class="apm-landing-reg-label">Release Date</label>
-														<input name="release_date" type="text" class="form-control apm-landing-textbox-reg datepicker">
+														<label class="apm-landing-reg-label">Release Date<font color="red">*</font></label>
+														<input name="release_date" id="release_date" type="text" class="form-control apm-landing-textbox-reg datepicker">
 														<i class="fa fa-calendar datepicker-cal open-datetimepicker" aria-hidden="true"></i>
 													</div>
 												</div>
