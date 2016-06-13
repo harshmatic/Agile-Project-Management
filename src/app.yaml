@@ -1,5 +1,5 @@
-application: ner-monty
-version: 3
+application: apm-eternus
+version: 10
 runtime: python27
 api_version: 1
 threadsafe: yes

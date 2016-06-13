@@ -24,7 +24,7 @@ def NotFoundPageHandler(request, response, exception):
     response.out.write(render(path,{}))
     
 app = webapp2.WSGIApplication([
-    DomainRoute('<subdomain>.ner-monty.appspot.com', [
+    DomainRoute('<subdomain>.'+APP_DOMAIN, [
                                                         
         #General
         webapp2.Route('/', Main, name='subdomain-home'),

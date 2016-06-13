@@ -1,6 +1,7 @@
 from google.appengine.api import mail,mail_errors
 from login import BaseHandler,check_permission
 import logging
+from const import OUT_MAIL_ADDRESS
 
 
 class EmailHandler(BaseHandler):
@@ -15,7 +16,7 @@ class EmailHandler(BaseHandler):
         
         msg = self.request.get('message')
      
-        message = mail.EmailMessage(sender="support@ner-monty.appspotmail.com",
+        message = mail.EmailMessage(sender=OUT_MAIL_ADDRESS,
                             subject="Account Verification")
         message.to = email
         message.body = msg.format(url=verification_url)

@@ -16,6 +16,7 @@ from webapp2_extras import security
 import urlparse
 import urllib
 from google.appengine.api.taskqueue import taskqueue 
+from const import OUT_MAIL_ADDRESS, APP_DOMAIN
 
 
 def check_permission(self,*args,**kargs):
@@ -321,7 +322,7 @@ class SignupHandler(BaseHandler):
         Remeber to change your password.
         You will be able to do so by visiting
         {url}"""
-        message = mail.EmailMessage(sender="support@apm-eternus.appspotmail.com",
+        message = mail.EmailMessage(sender=OUT_MAIL_ADDRESS,
                             subject="Account Verification")
         
         message.to = email
@@ -363,7 +364,7 @@ class SignupAdminHandler(BaseHandler):
         Remember to change your password.
         You will be able to do so by visiting 
         {url}"""
-        message = mail.EmailMessage(sender="support@apm-eternus.appspotmail.com",
+        message = mail.EmailMessage(sender=OUT_MAIL_ADDRESS,
                             subject="Account Verification")
         message.to = email
         message.body = msg.format(url=verification_url)
@@ -394,7 +395,7 @@ class ForgotPasswordHandler(BaseHandler):
         You will be able to do so by visiting
         {url}"""
         
-        message = mail.EmailMessage(sender='support@ner-monty.appspotmail.com',
+        message = mail.EmailMessage(sender=OUT_MAIL_ADDRESS,
                             subject="Reset Password")
         message.to = username
         message.body = msg.format(url=verification_url)
@@ -566,6 +567,6 @@ config = {
     },
     'webapp2_extras.sessions': {
         'secret_key': 'AIzaSyCLBiLQ5B1QJ2BGlQXvUqJysqFjjc_lw00',
-        'cookie_args':  {'domain':'.ner-monty.appspot.com'}
+        'cookie_args':  {'domain':APP_DOMAIN}
     }
 }
