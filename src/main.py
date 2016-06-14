@@ -82,6 +82,8 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/backlog/delete', DeleteBacklog),
         webapp2.Route('/backlog/update', UpdateBacklog),
         
+        #webapp2.Route('/get_userStory', GetUserStory),
+        webapp2.Route('/dropdown_userstory', GetUserStory),
         #Release
         webapp2.Route('/release', Release,name='release'),
         webapp2.Route('/release/edit', EditRelease),

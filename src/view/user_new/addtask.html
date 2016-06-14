@@ -1,3 +1,4 @@
+
 <style>
 .error{
 			color:red;
@@ -12,7 +13,9 @@
 
 $(document).ready(function(){
 	
-	 var sprint=$('#sprint_name').val();
+	
+	
+	 var sprint;
 	 var sprint_start_date;
 	 var sprint_end_date;
 	 
@@ -20,6 +23,7 @@ $(document).ready(function(){
 	{
 	// $('select').on('change', function (e) {
 		
+		sprint=$('#sprint_name').val(); 
 		$.post( "/sprint_info?key="+sprint+"")
   		.done(function( data ) {
   			//alert(data);
@@ -31,18 +35,20 @@ $(document).ready(function(){
 			
 			
 			sprint_end_date= str.substring(16, 26);
-	
-	
-	 		//alert(sprint_start_date);
-	 		//alert(sprint_end_date);
-			
-			
 				
   		});
+			
+		
+		 $.get("/dropdown_userstory?key="+sprint+"", function(data){
+	            //alert( data );
+	            $("#load_user_story").html(data);
+	            
+	            
+	        });
 	
-//	});
+	
+	//	});
 	}
-	
 	
 	
 	
@@ -142,6 +148,38 @@ $(document).ready(function(){
 		     });
 	
 	/*******************task validation ends************************/	
+	
+	$('select').on('change', function (e) {
+		
+		sprint=$('#sprint_name').val(); 
+		$.post( "/sprint_info?key="+sprint+"")
+  		.done(function( data ) {
+  			//alert(data);
+			console.log(data);
+			var str = data;
+			//var myarray = str.split('(');
+				
+			sprint_start_date= str.substring(2, 12);
+			
+			
+			sprint_end_date= str.substring(16, 26);
+				
+  		});
+			
+		
+		 $.get("/dropdown_userstory?key="+sprint+"", function(data){
+	            //alert( data );
+	            $("#load_user_story").html(data);
+	            
+	           
+	        });
+	
+	
+		});
+
+	
+	
+	
 	$("#submit_item").on("click",function(){
 						 if (!$('#addtask').valid()){
 							    event.preventDefault();
@@ -280,7 +318,7 @@ $(document).ready(function(){
 						
 					});
 	</script>
-
+	
 <div class="modal-header add-task-modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title add-task-modal-heading">Add New Issue</h4>
@@ -304,6 +342,14 @@ $(document).ready(function(){
 													{%endfor%}
 												</select>
 											  </div>
+											  
+											   <div id="load_user_story_div" class="form-group task-form-group" id="user_story_list">
+												<label class="task-label" id="label_userstory">User Story</label>
+												<div id="load_user_story">
+												</div>		
+												</div>
+											  
+											  
 											  <div class="form-group task-form-group">
 												<label class="task-label">Title<font color="red">*</font></label>
 												<input name="name" type="text" class="form-control add-task-textbox apm-modal-textbox">
@@ -398,4 +444,4 @@ $(document).ready(function(){
 					<button type="button" class="add-task-btn-modal" data-dismiss="modal" id="submit_item">Add</button>
 					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
 				  </div>
-				  
+			  

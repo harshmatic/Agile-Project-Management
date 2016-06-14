@@ -26,30 +26,59 @@ $("#edit_user").on("click",function(){
 				        $(this).removeData('bs.modal');
 				        
 				        $('.table').load('/backlog .table', function(result) {
-				        //	$("#details").hide();
 				        	
-				        	 /* var $test = $(this).find('td').map(function() {
+				        	/*******************for detail table start************************/	
+							 var a=$(".table tr:eq(2) td").map(function() {
 						           return $(this).text();
 						       }).get().join("|");
+							 
+							 row_key=$(".table tr:eq(2)").attr("id");
+							 
+							 if(a != "No User Story Found." )
+							{
+							 $("#edit_key").attr("href", "/backlog/edit?edit_key="+row_key)
+							 $("#delete_key").attr("href", "/backlog/delete?delete_key="+row_key)
 						     
-						       var myList = $test;
+							 var update="/backlog/update?update_key="+row_key;
+							 var edit="/backlog/edit?edit_key="+row_key;
+						     var delete_key ="/backlog/delete?delete_key="+row_key;
+						     $('#edit_delete_panel').html('<a href="'+edit+'" id="edit_key" data-toggle="modal" data-target="#edit-backlog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Release"  id="{{i.key.urlsafe}}"></i></a><a id="delete_key" href="'+delete_key+'" data-toggle="modal" data-target="#delete-backlog-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Release"  id="{{i.key.urlsafe}}"></i></a>');
+								
+							}
+						     
+						     
+						       var myList =a;
 						       var myArray = myList.split( '|' );  
+						       
+						       
+						     
 						       
 						       $('#sprint').html(myArray[0]);
 						       $('#sprint_name').html(myArray[0]);
 						       $('#backlog_name').html(myArray[1]);
 						       $('#description').html(myArray[2]);
-						       $('#date_received').html(myArray[3]);
-						       $('#rough_estimate').html(myArray[4]);
-						       
-						       $('#priority').html(myArray[5]);
 						      
+						       if( myArray[3] == '' || myArray[3] == 'None')
+						    	   {
+						    	   $('#assignee').html('<a href="'+update+'" id="update_key" data-toggle="modal" data-target="#add-assignee-modal">Assign<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Update User Story" id="{{i.key.urlsafe}}"></i></a>');
+						    	   }
+						       else
+						    	   {
+						      			 $('#assignee').html(myArray[3]);
+						    	   }
+						       $('#rough_estimate').html(myArray[4]);
+						       $('#priority').html(myArray[5]);
 						       $('#status').html(myArray[6]);
-				        	 */
+						      
+							 
+							 
+							//alert( $.trim(a));
+							//console.log(a);
+							
+							/*******************for detail table end************************/	
 				        	
 		  				});
 				       
-				        
 				        
 				    }) ;
 });
@@ -82,15 +111,14 @@ $("#edit_user").on("click",function(){
 											
 												<label class="task-label">Sprint</label>
 												<select class="form-control add-task-textbox apm-modal-textbox" name="sprint">
-													<option value="None">None</option>
 													{%for i in sprint%}
-														{% for proj in project %}
-															{% if i.project == proj.key %}
+													{%if i.status%}
+														
 																<option value={{i.key.urlsafe}}>{{i.name}}</option>
-															{%endif%}
-														{%endfor%}
+													{%endif%}
 													{%endfor%}
-												</select>  </div>
+												</select>  
+												</div>
 											  
 											   <!-- Email --> 
 											  <div class="form-group task-form-group">

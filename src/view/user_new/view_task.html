@@ -29,6 +29,16 @@
 			
 		<script>
 				$(document).ready(function(){
+				
+				//alert(document.referrer);
+				var str=document.referrer;
+
+				var last_page_url =str.split("/")[3]
+				if(last_page_url == 'sprint')
+				{
+					$("a").prop("href", "/sprint")
+				}
+				
 					
 				
 				var default_status= $('#new_status').text().replace('Status:', '');
@@ -435,7 +445,7 @@
 						<hr>
 						
 						<div class="apm-back-task-box">
-							<a href="/mytasks" class="apm-backbtn-pro-details">
+							<a href="/mytasks" class="apm-backbtn-pro-details" id="back_to_task">
 							<i class="fa fa-reply" aria-hidden="true"></i> Back to Tasks</a>
 						</div>
 					<!-- Main Task description content ENDS-->

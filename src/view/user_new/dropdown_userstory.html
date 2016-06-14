@@ -1,0 +1,8 @@
+
+<select name="user_story" id="user_story" class="form-control add-task-textbox apm-modal-textbox">
+{% for story in stories%}
+					
+<option value="{{story.value}}">{{story.name}}</option>
+												
+{%endfor%}
+</select>									

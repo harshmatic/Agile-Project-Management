@@ -146,7 +146,7 @@ class EditBacklog(BaseHandler):
             backlog_info=key.get()
           #  logging.info(backlog_info)
             sprint_obj=sprint.Sprint()
-            sprints=sprint_obj.get_all()
+            sprints=sprint_obj.get_by_project(self.session['current_project'])
             
             projmodel=project.Project()
             proj=projmodel.get_all()

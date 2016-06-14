@@ -8,6 +8,7 @@ from model import sprint,task,effort_estimation
 from datetime import datetime
 from model import project
 from google.appengine.api.taskqueue import taskqueue 
+from model import product_backlog
 
 class Tasks(BaseHandler):
     
@@ -46,6 +47,9 @@ class Tasks(BaseHandler):
             
         if (self.request.get('sprint') != 'None'):
             task_data.sprint = ndb.Key(urlsafe=self.request.get('sprint'))
+            
+        if (self.request.get('user_story') != 'None'):
+            task_data.user_story = ndb.Key(urlsafe=self.request.get('user_story'))   
         
        # task_data.project = ndb.Key(urlsafe=self.request.get('key'))
         
@@ -93,6 +97,8 @@ class EditTask(BaseHandler):
             task_data.assignee = ndb.Key(urlsafe=self.request.get('assignee'))
         if (self.request.get('sprint') != 'None'):
             task_data.sprint = ndb.Key(urlsafe=self.request.get('sprint'))
+        if (self.request.get('user_story') != 'None'):
+            task_data.user_story = ndb.Key(urlsafe=self.request.get('user_story'))  
         
        # task_data.project = ndb.Key(urlsafe=self.request.get('key'))
         task_data.project =self.session['current_project']   
@@ -323,4 +329,56 @@ class SprintInfo(BaseHandler):
             params=startDate,endDate
            
             self.response.write(params)
-           
+            
+            
+            
+class GetUserStory(BaseHandler):
+    def get(self,*args,**kargs):
+            key = ndb.Key(urlsafe=self.request.get('key'))
+            product_info=key.get()
+            
+            logging.info(key)
+            
+            productBacklog = product_backlog.ProductUserStory()
+            productBacklog = productBacklog.query(product_backlog.ProductUserStory.sprintId == key).fetch()
+            
+            
+            productBacklog_key=[]
+            for i in productBacklog:
+                if i.status == True:
+                    a = dict()
+                    a['value'] = i.key.urlsafe()
+                    a["name"] = str(i.backlog_name)
+                    productBacklog_key.append(a)
+                 
+            logging.info(productBacklog_key)
+            
+            self.render_template('user_new/dropdown_userstory.html', {"stories":productBacklog_key})
+    
+    
+#     def post(self,*args,**kargs):
+#         #if check_permission(self):
+#            # project = ndb.Key(urlsafe=self.request.get("key"))
+#             key = ndb.Key(urlsafe=self.request.get('key'))
+#             product_info=key.get()
+#             
+#             logging.info(key)
+#             
+#             productBacklog = product_backlog.ProductUserStory()
+#             productBacklog = productBacklog.query(product_backlog.ProductUserStory.sprintId == key).fetch()
+#             
+#             
+#             productBacklog_key=[]
+#             for i in productBacklog:
+#                 productBacklog_key.append(
+#                     {
+#                         "value":i.key.urlsafe(),
+#                         "name":i.backlog_name
+#                     }
+#                 )
+#                  
+#             logging.info(productBacklog)
+#             
+#          
+#             self.response.write(productBacklog)
+#            

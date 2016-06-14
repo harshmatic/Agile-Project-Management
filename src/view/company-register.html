@@ -191,11 +191,11 @@ $(document).ready(function() {
 		
 });
 function validSubdomain() {
-    var re = /[^a-zA-Z0-9\-]/;
+    var re = /[^a-z0-9\-]/;
     var val = document.getElementById("domain_name").value;
     if(re.test(val)) {
    
-        $('#sub-domain-error').html("Please enter valid sub-domain(No speacial character).")
+        $('#sub-domain-error').html("Please enter valid sub-domain(No capital letter & no speacial character).")
         return 0;
     }
     else

@@ -498,15 +498,19 @@ class LoginHandler(BaseHandler):
             company_domain=urlparse.urlparse(self.request.url).netloc.split(".")[0]
             u = self.auth.get_user_by_password(username, password, remember=True,save_session=True)
             domain=str(self.user_model.get_by_id(u['user_id']).tenant_domain)
-            logging.info(u)
-            if domain==company_domain:
-             #   self.response.write(self.uri_for('subdomain-home'))
+            
+            if (self.user_model.get_by_id(u['user_id']).status == True):
+                logging.info(u)
+                if domain==company_domain:
+                    #   self.response.write(self.uri_for('subdomain-home'))
                 
-                self.redirect(self.uri_for('subdomain-home'))
-            else:
-                self.auth.unset_session()
+                    self.redirect(self.uri_for('subdomain-home'))
+                else:
+                    self.auth.unset_session()
                # self.response.write("false*&*You are not registered to this company")
-                self.render_template('auth/login.html', {'error':'login failed'})
+                    self.render_template('auth/login.html', {'error':'login failed'})
+            else:
+                self.render_template('company-register.html')
         except (InvalidAuthIdError, InvalidPasswordError) as e:
             logging.info('Login failed for user %s because of %s', username, type(e))
            # self.response.write("false*&*Invalid Email or password")
@@ -530,10 +534,13 @@ class LoginBaseHandler(BaseHandler):
         password = self.request.get('password')
         try:
             u = self.auth.get_user_by_password(username, password, remember=True,save_session=True)
-            domain=str(self.user_model.get_by_id(u['user_id']).tenant_domain)
-            logging.info(u)
-            #domain=u['tenant_domain']
-            self.redirect(self.uri_for('subdomain-home',_netloc=str(domain+"."+urlparse.urlparse(self.request.url).netloc)))
+            if (self.user_model.get_by_id(u['user_id']).status == True):
+                domain=str(self.user_model.get_by_id(u['user_id']).tenant_domain)
+                logging.info(u)
+                #domain=u['tenant_domain']
+                self.redirect(self.uri_for('subdomain-home',_netloc=str(domain+"."+urlparse.urlparse(self.request.url).netloc)))
+            else:
+                self.render_template('company-register.html')
         except (InvalidAuthIdError, InvalidPasswordError) as e:
             logging.info('Login failed for user %s because of %s', username, type(e))
             #self.response.write("login failed")        
