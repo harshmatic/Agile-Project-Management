@@ -1,8 +1,117 @@
+
+<style>
+.error{
+			color:red;
+			display: inline-block;
+    		max-width: 100%;
+    		margin-bottom: 5px;
+    		font-weight: 700;
+			}
+			
+		</style>
 <script>
 $(document).ready(function(){	
+	var release_validator=   $("#edit_form").validate({
+	      rules: {
+	    	  release_name: 
+	    	  {
+	           		 required: true
+	          },
+	          release_date: 
+	          {
+		      		 required: true
+		      }
+ 
+	         },
+	         messages: 
+	         {
+	        	 release_name: 
+	           {
+	             required: "Please enter release name."
+	           },
+	           release_date: 
+	           {
+	             required: "Please enter release date."
+	           }
+	         }
+	     });
 	
+	
+	$("#edit_release").on("click",function(){
+		 if (!$('#edit_form').valid()){
+			    event.preventDefault();
+			    event.stopImmediatePropagation();
+			    return false;
+		 }
+		 else
+		 {
+			 var release_date=$('#edit_release_date').val();
+			 var project_start_date="{{session.current_project.get.startDate|date:'d/m/Y'}}";
+			 var project_end_date="{{session.current_project.get.endDate|date:'d/m/Y'}}"
+			 
+			 var start_date=project_start_date;
+			 var end_date=project_end_date;
+			 
+			 release_date = new Date(release_date.split('/')[2],release_date.split('/')[1],release_date.split('/')[0]);
+			 project_start_date = new Date(project_start_date.split('/')[2],project_start_date.split('/')[1],project_start_date.split('/')[0]);
+			 project_end_date = new Date(project_end_date.split('/')[2],project_end_date.split('/')[1],project_end_date.split('/')[0]);
 
-$("#edit_release").on("click",function(){
+			 
+			
+			 //console.log(release_date,project_start_date,project_end_date);
+			 
+			 if (release_date > project_end_date){
+				 
+				 $('#new_date_error').text("Release date cannot be after project end date("+end_date+").")
+				event.preventDefault();
+				 event.stopImmediatePropagation();
+				 return false;
+				 
+			 }
+			if (release_date < project_start_date){
+				 
+				 $('#new_date_error').text("Release date cannot be before project start date("+start_date+").")
+				event.preventDefault();
+				 event.stopImmediatePropagation();
+				 return false;
+				 
+			 }
+			/*  else
+				 if (release_date > project_start_date && release_date < project_end_date){
+					 
+					 $('#new_date_error').text("Release date cannot be between project start date("+start_date+") and end date("+end_date+").")
+					event.preventDefault();
+					 event.stopImmediatePropagation();
+					 return false;
+					 
+				 }  */
+			 
+			 else
+			{	 
+			 $('#new_date_error').text("");
+			// alert("hello");
+			 $.post( '/release/edit', $("#edit_form").serialize())
+				.done(function( data ) {
+					if (data!="true"){
+						alert("Sprint associated with this release has "+data+" so please check edit date.");
+						return false
+					} else {
+						
+						  $('.table').load('/release .table', function(result) {
+			  				});
+						
+					}
+				});
+			 
+		 }
+			
+		 }
+				
+				
+			})
+			
+
+/* $("#edit_release").on("click",function(){
 	$.post( '/release/edit', $("#edit_form").serialize())
 		.done(function( data ) {
 			if (data!="true"){
@@ -18,15 +127,17 @@ $("#edit_release").on("click",function(){
 		
 			
 			
-		});
+		}); */
 		
 		
 			$('#edit-release-modal').on('hidden.bs.modal', function(e)
 				    { 
+						$('#new_date_error').text("");
 				        $(this).removeData('bs.modal');
+				        $(this).find('form')[0].reset();
 				        
-				        $('.table').load('/release .table', function(result) {
-		  				});
+				        /* $('.table').load('/release .table', function(result) {
+		  				}); */
 				    }) ;
 $('.datepicker').datepicker({
 	format: 'dd/mm/yyyy',
@@ -36,21 +147,22 @@ $('.datepicker').datepicker({
 
 	</script>			
 
-
-	<form role="form" id="edit_form" enctype="multipart/form-data">
+	
 				
 				
 				  <div class="modal-header add-task-modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title add-task-modal-heading">Edit Release</h4>
 				  </div>
+				  
+				  <form role="form" id="edit_form" action="/release/edit" method="post">
 					<div class="modal-body user-management-body">
 							<div class="row">
 								<div class="col-md-1">
 								</div>
 								
 								<div class="col-md-10">
-										
+									<div class="error" id="new_date_error"></div>		
 									
 										
 											<!-- First Name --> 
@@ -61,14 +173,14 @@ $('.datepicker').datepicker({
 										
 										    <!-- Last Name --> 
 											  <div class="form-group task-form-group">
-												<label class="task-label">Release Name</label>
-												<input type="text" class="form-control add-task-textbox" name="release_name" value="{{release_info.releaseName}}">
+												<label class="task-label">Release Name<font color="red">*</font></label>
+												<input type="text" class="form-control add-task-textbox" name="release_name" id="release_name" value="{{release_info.releaseName}}">
 											  </div>
 											  
 											   <!-- Email --> 
 											  <div class="form-group task-form-group">
-												<label class="task-label">Release Date</label>
-												<input type="text" class="form-control add-task-textbox datepicker" name="release_date" value="{{release_info.releaseDate|date:'d/m/Y'}}">
+												<label class="task-label">Release Date<font color="red">*</font></label>
+												<input type="text" class="form-control add-task-textbox datepicker" name="release_date" id="edit_release_date" value="{{release_info.releaseDate|date:'d/m/Y'}}">
 											 <i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
 											  </div>
 										
@@ -81,6 +193,10 @@ $('.datepicker').datepicker({
 				  </div>
 				  <div class="modal-footer add-task-modal-footer">
 					<input type="submit" class="add-task-btn-modal" data-dismiss="modal" id="edit_release" value="Update">
+				
 					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</button>
 				  </div>
-	</form>			</html>
+	</form>	
+	
+
+		

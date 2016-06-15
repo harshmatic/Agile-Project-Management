@@ -42,6 +42,28 @@
 </style>
 <script>
 				$(document).ready(function(){
+				
+					
+				var releasel;
+				release=$('#release').val();
+				 var release_start_date;
+				 var release_end_date;
+					 
+					if (release != 'None')
+					{
+						release=$('#release').val(); 
+						$.post( "/release_info?key="+release+"")
+				  		.done(function( data ) {
+				  		
+							console.log(data);
+						
+							
+							release_end_date= data;
+						
+				  		});
+					}
+						
+					
 					
 					
 					$('.form-group').find('.open-datetimepicker').on('click', function(){
@@ -121,6 +143,20 @@
 						         }
 						     });
 					/***********************sprint validation ends******************************/
+					
+					$('select').on('change', function (e) {
+		
+						release=$('#release').val(); 
+						$.post( "/release_info?key="+release+"")
+				  		.done(function( data ) {
+				  			//alert(data);
+							//console.log(data);
+							release_end_date= data;
+							
+				  		});
+	
+	
+		});
 					
 					
 					$(".table").each(function(){
@@ -232,10 +268,23 @@
 						 else
 						 {
 						 
-						 var start_date=$('#start').val();
-						 var end_date=$('#end').val();
+						 var start_date=$('#sprint_start').val();
+						 var end_date=$('#sprint_end').val();
 						 var project_start_date="{{session.current_project.get.startDate|date:'m/d/Y'}}";
 						 var project_end_date="{{session.current_project.get.endDate|date:'m/d/Y'}}";
+						 
+						 var project_startdate=project_start_date;
+						 var project_enddate=project_end_date;
+						 
+						 start_date = new Date(start_date.split('/')[2],start_date.split('/')[1],start_date.split('/')[0]);
+						 end_date = new Date(end_date.split('/')[2],end_date.split('/')[1],end_date.split('/')[0]);
+						 project_start_date = new Date(project_start_date.split('/')[2],project_start_date.split('/')[1],project_start_date.split('/')[0]);
+						 project_end_date = new Date(project_end_date.split('/')[2],project_end_date.split('/')[1],project_end_date.split('/')[0]);
+
+						 
+						 
+						 
+						// alert(release_end_date);
 						 
 						 if(start_date < project_start_date && start_date!='' && end_date > project_start_date && end_date !='')
 						 {
@@ -312,6 +361,16 @@
 									 return false;
 									
 								}
+						
+							
+							if(end_date > release_end_date)
+									{
+										$('#date_error').text("End date cannot be after release date.")
+										event.preventDefault();
+										 event.stopImmediatePropagation();
+										 return false;
+										
+									}
 						 else
 						
 							 {

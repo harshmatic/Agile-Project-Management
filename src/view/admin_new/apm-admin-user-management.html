@@ -151,7 +151,9 @@
 						  				return false;
 						  			} else {
 						  				alert("A verification mail has been sent to the user's email id");
-						  			
+						  				$('.table').load('/admin/usermanagment .table', function(result) {
+							  				  //  var variable = $('#edit_permissions').html();
+							  				});
 						  			}
 						  	});
 							
@@ -173,9 +175,7 @@
 								$(this).removeData();
 								$(this).find('form')[0].reset();
 								user_validator.resetForm();
-								$('.table').load('/admin/usermanagment .table', function(result) {
-				  				  //  var variable = $('#edit_permissions').html();
-				  				});
+								
 					    	}) ;
 				});
 		</script>

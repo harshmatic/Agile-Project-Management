@@ -397,7 +397,8 @@
 	
 }
 .apm-add-proj-btnbox{
-	/*padding-left: 3em;*/
+    margin-left: -15px;
+    margin-top: 25px;
 }
 @media (max-width: 767px){
 	.apm-add-proj-btnbox{
@@ -1958,4 +1959,13 @@ div.Tokenize {
     			margin: 0 3px;
     			cursor: pointer;
     			color: #3978BF;
+			}
+			.apm-sprint-table thead tr:first-child{
+    			padding: 2px 2px!important;
+    			color: #000!important;
+   				border: none!important;
+    			background: transparent!important;
+    			font-size: 11px!important;
+    			letter-spacing: 0!important;
+    			border-color:transparent!important; 
 			}

@@ -88,6 +88,7 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/release', Release,name='release'),
         webapp2.Route('/release/edit', EditRelease),
         webapp2.Route('/release/delete', DeleteRelease),
+        webapp2.Route('/release_info', ReleaseInfo),
         
         #Sprint
         webapp2.Route('/sprint', Sprint,name='sprint'),

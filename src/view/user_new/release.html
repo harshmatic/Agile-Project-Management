@@ -84,12 +84,20 @@
 						 {
 							 var release_date=$('#release_date').val();
 							 var project_start_date="{{session.current_project.get.startDate|date:'d/m/Y'}}";
-							 var project_end_date="{{session.current_project.get.endDate|date:'d/m/Y'}}"
+							 var project_end_date="{{session.current_project.get.endDate|date:'d/m/Y'}}";
 							
+							 var start_date=project_start_date;
+							 var end_date=project_end_date;
+							 
+							 release_date = new Date(release_date.split('/')[2],release_date.split('/')[1],release_date.split('/')[0]);
+							 project_start_date = new Date(project_start_date.split('/')[2],project_start_date.split('/')[1],project_start_date.split('/')[0]);
+							 project_end_date = new Date(project_end_date.split('/')[2],project_end_date.split('/')[1],project_end_date.split('/')[0]);
+
+							console.log(release_date,project_start_date,project_end_date);
 							 
 							 if (release_date > project_end_date){
 								 
-								 $('#date_error').text("Release date cannot be after project end date("+project_end_date+").")
+								 $('#date_error').text("Release date cannot be after project end date("+end_date+").")
 								event.preventDefault();
 								 event.stopImmediatePropagation();
 								 return false;
@@ -98,12 +106,21 @@
 							 else
 								 if (release_date < project_start_date){
 									 
-									 $('#date_error').text("Release date cannot be before project start date("+project_start_date+").")
+									 $('#date_error').text("Release date cannot be before project start date("+start_date+").")
 									event.preventDefault();
 									 event.stopImmediatePropagation();
 									 return false;
 									 
 								 } 
+							/* else
+							if (release_date > project_start_date && release_date < project_end_date){
+										 
+										 $('#date_error').text("Release date cannot be between project start date("+start_date+") and end date("+end_date+").")
+										event.preventDefault();
+										 event.stopImmediatePropagation();
+										 return false;
+										 
+									 }  */
 							 
 							 else
 							{	 
@@ -115,7 +132,8 @@
 									return false
 								} else {
 									
-									
+									  $('.table').load('/release .table', function(result) {
+						  				});
 									
 								}
 								
@@ -134,8 +152,8 @@
 											 $('#date_error').text("");
 									        $(this).removeData('bs.modal');
 									        $(this).find('form')[0].reset();
-									        $('.table').load('/release .table', function(result) {
-							  				});
+									       /*  $('.table').load('/release .table', function(result) {
+							  				}); */
 									    }) ;
 					
 
@@ -173,7 +191,7 @@
 												<a ><button class="apm-listing-add-proj-btn" id="add_release">Add Release</button></a>
 											</div>
 											<div class="table-responsive">
-												<table class="table table-bordered apm-member-listing-table apm-all-proj-table">
+												<table  class="table-condensed table table-bordered apm-member-listing-table apm-all-proj-table">
 													<thead>
 														<tr>
 															<th></th>
@@ -197,8 +215,8 @@
 															<td>{{i.releaseName}}</td>
 															<td>{{ i.releaseDate }}</td>
 															<td>
-																<a href="/release/edit?edit_key={{i.key.urlsafe}}" data-toggle="modal" data-target="#edit-release-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Release"  id="{{i.key.urlsafe}}"></i></a>
-																<a href="/release/delete?delete_key={{i.key.urlsafe}}" data-toggle="modal" data-target="#delete-release-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Release"  id="{{i.key.urlsafe}}"></i></a>
+																<a href="/release/edit?edit_key={{i.key.urlsafe}}" data-toggle="modal" data-target="#edit-release-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Release"  id="{{i.key.urlsafe}}"></a></i>
+																<a href="/release/delete?delete_key={{i.key.urlsafe}}" data-toggle="modal" data-target="#delete-release-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Release"  id="{{i.key.urlsafe}}"></a></i>
 															</td>
 														</tr>
 														{%endif%}

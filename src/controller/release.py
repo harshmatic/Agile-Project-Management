@@ -19,7 +19,7 @@ from model.user import Permissions ,OurUser , Groups
 import model
 from google.appengine.api import users
 from webapp2_extras.appengine.auth.models import User
-from model import project
+from model import project,sprint
 from google.appengine.api import mail
 from google.appengine.ext.webapp import blobstore_handlers
 from google.appengine.ext import blobstore
@@ -87,6 +87,9 @@ class EditRelease(BaseHandler):
             key= ndb.Key(urlsafe=self.request.get('key'))
             release_key=key.get()
             
+            project1 =self.session['current_project']   
+            sprint_data=sprint.Sprint().get_by_project(project1)
+            
             
             #release_key.projectid= ndb.Key(urlsafe=self.request.get('proj_name'))
           
@@ -94,17 +97,44 @@ class EditRelease(BaseHandler):
             
             release_key.releaseName=self.request.get('release_name')
             
-            if (self.request.get('release_date') != release_key.releaseDate ):
-                release_key.releaseDate=datetime.strptime(self.request.get('release_date'), '%d/%m/%Y').date()
+            release_date=self.request.get('release_date')
+            logging.info(release_date)
             
             
-            user_info = self.auth.get_user_by_session()
-            release_key.modified_by = user_info['email_address']
-            release_key.modified_date = datetime.now()
-            
-            release_key.put()
-            
-            self.response.write('true')
+            if (release_date != release_key.releaseDate ):
+                releaseDate=datetime.strptime(self.request.get('release_date'), '%d/%m/%Y').date()
+                
+             #   startDate=datetime(0001,01,01)
+               # x = datetime.now()
+             #   logging.info(x.date())
+                endDate=datetime.strptime('01/01/0001','%d/%m/%Y').date()
+                
+               
+                for i in sprint_data:
+                 
+                    logging.info(i.endDate)
+                    logging.info(releaseDate)
+                    
+                    if (i.endDate != None):  
+                        if(i.endDate > endDate):
+                        
+                            endDate=i.endDate
+                            logging.info(endDate)
+                    
+                
+                
+                if (endDate > releaseDate):
+                       # endDate=i.endDate.strftime('%d/%m/%Y')
+                       # a='Cannot be less than'+endDate
+                    self.response.write(endDate)
+                
+                else:
+                            release_key.releaseDate=releaseDate
+                            user_info = self.auth.get_user_by_session()
+                            release_key.modified_by = user_info['email_address']
+                            release_key.modified_date = datetime.now()
+                            release_key.put()
+                            self.response.write('true')
 
  
 class DeleteRelease(BaseHandler):  
@@ -123,7 +153,24 @@ class DeleteRelease(BaseHandler):
             release_key.modified_date = datetime.now()
             release_key.status = False
            
+                  
             release_key.put()
             #user_key.delete()  
             self.response.write("true")     
+            
+class ReleaseInfo(BaseHandler):
+     def post(self,*args,**kargs):
+        #if check_permission(self):
+           # project = ndb.Key(urlsafe=self.request.get("key"))
+            key = ndb.Key(urlsafe=self.request.get('key'))
+            release_info=key.get()
+           # self.render_template("user_new/delete_sprint.html",{"sprint_info":sprint_info})
+            
+            endDate = release_info.releaseDate
+            endDate=endDate.strftime('%d/%m/%Y')
+           
+            params=endDate
+           
+            self.response.write(params)
+            
             
