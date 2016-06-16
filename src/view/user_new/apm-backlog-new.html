@@ -414,7 +414,7 @@
 						});
 						
 						
-						$("#submit_sprint").on("click",function(){
+						$("#submit_sprint").on("click",function(event){
 							 if (!$('#add_sprint').valid()){
 								    event.preventDefault();
 								    event.stopImmediatePropagation();
@@ -433,8 +433,8 @@
 								 
 									$('#date_error').text("Start date cannot before project start date("+project_start_date+").")
 									event.preventDefault();
-									 event.stopImmediatePropagation();
-									 return false;
+									event.stopImmediatePropagation();
+									return false;
 									 
 								 
 							 }
