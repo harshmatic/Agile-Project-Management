@@ -561,7 +561,28 @@
 				    else if(parseInt(value) > max) 
 				        return 5; 
 				    else return value;
-				}					
+				}	
+				
+				
+				$(function () {
+			        $("input[id*='rough_estimate']").keydown(function (event) {
+
+
+			            if (event.shiftKey == true) {
+			                event.preventDefault();
+			            }
+
+			            if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105) || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 46 || event.keyCode == 190) {
+
+			            } else {
+			                event.preventDefault();
+			            }
+			            
+			            if($(this).val().indexOf('.') !== -1 && event.keyCode == 190)
+			                event.preventDefault();
+
+			        });
+			    });
 		</script>
 		
 {% endblock %}	
@@ -939,7 +960,7 @@
 													  <!-- Last Name --> 
 													  <div class="form-group task-form-group">
 														<label class="task-label">Rough Estimate(In hrs)</label>
-														<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="rough_estimate" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;">
+														<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="rough_estimate" id="rough_estimate">
 													  </div>
 												  </div>
 											

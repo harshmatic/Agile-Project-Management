@@ -4,11 +4,14 @@ $("#delete_user").on("click",function(){
 	$.post( "/admin/deleteuser", $("#delete_form").serialize())
 		.done(function( data ) {
 			if (data!="true"){
-				alert("User cannot be deleted");
+				alert("User cannot be deactivated.");
 				return false
 			} else {
 				
-				alert("User deleted successfully");
+				alert("User is deactivated successfully.");
+				$('.table').load('/admin/usermanagment .table', function(result) {
+  				    var variable = $('#edit_permissions').html();
+  				});
 				
 			}
 		});
@@ -20,9 +23,9 @@ $("#delete_user").on("click",function(){
 			$('#delete-user-modal').on('hidden.bs.modal', function(e)
 							{ 
 								$(this).removeData();
-								$('.table').load('/admin/usermanagment .table', function(result) {
+								/* $('.table').load('/admin/usermanagment .table', function(result) {
 				  				    var variable = $('#edit_permissions').html();
-				  				});
+				  				}); */
 					    	}) ;
 	</script>			
 
