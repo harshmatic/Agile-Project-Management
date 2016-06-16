@@ -5,11 +5,11 @@ $("#delete_backlog").on("click",function(){
 	$.post( '/backlog/delete', $('#delete_form').serialize())
 		.done(function( data ) {
 			if (data!="true"){
-				alert("Backlog cannot be deleted");
+				alert("User Story cannot be deleted.");
 				return false
 			} else {
 				
-				
+				alert("User Story deleted successfully.");
 				
 			}
 		});

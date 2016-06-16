@@ -181,7 +181,7 @@ $(document).ready(function(){
 	
 	
 	$("#submit_item").on("click",function(){
-						 if (!$('#addtask').valid()){
+						 if (!$('#addtask').valid(event)){
 							    event.preventDefault();
 							    event.stopImmediatePropagation();
 							    return false;

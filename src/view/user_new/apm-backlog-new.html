@@ -55,6 +55,28 @@
 		<script>
 				$(document).ready(function(){
 					
+					
+					var releasel;
+					release=$('#release').val();
+					 var release_start_date;
+					 var release_end_date;
+						 
+						if (release != 'None')
+						{
+							release=$('#release').val(); 
+							$.post( "/release_info?key="+release+"")
+					  		.done(function( data ) {
+					  		
+								console.log(data);
+							
+								
+								release_end_date= data;
+							
+					  		});
+						}
+								
+				
+					
 					$('.form-group').find('.open-datetimepicker').on('click', function(){
 					    $('#sprint_start').trigger('focus');
 					});
@@ -82,7 +104,7 @@
 					 var update="/backlog/update?update_key="+row_key;
 					 var edit="/backlog/edit?edit_key="+row_key;
 				     var delete_key ="/backlog/delete?delete_key="+row_key;
-				     $('#edit_delete_panel').html('<a href="'+edit+'" id="edit_key" data-toggle="modal" data-target="#edit-backlog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Release"  id="{{i.key.urlsafe}}"></i></a><a id="delete_key" href="'+delete_key+'" data-toggle="modal" data-target="#delete-backlog-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Release"  id="{{i.key.urlsafe}}"></i></a>');
+				     $('#edit_delete_panel').html('<a href="'+edit+'" id="edit_key" data-toggle="modal" data-target="#edit-backlog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit User Story"  id="{{i.key.urlsafe}}"></i></a><a id="delete_key" href="'+delete_key+'" data-toggle="modal" data-target="#delete-backlog-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete User Story"  id="{{i.key.urlsafe}}"></i></a>');
 						
 					}
 				     
@@ -281,10 +303,13 @@
 							$.post( '/backlog/addbacklog', $("#backlog_form").serialize())
 							.done(function( data ) {
 								if (data!="true"){
-									alert("Backlog cannot be added");
+									alert("User Story cannot be added.");
 									return false
 								} else {
 									
+									
+									  $('.table').load('/backlog .table', function(result) {
+						  				});
 									
 									
 								}
@@ -301,9 +326,9 @@
 									        $(this).removeData('bs.modal');
 									        $(this).find('form')[0].reset();
 									        validator.resetForm();
-									        $('.table').load('/backlog .table', function(result) {
+									     /*    $('.table').load('/backlog .table', function(result) {
 							  				});
-										
+										 */
 									 
 										
 									    }) ;
@@ -337,7 +362,7 @@
 					       
 					       
 					     
-					       $('#edit_delete_panel').html('<a href="'+edit+'" id="edit_key" data-toggle="modal" data-target="#edit-backlog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Release"  id="{{i.key.urlsafe}}"></i></a><a id="delete_key" href="'+delete_key+'" data-toggle="modal" data-target="#delete-backlog-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Release"  id="{{i.key.urlsafe}}"></i></a>');
+					       $('#edit_delete_panel').html('<a href="'+edit+'" id="edit_key" data-toggle="modal" data-target="#edit-backlog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit User Story"  id="{{i.key.urlsafe}}"></i></a><a id="delete_key" href="'+delete_key+'" data-toggle="modal" data-target="#delete-backlog-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete User Story"  id="{{i.key.urlsafe}}"></i></a>');
 							
 					       $('#sprint').html(myArray[0]);
 					       $('#sprint_name').html(myArray[0]);
@@ -423,37 +448,28 @@
 							 else
 							 {
 							 
-							 var start_date=$('#start').val();
-							 var end_date=$('#end').val();
-							 var project_start_date="{{session.current_project.get.startDate|date:'m/d/Y'}}";
-							 var project_end_date="{{session.current_project.get.endDate|date:'m/d/Y'}}";
-							 
-							 if(start_date < project_start_date && start_date!='' && end_date > project_start_date && end_date !='')
-							 {
+								 var start_date=$('#sprint_start').val();
+								 var end_date=$('#sprint_end').val();
+								 var project_start_date="{{session.current_project.get.startDate|date:'m/d/Y'}}";
+								 var project_end_date="{{session.current_project.get.endDate|date:'m/d/Y'}}";
 								 
-									$('#date_error').text("Start date cannot before project start date("+project_start_date+").")
-									event.preventDefault();
-									event.stopImmediatePropagation();
-									return false;
-									 
+								 var project_startdate=project_start_date;
+								 var project_enddate=project_end_date;
 								 
-							 }
-							 
-							 if (start_date > project_end_date && start_date!='' && end_date < project_end_date && end_date !='')
-							 {
-									 
-									$('#date_error').text("Start date cannot be after project end date("+project_end_date+").")
-									event.preventDefault();
-									 event.stopImmediatePropagation();
-									 return false;
-									 
+								 start_date = new Date(start_date.split('/')[2],start_date.split('/')[1],start_date.split('/')[0]);
+								 end_date = new Date(end_date.split('/')[2],end_date.split('/')[1],end_date.split('/')[0]);
+								 project_start_date = new Date(project_start_date.split('/')[2],project_start_date.split('/')[1],project_start_date.split('/')[0]);
+								 project_end_date = new Date(project_end_date.split('/')[2],project_end_date.split('/')[1],project_end_date.split('/')[0]);
+
 								 
-							 }
-							 else
-								 if (end_date < project_start_date && end_date !='' && start_date > project_start_date && start_date!='')
+								 
+								 
+								// alert(release_end_date);
+								 
+								 if(start_date < project_start_date && start_date!='' && end_date > project_start_date && end_date !='')
 								 {
-										 
-										$('#date_error').text("End Date cannot be before project start date("+project_start_date+").")
+									 
+										$('#date_error').text("Start date cannot before project start date("+project_startdate+").")
 										event.preventDefault();
 										 event.stopImmediatePropagation();
 										 return false;
@@ -461,51 +477,83 @@
 									 
 								 }
 								 
+								 if (start_date > project_end_date && start_date!='' && end_date < project_end_date && end_date !='')
+								 {
+										 
+										$('#date_error').text("Start date cannot be after project end date("+project_enddate+").")
+										event.preventDefault();
+										 event.stopImmediatePropagation();
+										 return false;
+										 
+									 
+								 }
 								 else
-								 if (end_date > project_end_date && end_date !='' && start_date < project_end_date && start_date!='')
-								 {
-										 
-										$('#date_error').text("End date cannot be greater than Project Date("+project_end_date+").")
-										event.preventDefault();
-										 event.stopImmediatePropagation();
-										 return false;
-										 
-									 
-								 }
-							 else
-								if (end_date > project_end_date && start_date > project_end_date && end_date !='' && start_date!='')
+									 if (end_date < project_start_date && end_date !='' && start_date > project_start_date && start_date!='')
 									 {
 											 
-											$('#date_error').text("Start date & end date cannot be after project end date("+project_end_date+").")
+											$('#date_error').text("End Date cannot be before project start date("+project_startdate+").")
 											event.preventDefault();
 											 event.stopImmediatePropagation();
 											 return false;
 											 
 										 
-									 } 
+									 }
+									 
+									 else
+									 if (end_date > project_end_date && end_date !='' && start_date < project_end_date && start_date!='')
+									 {
+											 
+											$('#date_error').text("End date cannot be greater than Project Date("+project_enddate+").")
+											event.preventDefault();
+											 event.stopImmediatePropagation();
+											 return false;
+											 
+										 
+									 }
 								 else
-								if (end_date < project_start_date && start_date < project_start_date && end_date !='' && start_date!='')
-											 {
-													 
-													$('#date_error').text("Start date & end date cannot be before project start date("+project_start_date+").")
-													event.preventDefault();
-													 event.stopImmediatePropagation();
-													 return false;
-													 
+									if (end_date > project_end_date && start_date > project_end_date && end_date !='' && start_date!='')
+										 {
 												 
-											 } 
-								else
-									if(start_date > end_date)
-									{
-										$('#date_error').text("Start date cannot be after end date.")
-										event.preventDefault();
-										 event.stopImmediatePropagation();
-										 return false;
-										
-									}
-							 else
-							
-								 {
+												$('#date_error').text("Start date & end date cannot be after project end date("+project_enddate+").")
+												event.preventDefault();
+												 event.stopImmediatePropagation();
+												 return false;
+												 
+											 
+										 } 
+									 else
+									if (end_date < project_start_date && start_date < project_start_date && end_date !='' && start_date!='')
+												 {
+														 
+														$('#date_error').text("Start date & end date cannot be before project start date("+project_startdate+").")
+														event.preventDefault();
+														 event.stopImmediatePropagation();
+														 return false;
+														 
+													 
+												 } 
+									else
+										if(start_date > end_date)
+										{
+											$('#date_error').text("Start date cannot be after end date.")
+											event.preventDefault();
+											 event.stopImmediatePropagation();
+											 return false;
+											
+										}
+								
+									
+									if(end_date > release_end_date)
+											{
+												$('#date_error').text("End date cannot be after release date.")
+												event.preventDefault();
+												 event.stopImmediatePropagation();
+												 return false;
+												
+											}
+								 else
+								
+									 {
 								 
 								 $('#date_error').text("");
 								 $.post( "/sprint", $("#add_sprint").serialize())
@@ -516,7 +564,7 @@
 							  			} 
 							  		//	$("#backlog_form").reset();
 							  			
-							  			
+							  			alert("Sprint has been created.Please visit Sprint items tab to see all the sprints.");
 							  			 $('#backlog_form').load('/backlog #backlog_form', function(result) {
 							  				}); 
 							  		
@@ -666,7 +714,7 @@
 												</div>
 												<div class="panel-body">
 													<div class="table-responsive">
-														<table class="table apm-sprint-table">
+														<table class="table-condensed table apm-sprint-table">
 															<tbody>
                													 <tr> 
                													  <td><b>Sprint Name</b></td>
@@ -915,7 +963,7 @@
 										 
 										 	   <!-- Project Name --> 
 											  <div class="form-group task-form-group">
-												<label class="task-label">Story Name</label>
+												<label class="task-label">Story Name<font color="red">*</font></label>
 												<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="backlog_name">
 												</div> 
 											  
@@ -948,7 +996,7 @@
 											  
 											   <!-- Project Name --> 
 											  <div class="form-group task-form-group">
-												<label class="task-label">Description</label>
+												<label class="task-label">Description<font color="red">*</font></label>
 													<!-- <input type="text" class="form-control add-task-textbox apm-modal-textbox">-->
 													  <textarea name="description" class="form-control apm-landing-textbox-reg apm-text-area" rows="4"></textarea>
 													   </div> 
@@ -959,7 +1007,7 @@
 												  <div class="col-sm-6">
 													  <!-- Last Name --> 
 													  <div class="form-group task-form-group">
-														<label class="task-label">Rough Estimate(In hrs)</label>
+														<label class="task-label">Rough Estimate(In hrs)<font color="red">*</font></label>
 														<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="rough_estimate" id="rough_estimate">
 													  </div>
 												  </div>
@@ -967,7 +1015,7 @@
 												  <div class="col-sm-6">
 													  <!-- Designation --> 
 													  <div class="form-group task-form-group">
-														<label class="task-label">Priority</label>
+														<label class="task-label">Priority<font color="red">*</font></label>
 														<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="priority" min="1" max="5" maxlength="1" onkeypress="this.value = minmax(this.value, 0, 5)">
 													  </div>
 												  </div>

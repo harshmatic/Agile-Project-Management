@@ -259,7 +259,7 @@
 						$('#add-sprint-modal').modal('show');
 					});
 					
-					$("#submit_sprint").on("click",function(){
+					$("#submit_sprint").on("click",function(event){
 						 if (!$('#add_sprint').valid()){
 							    event.preventDefault();
 							    event.stopImmediatePropagation();
@@ -289,7 +289,7 @@
 						 if(start_date < project_start_date && start_date!='' && end_date > project_start_date && end_date !='')
 						 {
 							 
-								$('#date_error').text("Start date cannot before project start date("+project_start_date+").")
+								$('#date_error').text("Start date cannot before project start date("+project_startdate+").")
 								event.preventDefault();
 								 event.stopImmediatePropagation();
 								 return false;
@@ -300,7 +300,7 @@
 						 if (start_date > project_end_date && start_date!='' && end_date < project_end_date && end_date !='')
 						 {
 								 
-								$('#date_error').text("Start date cannot be after project end date("+project_end_date+").")
+								$('#date_error').text("Start date cannot be after project end date("+project_enddate+").")
 								event.preventDefault();
 								 event.stopImmediatePropagation();
 								 return false;
@@ -311,7 +311,7 @@
 							 if (end_date < project_start_date && end_date !='' && start_date > project_start_date && start_date!='')
 							 {
 									 
-									$('#date_error').text("End Date cannot be before project start date("+project_start_date+").")
+									$('#date_error').text("End Date cannot be before project start date("+project_startdate+").")
 									event.preventDefault();
 									 event.stopImmediatePropagation();
 									 return false;
@@ -323,7 +323,7 @@
 							 if (end_date > project_end_date && end_date !='' && start_date < project_end_date && start_date!='')
 							 {
 									 
-									$('#date_error').text("End date cannot be greater than Project Date("+project_end_date+").")
+									$('#date_error').text("End date cannot be greater than Project Date("+project_enddate+").")
 									event.preventDefault();
 									 event.stopImmediatePropagation();
 									 return false;
@@ -334,7 +334,7 @@
 							if (end_date > project_end_date && start_date > project_end_date && end_date !='' && start_date!='')
 								 {
 										 
-										$('#date_error').text("Start date & end date cannot be after project end date("+project_end_date+").")
+										$('#date_error').text("Start date & end date cannot be after project end date("+project_enddate+").")
 										event.preventDefault();
 										 event.stopImmediatePropagation();
 										 return false;
@@ -345,7 +345,7 @@
 							if (end_date < project_start_date && start_date < project_start_date && end_date !='' && start_date!='')
 										 {
 												 
-												$('#date_error').text("Start date & end date cannot be before project start date("+project_start_date+").")
+												$('#date_error').text("Start date & end date cannot be before project start date("+project_startdate+").")
 												event.preventDefault();
 												 event.stopImmediatePropagation();
 												 return false;
@@ -383,7 +383,13 @@
 						  				return false
 						  			} 
 						  		//	$("#backlog_form").reset();
+						  		else
+						  			{
+						  			$('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
+					  				    //var variable = $('#edit_permissions').html();
+					  				});
 						  			
+						  			}
 						  			
 						  			 
 						  		
@@ -413,10 +419,10 @@
 										$(this).removeData('bs.modal');
 										$(this).find('form')[0].reset();
 										sprint_validator.resetForm();
-										$('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
+									/* 	$('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
 						  				    //var variable = $('#edit_permissions').html();
 						  				});
-								
+								 */
 								    }) ;
 							
 				  		
@@ -498,7 +504,7 @@
 												</div>
 												<div class="panel-body">
 													<div class="table-responsive">
-														<table class="table apm-sprint-table apm-sprint-item-table">
+														<table class="table-condensed table apm-sprint-table apm-sprint-item-table">
 															<thead>
 																<tr>	
 																	

@@ -50,7 +50,7 @@ $(document).ready(function(){
 		     });
 	/***********************time log validation ends******************************/	
 	    
-	$("#log_time_button").on("click",function(){
+	$("#log_time_button").on("click",function(event){
 		 if (!$('#time_log_form').valid()){
 			    event.preventDefault();
 			    event.stopImmediatePropagation();

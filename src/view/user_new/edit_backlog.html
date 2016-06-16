@@ -1,24 +1,84 @@
 <script>
 $(document).ready(function(){	
+	/*******************user story validation starts************************/	
+	var validator=   $("#edit_form").validate({
+		      rules: {
+		    	 
+		          backlog_name: 
+		          {
+			      		 required: true
+			      },
+			      description: 
+			      {
+				  		 required: true
+		          },
+		          rough_estimate: 
+		          {
+						 required: true,
+						 number:true
+						
+				  },
+				  priority: 
+				  {
+						 required: true
+						
+					
+				  }
+	   
+	   
+		         },
+		         messages: 
+		         {
+		        	
+		           backlog_name: 
+		           {
+		             required: "Please enter story name."
+		           },
+		           description:
+		           {
+			             required: "Please enter story description."
+			       },
+			       rough_estimate:
+			       {
+			             required: "Please enter rough estimation.",
+			             number:"Please enter numbers only."
+			            
+			       },
+			       priority: 
+			       {
+			             required: "Please enter priority."
+			       }
+		           
+		         }
+		     });
 	
+	/*******************user story validation ends************************/	
 
-$("#edit_user").on("click",function(){
-	$.post( '/backlog/edit', $("#edit_form").serialize())
+$("#edit_userstory").on("click",function(){
+	
+	 if (!$('#edit_form').valid()){
+		    event.preventDefault();
+		    event.stopImmediatePropagation();
+		    return false;
+	 }
+	 else
+		 {
+		$.post( '/backlog/edit', $("#edit_form").serialize())
 		.done(function( data ) {
 			if (data!="true"){
-				alert("Backlog not updated");
+				alert("User Story cannot updated.");
 				return false
 			} else {
 				
-				
+				alert("User Story is updated successfully.");
 				
 			}
 		});
 		
-		
+		 }
 			
 			
-		})
+		});
 		
 		
 			$('#edit-backlog-modal').on('hidden.bs.modal', function(e)
@@ -122,7 +182,7 @@ $("#edit_user").on("click",function(){
 											  
 											   <!-- Email --> 
 											  <div class="form-group task-form-group">
-												<label class="task-label">Story Name</label>
+												<label class="task-label">Story Name<font color="red">*</font></label>
 												<input type="text" class="form-control add-task-textbox" name="backlog_name" value="{{backlog_info.backlog_name}}">
 											  </div>
 											 
@@ -147,24 +207,30 @@ $("#edit_user").on("click",function(){
 											  
 											  <!-- Employee ID --> 
 											  <div class="form-group task-form-group">
-												<label class="task-label">Description</label>
+												<label class="task-label">Description<font color="red">*</font></label>
 												<textarea name="description" class="form-control apm-landing-textbox-reg apm-text-area" rows="4" >{{backlog_info.storyDesc}}</textarea>
 													  
 											  </div>
 											  
+											  <div class="row">
 											 <!-- Company Name --> 
+											  <div class="col-sm-6">
 											  <div class="form-group task-form-group">
-												<label class="task-label">Rough Estimate(In hrs)</label>
+												<label class="task-label">Rough Estimate(In hrs)<font color="red">*</font></label>
 												<input type="text" class="form-control add-task-textbox" name="rough_estimate" value="{{backlog_info.roughEstimate}}" >
+											  </div>
 											  </div>
 											  
 											  
 											  <!-- Domain --> 
+											   <div class="col-sm-6">
 											  <div class="form-group task-form-group">
-												<label class="task-label">Priority</label>
+												<label class="task-label">Priority<font color="red">*</font></label>
 												<input type="number" class="form-control add-task-textbox" name="priority" min="1" max="5" value="{{backlog_info.priority}}">
 											  </div> 
+											  </div>
 											  
+											  </div>
 											 
 											<input type="hidden" id="key" name="key" value="{{backlog_info.key.urlsafe}}">
 								</div>	
@@ -174,7 +240,7 @@ $("#edit_user").on("click",function(){
 						
 				  </div>
 				  <div class="modal-footer add-task-modal-footer">
-					<input type="submit" class="add-task-btn-modal" data-dismiss="modal" id="edit_user" value="Update">
+					<input type="submit" class="add-task-btn-modal" data-dismiss="modal" id="edit_userstory" value="Update">
 					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</button>
 				  </div>
 	</form>			</html>
