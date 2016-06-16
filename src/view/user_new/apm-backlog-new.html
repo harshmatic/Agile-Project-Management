@@ -78,14 +78,14 @@
 				
 					
 					$('.form-group').find('.open-datetimepicker').on('click', function(){
-					    $('#sprint_start').trigger('focus');
+					    $('#start').trigger('focus');
 					});
 
 
 
 					
 					$('.form-group').find('.open-datetimepicker1').on('click', function(){
-					    $('#sprint_end').trigger('focus');
+					    $('#end').trigger('focus');
 					});	
 		
 					
@@ -274,6 +274,7 @@
 					});
 					
 					
+					
 					$("#add-sprint").click(function(e) {
 						$('#add-sprint-modal').modal('show');
 					});
@@ -386,11 +387,11 @@
 					
 					//sprint
 					
-					$('#sprint_end').datepicker()
+					$('#end').datepicker()
 				    .on('changeDate', function(e) {
-				    	if ($('#sprint_start').val()!=""){
-					        start=$('#sprint_start').val();
-					        end=$('#sprint_end').val();
+				    	if ($('#start').val()!=""){
+					        start=$('#start').val();
+					        end=$('#end').val();
 					        secs=(new Date(end)).getTime()/1000-(new Date(start)).getTime()/1000
 					        secs=secs/60/60/24;
 					        if (secs>=7){
@@ -408,11 +409,11 @@
 					        }
 				    	}
 				    });
-					$('#sprint_start').datepicker()
+					$('#start').datepicker()
 				    .on('changeDate', function(e) {
-				    	if ($('#sprint_end').val()!=""){
-				    		start=$('#sprint_start').val();
-					        end=$('#sprint_end').val();
+				    	if ($('#end').val()!=""){
+				    		start=$('#start').val();
+					        end=$('#end').val();
 					        secs=(new Date(end)).getTime()/1000-(new Date(start)).getTime()/1000
 					        secs=secs/60/60/24;
 					        if (secs>=7){
@@ -448,8 +449,8 @@
 							 else
 							 {
 							 
-								 var start_date=$('#sprint_start').val();
-								 var end_date=$('#sprint_end').val();
+								 var start_date=$('#start').val();
+								 var end_date=$('#end').val();
 								 var project_start_date="{{session.current_project.get.startDate|date:'m/d/Y'}}";
 								 var project_end_date="{{session.current_project.get.endDate|date:'m/d/Y'}}";
 								 
@@ -603,7 +604,7 @@
 
 				});
 					
-				function minmax(value, min, max) 
+		 	function minmax(value, min, max) 
 				{
 				    if(parseInt(value) < min || isNaN(value)) 
 				        return 0; 
@@ -856,7 +857,7 @@
 											  <div class="row">
 												<!-- Start Date -->
 												<div class="col-md-6">
-													<div class="form-group">
+													<div class="form-group new_date">
 														<label class="apm-landing-reg-label">Start Date</label>
 														<input name="start" id="start" type="text" class="form-control apm-landing-textbox-reg datepicker1" readonly="true" id="sprint_start">
 														<i class="fa fa-calendar datepicker-cal open-datetimepicker" aria-hidden="true"></i>
@@ -865,7 +866,7 @@
 												
 												<!-- End Date -->
 												<div class="col-md-6">
-													<div class="form-group">
+													<div class="form-group new_date">
 														<label class="apm-landing-reg-label">End Date</label>
 														<input name="end" id="end" type="text" class="form-control apm-landing-textbox-reg datepicker1" readonly="true" id="sprint_end">
 														<i class="fa fa-calendar datepicker-cal open-datetimepicker1" aria-hidden="true"></i>
