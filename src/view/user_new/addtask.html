@@ -28,7 +28,7 @@ $(document).ready(function(){
   		.done(function( data ) {
   			//alert(data);
 			console.log(data);
-			var str = data;
+			var str = "\""+data+"\"";
 			//var myarray = str.split('(');
 				
 			sprint_start_date= str.substring(2, 12);
@@ -180,103 +180,14 @@ $(document).ready(function(){
 	
 	
 	
-	$("#submit_item").on("click",function(){
-						 if (!$('#addtask').valid(event)){
+	$("#submit_item").on("click",function(event){
+						 if (!$('#addtask').valid()){
 							    event.preventDefault();
 							    event.stopImmediatePropagation();
 							    return false;
 						 }
 						 
-						 else
-						 {
-						 
-						 var start_date=$('#start').val();
-						 var end_date=$('#end').val();
-						
-						
-						// alert(sprint_start_date);
-					 	//	alert(sprint_end_date);
-						 
-						
-						 
-						 if(start_date < sprint_start_date && start_date!='' && end_date > sprint_start_date && end_date !='')
-						 {
-							 
-								$('#date_error').text("Planned start date cannot before sprint start date("+sprint_start_date+").")
-								event.preventDefault();
-								 event.stopImmediatePropagation();
-								 return false;
-								 
-							 
-						 }
-						 
-						 if (start_date > sprint_end_date && start_date!='' && end_date < sprint_end_date && end_date !='')
-						 {
-								 
-								$('#date_error').text("Planned start date cannot be after sprint end date("+sprint_end_date+").")
-								event.preventDefault();
-								 event.stopImmediatePropagation();
-								 return false;
-								 
-							 
-						 }
-						 else
-							 if (end_date < sprint_start_date && end_date !='' && start_date > sprint_start_date && start_date!='')
-							 {
-									 
-									$('#date_error').text("Planned end Date cannot be before sprint start date("+sprint_start_date+").")
-									event.preventDefault();
-									 event.stopImmediatePropagation();
-									 return false;
-									 
-								 
-							 }
-							 
-							 else
-							 if (end_date > sprint_end_date && end_date !='' && start_date < sprint_end_date && start_date!='')
-							 {
-									 
-									$('#date_error').text("Planned end date cannot be greater than sprint end date("+sprint_end_date+").")
-									event.preventDefault();
-									 event.stopImmediatePropagation();
-									 return false;
-									 
-								 
-							 }
-						 else
-							if ((end_date > sprint_end_date && end_date !='' && start_date!='') || ( start_date > sprint_end_date && end_date !='' && start_date!=''))
-								 {
-										 
-										$('#date_error').text("Planned start date or end date cannot be after sprint end date("+sprint_end_date+").")
-										event.preventDefault();
-										 event.stopImmediatePropagation();
-										 return false;
-										 
-									 
-								 } 
-							/*  else
-							if ((end_date < sprint_start_date && end_date !='' && start_date!='') || ( start_date < sprint_start_date && end_date !='' && start_date!=''))
-										 {
-												 
-												$('#date_error').text("Planned start date & end date cannot be before sprint start date("+sprint_start_date+").")
-												event.preventDefault();
-												 event.stopImmediatePropagation();
-												 return false;
-												 
-											 
-										 }  */
-							else
-								if(start_date > end_date)
-								{
-									$('#date_error').text("Start date cannot be after end date.")
-									event.preventDefault();
-									 event.stopImmediatePropagation();
-									 return false;
-									
-								}
-						 else
-						
-							 {
+						 else{
 							 
 							 $('#date_error').text("");
 								$.post( "/task/addtask?key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA", $("#addtask").serialize())
@@ -406,7 +317,7 @@ $(document).ready(function(){
 											  <div class="form-group task-form-group">
 												<label class="task-label">Complexity<font color="red">*</font></label>
 												<select name="complexity" class="form-control add-task-textbox apm-modal-textbox" id="complex_pt">
-													<!-- <option value="None">None</option> -->
+													<option value="None">None</option> 
 													{% for complex in complex%}
 													{%if complex.status%}
 														<option value="{{complex.key.urlsafe}}"  data="{{complex.estimationHours}}">{{complex.estimationLevel}}</option>
