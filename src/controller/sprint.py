@@ -335,23 +335,26 @@ class SprintInfo(BaseHandler):
      def post(self,*args,**kargs):
         #if check_permission(self):
            # project = ndb.Key(urlsafe=self.request.get("key"))
-            key = ndb.Key(urlsafe=self.request.get('key'))
-            sprint_info=key.get()
-           # self.render_template("user_new/delete_sprint.html",{"sprint_info":sprint_info})
-            startDate = sprint_info.startDate
-            startDate=startDate.strftime('%d/%m/%Y')
-            
-            endDate = sprint_info.endDate
-            endDate=endDate.strftime('%d/%m/%Y')
-           
-            params=startDate,endDate
-           
-            self.response.write(params)
+           if self.request.get('key')!="None":
+                key = ndb.Key(urlsafe=self.request.get('key'))
+                sprint_info=key.get()
+               # self.render_template("user_new/delete_sprint.html",{"sprint_info":sprint_info})
+                startDate = sprint_info.startDate
+                startDate=startDate.strftime('%d/%m/%Y')
+                
+                endDate = sprint_info.endDate
+                endDate=endDate.strftime('%d/%m/%Y')
+               
+                params=startDate,endDate
+               
+                self.response.write(params)
             
             
             
 class GetUserStory(BaseHandler):
     def get(self,*args,**kargs):
+        productBacklog_key=[]
+        if self.request.get('key')!="None":
             key = ndb.Key(urlsafe=self.request.get('key'))
             product_info=key.get()
             
@@ -361,17 +364,17 @@ class GetUserStory(BaseHandler):
             productBacklog = productBacklog.query(product_backlog.ProductUserStory.sprintId == key).fetch()
             
             
-            productBacklog_key=[]
+            
             for i in productBacklog:
                 if i.status == True:
                     a = dict()
                     a['value'] = i.key.urlsafe()
                     a["name"] = str(i.backlog_name)
                     productBacklog_key.append(a)
-                 
-            logging.info(productBacklog_key)
-            
-            self.render_template('user_new/dropdown_userstory.html', {"stories":productBacklog_key})
+             
+        logging.info(productBacklog_key)
+        
+        self.render_template('user_new/dropdown_userstory.html', {"stories":productBacklog_key})
     
     
 #     def post(self,*args,**kargs):
