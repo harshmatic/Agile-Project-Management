@@ -10,6 +10,7 @@ from google.appengine.api import mail
 import logging
 from datetime import datetime
 from google.appengine.api import users
+from const import OUT_MAIL_ADDRESS, APP_DOMAIN
 
 
 
@@ -245,7 +246,7 @@ class SuperSignupAdminHandler(BaseHandler):
         Thank you for registering on APM. Please follow the below url to activate your account.
         Remeber to change your password.
         You will be able to do so by visiting {url}"""
-        message = mail.EmailMessage(sender="support@apm-eternus.appspotmail.com",
+        message = mail.EmailMessage(sender=OUT_MAIL_ADDRESS,
                             subject="Account Verification")
         message.to = email
         message.body = msg.format(url=verification_url)
