@@ -288,16 +288,19 @@ $(document).ready(function(){
 													{% for team in team%}
 														{%if team.status%}
 															{%ifequal task_data.assignee team.key%}
-																<option value="{{team.key.urlsafe}}" selected="selected">{{team.userName}}</option>
+																<option value="{{team.userid.urlsafe}}" selected="selected">{{team.userid.get.name}}</option>
 															{%else%}
-																<option value="{{team.key.urlsafe}}">{{team.userName}}</option>
+																<option value="{{team.userid.urlsafe}}">{{team.userid.get.name}}</option>
 															{%endifequal%}
 															
 														{%endif%}
 													{%endfor%}
+													
+													
+													
 												</select>
 											  </div>
-											
+										
 											
 											 <div class="error" id="date_error"></div>	  
 											  <div class="row">
