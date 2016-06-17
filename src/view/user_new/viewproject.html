@@ -181,7 +181,8 @@
 											<div  class="form-group">
 												<label class="apm-landing-reg-label">Project Title</label>
 											
-												<input name="proj_name" type="text" class="form-control apm-landing-textbox-reg" value= {{ project.name }}>
+												<!-- <input name="proj_name" type="text" class="form-control apm-landing-textbox-reg" value= {{ project.name }}> -->
+												<textarea name="proj_name" class="form-control apm-landing-textbox-reg apm-text-area" rows="1"> {{project.name}} </textarea>
 											</div>
 											
 											<!-- Project Description -->
@@ -194,8 +195,8 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<label class="apm-landing-reg-label">Start Date</label>
-														<input name="proj_start" type="text" class="form-control apm-landing-textbox-reg datepicker" value="{{project.startDate|date:'d/m/Y'}}" readonly="true" >
-														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+														<input name="proj_start" type="text" class="form-control apm-landing-textbox-reg datepicker" value="{{project.startDate|date:'d/m/Y'}}" readonly="true" id="pr_start">
+														<i class="fa fa-calendar datepicker-cal open-datetimepicker" aria-hidden="true"></i>
 													</div>
 												</div>
 												
@@ -203,8 +204,8 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<label class="apm-landing-reg-label">End Date</label>
-														<input name="proj_end" type="text" class="form-control apm-landing-textbox-reg datepicker" value = "{{project.endDate|date:'d/m/Y'}}" readonly="true">
-														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+														<input name="proj_end" type="text" class="form-control apm-landing-textbox-reg datepicker" value = "{{project.endDate|date:'d/m/Y'}}" readonly="true" id="pr_end">
+														<i class="fa fa-calendar datepicker-cal open-datetimepicker1" aria-hidden="true"></i>
 													</div>
 												</div>
 												
@@ -576,7 +577,13 @@
 						$(this).tab('show');
 					});
 					
+					$('.form-group').find('.open-datetimepicker').on('click', function(){
+					    $('#pr_start').trigger('focus');
+					});
 					
+					$('.form-group').find('.open-datetimepicker1').on('click', function(){
+					    $('#pr_end').trigger('focus');
+					});
 					
 					if(window.location.hash.substr(1) == "proj-team")
 						{
@@ -612,7 +619,8 @@
 						
 						/* var optionsAsString1 = "<option selected>" + cells[1] + "</option>";
 						$( 'select[id ="editmemrole"]' ).append( optionsAsString1 ); */
-						$('#editmemrole').prop('selectedIndex',0);
+						$("#editmemrole option:contains(" + cells[1] + ")").attr('selected', 'selected');
+						//$('#editmemrole').prop('selectedIndex',0);
 						$('#edit-member-modal').modal('show');
 					});
 					
