@@ -186,8 +186,8 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<label class="apm-landing-reg-label">Start Date</label>
-														<input name="proj_start" id="from" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true">
-														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+														<input name="proj_start" id="from" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true" id="pr_start">
+														<i class="fa fa-calendar datepicker-cal open-datetimepicker" aria-hidden="true"></i>
 													</div>
 												</div>
 												
@@ -195,8 +195,8 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<label class="apm-landing-reg-label">End Date</label>
-														<input name="proj_end" id="to" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true">
-														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+														<input name="proj_end" id="to" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true" id="pr_end">
+														<i class="fa fa-calendar datepicker-cal open-datetimepicker1" aria-hidden="true"></i>
 													</div>
 												</div>
 												
@@ -532,7 +532,13 @@
 						startDate: '0d'
 					});
 					
+					$('.form-group').find('.open-datetimepicker').on('click', function(){
+					    $('#pr_start').trigger('focus');
+					});
 					
+					$('.form-group').find('.open-datetimepicker1').on('click', function(){
+					    $('#pr_end').trigger('focus');
+					});
 					$("#apm-addmember-btn").click(function(e) {
 						$('#add-member-modal').modal('show');
 					});
