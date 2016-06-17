@@ -256,7 +256,7 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
         user_id = user.get_id()
         token = self.user_model.create_signup_token(user_id)
         verification_url = self.uri_for('verification', type='v', user_id=user_id,signup_token=token, _full=True)
-        verification_url ='http://'+APP_DOMAIN+'.appspot.com' +urlparse(verification_url)[2]
+        verification_url ='http://'+APP_DOMAIN+urlparse(verification_url)[2]
         
         
         message = """Hi """+name.upper()+""",
