@@ -90,15 +90,29 @@ class EditTask(BaseHandler):
         createdBy=self.user_model.get_by_id(currentUser['user_id']).key
         task_data.name = self.request.get('name')
         task_data.description = self.request.get('desc')
-        task_data.complexity = ndb.Key(urlsafe=self.request.get('complexity'))
+        
         task_data.startDate = datetime.strptime(self.request.get("start"), '%d/%m/%Y').date()
-        task_data.endDate = datetime.strptime(self.request.get("start"), '%d/%m/%Y').date()
+        task_data.endDate = datetime.strptime(self.request.get("end"), '%d/%m/%Y').date()
+        
+        if (self.request.get('complexity') != 'None'):
+            task_data.complexity = ndb.Key(urlsafe=self.request.get('complexity'))
+        else:
+           task_data.complexity=None
+        
         if (self.request.get('assignee') != 'None'):
             task_data.assignee = ndb.Key(urlsafe=self.request.get('assignee'))
+        else:
+           task_data.assignee=None
+        
         if (self.request.get('sprint') != 'None'):
             task_data.sprint = ndb.Key(urlsafe=self.request.get('sprint'))
+        else:
+            task_data.sprint=None
+        
         if (self.request.get('user_story') != 'None'):
             task_data.user_story = ndb.Key(urlsafe=self.request.get('user_story'))  
+        else:
+            task_data.user_story =None
         
        # task_data.project = ndb.Key(urlsafe=self.request.get('key'))
         task_data.project =self.session['current_project']   
@@ -226,9 +240,13 @@ class EditSprint(BaseHandler):
         
         if self.request.get("start")!='':
             sprint_data.startDate = datetime.strptime(self.request.get("start"), '%m/%d/%Y').date()
+        else:
+            sprint_data.startDate =None
         
         if self.request.get("end")!='':
             sprint_data.endDate = datetime.strptime(self.request.get("end"), '%m/%d/%Y').date()
+        else:
+            sprint_data.endDate =None
 
         sprint_data.project=self.session['current_project']  
         sprint_data.sprint_status = "Open"

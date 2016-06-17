@@ -276,12 +276,11 @@
 							 var project_startdate=project_start_date;
 							 var project_enddate=project_end_date;
 							 
-							 start_date = new Date(start_date.split('/')[2],start_date.split('/')[1],start_date.split('/')[0]);
-							 end_date = new Date(end_date.split('/')[2],end_date.split('/')[1],end_date.split('/')[0]);
-							 project_start_date = new Date(project_start_date.split('/')[2],project_start_date.split('/')[1],project_start_date.split('/')[0]);
-							 project_end_date = new Date(project_end_date.split('/')[2],project_end_date.split('/')[1],project_end_date.split('/')[0]);
-
-							 
+						
+							 start_date =Date.parse(start_date);
+							 end_date=Date.parse(end_date);
+							 project_start_date=Date.parse(project_start_date);
+							 project_end_date =Date.parse(project_end_date);
 							 
 							 
 							// alert(release_end_date);
@@ -298,7 +297,7 @@
 							 }
 							 else
 							 
-							 if (start_date > project_end_date && start_date!='' && end_date < project_end_date && end_date !='')
+							 if (start_date > project_end_date && start_date!='')
 							 {
 									 
 									$('#date_error').text("Start date cannot be after project end date("+project_enddate+").")
@@ -511,8 +510,8 @@
 															<thead>
 																<tr>	
 																	
-																	<th>Title</th>
-																	<th>Task Description</th>
+																	<th>Task</th>
+																	<th>User Story</th>
 																	<th>Planned Start Date</th>
 																	<th>Planned End Date</th>
 																	<th>Assigned To</th>
@@ -530,17 +529,17 @@
 																{%ifequal task.sprint sprint.key%}
 															  <tr class="find_empty">
 																
-																<td title="User Story">{{task.name}}</td>
-																<td title="Task Description">{{task.description}}</td>
+																<td title="Task">{{task.name}}</td>
+																<td title="User Story">{%if task.user_story%}{{task.user_story.get.backlog_name}}{%else%}None{%endif%}</td>
 																<td title="Planned Start Date">{{task.startDate}}</td>
 																<td title="Planned End Date">{{task.endDate}}</td>
-																<td title="Assigned To">{{task.assignee.get.userName}}</td>
+																<td title="Assigned To">{%if task.assignee%}{{task.assignee.get.userName}}{%else%}None{%endif%}</td>
 																<td title="Status">{{task.task_status}}</td>
 																<td title="Complexity">{{task.complexity.get.estimationLevel}}</td>
 																
-																<td title="Actual Efforts (Hrs.)">{{task.actual_efforts}}</td>
+																<td title="Estimated Efforts (Hrs.)">{{task.actual_efforts}}</td>
 															  	<td>
-															  	<a href="/mytasks/view?key={{task.key.urlsafe}}"><i class="fa fa-eye apm-add-proj-view" aria-hidden="true"></i></a>
+															  	<a href="/mytasks/view?key={{task.key.urlsafe}}"><i class="fa fa-eye apm-add-proj-view" title="View Task" aria-hidden="true"></i></a>
 															  	<a href="/task/edittask?edit_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#edit-issue-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Task"  id="{{task.key.urlsafe}}"></i></a>
 																<a href="/task/deletetask?delete_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#delete-issue-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Task"  id="{{task.key.urlsafe}}"></i></a>
 															  	</td>

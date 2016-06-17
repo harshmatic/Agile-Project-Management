@@ -48,6 +48,10 @@ $(document).ready(function(){
 	
 	
 	}
+	else
+		{
+		 $("#load_user_story").html("<select name='user_story' id='user_story' class='form-control add-task-textbox apm-modal-textbox'><option value='None'>None</option></select>");
+		}
 	
 	
 	
@@ -132,7 +136,7 @@ $(document).ready(function(){
 	
 	/*******************task validation ends************************/	
 	
-	$('select').on('change', function (e) {
+	$('#sprint_name').on('change', function (e) {
 		
 		sprint=$('#sprint_name').val(); 
 		$.post( "/sprint_info?key="+sprint+"")
@@ -228,7 +232,7 @@ $(document).ready(function(){
 											  <div class="form-group task-form-group">
 												<label class="task-label">Sprint</label>
 												<select name="sprint" id="sprint_name" class="form-control add-task-textbox apm-modal-textbox">
-											<!-- 	 <option value="None">None</option> -->
+												<option value="None">None</option> 
 													{% for sprint in sprints%}
 													{%if sprint.status%}
 														<option value="{{sprint.key.urlsafe}}">{{sprint.name}}</option>

@@ -1,67 +1,837 @@
+/***************************** Styles according to new designs *******************************/
+.apm-modal-textarea{
+ resize:none;
+}
+.apm-nav-brand{
+	padding-top: 14px!important;
+	margin-left: 10px!important;
+	letter-spacing: 1px!important;
+	font-size: 18px!important;
+	color:#fff!important;
+}
+#menu-toggle-2{
+	float: left;
+	margin: 11px 12px;
+	color: #fff;
+	cursor:pointer;
+}
+.nav-apm{
+	background:#1565C0;
+	border:none;
+	border-radius:0;
+}
+.nav-pills>li>a {
+	border-radius: 0;
+}
+.apm-search-textbox{
+	padding-top:8px;
+}
+.apm-panel-heading{
+	padding:5px 15px;
+	background:#1565C0!important;
+	color:#fff!important;
+	border-radius:0!important;
+}
+.apm-para{
+	margin:0;
+	padding:10px 0px;
+}
+.apm-all-reports-heading{
+	margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 22px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Roboto;
+    font-weight: 500;
+}
+.apm-numbox-dashboard{
+	padding:15px;
+	height:110px;
+	border:1px solid transparent;
+	text-align:right;
+}
+.apm-numbox-1{
+	background:#3598DC;
+}
+.apm-numbox-2{
+	background:#E7505A;
+}
+.apm-numbox-3{
+	background:#32C5D2;
+}
+.apm-numbox-4{
+	background:#8E44AD;
+}
+.apm-numbox-row{
+	margin-bottom:30px;
+}
+.apm-panel-body{
+	background:#f8f8f8;
+}
+.apm-numbox-heading{
+	font-size: 35px;
+    color: #fff;
+    font-family: Roboto;
+    font-weight: 400;
+    margin-top: 3px;
+}
+.apm-numbox-label{
+	color: #fff;
+    font-size: 14px;
+    letter-spacing: 1px;
+    font-weight: 500;
+    font-family: Roboto;
+}
+@media (max-width: 767px){
+	.apm-numbox-dashboard{
+		margin-bottom:20px;
+	}
+}
+
+/**************For landing page *****************/
+
+.landing-top-section{
+	padding: 15px;
+    background: #1565C0;
+    padding-top: 15px;
+	-webkit-box-shadow: -1px 4px 10px 0px rgba(163,163,163,1);
+	-moz-box-shadow: -1px 4px 10px 0px rgba(163,163,163,1);
+	box-shadow: -1px 4px 10px 0px rgba(163,163,163,1);
+}
+/***********6 june 2016 ****************/
+.landing-top-left-box{
+ float:left;
+}
+.landing-top-right-box{
+ text-align: right;
+   
+}
+@media (max-width: 767px){
+ .landing-top-left-box{
+  float:none;
+ }
+}
+/*************************************/
+@media (max-width: 900px){
+	.landing-top-right-box{
+		text-align: left;
+		margin-top: 0px;
+		margin-top:20px;
+	}
+}
+.apm-landing-textbox{
+	font-size: 13px;
+    height: 26px;
+    border-radius: 0;
+    box-shadow: none!important;
+    border: 1px solid #f1f1f1;
+}
+.apm-landing-textbox:focus{
+	border-color: #f1f1f1!important;
+}
+.apm-landing-form-grp{
+	margin-right:15px;
+}
+.apm-landing-form-grp label{
+	color: #fff;
+    font-size: 12px;
+    font-weight: 500!important;
+}
+.apm-landing-forgt-pass-link{
+	font-size: 25px!important;
+    vertical-align: middle;
+    margin-left: 10px;
+	color:#fff;
+}
+.apm-landing-login-btn{
+	border: none;
+    padding: 3px 15px;
+    background: #fff;
+    font-size: 14px;
+	outline:none;	
+}
+.apm-landing-login-btn:hover{
+	background: #F9F9F9;
+}
+/* .apm-landing-body{
+	background: #EEF1F6;
+} */
+.apm-landing-middle-box{
+	padding:6em 3em;
+}
+.apm-landing-main-heading{
+	color: #1565C0;
+    text-align: center;
+    font-size: 28px;
+    margin: 0;
+    text-shadow: 1px 1px #C9C9C9;
+	font-family:Roboto;
+	
+}
+.apm-landing-para{
+	text-align: center;
+    font-size: 14px;
+    letter-spacing: 1px;
+    width: 60%;
+    margin: 0 auto;
+    margin-top: 20px;
+    line-height: 1.8em;
+    font-weight: 500;
+    font-family: Roboto;
+}
+.apm-landing-left-box{
+	text-align:center;
+	border-right:1px solid #ccc;
+}
+.apm-landing-right-box{
+	
+}
+.apm-landing-container{
+	padding: 60px 10px;
+}
+.apm-left-img-heading{
+	color: #505050;
+    text-align: center;
+    font-size: 22px;
+    margin: 0;
+    text-shadow: 1px 1px #C9C9C9;
+    font-family: Roboto;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    font-weight: 500;
+}
+.apm-landing-textbox-reg{
+	font-size: 12px;
+    height: 26px;
+    border-radius: 0;
+    box-shadow: none!important;
+    border: 1px solid #ccc;
+	letter-spacing: 1px;
+	font-family: Roboto;
+	font-weight: 700;
+}
+.apm-landing-textbox-reg:focus{
+	border-color: grey!important;
+}
+.apm-landing-reg-label{
+	font-family: Roboto;
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: #000;
+    font-size: 12px;
+}
+.apm-landing-reg-btn{
+	border: none;
+    padding: 5px 20px;
+    background: #1565C0;
+    font-size: 13px;
+    outline: none;
+	color:#fff;
+	font-family: Roboto;
+	font-weight: 500;
+	letter-spacing: 1px;
+	margin-top: 10px;
+}
+.apm-landing-reg-btn:hover{
+	background: #4186D4;
+}
+.apm-landing-reg-comp-label{
+	margin: 0;
+    color: #1565C0;
+    letter-spacing: 1px;
+    font-family: Roboto;
+    font-size: 15px;
+    margin-bottom: 34px;
+    font-weight: 500;
+    text-shadow: 1px 1px #CFCFCF;
+    text-align: center;
+}
+@media (min-width: 768px) and (max-width: 991px){
+	.apm-landing-left-box img{
+		margin-left: 16%;
+	}
+	.apm-landing-left-box {
+		margin-bottom: 12%;
+	}
+}
+@media (max-width: 767px){
+	.apm-landing-middle-box {
+		padding: 3em 3em;
+	}
+	.apm-landing-para{
+		width:100%;
+		font-size:12px;
+	}
+	.apm-landing-left-box {
+		border:none;
+		border-bottom:1px solid #ccc;
+	}
+	.apm-landing-right-box {
+		margin-top: 25px;
+	}
+	.apm-landing-container {
+		padding-top:40px!important;
+		padding-bottom:5px!important;
+	}
+	.apm-landing-main-heading {
+        font-size: 24px;
+	}	
+}
+@media (max-width: 420px){
+	.apm-landing-middle-box {
+		padding: 3em 1em!important;
+	}
+}
+/**************For landing page ENDS *****************/
+
+/**************For Add Project page *****************/
+.apm-add-proj-tab-title{
+	font-family: Roboto;
+    font-size: 13px;
+    letter-spacing: 1px;
+    font-weight: 500;
+	color:#000!important;
+}
+#proj-details, #proj-team, #estimation-guidelines{
+	padding: 3em 0 0 3em;
+}
+.apm-text-area{
+	resize:none;
+}
+.datepicker{
+	font-family: Roboto;
+	border-radius:0!important;
+}
+.datepicker-cal{
+	margin-top: -20px;
+    float: right;
+    margin-right: 7px;
+}
+.apm-nomember-text{
+	font-family: Roboto;
+	font-weight:500;
+	letter-spacing: 1px;
+	line-height: 2em;
+}
+.apm-addmember-btn{
+	border: none;
+    padding: 5px 20px;
+    background: #1565C0;
+    font-size: 13px;
+    outline: none;
+    color: #fff;
+    font-family: Roboto;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-top: 10px;
+}
+.apm-addmember-btn:hover{
+	background: #4186D4;
+}
+.apm-modal-textbox{
+	height:30px!important;
+}
+.apm-nomember-box-listing{
+	text-align:right;
+	margin-bottom:20px;
+}
+.apm-member-listing-table{
+	font-family: Roboto;
+}
+.apm-member-listing-table th{
+	text-align: center;
+    font-size: 12px;
+    letter-spacing: 1px;
+    background: #1565C0;
+    color: #fff;
+    font-weight: 500;
+}
+.apm-member-listing-table td{
+	text-align:center;
+	font-size: 12px;
+    letter-spacing: 1px;
+    color: #000;
+    font-weight: 500;
+}
+.apm-add-proj-edit{
+	font-size:14px!important;
+	margin: 0 3px;
+	cursor:pointer;
+	color:#F59829;
+}
+
+.apm-add-esti-edit{
+	font-size:14px!important;
+	margin: 0 3px;
+	cursor:pointer;
+	color:#F59829;
+}
+.apm-add-proj-delete{
+	font-size:14px!important;
+	margin: 0 3px;
+	cursor:pointer;
+	color:#F04D50;
+}
+
+.apm-add-esti-delete{
+	font-size:14px!important;
+	margin: 0 3px;
+	cursor:pointer;
+	color:#F04D50;
+}
+.nav-tabs>li a{
+	border:none!important;
+	margin:0!important;
+}
+.nav-tabs>li{
+	
+}
+.nav-tabs>li.active{
+	border-bottom:2px solid #1565C0;
+}
+.nav-tabs>li.active a{
+	border:none!important;
+	margin:0!important;
+}
+.nav-tabs>li.active:hover, .nav-tabs>li.active a:hover, .nav-tabs>li a:hover{
+	background:transparent;
+	
+}
+.apm-add-proj-btnbox{
+    margin-left: -15px;
+    margin-top: 25px;
+}
+@media (max-width: 767px){
+	.apm-add-proj-btnbox{
+		padding-left: 0em;
+	}
+	#proj-details, #proj-team, #estimation-guidelines {
+		padding: 3em 0 0 0em;
+	}
+}
+.apm-add-proj-btn{
+    border: none;
+    padding: 5px 20px;
+    background: #1565C0;
+    font-size: 13px;
+    outline: none;
+    color: #fff;
+    font-family: Roboto;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-top: 10px;
+}
+.apm-add-proj-btn:hover {
+    background: #4186D4;
+}
+@media (max-width: 600px){
+	.apm-add-proj-tab-title {
+		font-size: 10px!important;
+		padding: 10px 6px!important;
+	}	
+}
+/**************For Add Project page ENDS *****************/
+
+
+/************** For All Projects page STARTS *****************/
+.apm-proj-list-box{
+	margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 0px;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    padding: 15px;
+}
+.apm-all-proj-table a{
+	color:#1565C0;
+	font-weight:600!important;
+}
+.apm-all-proj-table a:focus, .apm-all-proj-table a:active, .apm-all-proj-table a:visited{
+	color:#1565C0!important;
+}
+.apm-listing-add-proj-btn{
+    border: none;
+    padding: 5px 20px;
+    background: #1565C0;
+    font-size: 13px;
+    outline: none;
+    color: #fff;
+    font-family: Roboto;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-top: 10px;
+}
+.apm-listing-add-proj-btn:hover {
+    background: #4186D4;
+}
+.apm-listing-add-proj-box{
+	text-align:right;
+	margin-bottom:20px;
+}
+
+/************** For All Projects page ENDS *****************/
+
+
+/************** For Project Details page STARTS *****************/
+.apm-proj-detail-label{
+	font-size: 13px;
+    color: #000;
+    font-family: Roboto;
+    font-weight: 600;
+    letter-spacing: 1px;
+    
+}
+.apm-proj-detail-info{
+	font-size: 13px;
+    color: #000;
+    font-family: Roboto;
+    font-weight: 500;
+    letter-spacing: 1px;
+    
+}
+@media (max-width: 767px){
+	.apm-all-reports-heading {
+        font-size: 16px;
+	}	
+}
+.apm-backbtn-pro-details{
+	font-family: Roboto;
+    font-weight: 600;
+    letter-spacing: 1px;
+	font-size:13px;
+}
+/************** For Project Details page ENDS *****************/
+
+/************** For Admin Project permission page starts *****************/
+.apm-admin-permission-table input[type=checkbox]{
+	cursor:pointer;
+}
+.add-role-modal-box .checkbox{
+	font-family: Roboto;
+	font-size: 12px;
+    font-weight: 600;
+}
+.apm-modal-textbox{
+	font-size: 12px!important;
+    height: 28px!important;
+}
+.roll-link, .roll-link:visited, .roll-link:active, .roll-link:focus{
+	color:#fff!important;
+	cursor:pointer;
+}
+.permission-link, .permission-link:visited, .permission-link:active, .permission-link:focus{
+	color:#000!important;
+	cursor:pointer;
+}
+/************** For Admin Project permission page ENDS *****************/
+
+
+/************** For Admin User Management page starts *****************/
+.apm-listing-add-user-box{
+	margin-top: -38px;
+	margin-bottom:0!important;
+}
+/************** For Admin User Management page ENDS *****************/
+
+
+/************** For BACKLOGS page STARTS *****************/
+.backlog-filter-icon{
+	margin-right:6px;
+}
+.apm-backlog-filter-box{
+	float: right;
+    margin-top: -46px;
+}
+.apm-backlog-filter-dropdown{
+	display:inline;
+	font-family:Roboto;
+	font-size:12px!important;
+}
+.apm-backlog-filter-dropdown button{
+	font-size: 12px!important;
+    letter-spacing: 1px;
+	font-weight:600;
+    padding: 4px 12px;
+    border-radius: 0;
+	background: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#FEFEFD),color-stop(3%,#F9F9F9),color-stop(100%,#E6E6E6));
+}
+@media (max-width: 600px){
+	.apm-backlog-filter-box{
+		float: none;
+		margin-top: 0px;
+	}
+}
+.apm-backlog-filter-dropdown .dropdown-menu {
+    margin-left: 0px!important;
+    margin-top: 11px!important;
+}
+@media (max-width: 767px){
+	.apm-backlog-filter-dropdown .dropdown-menu  a{
+		color:#000!important;
+	}
+	.apm-backlog-filter-dropdown .dropdown-menu  a:hover{
+		color:#1565C0!important;
+	}
+}
+.apm-backlog-filter-dropdown button{
+	outline:none;
+}
+.apm-sprint-panel{
+	font-family:Roboto;
+	font-weight:600;
+	font-size:12px;
+	letter-spacing:1px;
+}
+.apm-subpanel-body{
+	background:#FAFAFA;
+}
+
+.apm-sprint-panel .panel-heading{
+	padding:5px 15px!important;
+	background:#1565C0;
+	color:#fff;
+	border-radius:0;
+}
+.apm-sprint-table{
+	margin:0;
+}
+.apm-sprint-table td{
+	padding: 8px 10px!important;
+	font-family:Roboto;
+}
+.apm-sprint-table tr{
+	padding: 4px 4px!important;
+	background: linear-gradient(#FEFEFD,#F9F9F9 3%,#E6E6E6);
+    background: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#FEFEFD),color-stop(3%,#F9F9F9),color-stop(100%,#E6E6E6));
+	margin-bottom:5px;
+	font-family:Roboto;
+	font-size:11px;
+	font-weight:600;
+	letter-spacing:1px;
+	border:1px solid #ccc;
+	border-left:4px solid #1565C0;
+	color:#000;
+}
+table tr.separator { height: 5px; }
+
+.apm-sprint-detail-list{
+	padding:0;
+	list-style-type:none;
+}
+.apm-sprint-detail-list li{
+	font-size: 12px;
+    font-weight: 500;
+    padding: 10px 0px;
+    border-bottom: 1px solid #D9D6D6;
+	line-height:2em;
+	letter-spacing:1px;
+}
+.apm-add-sprint-btn{
+	margin-left:4px;
+}
+@media (max-width: 620px){
+	.apm-add-sprint-btn{
+		margin-left:0px!important;
+	}
+}
+.btn-separator{
+	display:none;
+}
+@media (max-width: 620px){
+	.btn-separator{
+		display:block;
+	}
+}
+/************** For BACKLOGS page ENDS *****************/
+
+/************** For USER PROFILE page STARTS *****************/
+.apm-user-profile-box{
+	padding:15px;
+}
+
+.apm-profile-container{
+
+}
+.apm-profile-edit-box{
+	text-align: center;
+    padding: 15px 5px;
+    font-size: 13px;
+    font-family: Roboto;
+    font-weight: 600;
+    letter-spacing: 1px;
+	text-transform:uppercase;
+	
+}
+.apm-user-info-label{
+	font-size: 16px;
+    font-family: Roboto;
+    font-weight: 500;
+    letter-spacing: 1px;
+	color:#1565C0;
+	text-shadow: 1px 1px #C9C9C9;
+}
+.apm-user-info-label2{
+	font-size: 16px;
+    color: #000;
+    font-family: Roboto;
+    font-weight: 500;
+    letter-spacing: 1px;
+	color:#000;
+	
+}
+.apm-profile-img-box{
+	padding: 15px;
+    /*border: 1px solid #f2f2f2;*/
+}
+.apm-profile-info-box{
+	padding: 15px;
+    padding-left: 15px;
+	border-left:1px solid #eee;
+}
+.apm-profile-page-main-heading{
+	margin:0;
+	font-family: Roboto;
+	font-size:28px;
+	letter-spacing:2px;
+	line-height:1.5em;
+	padding-left: 20px;
+}
+@media (max-width: 767px){
+	.apm-profile-page-main-heading{
+		font-size:20px;
+		margin-bottom:20px;
+	}
+	.apm-profile-info-box{
+		border-left:none!important;
+	}
+}
+@media (max-width: 450px){
+	.apm-profile-page-main-heading{
+		font-size:16px;
+		margin-top: 12px;
+	}
+	.apm-profile-info-box {
+		padding-left: 15px;
+	}
+}
+.apm-profile-hr{
+	margin-bottom:30px;
+	margin-top: 10px!important;
+}	
+.apm-profile-page-main-heading span{
+	color: #1565C0;
+    font-size: 20px;
+}
+
+@media (min-width:768px) and (max-width: 991px){
+	.apm-edit-pro-btn{
+		padding: 6px 15px!important;
+	}
+	.apm-profile-page-main-heading {
+        font-size: 22px;
+	}
+	.apm-user-info-label, .apm-user-info-label2 {
+		font-size: 14px;
+	}
+}
+@media (max-width: 500px){
+	.apm-profile-page-main-heading span {
+		font-size: 15px;
+	}
+	.apm-user-info-label, .apm-user-info-label2 {
+		font-size: 13px;
+	}
+}
+.apm-profile-info-box .form-group{
+	padding-left: 25px;
+}
+/************** For USER PROFILE page ENDS *****************/
+
+
+/************************ Styles according to new designs ENDS *******************************/
+
 body{
-	font-family:Raleway;
+	font-family: Roboto;
 	overflow-x:hidden;
-	font-weight:bold;
+	font-weight:normal;
 }
 .top-main-section{
 	background:#fff;
 }
 .navbar-pro-management{
-	min-height:80px;
-	padding:15px;
+	/*min-height:80px;
+	padding:15px;*/
 	border-radius:0!important;
 	border-top:0px;
 	border-right:0px;
 	border-left:0px;
-	/*border-bottom:1px solid #f5f5f5;*/
 	box-shadow: -4px -3px 12px 0px rgb(161, 161, 161);
 	-webkit-box-shadow: -4px -3px 12px 0px rgb(161, 161, 161);
-	background:#fff!important;
+	background:#1565C0!important
 }
 .navbar-brand {
 	padding:0;
 }
 .logo-img{
-	width:180px;
+	/*width:180px;*/
+	width: 160px;
+    margin-top: 14px;
+    margin-left: 10px;
 }
-@media (min-width: 768px){
+/**@media (min-width: 768px){
 	.navbar-brand {
 		margin-right: 100px;
 	}
-}
+}**/
 .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>a:hover {
-    color: #FF5B61!important;
+    color: #fff;
     background-color: transparent!important;
 }
 .dropdown a{
-	color:#000!important;
+	color:#fff!important;
 	letter-spacing: 1px;
     font-size: 11px;
 }
 .dropdown a:hover{
 	/*color: #00A8FF!important;*/
-	color: #FF5B61!important;
+	color: #fff!important;
 	
 }
 .dropdown-menu {
-	box-shadow:none!important;
-	border-radius: 5px!important;
+	margin-left: 12px;
+    margin-top: -1px;
+	border-radius:0!important;
 }
-.dropdown-menu li:hover, .dropdown-menu li a:hover{
-	background-color: transparent!important;
-	border:none!important;
-	margin-bottom: 0px!important;
+@media (min-width: 768px){
+	.dropdown-menu li a{
+		color: #000!important;
+	}
+	.dropdown-menu li a:hover{
+		color:#fff!important;
+	}
+	.dropdown-menu li:hover a{
+		background-color: transparent!important;
+		border:none!important;
+		margin-bottom: 0px!important;
+		color:#1565C0!important;
+	}
+	
 }
+
 .dropdown-menu li a{
 	padding: 6px 20px!important;
 	font-size:12px;
 	font-weight:bold;
 }
 .user-link{
-	padding:8px 20px 0 0!important;
+	padding:9px 10px 0 0!important;
 }
 .user-link img{
-	width:35px!important;
+	width:32px!important;
+	height:32px!important;
+	border-radius: 50%;
 }
 @media (min-width: 768px){
 		.nav-desktop{
@@ -126,7 +896,7 @@ body{
 }
 .sidebar-nav .fa{
 	display:inline!important;
-	margin-right: 8px;
+	margin-right: 15px;
 }
 .sidebar-list{
 	list-style-type:none!important;
@@ -348,8 +1118,12 @@ body{
 	}
 }
 .search-field-box{
-	margin-right: 30px;
-    margin-top: 9px;
+	margin-right: 20px;
+    margin-top: 10px;
+}
+.search-field-box .search-field{
+	height:30px!important;
+	
 }
 .search-field{
 	box-shadow:none!important;
@@ -362,19 +1136,19 @@ body{
 	position: absolute;
     margin-top: 8px;
     margin-left: 8px;
-	color:#FF5B61!important;
+	color:#000!important;
 }
 .project-management-textbox{
 	font-size:12px;
 	letter-spacing:2px;
-	border-bottom:3px solid #ccc;
+	border-bottom:2px solid #ccc;
 	box-shadow:none!important;
 	border-radius:0!important;
 }
 .project-management-textbox:focus{
 	
 	/*border-bottom:4px solid #ED1B23!important;*/
-	border-color:#FF5B61!important;
+	border-color:#1565C0!important
 }
 
 /************************ LOGIN Screen styles starts **************************/
@@ -392,8 +1166,8 @@ body{
 	}	
 }
 .login-panel-heading{
-	text-align:center;
-	font-size: 18px;
+	text-align: center;
+    font-size: 15px;
     letter-spacing: 3px;
 }
 .login-textbox{
@@ -404,13 +1178,13 @@ body{
 	position: absolute;
     margin-top: 30px;
     margin-left: 9px;
-    color: #FF5B61!important;
+    color: #1565C0!important
 }
 .login-lock-icon{
 	position: absolute;
     margin-top: 12px;
     margin-left: 10px;
-    color: #FF5B61!important;
+    color: #1565C0!important
 }
 @media (max-width: 991px){
 	.login-user-icon {
@@ -423,20 +1197,20 @@ body{
 	
 }
 .forget-pass-div a{
-	color: #FF5B61!important;
+	color: #1565C0!important;
 	font-weight:bold;
 	letter-spacing:1px;
 	font-size:13px;
 }
 .login-btn{
     width: 100%;
-	border: 2px solid #FF5B61!important;
+	border: 2px solid #1565C0!important;
 	color:#fff!important;
 	letter-spacing:1px;
 	padding: 10px;
 	transition: all 0.3s ease-out;
-	background:#FF5B61!important;
-	outline:none!important;
+	background:#1565C0!important;
+	
 }
 .login-btn:hover{
 	
@@ -451,13 +1225,13 @@ body{
 .change-pass-btn {
     margin-top: -3px;
     width: 100%;
-    border: 2px solid #FF5B61!important;
+    border: 2px solid #1565C0!important;
     letter-spacing: 1px;
     padding: 10px;
     transition: all 0.3s ease-out;
-    background:#FF5B61!important;
+    background:#1565C0!important;
 	color:#fff!important;
-	outline:none!important;
+	
 }
 .change-pass-btn:hover{
 	
@@ -494,10 +1268,11 @@ body{
     margin-bottom: 25px;
 }
 .register-main-heading{
-	color:#FF5B61;
-	font-weight:bold;
+	color:#1565C0!important;
+	font-weight:500;
 	letter-spacing:2px;
 	margin-bottom: 30px;
+	font-family:Roboto;
 }
 .register-label-box{
 	padding-top: 8px;
@@ -505,20 +1280,23 @@ body{
 .register-label{
 	font-size: 13px;
     letter-spacing: 2px;
-    font-weight: bold;
+    font-weight: 600;
+	font-family:Roboto;
 }
 .register-para{
 	margin-bottom: 40px;
     letter-spacing: 2px;
     font-size: 13px;
     line-height: 1.8em;
+	font-family:Roboto;
+	font-weight:600;
 }
 .register-btn{
-    border: 2px solid #FF5B61!important;
+    border: 2px solid #1565C0!important;
     letter-spacing: 1px;
     padding: 8px 40px;
     transition: all 0.3s ease-out;
-    background:#FF5B61!important;
+    background:#1565C0!important;
 	color:#fff!important;
 	outline:none!important;
 	margin-bottom:40px;
@@ -597,7 +1375,7 @@ body{
 
 /************************ PERMISSIONS Screen styles Ends **************************/
 .red-panel-heading{
-	background:#FF5B61!important;
+	background:#1565C0!important;
 	color:#fff!important;
 }
 
@@ -682,11 +1460,13 @@ div.Tokenize {
 	margin: 4px 0 0 4px!important;
 }
 .task-label{
-	font-size:13px;
-	letter-spacing:2px;
+	font-size: 12px;
+    letter-spacing: 2px;
+    font-family: Roboto;
+    font-weight: 600;
 }
 .task-form-group{
-	margin-bottom:26px!important;
+	margin-bottom:12px!important;
 }
 .add-task-textbox{
 	box-shadow:none!important;
@@ -695,12 +1475,13 @@ div.Tokenize {
 	font-size:13px;
 }
 .add-task-textbox:focus{
-	border-color:#000!important;
+	border-color:grey!important;
 }
 .add-task-modal-heading{
-	font-size: 18px;
+	font-size: 16px;
     letter-spacing: 2px;
-    font-weight: bold;
+    font-family:Roboto;
+	font-weight:500;
 }
 .add-task-modal-content{
 	border-radius:0!important;
@@ -709,14 +1490,19 @@ div.Tokenize {
 	background:#f7f7f7;
 }
 .add-task-modal-header{
-	background: -webkit-linear-gradient(top, rgb(254, 254, 253), rgb(249, 249, 249) 3%, rgb(229, 229, 229));
-    background: linear-gradient(top, rgb(254, 254, 253), rgb(249, 249, 249) 3%, rgb(229, 229, 229));
+	/*background: -webkit-linear-gradient(top, rgb(254, 254, 253), rgb(249, 249, 249) 3%, rgb(229, 229, 229));
+    background: linear-gradient(top, rgb(254, 254, 253), rgb(249, 249, 249) 3%, rgb(229, 229, 229));*/
+	background:#1565C0;
+	color:#fff;
+	
  
 }
 .close {
-    font-size: 45px!important;
-    line-height: 0.5!important;
-	outline:none!important;
+    font-size: 38px!important;
+    line-height: 0.6!important;
+    outline: none!important;
+    color: #fff!important;
+    opacity: 0.9!important;
 }	
 .datepicker-switch{
 	font-size: 13px!important;
@@ -726,40 +1512,465 @@ div.Tokenize {
 	font-size: 12px!important;
     letter-spacing: 1px!important;
 }
-.fa-calendar{
+/**.fa-calendar{
 	margin-left:10px;
-}
+}*/
 .datepicker table tr td.active, .datepicker table tr td.active:hover, .datepicker table tr td.active.disabled, .datepicker table tr td.active.disabled:hover{
-	background-color:#FF5B61!important;
+	background-color:#1565C0!important;
 	background-image:none!important;
 }
 .add-task-btn-modal{
     font-size: 13px;
-    border: 2px solid #FF5B61!important;
+    border: 2px solid #1565C0!important;
     letter-spacing: 2px;
     padding: 5px 25px;
     transition: all 0.3s ease-out;
-    background: #FF5B61!important;
+    background: #1565C0!important;
     color: #fff!important;
     outline: none!important;
+	font-family: Roboto;
 }
 .cancel-task-btn-modal{
     margin-left:13px;
-	color:#FF5B61!important;
-	font-size:12px;
+	color:#1565C0!important;
+	font-size:13px;
 	letter-spacing:1px;
 	font-weight:bold;
+	font-family: Roboto;
 }
 /************************ TASKS Screen styles Ends **************************/
 #menu-toggle img{
 	width:35px!important;
 }
-
-.apm-sprint-table thead tr:first-child {
-    padding: 2px 2px!important;
-    color: #000!important;
-    border: none!important;
-    background: transparent!important;
-    font-size: 10px!important;
-    letter-spacing: 0!important;
+/************** For TASKS DETAILS STARTS *****************/
+.apm-text-area{
+	resize:none;
+	border-radius:0!important;
+	box-shadow:none!important;
 }
+.apm-text-area:focus{
+	border-color:grey;
+}
+.apm-back-task-box{
+	margin-bottom: 20px;
+}
+.apm-all-reports-subheading {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 24px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Roboto;
+    font-weight: 500;
+}
+.apm-all-reports-taskname{
+	margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Roboto;
+    font-weight: 500;
+}
+.apm-task-descr{
+	margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    line-height: 2.2em;
+    font-weight: 500;
+	font-family: Roboto;
+}
+.apm-task-descr-table{
+	margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    border-radius: 5px;
+    font-weight: 500;
+	
+}
+.apm-task-descr-table th{
+	text-align: center;
+    background: #1565C0;
+    color: #fff;
+}
+.apm-task-descr-table td{
+	text-align:center;
+	
+}
+.apm-task-timelog-para{
+	margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    line-height: 2.2em;
+    font-weight: 500;
+}
+.hour-text, .min-text{
+	width: 45%;
+	display: inline!important;
+	padding-left: 6px;
+}
+.billable-check{
+	margin-top:26px;
+}
+.apm-logtime-modal-row{
+	margin-bottom:5px;
+}
+.apm-logtime-task-label{
+	font-size: 15px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Roboto;
+    font-weight: 500;
+}
+.apm-logtime-separator{
+	margin-top: 5px;
+    margin-bottom: 10px;
+}
+.apm-logtime-modal-label{
+	font-size: 12px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Roboto;
+    font-weight: 500;
+}
+.apm-logtime-modal-row .checkbox input[type=checkbox]{
+	margin-top:0!important;	
+}
+.apm-comment-username{
+	font-size: 13px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Roboto;
+    font-weight: 600;
+}
+.apm-comment-date-time-span{
+	font-size: 10px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Roboto;
+    font-weight: 500;
+	margin-left:10px;
+}
+.apm-comment-row{
+	padding-left:30px;
+	padding-right:15px;
+}
+.apm-comment-content{
+	margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    line-height: 2.2em;
+    font-weight: 500;
+	padding-left:20px;
+}
+.apm-comment-username i{
+	margin-right:8px;
+}
+.task-detail-separator{
+	margin-top: 50px;
+    margin-bottom: 50px;
+    border-top: 1px solid #D2D2D2;
+}
+@media (max-width: 767px){
+	.apm-comment-row {
+		padding-left: 16px;
+	}
+}	
+	
+/************** For TASKS DETAILS page ENDS *****************/
+
+
+/** For Timesheet Page STARTS ***/
+.apm-all-reports-empname {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Roboto;
+    font-weight: 500;
+}
+.apm-timesheet-monthname-weekname{
+ font-size: 18px;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+    font-family: Roboto;
+    font-weight: 600;
+    margin-top: 20px;
+}
+.total-efforts-label{
+ font-size: 14px;
+    letter-spacing: 2px;
+    line-height: 1.2em;
+    font-family: Roboto;
+    font-weight: 600;
+ text-transform:uppercase;
+ text-align:right;
+}
+.apm-timesheet-go-btn{
+ font-size: 13px;
+    border: 2px solid #1565C0!important;
+    letter-spacing: 2px;
+    padding: 3px 15px;
+    transition: all 0.3s ease-out;
+    background: #1565C0!important;
+    color: #fff!important;
+    outline: none!important;
+    font-family: Roboto;
+    margin-top: 24px;
+} 
+.apm-timesheet-separator{
+ margin-bottom:4px;
+}
+@media (max-width: 767px){
+ .apm-timesheet-monthname-weekname {
+  font-size: 15px;
+  margin-top: 30px; 
+ } 
+ .apm-timesheet-separator {
+  margin-bottom: 24px;
+ }
+}
+.to-span{
+ margin-left: 10px;
+    margin-right: 10px;
+}
+.apm-timesheet-table{
+ 
+}
+.apm-timesheet-td-bold{
+ vertical-align: middle!important;
+ font-weight:600;
+ font-size: 14px;
+}
+.week-total-hrs-label{
+ text-align:right;
+ font-weight:600;
+ font-size: 16px;
+ font-family: Roboto;
+ letter-spacing:1px;
+}
+.timesheet-navigation-box{
+ text-align: right;
+    margin-top: -33px;
+}
+.timesheet-navigation-box button{
+ font-size: 10px;
+    border: 2px solid #1565C0!important;
+    letter-spacing: 2px;
+    padding: 5px 10px;
+    transition: all 0.3s ease-out;
+    background: #1565C0!important;
+    color: #fff!important;
+    outline: none!important;
+    font-family: Roboto;
+}
+@media (max-width: 650px){
+ .timesheet-navigation-box{
+  text-align: left;
+  margin-top: 15px;
+ }
+}
+.timesheet-row-separator{
+ height:6px;
+ border:none!important;
+}
+
+/*** For Timesheet Page ENDs ***/
+
+/************** For Efforts Estimates page STARTS *****************/
+.apm-effort-est-lbl{
+	font-size: 12px!important;
+    letter-spacing: 1px!important;
+    font-family: Roboto;
+    font-weight: 600;
+}
+.apm-effort-est-dropdown{
+	
+}
+.apm-eff-est-table th{
+	vertical-align: middle!important;
+}
+.apm-eff-est-table select{
+	cursor:pointer;
+}
+.apm-eff-est-table td{
+	font-size:13px!important;
+}
+
+.apm-eff-est-sprint-name{
+	font-size: 16px!important;
+	letter-spacing:2px!important;
+	font-family:Roboto;
+	font-weight:600;
+	margin:0;
+}
+.apm-eff-est-table-box{
+	/*border-left:1px solid #eee;*/
+}
+@media (max-width: 600px){
+	.apm-eff-est-table-box{
+		border:none;
+		margin-top:50px;
+	}
+}
+.apm-eff-est-hr-num{
+	cursor:pointer;
+}
+
+.apm-eff-est-hr-text{
+	display:none;	
+}
+
+.apm-eff-est-hr-text input[type='text']{
+	width: 35px!important;
+    margin: 0 auto!important;
+    height: 18px!important;
+	padding:4px 0!important;
+	text-align:center!important;
+	font-size:12px!important;
+	font-weight:500;
+}
+.apm-eff-est-add-member-btn{
+	margin:0!important;
+	padding: 5px 15px!important;
+}
+.apm-eff-est-form-grp{
+	margin-bottom:32px;
+}
+.eff-est-modal-box{
+	margin-bottom:15px;
+}
+.eff-est-modal-box .task-label{
+	font-family: Roboto!important;
+    font-weight: 400!important;
+    font-size: 12px!important;
+}
+.apm-eff-est-dropdown-box{
+	margin-bottom:20px;
+}
+.eff-est-label-box{
+	padding-top:3px;
+}
+.apm-eff-est-hour-box{
+	height:200px;
+	overflow-y:auto;
+	overflow-x:hidden!important;
+}
+.day-wise-eff-label{
+	margin-bottom:12px;
+}
+.apm-eff-est-table tr:last-child{
+	background: #f6f6f6;
+}
+.apm-eff-est-table tr:last-child td{
+	font-weight: 900!important;
+	font-size:15px;
+}
+
+/******23 May 2016 **********/
+.apm-select-sprint-dropdown{
+ margin-bottom: 25px;
+}
+.est-eff-information-modal-text{
+ color: #000;
+    letter-spacing:1px;
+    font-size: 12px;
+    font-family: Roboto;
+ line-height:1.6em;
+ margin:0;
+}
+.est-eff-information-modal-text b{ 
+ margin-bottom:8px;
+}
+/************** For Efforts Estimates page ENDS *****************/
+
+.cell-effort{
+ cursor:pointer;
+}
+.cell-effort:hover{
+ background:#eee;
+}
+
+/* draggable targets */
+			[data-draggable="target"]
+			{
+			   	list-style-type: none;
+				height: 500px;
+				overflow-y: auto;
+				padding: 15px;
+				border-radius: 0.2em;
+				color: #555;
+				background:#f8f8f8;
+				border:1px solid #eee;
+			}
+
+			/* draggable items */
+			[data-draggable="item"]
+			{
+				display: block;
+				list-style-type: none;
+				margin: 0 0 2px 0;
+				padding: 12px;
+				border: 1px solid #fff;
+				margin-bottom: 15px;
+				background:#fff;
+				cursor:move;
+				height: 115px;
+				-webkit-box-shadow: -1px 1px 3px 0px rgba(122,122,122,1);
+				-moz-box-shadow: -1px 1px 3px 0px rgba(122,122,122,1);
+				box-shadow: -1px 1px 3px 0px rgba(122,122,122,1);
+			}
+			@media (max-width: 991px){
+				[data-draggable="item"]{
+					height: auto;
+				}
+			}	
+			.to-do-list [data-draggable="item"]{
+				border-left:5px solid #ff0000;
+			}
+			.in-progress-list [data-draggable="item"]{
+				border-left:5px solid #F0AD4E;
+			}
+			.done-list [data-draggable="item"]{
+				border-left:5px solid #5CB85C;
+			}
+			.drag-task-heading{
+				margin:0;
+				margin-bottom:8px;
+				font-size:12px;
+				letter-spacing:1px;
+				font-weight:600;
+				text-transform:uppercase;
+			}
+			.drag-task-descr{
+				margin:0;
+				font-size:12px;
+				letter-spacing:1px;
+				font-weight:500;
+				line-height: 1.8em;
+			}
+			.apm-user-actionitem-label{
+				font-family:Roboto;
+				letter-spacing:1px;
+				font-size: 16px;
+			}
+			
+			.apm-add-proj-view{
+				font-size: 14px!important;
+    			margin: 0 3px;
+    			cursor: pointer;
+    			color: #1565C0;
+			}
+			.apm-sprint-table thead tr:first-child{
+    			padding: 2px 2px!important;
+    			color: #000!important;
+   				border: none!important;
+    			background: transparent!important;
+    			font-size: 11px!important;
+    			letter-spacing: 0!important;
+    			border-color:transparent!important; 
+			}

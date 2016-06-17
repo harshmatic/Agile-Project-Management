@@ -51,13 +51,16 @@ class AllBacklogs(BaseHandler):
         sprint_obj=sprint.Sprint()
         sprints=sprint_obj.get_by_project(self.session['current_project'])
         
+        key=self.session['current_project']  
+        team=project.ProjectMembers().get_all(key)
+        
         u=user.OurUser()
         user1=u.query(user.OurUser.tenant_domain==kargs['subdomain']).fetch()
         
         release=project.ProjectRelease()
         releases=release.get_by_project(self.session['current_project'])
         
-        self.render_template("user_new/apm-backlog-new.html",{"user_data":user1,"productBacklog":productBacklog,"type":type,"project":proj,"sprint":sprints,"company_name":company_name,"release":releases})
+        self.render_template("user_new/apm-backlog-new.html",{"user_data":user1,"team":team,"productBacklog":productBacklog,"type":type,"project":proj,"sprint":sprints,"company_name":company_name,"release":releases})
        #else:
         #self.response.write("you are not allowed")   
         
@@ -151,10 +154,13 @@ class EditBacklog(BaseHandler):
             projmodel=project.Project()
             proj=projmodel.get_all()
             
+            key=self.session['current_project']  
+            team=project.ProjectMembers().get_all(key)
+            
             u=user.OurUser()
             user1=u.query(user.OurUser.tenant_domain==kargs['subdomain']).fetch()
             
-            self.render_template("user_new/edit_backlog.html",{"user_data":user1,"backlog_info":backlog_info,"project":proj,"sprint":sprints})
+            self.render_template("user_new/edit_backlog.html",{"user_data":user1,"team":team,"backlog_info":backlog_info,"project":proj,"sprint":sprints})
 
             
             
@@ -190,7 +196,9 @@ class UpdateBacklog(BaseHandler):
             backlog_info = key.get()
             u=user.OurUser()
             user1=u.query(user.OurUser.tenant_domain==kargs['subdomain']).fetch()
-            self.render_template("user_new/update_userstory.html",{"backlog_info":backlog_info,"user_data":user1})
+            key=self.session['current_project']  
+            team=project.ProjectMembers().get_all(key)
+            self.render_template("user_new/update_userstory.html",{"backlog_info":backlog_info,"user_data":user1,"team":team,})
             
         def post(self,*args,**kargs):
             key= ndb.Key(urlsafe=self.request.get('key'))

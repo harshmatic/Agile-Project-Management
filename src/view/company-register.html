@@ -37,23 +37,15 @@
 $(document).ready(function() {
 	$('input:text:first').focus();
 	
-/* 	$('body').keyup(function(e) {
-	   // console.log('keyup called');
-	    var code = e.keyCode || e.which;
-	    if (code == '9') {
-	    	console.log($(this));
-	    //	alert($(this));
-	  //  alert('Tab pressed');
-	    }
-	 }); */
-	
 	 var result =  validSubdomain();
 	 
 	$("#submit_form").on("click",function(e){
+		
 		 if ($('#signup_user').valid()){
-			if(result == 1)
-			{
 			 e.preventDefault();
+			if(validSubdomain() == 1)
+			{
+			 
 				$.post( "/signupuser", $("#signup_user").serialize()).done(function( data ) {
 					da =data.split("*%*")
 					console.log(da)
@@ -163,17 +155,18 @@ $(document).ready(function() {
 				  }
 				});	
 		
-			if(validSubdomain() == 1)
-			{
+			
 				$("#checkdomain").click(function(){
-				
-					$.post( "/checkdomain", $("#signup_user").serialize())
-			  		.done(function( data ) {
+					if(validSubdomain() == 1)
+					{
+						$.post( "/checkdomain", $("#signup_user").serialize())
+			  			.done(function( data ) {
 			  			$(".success-dom-name").text(data)
-			  		});
-				
+			  			});
+					}
+					
 				});
-			}
+			
 			
 			
 			$("#domain_name").blur(function(){

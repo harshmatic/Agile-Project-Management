@@ -456,15 +456,12 @@
 								 
 								 var project_startdate=project_start_date;
 								 var project_enddate=project_end_date;
+							
 								 
-								 start_date = new Date(start_date.split('/')[2],start_date.split('/')[1],start_date.split('/')[0]);
-								 end_date = new Date(end_date.split('/')[2],end_date.split('/')[1],end_date.split('/')[0]);
-								 project_start_date = new Date(project_start_date.split('/')[2],project_start_date.split('/')[1],project_start_date.split('/')[0]);
-								 project_end_date = new Date(project_end_date.split('/')[2],project_end_date.split('/')[1],project_end_date.split('/')[0]);
-
-								 
-								 
-								 
+								 start_date =Date.parse(start_date);
+								 end_date=Date.parse(end_date);
+								 project_start_date=Date.parse(project_start_date);
+								 project_end_date =Date.parse(project_end_date);
 								// alert(release_end_date);
 								 
 								 if(start_date < project_start_date && start_date!='' && end_date > project_start_date && end_date !='')
@@ -739,13 +736,13 @@
 																<td>{%if i.sprintId != None  %}
 																		{{i.sprintId.get.name}}
 																	{%else%}
-																	{{i.sprintId}}
+																	None
 																	{%endif%}
 																</td>
 																<td>{{i.backlog_name}}</td>
 																<td>{{i.storyDesc}}</td>
 																<!-- <td>{{i.startDate}}</td> -->
-																<td>{{i.assignee.get.name}}</td>
+																<td>{%if i.assignee%}{{i.assignee.get.name}}{%else%}None{%endif%}</td>
 																<td>{{i.roughEstimate}}</td>
 																<td>{{i.priority}}</td>
 																<td>
@@ -975,10 +972,10 @@
 												<label class="task-label">Assign To</label>
 												<select class="form-control add-task-textbox apm-modal-textbox" name="assignee" id="assignee">
 													<option value="None">None</option>
-													{%for i in user_data%}
-													{%if i.status%}
-																<option value={{i.key.urlsafe}}>{{i.name}}</option>
-													{%endif%}		
+													{% for team in team%}
+													{%if team.status%}
+													<option value="{{team.key.urlsafe}}">{{team.userName}}</option>
+													{%endif%}
 													{%endfor%}
 												</select>
 											  </div>

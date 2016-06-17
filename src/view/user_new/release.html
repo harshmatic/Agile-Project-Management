@@ -89,10 +89,10 @@
 							 var start_date=project_start_date;
 							 var end_date=project_end_date;
 							 
-							 release_date = new Date(release_date.split('/')[2],release_date.split('/')[1],release_date.split('/')[0]);
-							 project_start_date = new Date(project_start_date.split('/')[2],project_start_date.split('/')[1],project_start_date.split('/')[0]);
-							 project_end_date = new Date(project_end_date.split('/')[2],project_end_date.split('/')[1],project_end_date.split('/')[0]);
-
+							 release_date =Date.parse(release_date);
+							 project_start_date=Date.parse(project_start_date);
+							 project_end_date =Date.parse(project_end_date);
+							 
 							console.log(release_date,project_start_date,project_end_date);
 							 
 							 if (release_date > project_end_date){
@@ -112,15 +112,7 @@
 									 return false;
 									 
 								 } 
-							/* else
-							if (release_date > project_start_date && release_date < project_end_date){
-										 
-										 $('#date_error').text("Release date cannot be between project start date("+start_date+") and end date("+end_date+").")
-										event.preventDefault();
-										 event.stopImmediatePropagation();
-										 return false;
-										 
-									 }  */
+							
 							 
 							 else
 							{	 
