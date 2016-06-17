@@ -21,8 +21,7 @@ $(document).ready(function(){
 	 
 	if (sprint != 'None')
 	{
-	// $('select').on('change', function (e) {
-		
+	
 		sprint=$('#sprint_name').val(); 
 		$.post( "/sprint_info?key="+sprint+"")
   		.done(function( data ) {
@@ -47,7 +46,7 @@ $(document).ready(function(){
 	        });
 	
 	
-	//	});
+	
 	}
 	
 	
@@ -92,15 +91,7 @@ $(document).ready(function(){
 		          {
 			      		 required: true
 			      },
-			   /*    start: 
-			      {
-				  		 required: true
-		          },
-		          end: 
-		          {
-						 required: true
-						
-				  }, */
+			
 				  complexity: 
 				  {
 						 required: true
@@ -126,15 +117,7 @@ $(document).ready(function(){
 		           {
 		             required: "Please enter task description."
 		           },
-		          /*  start:
-		           {
-			             required: "Please select start date."
-			       },
-			       end:
-			       {
-			             required: "Please select end date."
-			            
-			       }, */
+		         
 			       complexity: 
 			       {
 			             required: "Please select complexity."
@@ -201,7 +184,7 @@ $(document).ready(function(){
 						  				{
 						  			
 								        $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
-						  				    //var variable = $('#edit_permissions').html();
+						  				   
 						  				    console.log('inside');
 						  				});
 						  				console.log('out');
