@@ -33,6 +33,13 @@
 			    padding: 20px 20px;
 			    background: #f8f8f8;
 			}
+			.error{
+			color:red;
+			display: inline-block;
+    		max-width: 100%;
+    		margin-bottom: 5px;
+    		font-weight: 700;
+			}
 			
 		</style>
 		
@@ -242,7 +249,7 @@
 													<tbody>
 													{% for mem in projmem %}
 													  <tr id="{{mem.key.id}}">
-														<td>{{ mem.userName }}</td>
+														<td>{{ mem.userid.get.name }}</td>
 														<td>{{ mem.userRole }}</td>
 														<td>
 															<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>
@@ -373,7 +380,7 @@
 											  
 											
 										</form>
-										
+										<div class="error" id="date_error"></div>
 								</div>	
 								<div class="col-md-2">
 								</div>		
@@ -425,8 +432,9 @@
 													<option  value= "{{ role.key.id }}"> {{ role.role }}</option>
 													{%endfor%}
 												</select>
+												
 											  </div>
-											  
+											 <div class="error" id="date_error1"></div> 
 											
 										</form>
 										
@@ -670,6 +678,16 @@
 						var projid = {{ project.key.id }}
 						console.log("the projid are"+projid) 
 						
+						if(strUser == "- Select -" || strRole == "- Select -")
+							{
+							 $('#date_error').text("Please select a value.");
+							 event.preventDefault();
+							 event.stopImmediatePropagation();
+							 return false;
+							}
+						else{
+							$('#date_error').text("")
+						
 						var parameters = "role="+strRole+"&projid="+projid+"&userid="+strUser+""
 					    console.log("the param are"+parameters); 
 						
@@ -689,7 +707,7 @@
 			  			
 			  		}); 
 					
-					
+						}
 				})
 				
 				
@@ -705,7 +723,19 @@
 						
 						var projid = {{ project.key.id }}
 						console.log("the projid are"+projid) 
+						if(strUser === "- Select -" || strRole === "- Select -")
+							{
+							console.log("it is in select");
+							
+							 $('#date_error1').text("Please select a value.");
+							 event.preventDefault();
+							 event.stopImmediatePropagation();
+							 return false;
+							}
+						else{
 						
+							console.log("it is in else");
+							$('#date_error').text("")
 						var parameters = "role="+strRole+"&projid="+projid+"&userid="+strUser+""
 					    console.log("the param are"+parameters);   
 					$.post( "/project/editmembertoproj", parameters)
@@ -720,7 +750,7 @@
 			  				
 			  			
 			  		}); 
-					
+						}
 					
 				})
 				

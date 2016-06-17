@@ -212,7 +212,7 @@ class AddProjectMembers(BaseHandler):
         data['id'] = projmodel.key.id()
         data['projectid'] = projmodel.projectid.id()
         data['companyid'] = projmodel.companyid.id()
-        data['userName'] = projmodel.userName
+        data['userName'] = (projmodel.userid).get().name
         data['userid'] = projmodel.userid.id()
         data['userRole'] = projmodel.userRole
         
@@ -237,7 +237,7 @@ class EditProjMem(BaseHandler):
         data['id'] = projmemmodel.key.id()
         data['projectid'] = projmemmodel.projectid.id()
         data['companyid'] = projmemmodel.companyid.id()
-        data['userName'] = projmemmodel.userName
+        data['userName'] = (projmemmodel.userid).get().name
         data['userid'] = projmemmodel.userid.id()
         data['userRole'] = projmemmodel.userRole
         

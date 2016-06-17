@@ -18,8 +18,11 @@ class EffortEstimationView(BaseHandler):
             if(self.request.get("sprint_id") != ''):
              logging.info("The sprintid is"+self.request.get("sprint_id"))   
              estimates = effort_estimation.EffortEstimation().get_esti_by_sprint(ndb.Key('Sprint',int(self.request.get("sprint_id"))))
-            else:   
-             estimates = effort_estimation.EffortEstimation().get_esti_by_sprint(sprints[0].key)
+            else: 
+             if not sprints:
+                 estimates = None
+             else:
+                estimates = effort_estimation.EffortEstimation().get_esti_by_sprint(sprints[0].key)
            # projectKey = estimates[0].project
             projectmembermodel = project.ProjectMembers()
             projmem = projectmembermodel.get_all(projectKey)
@@ -189,7 +192,13 @@ class Barchart(BaseHandler):
             sprintid = self.request.get("sprint_id")
             sprint_key = ndb.Key('Sprint',int(sprintid))
         else:
-            sprint_key = sprints[0].key
+            if not sprints:
+                logging.info("No Sprints created")
+                sprint_key = None
+                
+            else:
+                sprint_key = sprints[0].key
+                
          
                     
         timelog = {}
@@ -241,7 +250,10 @@ class Utilizationchart(BaseHandler):
             sprintid = self.request.get("sprint_id")
             sprint_key = ndb.Key('Sprint',int(sprintid))
         else:
-            sprint_key = sprints[0].key
+            if not sprints:
+                sprint_key = None
+            else:
+                sprint_key = sprints[0].key
         userest = {}
         username = {}
         userlog = {}    
