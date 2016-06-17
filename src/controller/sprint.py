@@ -84,6 +84,7 @@ class EditTask(BaseHandler):
             #self.response.write("you are not allowed")
     
     def post(self,*args,**kargs):
+        logging.info(type(self.request.get('edit_key')))
         task_key = ndb.Key(urlsafe=self.request.get('edit_key'))
         task_data=task_key.get()
         currentUser=self.auth.get_user_by_session()
@@ -91,8 +92,8 @@ class EditTask(BaseHandler):
         task_data.name = self.request.get('name')
         task_data.description = self.request.get('desc')
         
-        task_data.startDate = datetime.strptime(self.request.get("start"), '%d/%m/%Y').date()
-        task_data.endDate = datetime.strptime(self.request.get("end"), '%d/%m/%Y').date()
+        task_data.startDate = datetime.strptime(self.request.get("start"), '%d/%m/%Y').date() if self.request.get("start")!="" else None 
+        task_data.endDate = datetime.strptime(self.request.get("end"), '%d/%m/%Y').date() if self.request.get("start")!="" else None
         
         if (self.request.get('complexity') != 'None'):
             task_data.complexity = ndb.Key(urlsafe=self.request.get('complexity'))
