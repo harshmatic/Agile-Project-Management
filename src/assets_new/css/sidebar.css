@@ -103,9 +103,9 @@
     #wrapper {
         padding-left: 250px;
     }
-    .fixed-brand{
+    /*.fixed-brand{
         width: 250px;
-    }
+    }*/
     #wrapper.toggled {
         padding-left: 0;
     }

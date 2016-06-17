@@ -192,7 +192,6 @@ $(document).ready(function(){
 	  		});
 				 }
 				
-			 	}		
 					
 			})
 				
@@ -237,7 +236,7 @@ $(document).ready(function(){
 												<label class="task-label">Sprint</label>
 												<select name="sprint" id="sprint_name" class="form-control add-task-textbox apm-modal-textbox">
 													
-													<!-- <option value="None">None</option> -->
+													<option value="None">None</option>
 													{% for sprint in sprints%}
 														{%if sprint.status%}
 															{%ifequal task_data.sprint sprint.key%}
@@ -276,7 +275,7 @@ $(document).ready(function(){
 												<div class="form-group task-form-group">
 												<label class="task-label">Assignee</label>
 												<select name="assignee" class="form-control add-task-textbox apm-modal-textbox">
-													
+													<option value="None">None</option>
 													{% for team in team%}
 														{%if team.status%}
 															{%ifequal task_data.assignee team.key%}
