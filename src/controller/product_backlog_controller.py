@@ -198,7 +198,7 @@ class UpdateBacklog(BaseHandler):
             user1=u.query(user.OurUser.tenant_domain==kargs['subdomain']).fetch()
             key=self.session['current_project']  
             team=project.ProjectMembers().get_all(key)
-            self.render_template("user_new/update_userstory.html",{"backlog_info":backlog_info,"user_data":user1,"team":team,})
+            self.render_template("user_new/update_userstory.html",{"backlog_info":backlog_info,"user_data":user1,"team":team})
             
         def post(self,*args,**kargs):
             key= ndb.Key(urlsafe=self.request.get('key'))
