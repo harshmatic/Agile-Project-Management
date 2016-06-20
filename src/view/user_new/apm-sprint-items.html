@@ -533,7 +533,7 @@
 																<td title="User Story">{%if task.user_story%}{{task.user_story.get.backlog_name}}{%else%}None{%endif%}</td>
 																<td title="Planned Start Date">{{task.startDate}}</td>
 																<td title="Planned End Date">{{task.endDate}}</td>
-																<td title="Assigned To">{%if task.assignee%}{{task.assignee.get.userName}}{%else%}None{%endif%}</td>
+																<td title="Assigned To">{{task.assignee.get.name}}</td>
 																<td title="Status">{{task.task_status}}</td>
 																<td title="Complexity">{{task.complexity.get.estimationLevel}}</td>
 																

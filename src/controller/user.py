@@ -53,7 +53,7 @@ class EndUserDashboardHandler(BaseHandler):
             #currentUser=self.user_model.get_by_id(currentUser['user_id']).key
             if(projectKey != None):
                 project_member=project.ProjectMembers().get_by_project_user(projectKey,currentUser)
-                tasks=task.Task().get_by_project_user(projectKey,project_member[0])
+                tasks=task.Task().get_by_project_user(projectKey,currentUser)
                 
                 open_count=0
                 inprogress_count =0

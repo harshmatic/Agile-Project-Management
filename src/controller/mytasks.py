@@ -30,8 +30,9 @@ class MyTasks(BaseHandler):
         project_member=project.ProjectMembers().get_by_project_user(projectKey,currentUser)
         logging.info(projectKey)
         logging.info(project_member)
-        tasks=task.Task().get_by_project_user(projectKey,project_member[0])
-       
+        tasks=task.Task().get_by_project_user(projectKey,currentUser)
+        logging.info('da.das.dasd')
+        logging.info(tasks)
         self.render_template("user_new/my_tasks.html",{"tasks":tasks})
 
 class MyTaskView(BaseHandler):
