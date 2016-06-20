@@ -387,7 +387,7 @@
 														<option value="None">None</option>
 														{%for i in release%}
 														{%if i.status%}
-														{%if i.releaseName != sprint_info.%}
+														{%if i.releaseName != sprint_info.release_key.get.releaseName%}
 															<option value={{i.key.urlsafe}}>{{i.releaseName}}</option>
 														{%endif%}
 														{%endif%}
