@@ -37,10 +37,10 @@ class Tasks(BaseHandler):
             task_data.complexity = ndb.Key(urlsafe=self.request.get('complexity'))
         
         if (self.request.get("start") != ''):
-            task_data.startDate = datetime.strptime(self.request.get("start"), '%d/%m/%Y').date()
+            task_data.startDate = datetime.strptime(self.request.get("start"), '%m/%d/%Y').date()
         
         if (self.request.get("end")!=''):
-            task_data.endDate = datetime.strptime(self.request.get("end"), '%d/%m/%Y').date()
+            task_data.endDate = datetime.strptime(self.request.get("end"), '%m/%d/%Y').date()
             
         if (self.request.get('assignee') != 'None'):
             task_data.assignee = ndb.Key(urlsafe=self.request.get('assignee'))
@@ -92,8 +92,17 @@ class EditTask(BaseHandler):
         task_data.name = self.request.get('name')
         task_data.description = self.request.get('desc')
         
-        task_data.startDate = datetime.strptime(self.request.get("start"), '%d/%m/%Y').date() if self.request.get("start")!="" else None 
-        task_data.endDate = datetime.strptime(self.request.get("end"), '%d/%m/%Y').date() if self.request.get("start")!="" else None
+        if(self.request.get("start") != ''):
+            task_data.startDate = datetime.strptime(self.request.get("start"), '%m/%d/%Y').date() if self.request.get("start")!="" else None 
+        else:
+            task_data.startDate=None
+        
+        
+        if(self.request.get("end") != ''):
+            task_data.endDate = datetime.strptime(self.request.get("end"), '%m/%d/%Y').date() if self.request.get("start")!="" else None
+        else:
+            task_data.endDate=None
+        
         
         if (self.request.get('complexity') != 'None'):
             task_data.complexity = ndb.Key(urlsafe=self.request.get('complexity'))
@@ -336,15 +345,16 @@ class SprintInfo(BaseHandler):
      def post(self,*args,**kargs):
         #if check_permission(self):
            # project = ndb.Key(urlsafe=self.request.get("key"))
-           if self.request.get('key')!="None":
+           if self.request.get('key')!= "None":
                 key = ndb.Key(urlsafe=self.request.get('key'))
                 sprint_info=key.get()
                # self.render_template("user_new/delete_sprint.html",{"sprint_info":sprint_info})
+                
                 startDate = sprint_info.startDate
-                startDate=startDate.strftime('%d/%m/%Y')
+                startDate=startDate.strftime('%m/%d/%Y')
                 
                 endDate = sprint_info.endDate
-                endDate=endDate.strftime('%d/%m/%Y')
+                endDate=endDate.strftime('%m/%d/%Y')
                
                 params=startDate,endDate
                

@@ -1,3 +1,4 @@
+
 <style>
 .error{
 			color:red;
@@ -9,9 +10,47 @@
 </style>
 
 <script>
-				$(document).ready(function(){
+
+$(document).ready(function(){
+			
+/***************************************length of week starts*************************************/
+	  
+	  var sprint_start=$('#start').val();
+      var sprint_end=$('#end').val();
+      
+      if(sprint_start != '' & sprint_end != '')
+      {
+      	secs=(new Date(sprint_end)).getTime()/1000-(new Date(sprint_start)).getTime()/1000
+      	secs=secs/60/60/24;
+      	if (secs>=7){
+      		week=parseInt(secs/7);
+      		days=secs%6;
+      		$("#length").val(week+" weeks "+days+" days")
+      	}
+      	else {
+      		if(secs==0){
+      		$("#length").val("1 Day")
+      		} else {
+      			secs=secs+1;
+      			$("#length").val(secs+" Days")
+      		}
+      	 }					
+      }			
 					
-	/***********************sprint validation starts******************************/
+/***************************************length of week ends*************************************/		
+/****************************icon click starts*****************************************************/
+$('.form-group').find('.open-datetimepicker').on('click', function(){
+					    $('#start').trigger('focus');
+					});
+					
+
+$('.form-group').find('.open-datetimepicker1').on('click', function(){
+					    $('#end').trigger('focus');
+					});
+
+					
+/******************************icon click ends*******************************************/					
+/************************************sprint validation starts***************************************/
 					
 					var sprint_validator=   $("#edit_sprint").validate({
 						      rules: {
@@ -23,29 +62,14 @@
 						          {
 							      		 required: true
 							      },
-							    /*   start: 
-							      {
-								  		 required: true
-						          },
-						          end: 
-						          {
-										 required: true
-										
-								  }, */
+							   
 								  new_workinghours: 
 								  {
 										 required: true
 										
 									
 								  }
-								 /*  ,
-								  release: 
-								  {
-										 required: true
-										
-									
-								  }
-					    */
+								
 					   
 						         },
 						         messages: 
@@ -58,28 +82,18 @@
 						           {
 						             required: "Please enter sprint description."
 						           },
-						        /*    start:
-						           {
-							             required: "Please select start date."
-							       },
-							       end:
-							       {
-							             required: "Please select end date."
-							            
-							       }, */
+						       
 							       new_workinghours: 
 							       {
 							             required: "Please enter working hours."
 							       }
-							    /*    ,
-							       release: 
-							       {
-							             required: "Please select release."
-							       } */
+							   
 						           
 						         }
 						     });
-					/***********************sprint validation ends******************************/
+/***************************************sprint validation ends**********************************************/
+					
+/*********************************datepicker function starts*******************************************/					
 					
 					$('body').on('focus',"#start,#start_edit", function(){
 					    $(this).datepicker({
@@ -92,10 +106,12 @@
 							format: 'dd/mm/yyyy',
 							startDate: '0d'
 						});
+					    
 					});
 					$('.datepicker').datepicker({
 						format: 'mm/dd/yyyy',
-						startDate: '0d'
+						startDate: '0d',
+						autoclose:true
 					});
 					$('.datepicker').datepicker()
 				    .on('changeDate', function(e) {
@@ -103,33 +119,14 @@
 				    });
 					
 					
-				 	//var oneDay = 24*60*60*1000; 
-					start = $('#sprint_start').val();
-					end = $('#sprint_end').val();
-
-					 function showDays(firstDate,secondDate){
-	                
-	                  
-
-	                  var startDay = new Date(firstDate);
-	                  var endDay = new Date(secondDate);
-	                  var millisecondsPerDay = 1000 * 60 * 60 * 24;
-
-	                  var millisBetween = startDay.getTime() - endDay.getTime();
-	                  var days = millisBetween / millisecondsPerDay;
-
-	                  // Round down.
-	                  alert( Math.floor(days));
-
-	              }
+				 
 					
 					
-					
-					$('#sprint_end').datepicker()
+					$('#end').datepicker()
 				    .on('changeDate', function(e) {
-				    	if ($('#sprint_start').val()!=""){
-					        start=$('#sprint_start').val();
-					        end=$('#sprint_end').val();
+				    	if ($('#start').val()!=""){
+					        start=$('#start').val();
+					        end=$('#end').val();
 					        secs=(new Date(end)).getTime()/1000-(new Date(start)).getTime()/1000
 					        secs=secs/60/60/24;
 					        if (secs>=7){
@@ -147,11 +144,11 @@
 					        }
 				    	}
 				    });
-					$('#sprint_start').datepicker()
+					$('#start').datepicker()
 				    .on('changeDate', function(e) {
-				    	if ($('#sprint_end').val()!=""){
-				    		start=$('#sprint_start').val();
-					        end=$('#sprint_end').val();
+				    	if ($('#end').val()!=""){
+				    		start=$('#start').val();
+					        end=$('#end').val();
 					        secs=(new Date(end)).getTime()/1000-(new Date(start)).getTime()/1000
 					        secs=secs/60/60/24;
 					        if (secs>=7){
@@ -169,10 +166,15 @@
 					        }
 				    	}
 				    });
+					
+					
+					
+/*********************************datepicker function ends*******************************************/	
 					/*$("#add-issue").click(function(e) {
 						$('#add-issue-modal').modal('show');
 					});*/
 				
+/*********************************submit function starts*******************************************/
 					$("#submit_sprint").on("click",function(event){
 						 if (!$('#edit_sprint').valid()){
 							    event.preventDefault();
@@ -187,6 +189,9 @@
 					 	 var project_start_date="{{session.current_project.get.startDate|date:'m/d/Y'}}";
 						 var project_end_date="{{session.current_project.get.endDate|date:'m/d/Y'}}";
 						 
+						 var project_startdate=project_start_date;
+						 var project_enddate=project_end_date;
+						 
 						 start_date =Date.parse(start_date);
 						 end_date=Date.parse(end_date);
 						 project_start_date=Date.parse(project_start_date);
@@ -196,7 +201,7 @@
 						 if(start_date < project_start_date && start_date!='' && end_date > project_start_date && end_date !='')
 						 {
 							 
-								$('#date_error').text("Start date cannot before project start date("+project_start_date+").")
+								$('#date_error').text("Start date cannot before project start date("+project_startdate+").")
 								event.preventDefault();
 								 event.stopImmediatePropagation();
 								 return false;
@@ -207,7 +212,7 @@
 						 if (start_date > project_end_date && start_date!='' && end_date < project_end_date && end_date !='')
 						 {
 								 
-								$('#date_error').text("Start date cannot be after project end date("+project_end_date+").")
+								$('#date_error').text("Start date cannot be after project end date("+project_enddate+").")
 								event.preventDefault();
 								 event.stopImmediatePropagation();
 								 return false;
@@ -218,7 +223,7 @@
 							 if (end_date < project_start_date && end_date !='' && start_date > project_start_date && start_date!='')
 							 {
 									 
-									$('#date_error').text("End Date cannot be before project start date("+project_start_date+").")
+									$('#date_error').text("End Date cannot be before project start date("+project_startdate+").")
 									event.preventDefault();
 									 event.stopImmediatePropagation();
 									 return false;
@@ -230,7 +235,7 @@
 							 if (end_date > project_end_date && end_date !='' && start_date < project_end_date && start_date!='')
 							 {
 									 
-									$('#date_error').text("End date cannot be greater than Project Date("+project_end_date+").")
+									$('#date_error').text("End date cannot be greater than Project Date("+project_enddate+").")
 									event.preventDefault();
 									 event.stopImmediatePropagation();
 									 return false;
@@ -241,7 +246,7 @@
 							if (end_date > project_end_date && start_date > project_end_date && end_date !='' && start_date!='')
 								 {
 										 
-										$('#date_error').text("Start date & end date cannot be after project end date("+project_end_date+").")
+										$('#date_error').text("Start date & end date cannot be after project end date("+project_enddate+").")
 										event.preventDefault();
 										 event.stopImmediatePropagation();
 										 return false;
@@ -252,7 +257,7 @@
 							if (end_date < project_start_date && start_date < project_start_date && end_date !='' && start_date!='')
 										 {
 												 
-												$('#date_error').text("Start date & end date cannot be before project start date("+project_start_date+").")
+												$('#date_error').text("Start date & end date cannot be before project start date("+project_startdate+").")
 												event.preventDefault();
 												 event.stopImmediatePropagation();
 												 return false;
@@ -304,27 +309,42 @@
 					});
 						 */
 				  			
-				  			$('#edit-sprint-modal').on('hidden.bs.modal', function(e)
+/*********************************submit function ends*******************************************/
+ 
+/*********************************close modal starts*******************************************/
+		$('#edit-sprint-modal').on('hidden.bs.modal', function(e)
 								    { 
 									//	alert("hey");
 									$('#date_error').text("");
 										$(this).removeData('bs.modal');
-										$(this).find('form')[0].reset();
-										sprint_validator.resetForm();
+										//$(this).find('form')[0].reset();
+										//sprint_validator.resetForm();
 										$('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
 						  				    //var variable = $('#edit_permissions').html();
-						  				});
+						  				$(".table").each(function(){
+												if (!$(this).find("tr.find_empty").length){
+												a=$(this).find("tbody")[0];
+												$(a).append("<tr><td colspan='10' align='center'>There are no tasks in the sprint</td></tr>")
+												}
+												
+											})
+										
+										
+										
+										});
 								
 								    }) ;
 							
-				  		
+/*********************************close modal ends*******************************************/				  		
 				
 				});
+				
+
 		</script>	
-			 
+		 
  <div class="modal-header add-task-modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title add-task-modal-heading">Add New Sprint</h4>
+					<h4 class="modal-title add-task-modal-heading">Edit Sprint</h4>
 				  </div>
 					<div class="modal-body user-management-body">
 							<div class="row">
@@ -353,7 +373,7 @@
 													<div class="form-group">
 														<label class="apm-landing-reg-label">Start Date</label>
 														<input name="start" id="start" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true" id="sprint_start" value="{{sprint_info.startDate|date:'m/d/Y'}}">
-														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+														<i class="fa fa-calendar datepicker-cal open-datetimepicker" aria-hidden="true"></i>
 													</div>
 												</div>
 												
@@ -362,7 +382,7 @@
 													<div class="form-group">
 														<label class="apm-landing-reg-label">End Date</label>
 														<input name="end" id="end" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true" id="sprint_end" value="{{sprint_info.endDate|date:'m/d/Y'}}">
-														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+														<i class="fa fa-calendar datepicker-cal open-datetimepicker1" aria-hidden="true"></i>
 													</div>
 												</div>
 												
@@ -370,13 +390,14 @@
 											 <div class="error" id="date_error"></div>	
 											<div class="form-group task-form-group">
 														<label class="task-label">Working Hours/Day (Hrs)<font color="red">*</font></label>
-														<input name="new_workinghours" type="number" class="form-control add-task-textbox apm-modal-textbox" id="" maxlength="3" value="{{sprint_info.workinghours}}">
-														<input name="old_workinghours" type="hidden" class="form-control add-task-textbox apm-modal-textbox" value="{{sprint_info.workinghours}}" readonly>
+														<input name="new_workinghours" type="text" class="form-control add-task-textbox apm-modal-textbox" id="new_workinghours" min="1" max="24" maxlength="2" value="{{sprint_info.workinghours}}">
+														<input name="old_workinghours" type="hidden" class="form-control add-task-textbox apm-modal-textbox" value="{{sprint_info.workinghours}}">
 													  </div>
-											<!-- <div class="form-group task-form-group">
+											
+											<div class="form-group task-form-group">
 														<label class="task-label">Sprint Length</label>
 														<input disabled type="text" class="form-control add-task-textbox apm-modal-textbox" value="0 weeks" id="length" value="{{sprint_info.workinghours}}">
-													  </div>  -->
+											</div>  
 													  
 												<div class="form-group task-form-group">
 														<label class="task-label">Release</label>

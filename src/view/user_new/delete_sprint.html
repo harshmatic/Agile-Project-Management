@@ -1,5 +1,6 @@
 <script>
-		
+$(document).ready(function(){
+/*****************************form submit starts****************************************************************/
 $("#delete_sprint").on("click",function(){
 	$.post( "/sprint/delete", $("#delete_form").serialize())
 		.done(function( data ) {
@@ -8,7 +9,18 @@ $("#delete_sprint").on("click",function(){
 				return false
 			} else {
 				
-				
+				 $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
+	  				   
+	  				    console.log('inside');
+	  					$(".table").each(function(){
+							if (!$(this).find("tr.find_empty").length){
+							a=$(this).find("tbody")[0];
+							$(a).append("<tr><td colspan='10' align='center'>There are no tasks in the sprint</td></tr>")
+							}
+							
+						})
+	  				    
+	  				});
 				
 			}
 		});
@@ -16,15 +28,22 @@ $("#delete_sprint").on("click",function(){
 		
 			
 		})
+
+/*****************************form submit ends****************************************************************/
+ 
+/*****************************hide modal starts****************************************************************/ 
 		$('#delete-sprint-modal').on('hidden.bs.modal', function(e)
 				    { 
 				        $(this).removeData('bs.modal');
 				        
-				        $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
-		  				    //var variable = $('#edit_permissions').html();
-		  				});
+				       /*  $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
+		  				   
+		  				}); */
 				    }) ;
-	</script>			
+				    
+/*****************************hide modal ends****************************************************************/ 
+}) ;
+</script>			
 
 
 	<form role="form" id="delete_form" enctype="multipart/form-data">
@@ -58,13 +77,13 @@ $("#delete_sprint").on("click",function(){
       
       <tr>
         <td>Start Date : </td>
-        <td>{{sprint_info.startDate|date:'m/d/Y'}}</td>
+        <td>{%if sprint_info.startDate%}{{sprint_info.startDate|date:'m/d/Y'}}{%else%}None{%endif%}</td>
         
       </tr>
       
       <tr>
         <td>End Date : </td>
-        <td>{{sprint_info.endDate|date:'m/d/Y'}}</td>
+        <td>{%if sprint_info.endDate%}{{sprint_info.endDate|date:'m/d/Y'}}{%else%}None{%endif%}</td>
         
       </tr>
       

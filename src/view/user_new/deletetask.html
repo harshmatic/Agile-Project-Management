@@ -1,6 +1,7 @@
 <script>
-		
-$(document).on("click","#delete_task",function(){
+$(document).ready(function(){
+/*****************************form submit starts****************************************************************/
+$('#delete_task').on("click",function(){
 	$.post( "/task/deletetask", $("#delete_form").serialize())
 		.done(function( data ) {
 			if (data!="true"){
@@ -9,7 +10,16 @@ $(document).on("click","#delete_task",function(){
 			} else {
 				
 				 $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
-	  				  
+	  				   
+	  				    console.log('inside');
+	  					$(".table").each(function(){
+							if (!$(this).find("tr.find_empty").length){
+							a=$(this).find("tbody")[0];
+							$(a).append("<tr><td colspan='10' align='center'>There are no tasks in the sprint</td></tr>")
+							}
+							
+						})
+	  				    
 	  				});
 				
 			}
@@ -18,16 +28,19 @@ $(document).on("click","#delete_task",function(){
 		
 			
 		})
+		
+/*****************************form submit ends****************************************************************/
+ 
+/*****************************hide modal starts****************************************************************/ 		
+		
 		$('#delete-timelog-modal').on('hidden.bs.modal', function(e)
 				    { 
 				        $(this).removeData('bs.modal');
-				      /*   $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
-			  				  
-		  				}); */
-					
-				    
+				     
 				    }) ;
-	</script>			
+/*****************************hide modal ends*****************************************************************/ 
+}) ;
+</script>			
 
 
 	<form role="form" id="delete_form" enctype="multipart/form-data">
@@ -49,7 +62,13 @@ $(document).on("click","#delete_task",function(){
     <tbody>
     <tr>
         <td>Sprint : </td>
-        <td>{{task_data.sprint.get.name}}</td>
+        <td>{%if task_data.sprint%}{{task_data.sprint.get.name}}{%else%}None{%endif%}</td>
+        
+      </tr>
+      
+      <tr>
+        <td>User Story : </td>
+        <td>{%if task_data.user_story%}{{task_data.user_story.get.backlog_name}}{%else%}None{%endif%}</td>
         
       </tr>
     
@@ -67,19 +86,19 @@ $(document).on("click","#delete_task",function(){
       
       <tr>
         <td>Assignee : </td>
-        <td>{{task_data.assignee.get.userName}}</td>
+        <td>{%if task_data.assignee%}{{task_data.assignee.get.name}}{%else%}None{%endif%}</td>
         
       </tr>
       
       <tr>
         <td>Planned Start Date: </td>
-        <td>{{task_data.startDate|date:'d/m/Y'}}</td>
+        <td>{%if task_data.startDate%}{{task_data.startDate|date:'d/m/Y'}}{%else%}None{%endif%}</td>
         
       </tr>
       
       <tr>
         <td>Planned End Date : </td>
-        <td>{{task_data.endDate|date:'d/m/Y'}}</td>
+        <td>{%if task_data.endDate%}{{task_data.endDate|date:'d/m/Y'}}{%else%}None{%endif%}</td>
         
       </tr>
       

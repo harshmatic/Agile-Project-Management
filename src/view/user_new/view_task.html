@@ -36,7 +36,8 @@
 				var last_page_url =str.split("/")[3]
 				if(last_page_url == 'sprint')
 				{
-					$("a").prop("href", "/sprint")
+					$("a").prop("href", "/sprint");
+					//$('.href_class').hide();
 				}
 				
 					
@@ -341,11 +342,15 @@
 						<!-- Task Time Log content starts-->
 							<h3 class="apm-all-reports-subheading">Time Logs</h3>
 							
+							
+							{%if user.name == task.assignee.get.name%}
+						
 							<p class="apm-task-timelog-para">
 								There are no time logs for this task -<!--  <a href="#" class="apm-task-add-timelog-link">Log Time for this task</a> -->
-							<a href="/timelog/add?key={{task.key.urlsafe}}" data-toggle="modal" data-target="#apm-task-add-timelog-modal">Log Time for this task</a>
+							<a href="/timelog/add?key={{task.key.urlsafe}}" data-toggle="modal" data-target="#apm-task-add-timelog-modal" class="href_class">Log Time for this task</a>
 												
 							</p>
+							{%endif%}
 							
 							<div id="success">
 						
@@ -380,8 +385,8 @@
 												<td>{%if i.hour %}{{i.hour}}{%else%}00{%endif%}:{%if i.minute %}{{i.minute}}{%else%}00{%endif%}</td>
 												<td>
 												<a href="/timelog/edit?edit_key={{i.key.urlsafe}}" data-toggle="modal" data-target="#edit-timelog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Time Log"  id="{{i.key.urlsafe}}"></a></i>
-												<a href="/timelog/delete?delete_key={{i.key.urlsafe}}" data-toggle="modal" data-target="#delete-timelog-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Time Log"  id="{{i.key.urlsafe}}"></a></i>
-											
+												<!-- <a href="/timelog/delete?delete_key={{i.key.urlsafe}}" data-toggle="modal" data-target="#delete-timelog-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Time Log"  id="{{i.key.urlsafe}}"></a></i>
+											 -->
 												</td>
 											  </tr>
 											  
@@ -390,10 +395,12 @@
 											
 											</tbody>
 								</table>
+								{%if user.name == task.assignee.get.name%}
 								<p class="apm-task-timelog-para">
 								<!-- <a href="#" class="apm-task-add-timelog-link">Log More Time for this task</a> -->
-								<a href="/timelog/add" data-toggle="modal" data-target="#apm-task-add-timelog-modal">Log Time for this task</a>
-							</p>
+								<a href="/timelog/add" data-toggle="modal" data-target="#apm-task-add-timelog-modal" class="href_class">Log Time for this task</a>
+								</p>
+								{%endif%}
 							  {%endif%}
 							</div>
 							

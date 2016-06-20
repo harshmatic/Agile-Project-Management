@@ -13,7 +13,8 @@
 
 $(document).ready(function(){
 	
-	
+/***************************************sprint and user story data fetch starts************************************************/
+		
 	var sprint;
 	sprint=$('#sprint_name').val();
 	 var sprint_start_date;
@@ -49,11 +50,14 @@ $(document).ready(function(){
 	
 	}
 	else
-		{
+	/* 	{
 		 $("#load_user_story").html("<select name='user_story' id='user_story' class='form-control add-task-textbox apm-modal-textbox'><option value='None'>None</option></select>");
-		}
+		} */
+
+/***************************************sprint and user story data fetch ends************************************************/	
+	 
 	
-	
+/****************************************icon click starts*******************************************************/	
 	
 	$('.form-group').find('.open-datetimepicker').on('click', function(){
 	    $('#start').trigger('focus');
@@ -63,6 +67,9 @@ $(document).ready(function(){
 	    $('#end').trigger('focus');
 	});
 	
+/****************************************icon click ends*****************************************************/
+
+ /****************************************datepicker starts*****************************************************/
 	$('body').on('focus',"#start,#start_edit", function(){
 	    $(this).datepicker({
 			format: 'dd/mm/yyyy',
@@ -76,6 +83,15 @@ $(document).ready(function(){
 		});
 	});
 	
+	$('.datepicker').datepicker({
+		format: 'mm/dd/yyyy',
+		startDate: '0d',
+		autoclose:true
+	});
+/****************************************datepicker ends*****************************************************/
+	
+	
+/****************************************complexity points starts*****************************************************/
 	$("#complex_pt option").filter(function() {
         return $(this).val() == $("#est_efforts").val();
     }).attr('selected', true);
@@ -84,7 +100,10 @@ $(document).ready(function(){
 
         $("#est_efforts").val($(this).find("option:selected").attr("data"));
     });
-	/*******************task validation starts************************/	
+    
+/****************************************complexity points ends*****************************************************/
+
+/****************************************task validation starts*****************************************************/
 	var task_validator=   $("#addtask").validate({
 		      rules: {
 		    	  name: 
@@ -134,7 +153,9 @@ $(document).ready(function(){
 		         }
 		     });
 	
-	/*******************task validation ends************************/	
+/****************************************task validation ends*****************************************************/
+
+/****************************************sprint data fetch starts*****************************************************/
 	
 	$('#sprint_name').on('change', function (e) {
 		
@@ -165,9 +186,10 @@ $(document).ready(function(){
 		});
 
 	
+/****************************************sprint data fetch ends*****************************************************/ 
 	
-	
-	$("#submit_item").on("click",function(event){
+/****************************************form submit starts*****************************************************/
+$("#submit_item").on("click",function(event){
 						 if (!$('#addtask').valid()){
 							    event.preventDefault();
 							    event.stopImmediatePropagation();
@@ -190,6 +212,14 @@ $(document).ready(function(){
 								        $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
 						  				   
 						  				    console.log('inside');
+						  					$(".table").each(function(){
+												if (!$(this).find("tr.find_empty").length){
+												a=$(this).find("tbody")[0];
+												$(a).append("<tr><td colspan='10' align='center'>There are no tasks in the sprint</td></tr>")
+												}
+												
+											})
+						  				    
 						  				});
 						  				console.log('out');
 						  				}
@@ -199,6 +229,11 @@ $(document).ready(function(){
 							
 								
 						})
+						
+/****************************************form submit ends*****************************************************/	
+ 
+ 
+/****************************************hide issue modal starts*****************************************************/
 						
 					$('#add-issue-modal').on('hidden.bs.modal', function(e)
 									    { 
@@ -211,9 +246,10 @@ $(document).ready(function(){
 							  				});*/
 									  
 										
-									    }) ;		
+									    }) ;	
+/****************************************hide issue modal ends*****************************************************/
 						
-					});
+});
 	</script>
 	
 <div class="modal-header add-task-modal-header">

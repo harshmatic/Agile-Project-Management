@@ -104,7 +104,9 @@
 					 var update="/backlog/update?update_key="+row_key;
 					 var edit="/backlog/edit?edit_key="+row_key;
 				     var delete_key ="/backlog/delete?delete_key="+row_key;
-				     $('#edit_delete_panel').html('<a href="'+edit+'" id="edit_key" data-toggle="modal" data-target="#edit-backlog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit User Story"  id="{{i.key.urlsafe}}"></i></a><a id="delete_key" href="'+delete_key+'" data-toggle="modal" data-target="#delete-backlog-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete User Story"  id="{{i.key.urlsafe}}"></i></a>');
+				   //  $('#edit_delete_panel').html('<a href="'+edit+'" id="edit_key" data-toggle="modal" data-target="#edit-backlog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Story"  id="{{i.key.urlsafe}}"></i></a><a id="delete_key" href="'+delete_key+'" data-toggle="modal" data-target="#delete-backlog-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Story"  id="{{i.key.urlsafe}}"></i></a>');
+					
+				     $('#edit_delete_panel').html('<a href="'+edit+'" id="edit_key" data-toggle="modal" data-target="#edit-backlog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Story"  id="{{i.key.urlsafe}}"></i></a>');
 						
 					}
 				     
@@ -363,8 +365,11 @@
 					       
 					       
 					     
-					       $('#edit_delete_panel').html('<a href="'+edit+'" id="edit_key" data-toggle="modal" data-target="#edit-backlog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit User Story"  id="{{i.key.urlsafe}}"></i></a><a id="delete_key" href="'+delete_key+'" data-toggle="modal" data-target="#delete-backlog-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete User Story"  id="{{i.key.urlsafe}}"></i></a>');
+					   //    $('#edit_delete_panel').html('<a href="'+edit+'" id="edit_key" data-toggle="modal" data-target="#edit-backlog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit User Story"  id="{{i.key.urlsafe}}"></i></a><a id="delete_key" href="'+delete_key+'" data-toggle="modal" data-target="#delete-backlog-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete User Story"  id="{{i.key.urlsafe}}"></i></a>');
+						
+					   $('#edit_delete_panel').html('<a href="'+edit+'" id="edit_key" data-toggle="modal" data-target="#edit-backlog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit User Story"  id="{{i.key.urlsafe}}"></i></a>');
 							
+					   
 					       $('#sprint').html(myArray[0]);
 					       $('#sprint_name').html(myArray[0]);
 					       $('#backlog_name').html(myArray[1]);
@@ -604,7 +609,7 @@
 		 	function minmax(value, min, max) 
 				{
 				    if(parseInt(value) < min || isNaN(value)) 
-				        return 0; 
+				        return 1; 
 				    else if(parseInt(value) > max) 
 				        return 5; 
 				    else return value;
@@ -1017,7 +1022,7 @@
 													  <!-- Designation --> 
 													  <div class="form-group task-form-group">
 														<label class="task-label">Priority<font color="red">*</font></label>
-														<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="priority" min="1" max="5" maxlength="1" onkeypress="this.value = minmax(this.value, 0, 5)">
+														<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="priority" min="1" max="5" maxlength="1" onkeypress="this.value = minmax(this.value, 1, 5)">
 													  </div>
 												  </div>
 												  

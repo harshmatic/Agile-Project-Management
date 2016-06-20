@@ -254,7 +254,7 @@
 														<td>{{ mem.userRole }}</td>
 														<td>
 															<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>
-															<i id="deletemember" class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i>
+															<!-- <i id="deletemember" class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i> -->
 														</td>
 													  </tr>
 													   {%endfor%}
@@ -302,7 +302,7 @@
 														<td>{{ esti.estimationHours }}</td>
 														<td>
 															<i class="fa fa-pencil apm-add-esti-edit" aria-hidden="true" title="Edit"></i>
-															<i id="delestimate" class="fa fa-trash apm-add-esti-delete" aria-hidden="true" title="Delete"></i>
+														<!-- 	<i id="delestimate" class="fa fa-trash apm-add-esti-delete" aria-hidden="true" title="Delete"></i> -->
 														</td>
 													  </tr>
 													
@@ -705,7 +705,9 @@
 			  			var d = JSON.parse(data);
 			  			
 			  			
-			  			$("#memlist").append('<tr id='+d.id+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i> <i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
+			  			//$("#memlist").append('<tr id='+d.id+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i> <i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
+			  			
+			  			$("#memlist").append('<tr id='+d.id+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>  </td> </tr>');
 			  			//$("#memselect option[value='"+d.id+"']").remove();
 			  			$("select#memselect option[value='"+d.userid+"']").remove(); 
 			  			$('#memselect').prop('selectedIndex',0);
@@ -752,8 +754,9 @@
 			  			var d = JSON.parse(data);
 			  			
 			  			$('#' +d.id).remove();
-			  			$("#memlist").append('<tr id='+d.userid+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i> <i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
+			  			//$("#memlist").append('<tr id='+d.userid+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i> <i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
 			  			
+			  			$("#memlist").append('<tr id='+d.userid+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>  </td> </tr>');
 			  			
 			  				
 			  			
@@ -788,8 +791,10 @@
 		                var d = data ;
 		                var esti = JSON.parse(data);
 		                $('#' +d.id).remove();
-		                $("#estilist").append('<tr id='+esti.id+'> <td>'+esti.estimationLevel+'</td> <td>'+esti.estimationPoint+'</td> <td>'+esti.estimationHours+'</td> <td> <i class="fa fa-pencil apm-add-esti-edit" aria-hidden="true" title="Edit"></i> <i id="delestimate" class="fa fa-trash apm-add-esti-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
-			  				
+		                //$("#estilist").append('<tr id='+esti.id+'> <td>'+esti.estimationLevel+'</td> <td>'+esti.estimationPoint+'</td> <td>'+esti.estimationHours+'</td> <td> <i class="fa fa-pencil apm-add-esti-edit" aria-hidden="true" title="Edit"></i> <i id="delestimate" class="fa fa-trash apm-add-esti-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
+			  			
+		                $("#estilist").append('<tr id='+esti.id+'> <td>'+esti.estimationLevel+'</td> <td>'+esti.estimationPoint+'</td> <td>'+esti.estimationHours+'</td> <td> <i class="fa fa-pencil apm-add-esti-edit" aria-hidden="true" title="Edit"></i> </td> </tr>');
+			  			
 			  			
 			  		}); 
 					
@@ -822,7 +827,8 @@
 		                var d = data ;
 		                var esti = JSON.parse(data);
 		                $('#'+esti.id).remove();
-		                $("#estilist").append('<tr id='+esti.id+'> <td>'+esti.estimationLevel+'</td> <td>'+esti.estimationPoint+'</td> <td>'+esti.estimationHours+'</td> <td> <i class="fa fa-pencil apm-add-esti-edit" aria-hidden="true" title="Edit"></i> <i id="delestimate" class="fa fa-trash apm-add-esti-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
+		             //   $("#estilist").append('<tr id='+esti.id+'> <td>'+esti.estimationLevel+'</td> <td>'+esti.estimationPoint+'</td> <td>'+esti.estimationHours+'</td> <td> <i class="fa fa-pencil apm-add-esti-edit" aria-hidden="true" title="Edit"></i> <i id="delestimate" class="fa fa-trash apm-add-esti-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
+		                $("#estilist").append('<tr id='+esti.id+'> <td>'+esti.estimationLevel+'</td> <td>'+esti.estimationPoint+'</td> <td>'+esti.estimationHours+'</td> <td> <i class="fa fa-pencil apm-add-esti-edit" aria-hidden="true" title="Edit"></i>  </td> </tr>');
 			  				
 			  			
 			  		}); 

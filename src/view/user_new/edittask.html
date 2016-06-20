@@ -10,6 +10,9 @@
 <script>
 $(document).ready(function(){
 	
+
+/***************************************sprint and user story data fetch starts************************************************/
+	
 	 var sprint;
 	 var sprint_start_date;
 	 var sprint_end_date;
@@ -48,16 +51,21 @@ $(document).ready(function(){
 	 $("#load_user_story").html("<select name='user_story' id='user_story' class='form-control add-task-textbox apm-modal-textbox'><option value='None'>None</option></select>");
 	}*/
 	
-	
+/***************************************sprint and user story data fetch ends************************************************/	
+ 
+ /****************************************icon click starts*******************************************************/
 	
   		$('.form-group').find('.open-datetimepicker').on('click', function(){
-  		    $('#start').trigger('focus');
+  		    $('#start_edit').trigger('focus');
   		});
 
   		$('.form-group').find('.open-datetimepicker1').on('click', function(){
-  		    $('#end').trigger('focus');
+  		    $('#end_edit').trigger('focus');
   		});
   		
+/****************************************icon click ends*****************************************************/
+ 
+/****************************************datepicker starts*****************************************************/
   		$('body').on('focus',"#start,#start_edit", function(){
   		    $(this).datepicker({
   				format: 'dd/mm/yyyy',
@@ -70,7 +78,15 @@ $(document).ready(function(){
   				startDate: '0d'
   			});
   		});
+  		$('.datepicker').datepicker({
+			format: 'mm/dd/yyyy',
+			startDate: '0d',
+			autoclose:true
+		});
   		
+/****************************************datepicker ends*****************************************************/
+ 
+/****************************************task validation starts*****************************************************/
   		var task_validator=   $("#edittask").validate({
 		      rules: {
 		    	  name: 
@@ -81,15 +97,7 @@ $(document).ready(function(){
 		          {
 			      		 required: true
 			      },
-			   /*    start: 
-			      {
-				  		 required: true
-		          },
-		          end: 
-		          {
-						 required: true
-						
-				  }, */
+			 
 				  complexity: 
 				  {
 						 required: true
@@ -115,15 +123,7 @@ $(document).ready(function(){
 		           {
 		             required: "Please enter task description."
 		           },
-		          /*  start:
-		           {
-			             required: "Please select start date."
-			       },
-			       end:
-			       {
-			             required: "Please select end date."
-			            
-			       }, */
+		       
 			       complexity: 
 			       {
 			             required: "Please select complexity."
@@ -135,7 +135,10 @@ $(document).ready(function(){
 			       }
 		         }
 		     });
-	
+
+ /****************************************task validation ends*****************************************************/
+ 
+ /****************************************sprint data fetch starts*****************************************************/
   		$('#sprint_name').on('change', function (e) {
   			
   			sprint=$('#sprint_name').val(); 
@@ -165,9 +168,9 @@ $(document).ready(function(){
   			});
 
   		
+/****************************************sprint data fetch ends*****************************************************/  		
   		
-  		
-
+ /****************************************form submit starts*****************************************************/
 		$("#submit_task").on("click",function(event){
 			
 			 if (!$('#edittask').valid()){
@@ -189,19 +192,31 @@ $(document).ready(function(){
 	  			else
   				{
   			
-		        $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
+		        	$('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
   				    //var variable = $('#edit_permissions').html();
   				    console.log('inside');
-  				});
-  				console.log('out');
+  				  	$(".table").each(function(){
+						if (!$(this).find("tr.find_empty").length){
+						a=$(this).find("tbody")[0];
+						$(a).append("<tr><td colspan='10' align='center'>There are no tasks in the sprint</td></tr>")
+						}
+						
+					})
+  				    
+  				    
+  					});
+  				
   				}
-	  		});
-				 }
+	  		 });
+		 }
 
 					
-			})
+	})
 				
-				
+/****************************************form submit ends*****************************************************/	
+ 
+ 
+/****************************************hide issue modal starts*****************************************************/
 				
 			$('#edit-issue-modal').on('hidden.bs.modal', function(e)
 				    { 
@@ -210,10 +225,25 @@ $(document).ready(function(){
 				        $(this).removeData();
 				        $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
 		  				    //var variable = $('#edit_permissions').html();
-		  				});
+		  				    console.log('inside');
+		  				  	$(".table").each(function(){
+								if (!$(this).find("tr.find_empty").length){
+								a=$(this).find("tbody")[0];
+								$(a).append("<tr><td colspan='10' align='center'>There are no tasks in the sprint</td></tr>")
+								}
+								
+							})
+		  				    
+		  				    
+		  					});
+				        
 				    }) ;
 			
-				$('body').on('focus',"#complex_pts", function(){
+/****************************************hide issue modal ends*****************************************************/
+ 
+ /****************************************complexity points starts*****************************************************/
+
+			$('body').on('focus',"#complex_pts", function(){
 				$(this).on("change", function() {
 
 			        $("#est_effort").val($(this).find("option:selected").attr("data"));
@@ -221,8 +251,8 @@ $(document).ready(function(){
 			});
 		    
 		
-		
-			 });
+/****************************************complexity points ends*****************************************************/		
+});
 	</script>
 
 <div class="modal-header add-task-modal-header">
@@ -315,7 +345,7 @@ $(document).ready(function(){
 													<div class="form-group">
 														<label class="apm-landing-reg-label">Start Date</label>
 														<input name="start" id="start_edit" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true" value="{{task_data.startDate|date:'d/m/Y'}}">
-														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+														<i class="fa fa-calendar datepicker-cal open-datetimepicker" aria-hidden="true"></i>
 													</div>
 												</div>
 												
@@ -324,7 +354,7 @@ $(document).ready(function(){
 													<div class="form-group">
 														<label class="apm-landing-reg-label">End Date</label>
 														<input name="end" id="end_edit"  type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true" value="{{task_data.endDate|date:'d/m/Y'}}">
-														<i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+														<i class="fa fa-calendar datepicker-cal open-datetimepicker1" aria-hidden="true"></i>
 													</div>
 												</div>
 												
@@ -353,17 +383,12 @@ $(document).ready(function(){
 											  <div class="col-sm-6">
 											  <div class="form-group task-form-group">
 												<label class="task-label">Issue Type</label>
-												<select name="type" class="form-control add-task-textbox apm-modal-textbox">
+												<select name="type" class="form-control add-task-textbox apm-modal-textbox" readonly="readonly" >
 													
 													{% for type in type%}
-														
-															{%ifequal task_data.type type.key%}
-																<option value="{{type.key.urlsafe}}" selected="selected">{{type.name}}</option>
-																{%else%}
-																<option value="{{type.key.urlsafe}}">{{type.name}}</option>
-															{%endifequal%}
-															
-														
+														{%if type.name == 'Task' %}
+															<option value="{{type.key.urlsafe}}" >{{type.name}}</option>
+														{%endif%}
 													{%endfor%}
 												</select>
 											  </div>

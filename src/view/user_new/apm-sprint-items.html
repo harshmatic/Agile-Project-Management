@@ -41,9 +41,10 @@
    }
 </style>
 <script>
-				$(document).ready(function(){
+
+$(document).ready(function(){
 				
-					
+/******************************get release data starts**********************************************/					
 				var releasel;
 				release=$('#release').val();
 				 var release_start_date;
@@ -63,8 +64,9 @@
 				  		});
 					}
 						
-					
-					
+/******************************get release data ends**********************************************/						
+
+/******************************icon click starts**********************************************/	
 					
 					$('.form-group').find('.open-datetimepicker').on('click', function(){
 					    $('#sprint_start').trigger('focus');
@@ -74,7 +76,9 @@
 					    $('#sprint_end').trigger('focus');
 					});
 					
-	/***********************sprint validation starts******************************/
+/******************************icon click ends**********************************************/						
+					
+/***********************sprint validation starts******************************/
 					
 					var sprint_validator=   $("#add_sprint").validate({
 						      rules: {
@@ -86,30 +90,12 @@
 						          {
 							      		 required: true
 							      },
-							    /*   start: 
-							      {
-								  		 required: true
-						          },
-						          end: 
-						          {
-										 required: true
-										
-								  }, */
 								  workinghours: 
 								  {
 										 required: true
 										
 									
 								  }
-								 /*  ,
-								  release: 
-								  {
-										 required: true
-										
-									
-								  }
-					    */
-					   
 						         },
 						         messages: 
 						         {
@@ -121,28 +107,18 @@
 						           {
 						             required: "Please enter sprint description."
 						           },
-						        /*    start:
-						           {
-							             required: "Please select start date."
-							       },
-							       end:
-							       {
-							             required: "Please select end date."
-							            
-							       }, */
+						     
 							       workinghours: 
 							       {
 							             required: "Please enter working hours."
 							       }
-							    /*    ,
-							       release: 
-							       {
-							             required: "Please select release."
-							       } */
-						           
+							   
 						         }
 						     });
-					/***********************sprint validation ends******************************/
+/****************************************sprint validation ends**************************************************/
+
+
+/*****************************************to get release data on select starts*********************************/
 					
 					$('select').on('change', function (e) {
 		
@@ -156,9 +132,11 @@
 				  		});
 	
 	
-		});
+					});
 					
-					
+/*****************************************to get release data on select ends*********************************/	
+
+/*****************************************for blank table rows starts****************************************/	
 					$(".table").each(function(){
 						if (!$(this).find("tr.find_empty").length){
 						a=$(this).find("tbody")[0];
@@ -183,9 +161,13 @@
 												
 											}
 						})
+						
+/*****************************************for blank table rows ends****************************************/
 					$(".nav-tabs a").click(function(){
 						$(this).tab('show');
 					});
+
+/*****************************************datepicker starts***********************************************/
 					$('body').on('focus',"#start,#start_edit", function(){
 					    $(this).datepicker({
 							format: 'dd/mm/yyyy',
@@ -200,7 +182,8 @@
 					});
 					$('.datepicker').datepicker({
 						format: 'mm/dd/yyyy',
-						startDate: '0d'
+						startDate: '0d',
+						autoclose:true
 					});
 					$('.datepicker').datepicker()
 				    .on('changeDate', function(e) {
@@ -252,14 +235,26 @@
 					        }
 				    	}
 				    });
+					
+					
+/*****************************************datepicker ends***********************************************/
 					/*$("#add-issue").click(function(e) {
 						$('#add-issue-modal').modal('show');
 					});*/
+					
+					
+/*****************************************add sprint modal starts***********************************************/
 					$("#add-sprint").click(function(e) {
 						$('#add-sprint-modal').modal('show');
 					});
+
 					
-					$("#submit_sprint").on("click",function(event){
+/*****************************************add sprint modal ends***********************************************/
+					
+					
+					
+/*****************************************submit event starts***********************************************/					
+						$("#submit_sprint").on("click",function(event){
 						 if (!$('#add_sprint').valid()){
 							    event.preventDefault();
 							    event.stopImmediatePropagation();
@@ -388,8 +383,14 @@
 						  		else
 						  			{
 						  			$('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
-					  				    //var variable = $('#edit_permissions').html();
-					  				});
+						  				$(".table").each(function(){
+											if (!$(this).find("tr.find_empty").length){
+											a=$(this).find("tbody")[0];
+											$(a).append("<tr><td colspan='10' align='center'>There are no tasks in the sprint</td></tr>")
+											}
+											
+										})
+						  			});
 						  			
 						  			}
 						  			
@@ -402,7 +403,7 @@
 								
 						})
 					
-						
+/*****************************************submit event ends***********************************************/						
 			/* 		$("#submit_sprint").on("click",function(){
 						$.post( "/sprint", $("#add_sprint").serialize())
 				  		.done(function( data ) {
@@ -414,6 +415,7 @@
 					});
 						 */
 				  			
+/*****************************************modal hide starts***********************************************/
 				  			$('#add-sprint-modal').on('hidden.bs.modal', function(e)
 								    { 
 									//	alert("hey");
@@ -438,8 +440,12 @@
 						        
 						    }) ;
 					
-				
+/*****************************************submit event ends***********************************************/				
 				});
+				
+
+				
+				
 		</script>		
 		
 {% endblock %}	
@@ -499,7 +505,8 @@
             								   <ul class="dropdown-menu sprint-action-dropdown bullet">
            								      <li><a href="/sprint/edit?edit_key={{sprint.key.urlsafe}}" data-toggle="modal" data-target="#edit-sprint-modal"><i class="fa fa-pencil"></i> Edit Sprint</a></li>
                  						<!-- 	 <li><a href="#"><i class="fa fa-check-circle"></i> Complete Sprint</a></li>  -->
-                						<li><a href="/sprint/delete?delete_key={{sprint.key.urlsafe}}"  data-toggle="modal" data-target="#delete-sprint-modal"><i class="fa fa-trash"></i> Delete Sprint</a></li>
+                						<!-- <li><a href="/sprint/delete?delete_key={{sprint.key.urlsafe}}"  data-toggle="modal" data-target="#delete-sprint-modal"><i class="fa fa-trash"></i> Delete Sprint</a></li> -->
+               								
                								</ul>
             								  </li>
 										<!-- Sprint Action dropdown Ends -->
@@ -533,7 +540,7 @@
 																<td title="User Story">{%if task.user_story%}{{task.user_story.get.backlog_name}}{%else%}None{%endif%}</td>
 																<td title="Planned Start Date">{{task.startDate}}</td>
 																<td title="Planned End Date">{{task.endDate}}</td>
-																<td title="Assigned To">{{task.assignee.get.name}}</td>
+																<td title="Assigned To">{%if task.assignee%}{{task.assignee.get.name}}{%else%}None{%endif%}</td>
 																<td title="Status">{{task.task_status}}</td>
 																<td title="Complexity">{{task.complexity.get.estimationLevel}}</td>
 																
@@ -541,7 +548,7 @@
 															  	<td>
 															  	<a href="/mytasks/view?key={{task.key.urlsafe}}"><i class="fa fa-eye apm-add-proj-view" title="View Task" aria-hidden="true"></i></a>
 															  	<a href="/task/edittask?edit_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#edit-issue-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Task"  id="{{task.key.urlsafe}}"></i></a>
-																<a href="/task/deletetask?delete_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#delete-issue-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Task"  id="{{task.key.urlsafe}}"></i></a>
+																<!-- <a href="/task/deletetask?delete_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#delete-issue-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Task"  id="{{task.key.urlsafe}}"></i></a> -->
 															  	</td>
 															  	
 															  </tr>
@@ -713,7 +720,7 @@
 											<div class="error" id="date_error"></div>	
 											<div class="form-group task-form-group">
 														<label class="task-label">Working Hours/Day (Hrs)<font color="red">*</font></label>
-														<input name="workinghours" type="number" class="form-control add-task-textbox apm-modal-textbox" value="" id="" maxlength="3">
+														<input name="workinghours" type="number" class="form-control add-task-textbox apm-modal-textbox" id="workinghours" min="1" max="24" maxlength="2">
 													  </div>
 											<div class="form-group task-form-group">
 														<label class="task-label">Sprint Length</label>
