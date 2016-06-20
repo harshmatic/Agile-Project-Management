@@ -59,9 +59,40 @@
         //then prevent default to allow the action (same as dragover)
         if(e.target.getAttribute('data-draggable') == 'target')
         {
+        	
             e.target.appendChild(item);
-            
             e.preventDefault();
+            
+            console.log('jsitem: ',item);
+        	console.log("the id is"+$(item).attr("id"));
+        	console.log('target: ',e.target);
+        	console.log("the id is"+$(e.target).attr("class"));
+        	
+        	var taskid = $(item).attr("id");
+        	var container = $(e.target).attr("class");
+        	var status = "";
+        	
+        	if (container === "to-do-list")
+        		{
+        		status = 0 ;
+        		}
+        	else if(container === "in-progress-list")
+        		{
+        		status = 1 ;
+        		}
+        	else
+        		{
+        		status = 2 ;
+        		}
+        	var parameters = "status="+status+"&task_key="+taskid+""
+		    console.log("the param are"+parameters);   
+		$.post( "/task/status", parameters)
+  		.done(function( data ) {
+  			console.log("the data is"+data);
+           
+  				
+  			
+  		}); 
         }
     
     }, false);
@@ -70,7 +101,10 @@
     //which fires whether or not the drop target was valid
     document.addEventListener('dragend', function(e)
     {
+    	/*console.log('jsitem: ',item);
+    	console.log('target: ',e.target);*/
         item = null;
+        
     
     }, false);
 

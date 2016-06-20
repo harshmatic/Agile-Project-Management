@@ -122,7 +122,7 @@
 							<div class="col-md-4 col-sm-4">
 							<a href="/mytasks?status=open"  style="text-decoration: none; color: white;">
 								<div class="apm-numbox-dashboard apm-numbox-1">
-									<h2 class="apm-numbox-heading">{{open_count}}</h2>
+									<h2 class="apm-numbox-heading" id="open_count">{{open_count}}</h2>
 									<label class="apm-numbox-label"> Pending Tasks</label>
 								</div>
 							</a>	
@@ -133,7 +133,7 @@
 							<div class="col-md-4 col-sm-4">
 							<a href="/mytasks?status=inprogress" style="text-decoration: none; color: white;">
 								<div class="apm-numbox-dashboard apm-numbox-3">
-									<h2 class="apm-numbox-heading">{{inprogress_count}}</h2>
+									<h2 class="apm-numbox-heading" id="inprogress_count">{{inprogress_count}}</h2>
 									<label class="apm-numbox-label"> Ongoing Tasks</label>
 								</div>	
 							</a>
@@ -144,7 +144,7 @@
 							<div class="col-md-4 col-sm-4">
 							<a href="/mytasks?status=done" style="text-decoration: none; color: white;">
 								<div class="apm-numbox-dashboard apm-numbox-4">
-									<h2 class="apm-numbox-heading">{{completed_count}}</h2>
+									<h2 class="apm-numbox-heading" id="completed_count">{{completed_count}}</h2>
 									<label class="apm-numbox-label"> Completed Tasks</label>
 								</div>	
 							</a>
@@ -158,13 +158,13 @@
 						<div class="row">
 						
 						
-							<div class="col-md-4 col-sm-4">
+							<div class="col-md-4 col-sm-4" id="myDroppablePending">
 								<h4 class="apm-user-actionitem-label">Pending Tasks:</h4>	
 						
 								<ol data-draggable="target" class="to-do-list">
 								{%for i in tasks%}
 								{%if i.task_status == 'Open' %}
-								  <li data-draggable="item">
+								  <li data-draggable="item" id="{{i.key.urlsafe}}">
 								   <a href="/mytasks/view?key={{i.key.urlsafe}}" style="text-decoration: none;">
 									<h5 class="drag-task-heading">Task- {{i.name}}</h5>
 									<p class="drag-task-descr">{{i.description}}</p>
@@ -181,13 +181,13 @@
 							
 						
 							
-							<div class="col-md-4 col-sm-4">
+							<div class="col-md-4 col-sm-4" id="myDroppableOngoing">
 								<h4 class="apm-user-actionitem-label">Ongoing Tasks:</h4>
 									
 								<ol data-draggable="target" class="in-progress-list">
 									{%for i in tasks%}
 									{%if i.task_status == 'In Progress' %}
-								   <li data-draggable="item">
+								   <li data-draggable="item" id="{{i.key.urlsafe}}">
 								   <a href="/mytasks/view?key={{i.key.urlsafe}}" style="text-decoration: none;">
 									<h5 class="drag-task-heading">Task-{{i.name}}</h5>
 									<p class="drag-task-descr">{{i.description}}</p>
@@ -204,13 +204,13 @@
 								
 						
 							
-							<div class="col-md-4 col-sm-4">
+							<div class="col-md-4 col-sm-4" id="myDroppableCompleted" >
 								<h4 class="apm-user-actionitem-label">Completed Tasks:</h4>
 								
-								<ol data-draggable="target" class="done-list">
+								<ol data-draggable="target" class="done-list" >
 								  {%for i in tasks%}
 								  {%if i.task_status == 'Done' %}
-								  <li data-draggable="item">
+								  <li data-draggable="item" id="{{i.key.urlsafe}}">
 								  <a href="/mytasks/view?key={{i.key.urlsafe}}" style="text-decoration: none;">
 								  <h5 class="drag-task-heading">Task -{{i.name}}</h5>
 								  <p class="drag-task-descr">{{i.description}}</p>
@@ -264,5 +264,59 @@
         </div>
         <!-- /#page-content-wrapper ENDS -->
 
+       
 		<script src="../assets_new/js/draggable.js"></script>
+		<script>
+				$(document).ready(function(){
+					
+					
+					
+					 $('#myDroppablePending').on("dragstart",function(param)
+						    {
+						   	console.log("Inside dragstart pending"+$("#open_count").html());
+						   	total = parseInt($("#open_count").html()) - 1 ;
+						   	$("#open_count").html(total);
+						        
+						    });
+					$('#myDroppableOngoing').on("dragstart",function(param)
+						    {
+						console.log("Inside  dragstart ongoing"+$("#inprogress_count").html());
+						total = parseInt($("#inprogress_count").html()) - 1 ;
+					   	$("#inprogress_count").html(total);
+						        
+						    });
+					
+					$('#myDroppableCompleted').on("dragstart",function(param)
+						    {
+						console.log("Inside dragstart completed"+$("#completed_count").html());
+						total = parseInt($("#completed_count").html()) - 1 ;
+					   	$("#completed_count").html(total);
+						        
+						    }); 
+					
+					
+					 $('#myDroppablePending').on("dragend",function(param)
+							    {
+							   	console.log("Inside drop pending");
+							   	total = parseInt($("#open_count").html()) + 1 ;
+							   	$("#open_count").html(total);
+							        
+							    });
+						$('#myDroppableOngoing').on("dragend",function(param)
+							    {
+							console.log("Inside  drop ongoing");
+							total = parseInt($("#inprogress_count").html()) + 1 ;
+						   	$("#inprogress_count").html(total);
+							        
+							    });
+						
+						$('#myDroppableCompleted').on("dragend",function(param)
+							    {
+							console.log("Inside drop completed");
+							total = parseInt($("#completed_count").html()) + 1 ;
+						   	$("#completed_count").html(total);    
+							    }); 
+					
+				});
+				</script>
 {% endblock %}
