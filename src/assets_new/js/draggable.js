@@ -63,10 +63,7 @@
             e.target.appendChild(item);
             e.preventDefault();
             
-            console.log('jsitem: ',item);
-        	console.log("the id is"+$(item).attr("id"));
-        	console.log('target: ',e.target);
-        	console.log("the id is"+$(e.target).attr("class"));
+      
         	
         	var taskid = $(item).attr("id");
         	var container = $(e.target).attr("class");

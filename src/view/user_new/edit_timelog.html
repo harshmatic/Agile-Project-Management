@@ -105,7 +105,7 @@ $(document).ready(function(){
 		<div class="row apm-logtime-modal-row">
 			<div class="col-md-4">
 				<div class="checkbox">
-					{%if timelog_info.task_key.get.task_status%} 
+					{%if timelog_info.task_key.get.task_status == "Done"%} 
 					<label class="apm-logtime-modal-label">
 					<input type="checkbox" value="" id="task_completed1" name="task_completed"checked>Task is now complete</label> 
 					{%else%} 

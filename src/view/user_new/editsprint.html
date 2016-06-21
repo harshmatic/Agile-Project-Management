@@ -176,14 +176,16 @@ $('.form-group').find('.open-datetimepicker1').on('click', function(){
 				
 /*********************************submit function starts*******************************************/
 					$("#submit_sprint").on("click",function(event){
+						console.log("comes inside");
 						 if (!$('#edit_sprint').valid()){
+							    console.log("comes inside if");
 							    event.preventDefault();
 							    event.stopImmediatePropagation();
 							    return false;
 						 }
 						 else
 						 {
-						 
+						 console.log("comes inside else");
 						 var start_date=$('#start').val();
 						 var end_date=$('#end').val();
 					 	 var project_start_date="{{session.current_project.get.startDate|date:'m/d/Y'}}";

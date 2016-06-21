@@ -273,14 +273,14 @@
 					
 					 $('#myDroppablePending').on("dragstart",function(param)
 						    {
-						   	console.log("Inside dragstart pending"+$("#open_count").html());
+						   	
 						   	total = parseInt($("#open_count").html()) - 1 ;
 						   	$("#open_count").html(total);
 						        
 						    });
 					$('#myDroppableOngoing').on("dragstart",function(param)
 						    {
-						console.log("Inside  dragstart ongoing"+$("#inprogress_count").html());
+						
 						total = parseInt($("#inprogress_count").html()) - 1 ;
 					   	$("#inprogress_count").html(total);
 						        
@@ -288,7 +288,7 @@
 					
 					$('#myDroppableCompleted').on("dragstart",function(param)
 						    {
-						console.log("Inside dragstart completed"+$("#completed_count").html());
+						
 						total = parseInt($("#completed_count").html()) - 1 ;
 					   	$("#completed_count").html(total);
 						        
@@ -297,14 +297,14 @@
 					
 					 $('#myDroppablePending').on("dragend",function(param)
 							    {
-							   	console.log("Inside drop pending");
+							   
 							   	total = parseInt($("#open_count").html()) + 1 ;
 							   	$("#open_count").html(total);
 							        
 							    });
 						$('#myDroppableOngoing').on("dragend",function(param)
 							    {
-							console.log("Inside  drop ongoing");
+							
 							total = parseInt($("#inprogress_count").html()) + 1 ;
 						   	$("#inprogress_count").html(total);
 							        
@@ -312,7 +312,7 @@
 						
 						$('#myDroppableCompleted').on("dragend",function(param)
 							    {
-							console.log("Inside drop completed");
+							
 							total = parseInt($("#completed_count").html()) + 1 ;
 						   	$("#completed_count").html(total);    
 							    }); 

@@ -126,13 +126,23 @@ class EditTimelog(BaseHandler):
                 timelog_key.today_date= datetime.strptime(self.request.get('date'), '%d/%m/%Y').date()
       #  timelog_key.time=float(self.request.get('hours')+'.'+self.request.get('minutes'))
         
-            if (self.request.get('hours')):
-                 timelog_key.hour=int(self.request.get('hours'))
+            #if (self.request.get('hours')):
+                 #timelog_key.hour=int(self.request.get('hours'))
             
                 
         
+            #if (self.request.get('minutes')):
+                #timelog_key.minute=int(self.request.get('minutes'))
+                
+            if (self.request.get('hours')):
+                timelog_key.hour=int(self.request.get('hours'))
+            else:
+                timelog_key.hour=00
+        
             if (self.request.get('minutes')):
                 timelog_key.minute=int(self.request.get('minutes'))
+            else:
+                timelog_key.minute=00
                 
             timelog_key.modified_by = currentUser['email_address']
             timelog_key.modified_date= datetime.now() 
