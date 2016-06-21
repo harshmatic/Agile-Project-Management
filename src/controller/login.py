@@ -382,7 +382,7 @@ class ForgotPasswordHandler(BaseHandler):
         user = self.user_model.get_by_auth_id(username)
         if not user:
             logging.info('Could not find any user entry for username %s', username)
-            self._serve_page(not_found=True)
+            self.response.write("not found")
             return
         user_id = user.get_id()
         token = self.user_model.create_signup_token(user_id)
