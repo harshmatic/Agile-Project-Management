@@ -1,0 +1,38 @@
+/************ For ALERT BOX  ************/
+			.alert-close {
+				font-size: 20px!important;
+				line-height: 0.6!important;
+				outline: none!important;
+				color: #000!important;
+				opacity: 0.9!important;
+				margin-top: 2px;
+			}
+			.apm-alert-box{
+				letter-spacing: 1px;
+				position: absolute;
+				z-index: 9999;
+				width: 350px;
+				right: 0;
+				left: 0;
+				margin: auto;
+				top: 40px;
+				color:#000;
+				background:#F0F4C3!important;
+				border-color:#F0F4C3!important;
+				font-size: 13px!important;
+				line-height:1.6em;
+				display:none;
+			}
+			@media (max-width: 600px){
+				.apm-alert-box{
+					width: 230px;
+					font-size: 12px!important;
+				}
+				.alert-close {
+					font-size: 20px!important;
+					margin-left: 20px;
+					margin-top: -3px;
+					margin-right: -3px;
+				}
+			}
+			/************ For ALERT BOX ENDS ************/

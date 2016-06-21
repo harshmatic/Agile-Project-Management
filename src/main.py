@@ -141,6 +141,7 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/basehtmltest', BaseHtmlTest,name="basehtmltest"),
         webapp2.Route('/userbasehtmltest', UserBaseHtmlTest,name="userbasehtmltest"),
         webapp2.Route('/login', LoginBaseHandler, name='loginbase'),
+        webapp2.Route('/loginhome',LoginHome, name='loginhome'),
         webapp2.Route('/logout', LogoutHandler, name='logout'),
         webapp2.Route('/password', SetPasswordHandler, name="setpassword"),
         webapp2.Route('/signupuser', SignupUser, name='usersignup'),

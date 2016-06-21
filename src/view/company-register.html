@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="../assets_new/css/style.css">
 		<link rel="stylesheet" href="../assets_new/css/sidebar.css">
 		<link rel="stylesheet" href="../assets_new/css/button.css">
+		<link rel="stylesheet" href="../assets_new/css/alert.css">
 		
 		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -21,7 +22,9 @@
 	
 		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		
 		<script src="../assets_new/js/jquery.validate.min.js"></script>
+<!-- 		<script src="../assets_new/js/alert.js"></script> -->
 		<style>
 			.error{
 			color:red !important;
@@ -35,6 +38,18 @@
 		<script>
 
 $(document).ready(function() {
+
+	
+
+
+	a = "{{login_attempt}}"
+	if (a == "failed"){
+		$(".apm-alert-box").show();
+		//alert("Login Failed !! Please check username and password");
+		$(".apm-alert-box").fadeTo(2000, 800).slideUp(600, function(){});
+	}
+		
+	
 	$('input:text:first').focus();
 	
 	 var result =  validSubdomain();
@@ -70,7 +85,18 @@ $(document).ready(function() {
 			
 				
 		})
-	
+	/*$("#btnLgn").on("click",function(e){
+		 $.ajax({
+            type: "post",
+            url: "/loginhome",
+            data: $("#login_form").serialize(),
+            crossDomain: true,
+            success: function(data) {
+                if (data=="False")
+                	alert('Login Failed !!! CHeck User Name and Password');
+            }
+        })
+	});*/ 
 	
 	/* $("#submit_form").on("click",function(e){
 		e.preventDefault();
@@ -212,7 +238,12 @@ function validSubdomain() {
 	
 	</head>
 <body class="apm-landing-body">
-    
+		<!-- ALERT BOX - Insert this code just below the body tag -->
+	<div class="alert alert-info apm-alert-box">
+	  <a href="#" class="close alert-close" data-dismiss="alert" aria-label="close">&times;</a>
+		Login Failed !!! Please check credentials and try again.
+	</div>
+<!-- ALERT BOX ENDS -->
 	<section class="landing-top-section">
 		
 			<div class="landing-top-left-box">
@@ -221,7 +252,7 @@ function validSubdomain() {
 		
 		
 			<div class="landing-top-right-box">
-				<form class="form-inline" role="form" id="login_form" method="post" action="/login" >
+				<form class="form-inline" role="form" id="login_form" method="post" action="/loginhome">
 				  <div class="form-group apm-landing-form-grp">
 					<label for="email">E-Mail</label>
 					<input type="email" class="form-control apm-landing-textbox" name="username" >
@@ -231,7 +262,7 @@ function validSubdomain() {
 					<input type="password" class="form-control apm-landing-textbox" name="password">
 				  </div>
 				 
-				  <button type="submit" class="apm-landing-login-btn">Login</button>
+				  <button type="submit" id="btnLgn" class="apm-landing-login-btn">Login</button>
 				
 				  <!-- Forgot Password Link -->
 				  <a href="/forgot" title="Forgot Password?"><i class="fa fa-question-circle apm-landing-forgt-pass-link"></i></a>

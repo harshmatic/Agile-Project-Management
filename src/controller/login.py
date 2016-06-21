@@ -227,7 +227,10 @@ class SignupUser(BaseHandler):
         logging.info(user1)
         role=model.user.Groups()
         roles=role.query(model.user.Groups.role=="Admin")
-        self.render_template('company-register.html',{'roles':roles})
+        con = {'roles':roles}
+        if self.request.get('p')=='login_failed':
+            con.update({'login_attempt':'failed'})
+        self.render_template('company-register.html',con)
     def post(self,*args,**kargs):
         #role=model.user.Groups()
         tenant_domain = self.request.get('company_domain')
@@ -569,6 +572,41 @@ class AuthenticatedHandler(BaseHandler):
     @user_required
     def get(self):
         self.render_template('auth/main.html')
+
+class LoginHome(BaseHandler):
+    def get(self):
+        pass
+    def post(self):
+        username = self.request.get('username')
+        password = self.request.get('password')
+        try:
+            logging.info("here")
+            u = self.auth.get_user_by_password(username, password, remember=True,save_session=True)
+            if (self.user_model.get_by_id(u['user_id']).status == True):
+                logging.info("here1")
+                domain=str(self.user_model.get_by_id(u['user_id']).tenant_domain)
+                logging.info(u)
+                #domain=u['tenant_domain']
+                self.redirect(self.uri_for('subdomain-home',_netloc=str(domain+"."+urlparse.urlparse(self.request.url).netloc)))
+            else:
+                logging.info("here2")
+                self.render_template('company-register.html')
+        except (InvalidAuthIdError, InvalidPasswordError) as e:
+            logging.info('Login failed for user %s because of %s', username, type(e))
+#             self.response.out.write('False')
+            self.redirect("/?p=login_failed")
+#             #self.response.write("login failed")        
+#             #self.render_template('auth/login.html', {'error':'login failed'})
+#             self.render_template('auth/login.html', {'error':'login failed'})
+#             self._serve_page(True)
+
+    def _serve_page(self, failed=False):
+        username = self.request.get('username')
+        params = {
+            'username': username,
+            'failed': failed
+        }
+
         
 config = {
     'webapp2_extras.auth': {

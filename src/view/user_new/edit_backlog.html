@@ -174,8 +174,9 @@ $("#edit_userstory").on("click",function(){
 													<option value="None">None</option>
 													{%for i in sprint%}
 													{%if i.status%}
-														
-																<option value={{i.key.urlsafe}}>{{i.name}}</option>
+																	{{i}}
+																	{{backlog_info.sprintId}}
+																<option value={{i.key.urlsafe}} {%ifequal i backlog_info.sprintId%} selected="true"{%endifequal%}>{{i.name}}</option>
 													{%endif%}
 													{%endfor%}
 												</select>  
