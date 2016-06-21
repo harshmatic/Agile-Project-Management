@@ -43,12 +43,12 @@ class MyTaskView(BaseHandler):
         projectKey=self.session['current_project']
         currentUser=self.auth.get_user_by_session()
         currentUser=self.user_model.get_by_id(currentUser['user_id']).key
-
         time_log_data=time_log.Time_Log()
         
         time_log_data=time_log_data.getByTask(taskKey)
         status=task.task_status
-        self.render_template("user_new/view_task.html",{"task":task,"time_log":time_log_data,"status":status})
+        self.render_template("user_new/view_task.html",{"task":task,"time_log":time_log_data,"status":status,
+                                                        "user_obj":currentUser})
     
     def post(self,*args,**kargs):
         currentUser=self.auth.get_user_by_session()

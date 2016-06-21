@@ -533,13 +533,16 @@ class LoginBaseHandler(BaseHandler):
         username = self.request.get('username')
         password = self.request.get('password')
         try:
+            logging.info("here")
             u = self.auth.get_user_by_password(username, password, remember=True,save_session=True)
             if (self.user_model.get_by_id(u['user_id']).status == True):
+                logging.info("here1")
                 domain=str(self.user_model.get_by_id(u['user_id']).tenant_domain)
                 logging.info(u)
                 #domain=u['tenant_domain']
                 self.redirect(self.uri_for('subdomain-home',_netloc=str(domain+"."+urlparse.urlparse(self.request.url).netloc)))
             else:
+                logging.info("here2")
                 self.render_template('company-register.html')
         except (InvalidAuthIdError, InvalidPasswordError) as e:
             logging.info('Login failed for user %s because of %s', username, type(e))

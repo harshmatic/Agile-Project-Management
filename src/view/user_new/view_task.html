@@ -70,7 +70,7 @@
 				 
 				 
 				 
-					$( "#status_dropdown" ).on("click",function() {
+					$( "#status_dropdown" ).on("change",function() {
 						
 						var status =this.value;
 						$.post( "/task/status",  {status: status,task_key: task_key},function( data ) {
@@ -83,9 +83,7 @@
 				  				 $('#new_status').load('/mytasks/view?key={{task.key.urlsafe}} #new_status', function(result) {
 					  				   
 					  				});
-				  			/* 	$('.apm-task-timelog-para').load('/mytasks/view?key={{task.key.urlsafe}} .apm-task-timelog-para', function(result) {
-					  				   
-				  				}); */
+				  					alert('Status changed successfully !!!');
 				  				
 				  				$("#apm-task-add-timelog-modal #task_completed").prop( "checked", true );
 				  				
@@ -129,7 +127,7 @@
 				
 					
 					
-					$("#log_time_button").on("click",function(event){
+					/*$("#log_time_button").on("click",function(event){
 						 if (!$('#time_log_form').valid()){
 							    event.preventDefault();
 							    event.stopImmediatePropagation();
@@ -147,7 +145,7 @@
 							
 						 	}		
 								
-						})
+						})*/
 					
 					
 					
@@ -230,7 +228,7 @@
 									$(this).find('form')[0].reset();
 									//time_validator.resetForm();
 									$('#success').load('/mytasks/view?key={{task.key.urlsafe}} #table1', function(result) {
-						  				   
+						  				   console.log('updated');
 						  				});
 									 $('#new_status').load('/mytasks/view?key={{task.key.urlsafe}} #new_status', function(result) {
 						  				   
@@ -343,11 +341,12 @@
 							<h3 class="apm-all-reports-subheading">Time Logs</h3>
 							
 							
-							{%if user.name == task.assignee.get.name%}
+							{%if user_obj == task.assignee%}
 						
 							<p class="apm-task-timelog-para">
-								There are no time logs for this task -<!--  <a href="#" class="apm-task-add-timelog-link">Log Time for this task</a> -->
-							<a href="/timelog/add?key={{task.key.urlsafe}}" data-toggle="modal" data-target="#apm-task-add-timelog-modal" class="href_class">Log Time for this task</a>
+
+<!-- 								There are no time logs for this task - <a href="#" class="apm-task-add-timelog-link">Log Time for this task</a> -->
+							<a href="/timelog/add?key={{task.key.urlsafe}}" data-toggle="modal" data-target="#apm-task-add-timelog-modal">Log Time for this task</a>
 												
 							</p>
 							{%endif%}
@@ -355,7 +354,6 @@
 							<div id="success">
 						
 							<div class="table-responsive" id="table1">
-								{%if time_log%}
 								<table class="table table-bordered table-condensed apm-task-descr-table" >
 											<thead>
 											  <tr>
@@ -395,13 +393,13 @@
 											
 											</tbody>
 								</table>
-								{%if user.name == task.assignee.get.name%}
-								<p class="apm-task-timelog-para">
-								<!-- <a href="#" class="apm-task-add-timelog-link">Log More Time for this task</a> -->
-								<a href="/timelog/add" data-toggle="modal" data-target="#apm-task-add-timelog-modal" class="href_class">Log Time for this task</a>
-								</p>
-								{%endif%}
-							  {%endif%}
+								
+<!-- 								{%if user.name == task.assignee.get.name%} -->
+<!-- 								<p class="apm-task-timelog-para"> -->
+<!-- 								<a href="#" class="apm-task-add-timelog-link">Log More Time for this task</a> -->
+<!-- 								<a href="/timelog/add" data-toggle="modal" data-target="#apm-task-add-timelog-modal" class="href_class">Log Time for this task</a> -->
+<!-- 								</p> -->
+<!-- 								{%endif%} -->
 							</div>
 							
 							

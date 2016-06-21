@@ -222,7 +222,7 @@ $(document).ready(function(){
 				    { 
 					
 						$('#date_error').text("");
-				        $(this).removeData();
+				        $(this).removeData('bs.modal');
 				        $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
 		  				    //var variable = $('#edit_permissions').html();
 		  				    console.log('inside');
@@ -365,7 +365,7 @@ $(document).ready(function(){
 											  <div class="form-group task-form-group">
 												<label class="task-label">Complexity<font color="red">*</font></label>
 												<select name="complexity" class="form-control add-task-textbox apm-modal-textbox" id="complex_pts">
-													<option value="None">None</option> 
+													<option value="None">None</option>
 													{% for complex in complex%}
 														{%if complex.status%}
 															{%ifequal task_data.complexity complex.key%}

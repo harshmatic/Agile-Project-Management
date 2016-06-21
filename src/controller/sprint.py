@@ -93,13 +93,21 @@ class EditTask(BaseHandler):
         task_data.description = self.request.get('desc')
         
         if(self.request.get("start") != ''):
-            task_data.startDate = datetime.strptime(self.request.get("start"), '%m/%d/%Y').date() if self.request.get("start")!="" else None 
+            try:
+                task_data.startDate = datetime.strptime(self.request.get("start"), '%m/%d/%Y').date()
+            except:
+                d = datetime.strptime(self.request.get("start"), '%d/%m/%Y').strftime('%m/%d/%Y')
+                task_data.startDate = datetime.strptime(d, '%m/%d/%Y').date()
         else:
             task_data.startDate=None
         
         
         if(self.request.get("end") != ''):
-            task_data.endDate = datetime.strptime(self.request.get("end"), '%m/%d/%Y').date() if self.request.get("start")!="" else None
+            try:
+                task_data.endDate = datetime.strptime(self.request.get("end"), '%m/%d/%Y').date()
+            except:
+                d = datetime.strptime(self.request.get("end"), '%d/%m/%Y').strftime('%m/%d/%Y')
+                task_data.endDate = datetime.strptime(d, '%m/%d/%Y').date()
         else:
             task_data.endDate=None
         
