@@ -36,7 +36,7 @@
 				var last_page_url =str.split("/")[3]
 				if(last_page_url == 'sprint')
 				{
-					$("a").prop("href", "/sprint");
+					$("#back_to_task").prop("href", "/sprint");
 					//$('.href_class').hide();
 				}
 				
@@ -179,7 +179,8 @@
 						
 						$('.datepicker').datepicker({
 							format: 'dd/mm/yyyy',
-							startDate: '0d'
+							//startDate: '0d',
+							autoclose:true
 						});
 						
 						
