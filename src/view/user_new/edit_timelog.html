@@ -1,13 +1,24 @@
 <script>
-$(document).ready(function(){	
+$(document).ready(function(){
+	var sVal = "";
 	$('#task_completed1').on('click', function () {
+		
 	    $(this).val(this.checked ? 1 : 0);
 	    console.log($(this).val());
+	    
+	    sVal = $(this).val() ;
+	    if(sVal == 1)
+	    	{
+	    	sVal = 2 ;
+	    	}
+	    console.log("the val is"+sVal);
 	});
 	
 	$('#billable1').on('click', function () {
+		
 	    $(this).val(this.checked ? 1 : 0);
 	    console.log($(this).val());
+	    
 	});
 	    
 	    
@@ -32,6 +43,14 @@ $(document).ready(function(){
 				        
 				        $('#success').load('/mytasks/view?key={{timelog_info.task_key.urlsafe}} #table1', function(result) {
 		  				});
+				        
+				        $('#new_status').load('/mytasks/view?key={{timelog_info.task_key.urlsafe}} #new_status', function(result) {
+			  				  
+		  				});
+				        $("select#status_dropdown option[value='"+sVal+"']").attr('selected', 'selected'); 
+				       /*  $('#status_dropdown').load('/mytasks/view?key={{timelog_info.task_key.urlsafe}} #status_dropdown', function(result) {
+			  				   
+		  				}); */
 				    }) ;
 			$('.datepicker').datepicker({
 				format: 'dd/mm/yyyy',
