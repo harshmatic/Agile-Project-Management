@@ -18,9 +18,12 @@ from login import BaseHandler,check_permission
 from google.appengine.ext import ndb
 from datetime import datetime
 import json
-from google.appengine.api.taskqueue import taskqueue 
+from google.appengine.api.taskqueue import taskqueue
+from common import checkdomain
+ 
 
 class ProjectManagement(BaseHandler):
+    @checkdomain
     def get(self,*args,**kargs):
         #if check_permission(self):
             projmodel=project.Project()
@@ -45,6 +48,7 @@ class ProjectManagement(BaseHandler):
 
 
 class AddProjectView(BaseHandler):
+    @checkdomain
     def get(self,*args,**kargs):
         if check_permission(self):
             projmodel=project.Project()
@@ -61,7 +65,7 @@ class AddProjectView(BaseHandler):
         
 class AddProject(BaseHandler):
         
-    
+    @checkdomain
     def post(self,*args,**kargs):
         logging.info("it is here "+self.request.__str__())
         currentUser=self.auth.get_user_by_session()
@@ -149,7 +153,7 @@ class AddProject(BaseHandler):
         
 class EditProj(BaseHandler):
         
-    
+    @checkdomain
     def post(self,*args,**kargs):
         logging.info("it is here "+self.request.__str__())
         projkey = ndb.Key('Project',int(self.request.get("projid")))
@@ -168,6 +172,7 @@ class EditProj(BaseHandler):
         self.response.write(projkey.id())
                 
 class AddProjectMembers(BaseHandler):
+    @checkdomain
     def post(self,*args,**kargs):
         currentUser=self.auth.get_user_by_session()
         logging.info("it is here "+self.request.__str__())
@@ -220,7 +225,7 @@ class AddProjectMembers(BaseHandler):
 
 class EditProjMem(BaseHandler):
         
-    
+    @checkdomain
     def post(self,*args,**kargs):
         logging.info("it is here "+self.request.__str__())
         projkey = ndb.Key('ProjectMembers',int(self.request.get("userid")))
@@ -245,7 +250,7 @@ class EditProjMem(BaseHandler):
 
 class EditEstimates(BaseHandler):
         
-    
+    @checkdomain
     def post(self,*args,**kargs):
         logging.info("it is here "+self.request.__str__())
         estikey = ndb.Key('Estimation',int(self.request.get("estid")))
@@ -282,6 +287,7 @@ class EditEstimates(BaseHandler):
         
         
 class AddProjectEstimates(BaseHandler):
+    @checkdomain
     def post(self,*args,**kargs):
         currentUser=self.auth.get_user_by_session()
         logging.info("it is here "+self.request.__str__())
@@ -321,12 +327,14 @@ class AddProjectEstimates(BaseHandler):
 
 
 class DeleteProject(BaseHandler):
+    @checkdomain
     def get(self,*args,**kargs):
             key = ndb.Key(urlsafe=self.request.get('delete_key'))
             project_info = key.get()
             
             self.render_template("user_new/delete_project.html",{"project_info":project_info})
     
+    @checkdomain
     def post(self,*args,**kargs):
 #        logging.info("it is here "+self.request.__str__())
 #        projid = self.request.get("id")
@@ -356,6 +364,7 @@ class DeleteProject(BaseHandler):
               
         
 class DeleteProjectMember(BaseHandler):
+    @checkdomain
     def post(self,*args,**kargs):
         logging.info("it is here "+self.request.__str__())
         projmemid = self.request.get("id")
@@ -385,6 +394,7 @@ class DeleteProjectMember(BaseHandler):
         self.response.write("success")
         
 class DeleteEstimates(BaseHandler):
+    @checkdomain
     def post(self,*args,**kargs):
         logging.info("it is here "+self.request.__str__())
         estimatesid = self.request.get("id")
@@ -405,6 +415,7 @@ class DeleteEstimates(BaseHandler):
         self.response.write("success")
         
 class ViewProject(BaseHandler):
+    @checkdomain
     def get(self,*args,**kargs):
         currentUser=self.auth.get_user_by_session()
         logging.info("it is here proj "+self.request.get("proj_id"))
@@ -435,6 +446,7 @@ class ViewProject(BaseHandler):
         
         
 class GetTeamMembersForProject(BaseHandler):
+    @checkdomain
     def get(self,*args,**kargs):
        
         projectkey = ndb.Key(urlsafe=self.request.get("key"))
@@ -443,6 +455,7 @@ class GetTeamMembersForProject(BaseHandler):
         self.render_template("viewteammembers.html",{"project":project})
         
 class EditProject(BaseHandler):
+    @checkdomain
     def get(self,*args,**kargs):
        
       

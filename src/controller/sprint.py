@@ -9,9 +9,10 @@ from datetime import datetime
 from model import project
 from google.appengine.api.taskqueue import taskqueue 
 from model import product_backlog
+from common import checkdomain
 
 class Tasks(BaseHandler):
-    
+    @checkdomain
     def get(self,*args,**kargs):
         #if check_permission(self):
             key=self.session['current_project']  
@@ -25,6 +26,7 @@ class Tasks(BaseHandler):
         #else:
             #self.response.write("you are not allowed")
     
+    @checkdomain
     def post(self,*args,**kargs):
         task_data=task.Task()
         currentUser=self.auth.get_user_by_session()
@@ -68,8 +70,10 @@ class Tasks(BaseHandler):
         
         
         self.response.out.write("true")
+        
+        
 class EditTask(BaseHandler):
-    
+    @checkdomain
     def get(self,*args,**kargs):
         #if check_permission(self):
             edit_key=ndb.Key(urlsafe=self.request.get('edit_key'))
@@ -83,6 +87,7 @@ class EditTask(BaseHandler):
         #else:
             #self.response.write("you are not allowed")
     
+    @checkdomain
     def post(self,*args,**kargs):
         logging.info(type(self.request.get('edit_key')))
         task_key = ndb.Key(urlsafe=self.request.get('edit_key'))
@@ -147,7 +152,7 @@ class EditTask(BaseHandler):
         
         
 class DeleteTask(BaseHandler):
-    
+    @checkdomain
     def get(self,*args,**kargs):
         #if check_permission(self):
             edit_key=ndb.Key(urlsafe=self.request.get('delete_key'))
@@ -155,7 +160,7 @@ class DeleteTask(BaseHandler):
             self.render_template("user_new/deletetask.html",{'task_data':task_data})
         #else:
             #self.response.write("you are not allowed")
-    
+    @checkdomain
     def post(self,*args,**kargs):
         key= ndb.Key(urlsafe=self.request.get('delete_key'))
         task_key=key.get()
@@ -172,7 +177,7 @@ class DeleteTask(BaseHandler):
         
             
 class Sprint(BaseHandler):
-    
+    @checkdomain
     def get(self,*args,**kargs):
         #if check_permission(self):
            # project = ndb.Key(urlsafe=self.request.get("key"))
@@ -187,6 +192,7 @@ class Sprint(BaseHandler):
         #else:
             #self.response.write("you are not allowed")
     
+    @checkdomain
     def post(self,*args,**kargs):
         currentUser=self.auth.get_user_by_session()
         createdBy=self.user_model.get_by_id(currentUser['user_id']).key
@@ -230,7 +236,7 @@ class Sprint(BaseHandler):
         self.response.out.write("true")
         
 class EditSprint(BaseHandler):
-
+    @checkdomain
     def get(self,*args,**kargs):
         #if check_permission(self):
            # project = ndb.Key(urlsafe=self.request.get("key"))
@@ -243,6 +249,7 @@ class EditSprint(BaseHandler):
         #else:
             #self.response.write("you are not allowed")
     
+    @checkdomain
     def post(self,*args,**kargs):
         sprint_key = ndb.Key(urlsafe=self.request.get('edit_key'))
         sprint_data=sprint_key.get()
@@ -307,7 +314,7 @@ class EditSprint(BaseHandler):
         self.response.out.write("true")
         
 class DeleteSprint(BaseHandler):
-
+    @checkdomain
     def get(self,*args,**kargs):
         #if check_permission(self):
            # project = ndb.Key(urlsafe=self.request.get("key"))
@@ -317,7 +324,7 @@ class DeleteSprint(BaseHandler):
            
         #else:
             #self.response.write("you are not allowed")
-    
+    @checkdomain
     def post(self,*args,**kargs):
         sprint_key = ndb.Key(urlsafe=self.request.get('delete_key'))
         sprint_data=sprint_key.get()
@@ -350,7 +357,8 @@ class DeleteSprint(BaseHandler):
         
         
 class SprintInfo(BaseHandler):
-     def post(self,*args,**kargs):
+    @checkdomain
+    def post(self,*args,**kargs):
         #if check_permission(self):
            # project = ndb.Key(urlsafe=self.request.get("key"))
            if self.request.get('key')!= "None":
@@ -371,6 +379,7 @@ class SprintInfo(BaseHandler):
             
             
 class GetUserStory(BaseHandler):
+    @checkdomain
     def get(self,*args,**kargs):
         productBacklog_key=[]
         if self.request.get('key')!="None":

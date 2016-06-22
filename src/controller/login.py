@@ -17,6 +17,9 @@ import urlparse
 import urllib
 from google.appengine.api.taskqueue import taskqueue 
 from const import OUT_MAIL_ADDRESS, APP_DOMAIN
+from common import checkdomain
+from model import user
+
 
 
 def check_permission(self,*args,**kargs):
@@ -172,8 +175,23 @@ class CheckDomain(BaseHandler):
             self.response.write('Domain is not available')
         else:
             self.response.write('Domain is available')
+            
+
+class UserEmailInfo(BaseHandler):
+    def post(self,*args,**kargs):
+        useremail=self.request.get('email')
+        logging.info(useremail)
+        
+        user_info=model.user.OurUser()
+        usermodelinstance =user_info.query(ndb.GenericProperty("email_address")==useremail).fetch()
+        logging.info(usermodelinstance)
+        if usermodelinstance:
+            self.response.write('true')
+        else:
+            self.response.write('false')
+
+
 class Main(BaseHandler):
-    
     def get(self,*args,**kargs):
         user1=self.auth.get_user_by_session()
         if user1:
@@ -185,6 +203,7 @@ class Main(BaseHandler):
                 self.redirect(self.uri_for('dashboard'))
         else:
             self.redirect(self.uri_for('login'), abort=True)
+            
 class SetSessionProject(BaseHandler):
     
     def get(self,*args,**kargs):
@@ -493,7 +512,7 @@ class LoginHandler(BaseHandler):
         else:
             company=company_name[0].name
             self.render_template('auth/login.html', {'company':company})
-
+   
     def post(self,*args,**kargs):
         username = self.request.get('username')
         password = self.request.get('password')
@@ -570,6 +589,7 @@ class LogoutHandler(BaseHandler):
 
 class AuthenticatedHandler(BaseHandler):
     @user_required
+    @checkdomain
     def get(self):
         self.render_template('auth/main.html')
 

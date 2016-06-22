@@ -58,9 +58,10 @@ from google.appengine.ext import blobstore
 import webapp2
 import email
 from datetime import datetime
-
+from common import checkdomain
 
 class TestUserDashboard(BaseHandler):
+    @checkdomain
     def get(self,*args,**kargs):
        # if check_permission(self):
             projectKey=self.session['current_project']

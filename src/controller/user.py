@@ -89,6 +89,7 @@ class EndUserDashboardHandler(BaseHandler):
             
             
 class EndUserProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobstore_handlers.BlobstoreDownloadHandler):
+    @checkdomain
     def get(self,*args,**kargs):
        
             #current_user =self.auth.get_user_by_session()
@@ -116,7 +117,8 @@ class EndUserProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobs
            
             
             self.render_template("user_new/profile.html",{'user_image':user.blob_key,'permission':'success', 'user_db':user_db, 'role':role,"upload_url":upload_url})
-            
+    
+    @checkdomain        
     def post(self,*args,**kargs):
          user_db = OurUser.query().fetch()
           
@@ -213,7 +215,8 @@ class EndUserProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobs
     
 
             
-class UserViewPhotoHandler(blobstore_handlers.BlobstoreDownloadHandler):
+class UserViewPhotoHandler(BaseHandler,blobstore_handlers.BlobstoreDownloadHandler):
+    @checkdomain
     def get(self,*args,**kargs):
         
         if not blobstore.get(self.request.get('photo_key')):

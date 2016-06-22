@@ -58,24 +58,49 @@ $(document).ready(function() {
 		
 		 if ($('#signup_user').valid()){
 			 e.preventDefault();
+			 var doamincheck=validSubdomain();
+			// alert(doamincheck);
+			 
+			 //var usercheck=validUser();
+			// alert(usercheck);
+			 
 			if(validSubdomain() == 1)
 			{
-			 
-				$.post( "/signupuser", $("#signup_user").serialize()).done(function( data ) {
-					da =data.split("*%*")
-					console.log(da)
-					$('#submit_form').prop('disabled', true);
-		  			if (da[0]!="true"){
-		  				alert(data);
-		  				return false;
-		  			} else {
-		  				alert("You are succesfully registered.Please check your mail.");
-		  				//window.location.href = da[1];
-		  				window.location.href = "/";
-		  				
+				
+				
+				$.post( "/checkuser", $("#signup_user").serialize())
+		  		.done(function( data ) {
+		  			
+		  			//alert(data);
+		  			if(data == 'true')
+		  			{
+		  				$('#user-error').html("Email address is already registered.Please use other email address.");
+		  		        return 0;
 		  			}
+		  			
+		  			else
+		  			
+		  			{
+		  				$.post( "/signupuser", $("#signup_user").serialize()).done(function( data ) {
+							da =data.split("*%*")
+							console.log(da)
+							$('#submit_form').prop('disabled', true);
+				  			if (da[0]!="true"){
+				  				alert(data);
+				  				return false;
+				  			} else {
+				  				alert("You are succesfully registered.Please check your mail.");
+				  				//window.location.href = da[1];
+				  				window.location.href = "/";
+				  				
+				  			}
+				  		});
+						return false;
+		  			}
+		  			
 		  		});
-				return false;
+			 
+			
 			} 
 			else
 				{
@@ -207,7 +232,30 @@ $(document).ready(function() {
 				} 
 			}); 
 			
-		
+	//valid user
+/* 	function validUser() {
+		$.post( "/checkuser", $("#signup_user").serialize())
+  		.done(function( data ) {
+  			
+  			alert(data);
+  			if(data == 'true')
+  			{
+  				$('#user-error').html("Email address is already registered.");
+  		        return 0;
+  			}
+  			else
+  				if(data == 'false')
+  				{
+  				$('#user-error').html("");
+  				return 1;
+  				}
+  			
+  		});
+	} */
+			
+			
+			
+			
 		
 });
 function validSubdomain() {
@@ -324,7 +372,7 @@ function validSubdomain() {
 							<label class="apm-landing-reg-label">Email Address<font color="red">*</font></label>
 							<input type="text" class="form-control apm-landing-textbox-reg" name="email">
 						  </div>
-						  
+						  <div class="error" id="user-error"></div>
 						   {% for role in roles %}
 								<input type="hidden" value="{{role.key.urlsafe}}" name="role">
 						   {%endfor%}
@@ -341,11 +389,7 @@ function validSubdomain() {
 			
 		</div>
 	</section>
-	
 		
-	
-	
-	
 </body>
 </html>
 

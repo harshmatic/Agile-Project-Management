@@ -26,8 +26,11 @@ from google.appengine.ext import blobstore
 import webapp2
 import email
 from datetime import datetime
+from common import checkdomain
+
 
 class Release(BaseHandler):
+    @checkdomain
     def get(self,*args,**kargs):
         #if check_permission(self):
             
@@ -51,6 +54,7 @@ class Release(BaseHandler):
         #else:
             #self.response.write("you are not allowed")
     
+    @checkdomain
     def post(self,*args,**kargs):
         release_obj= project.ProjectRelease()
             
@@ -76,13 +80,14 @@ class Release(BaseHandler):
 
 
 class EditRelease(BaseHandler):
+        @checkdomain
         def get(self,*args,**kargs):
             key = ndb.Key(urlsafe=self.request.get('edit_key'))
             release_info=key.get()
             self.render_template("user_new/edit_release.html",{"release_info":release_info})
 
             
-            
+        @checkdomain    
         def post(self,*args,**kargs):
             key= ndb.Key(urlsafe=self.request.get('key'))
             release_key=key.get()
@@ -138,12 +143,14 @@ class EditRelease(BaseHandler):
 
  
 class DeleteRelease(BaseHandler):  
+        @checkdomain  
         def get(self,*args,**kargs):
             key = ndb.Key(urlsafe=self.request.get('delete_key'))
             release_info = key.get()
             
             self.render_template("user_new/delete_release.html",{"release_info":release_info})
-         
+        
+        @checkdomain  
         def post(self,*args,**kargs):
             key= ndb.Key(urlsafe=self.request.get('delete_key'))
             release_key=key.get()
@@ -159,7 +166,8 @@ class DeleteRelease(BaseHandler):
             self.response.write("true")     
             
 class ReleaseInfo(BaseHandler):
-     def post(self,*args,**kargs):
+    @checkdomain 
+    def post(self,*args,**kargs):
         #if check_permission(self):
            # project = ndb.Key(urlsafe=self.request.get("key"))
             key = ndb.Key(urlsafe=self.request.get('key'))

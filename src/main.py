@@ -139,6 +139,7 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/signupuser', SignupUser, name='signuphome'),
         webapp2.Route('/sprint', Sprint,name='sprint'),
         webapp2.Route('/checkdomain', CheckDomain,name="checkdomain"),
+        webapp2.Route('/checkuser', UserEmailInfo),
         webapp2.Route('/basehtml', BaseHtml,name="basehtml"),
         webapp2.Route('/userbasehtml', UserBaseHtml,name="userbasehtml"),
         webapp2.Route('/basehtmltest', BaseHtmlTest,name="basehtmltest"),

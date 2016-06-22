@@ -16,8 +16,11 @@ from model import sprint
 import model
 from datetime import datetime
 from model.status import Status
+from common import checkdomain
+
 
 class AllBacklogs(BaseHandler):
+    @checkdomain
     def get(self,*args,**kargs):
        #if check_permission(self):  
         productBacklog = product_backlog.ProductUserStory()
@@ -65,6 +68,7 @@ class AllBacklogs(BaseHandler):
         #self.response.write("you are not allowed")   
         
 class Backlog(BaseHandler):
+    @checkdomain
     def get(self,*args,**kargs):
         
         id = self.request.get("id")
@@ -85,7 +89,7 @@ class Backlog(BaseHandler):
         self.response.write(json.dumps(data, ensure_ascii=False))
         
 class AddBacklog(BaseHandler):
-    
+    @checkdomain
     def post(self,*args,**kargs):
         backlog = product_backlog.ProductUserStory()
        # backlog.sprintId = self.request.get("spId")
@@ -125,11 +129,13 @@ class AddBacklog(BaseHandler):
         self.response.write('true')
         
 class DeleteBacklog(BaseHandler):
+    @checkdomain
     def get(self,*args,**kargs):
         key = ndb.Key(urlsafe=self.request.get('delete_key'))
         backlog_info = key.get()
         self.render_template("user_new/delete_backlog.html",{"backlog_info":backlog_info})
-         
+     
+    @checkdomain     
     def post(self,*args,**kargs):
             key= ndb.Key(urlsafe=self.request.get('delete_key'))
            
@@ -144,6 +150,7 @@ class DeleteBacklog(BaseHandler):
                     
 
 class EditBacklog(BaseHandler):
+        @checkdomain    
         def get(self,*args,**kargs):
             key = ndb.Key(urlsafe=self.request.get('edit_key'))
             backlog_info=key.get()
@@ -163,7 +170,7 @@ class EditBacklog(BaseHandler):
             self.render_template("user_new/edit_backlog.html",{"user_data":user1,"team":team,"backlog_info":backlog_info,"project":proj,"sprint":sprints})
 
             
-            
+        @checkdomain        
         def post(self,*args,**kargs):
           
             key= ndb.Key(urlsafe=self.request.get('key'))
@@ -191,6 +198,7 @@ class EditBacklog(BaseHandler):
             
             
 class UpdateBacklog(BaseHandler):
+        @checkdomain
         def get(self,*args,**kargs):
             key = ndb.Key(urlsafe=self.request.get('update_key'))
             backlog_info = key.get()
@@ -199,7 +207,8 @@ class UpdateBacklog(BaseHandler):
             key=self.session['current_project']  
             team=project.ProjectMembers().get_all(key)
             self.render_template("user_new/update_userstory.html",{"backlog_info":backlog_info,"user_data":user1,"team":team})
-            
+         
+        @checkdomain    
         def post(self,*args,**kargs):
             key= ndb.Key(urlsafe=self.request.get('key'))
             backlog_key=key.get()

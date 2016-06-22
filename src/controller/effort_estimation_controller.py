@@ -5,9 +5,10 @@ from login import BaseHandler,check_permission
 import json as json
 from model import sprint,task,time_log
 from datetime import datetime,date,timedelta as td
+from common import checkdomain
 
 class EffortEstimationView(BaseHandler):
-    
+    @checkdomain
     def get(self,*args,**kargs):
         
         #if check_permission(self):
@@ -132,7 +133,7 @@ class DeleteUserPersistDefaulEstimation(BaseHandler):
             
         
 class EditEffortEstimation(BaseHandler):
-    
+    @checkdomain
     def post(self,*args,**kargs):
         logging.info("it is here "+self.request.__str__())
         
@@ -184,7 +185,7 @@ class EditEffortEstimation(BaseHandler):
             self.response.write("success")
             
 class Barchart(BaseHandler):
-    
+    @checkdomain
     def get(self,*args,**kargs):
         projectKey=self.session['current_project']
         sprints = sprint.Sprint().get_by_project(projectKey)
@@ -243,6 +244,7 @@ class Barchart(BaseHandler):
             #self.response.write("you are not allowed")
  
 class Utilizationchart(BaseHandler):
+    @checkdomain
     def get(self,*args,**kargs):
         projectKey=self.session['current_project']
         sprints = sprint.Sprint().get_by_project(projectKey)
@@ -289,6 +291,7 @@ class Utilizationchart(BaseHandler):
         self.render_template("user_new/utilization_chart.html",{"sprint":sprints,"data":json.dumps(datalist),"currentsprint":sprint_key})
         
 class Velocitychart(BaseHandler):
+    @checkdomain
     def get(self,*args,**kargs):
         projectKey=self.session['current_project']
         taskmodel = task.Task.query(task.Task.project==projectKey).fetch()

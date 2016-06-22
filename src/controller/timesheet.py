@@ -6,10 +6,15 @@ import json as json
 from model import sprint,task,time_log
 from datetime import datetime, timedelta,date
 import time
+from common import checkdomain
+
+
 class Timesheet(BaseHandler):
+    @checkdomain
     def show_timesheet(self,from_date,to_date):
         self.response.write('under construction')
     
+    @checkdomain
     def get(self,*args,**kargs):
         week_number=0
         day_number=7

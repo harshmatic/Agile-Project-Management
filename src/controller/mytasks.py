@@ -6,8 +6,11 @@ import json as json
 from model import sprint,task,time_log
 from datetime import datetime
 from model.status import Status
+from common import checkdomain
+
 
 class Comment(BaseHandler):
+    @checkdomain
     def post(self,*args,**kargs):
         currentUser=self.auth.get_user_by_session()
         currentUserKey=self.user_model.get_by_id(currentUser['user_id']).key
@@ -21,8 +24,10 @@ class Comment(BaseHandler):
         tasks.comments.append(comment)
         tasks.put()
         self.response.write("true")
+        
+        
 class MyTasks(BaseHandler):
-    
+    @checkdomain
     def get(self,*args,**kargs):
         projectKey=self.session['current_project']
         currentUser=self.auth.get_user_by_session()
@@ -36,7 +41,7 @@ class MyTasks(BaseHandler):
         self.render_template("user_new/my_tasks.html",{"tasks":tasks})
 
 class MyTaskView(BaseHandler):
-    
+    @checkdomain
     def get(self,*args,**kargs):
         taskKey = ndb.Key(urlsafe=self.request.get('key'))
         task=taskKey.get()
@@ -50,6 +55,7 @@ class MyTaskView(BaseHandler):
         self.render_template("user_new/view_task.html",{"task":task,"time_log":time_log_data,"status":status,
                                                         "user_obj":currentUser})
     
+    @checkdomain
     def post(self,*args,**kargs):
         currentUser=self.auth.get_user_by_session()
         
@@ -109,6 +115,7 @@ class MyTaskView(BaseHandler):
         self.response.write('true')
         
 class EditTimelog(BaseHandler):
+        @checkdomain
         def get(self,*args,**kargs):
             
             key = ndb.Key(urlsafe=self.request.get('edit_key'))
@@ -116,7 +123,7 @@ class EditTimelog(BaseHandler):
             self.render_template("user_new/edit_timelog.html",{"timelog_info":timelog_info})
 
             
-            
+        @checkdomain    
         def post(self,*args,**kargs):
             key= ndb.Key(urlsafe=self.request.get('key'))
             timelog_key=key.get()
@@ -175,11 +182,13 @@ class EditTimelog(BaseHandler):
 
  
 class DeleteTimelog(BaseHandler):  
+        @checkdomain
         def get(self,*args,**kargs):
             key = ndb.Key(urlsafe=self.request.get('delete_key'))
             timelog_info=key.get()
             self.render_template("user_new/delete_timelog.html",{"timelog_info":timelog_info})
-         
+        
+        @checkdomain 
         def post(self,*args,**kargs):
             key= ndb.Key(urlsafe=self.request.get('delete_key'))
             timelog_key=key.get()
@@ -231,6 +240,7 @@ class DeleteTimelog(BaseHandler):
             self.response.write("true")     
             
 class TaskStatusUpdate(BaseHandler):
+    @checkdomain
     def post(self,*args,**kargs):
         status = int(self.request.get('status'))
         currentUser=self.auth.get_user_by_session()
@@ -244,6 +254,7 @@ class TaskStatusUpdate(BaseHandler):
         
         
 class AddTimelog(BaseHandler):  
+        @checkdomain
         def get(self,*args,**kargs):
             taskKey = ndb.Key(urlsafe=self.request.get('key'))
             task=taskKey.get()

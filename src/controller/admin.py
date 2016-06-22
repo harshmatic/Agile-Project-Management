@@ -13,9 +13,10 @@ from datetime import datetime
 from google.appengine.api.taskqueue import taskqueue 
 from urlparse import urlparse
 from const import OUT_MAIL_ADDRESS, APP_DOMAIN
-
+from common import checkdomain
 
 class AdminVerify(BaseHandler):
+    @checkdomain
     def post(self,*args,**kargs):
         key = ndb.Key(urlsafe=self.request.get('key_user'))
         user=key.get()
@@ -45,6 +46,7 @@ class Adminedit(BaseHandler):
             self.response.write("User is already verified.")           
         
 class AdminHome(BaseHandler):
+    @checkdomain
     def get(self,*args,**kargs):
         
         if check_permission(self):
@@ -52,6 +54,7 @@ class AdminHome(BaseHandler):
         else:
             self.response.write("you are not allowed")
 class DeleteEntity(BaseHandler):
+    @checkdomain
     def post(self,*args,**kargs):
         user_info = self.auth.get_user_by_session()
         key = ndb.Key(urlsafe=self.request.get('key_role'))
@@ -68,13 +71,15 @@ class DeleteEntity(BaseHandler):
         #q=qry.filter(key in parent)
         #logging.info(qry)
 class EditRole(BaseHandler):
+    @checkdomain
     def get(self,*args,**kargs):
         key = ndb.Key(urlsafe=self.request.get('key'))
         role = key.get()
         permiss=user.Permissions()
         list_per=permiss.get_all()
         self.render_template("admin_new/editrole.html",{"role":role,"permission":list_per})
-        
+    
+    @checkdomain    
     def post(self,*args,**kargs):
         user_info = self.auth.get_user_by_session()
         key = ndb.Key(urlsafe=self.request.get('key_role'))
@@ -94,11 +99,13 @@ class EditRole(BaseHandler):
         self.response.write("true")
 
 class EditPermission(BaseHandler):
+    @checkdomain
     def get(self,*args,**kargs):
         key = ndb.Key(urlsafe=self.request.get('key'))
         permission = key.get()
         self.render_template("admin/editpermission.html",{"permission":permission})
-        
+    
+    @checkdomain    
     def post(self,*args,**kargs):
         key = ndb.Key(urlsafe=self.request.get('key_permission'))
         permission =key.get()
@@ -113,9 +120,11 @@ class EditPermission(BaseHandler):
         self.response.write("true")
         
 class AddPermissions(BaseHandler):
+    @checkdomain
     def get(self,*args,**kargs):
         self.render_template("admin/addpermissions.html")
-        
+    
+    @checkdomain    
     def post(self,*args,**kargs):
         url=self.request.get("perm_url")
         name=self.request.get("perm_name")
@@ -131,12 +140,14 @@ class AddPermissions(BaseHandler):
         self.response.write("true")
 
 class AddRole(BaseHandler):
+    @checkdomain  
     def get(self,*args,**kargs):
         permiss=user.Permissions()
         list_per=permiss.get_all()
         param = {"perm":list_per}
         self.render_template("admin_new/addrole.html",param)
-        
+    
+    @checkdomain      
     def post(self,*args,**kargs):
         url=self.request.get_all("permissions")
         logging.info(url)
@@ -160,6 +171,7 @@ class AddRole(BaseHandler):
         self.response.write("true")
         
 class EditPermissions(BaseHandler):
+    @checkdomain
     def get(self,*args,**kargs):
         role=model.user.Groups()
         roles=role.query(user.Groups.tenant_domain==kargs['subdomain']).fetch()
@@ -169,6 +181,8 @@ class EditPermissions(BaseHandler):
         p=user.Permissions()
         perm=p.get_all()
         self.render_template("admin_new/apm-admin-permissions.html",{"perm":perm,"role":roles,'admin':admin_roles})
+    
+    @checkdomain
     def post(self,*args,**kargs):
         prev_role=""
         #role=""
@@ -205,6 +219,7 @@ class EditPermissions(BaseHandler):
         self.response.write("true")
                     
 class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobstore_handlers.BlobstoreDownloadHandler):
+    @checkdomain
     def get(self,*args,**kargs):
         
         role=model.user.Groups()
@@ -215,7 +230,8 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
         logging.info(user_json)
     
         self.render_template("admin_new/apm-admin-user-management.html",{"user1":user1,"user_json":user_json,"roles":roles})
-        
+    
+    @checkdomain    
     def post(self,*args,**kargs):
         
         currentUser=self.auth.get_user_by_session()
@@ -282,7 +298,8 @@ class AdminUserManagement(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,
             
 
             
-class ViewPhotoHandler(blobstore_handlers.BlobstoreDownloadHandler):
+class ViewPhotoHandler(BaseHandler,blobstore_handlers.BlobstoreDownloadHandler):
+    @checkdomain
     def get(self,*args,**kargs):
         
         if not blobstore.get(self.request.get('photo_key')):
@@ -292,15 +309,16 @@ class ViewPhotoHandler(blobstore_handlers.BlobstoreDownloadHandler):
 
 
 class AdminEditUser(BaseHandler):
-        def get(self,*args,**kargs):
-            key = ndb.Key(urlsafe=self.request.get('edit_key'))
-            user_info=key.get()
-            logging.info(user_info)
-            self.render_template("admin_new/edit_user.html",{"user_info":user_info})
+    @checkdomain
+    def get(self,*args,**kargs):
+        key = ndb.Key(urlsafe=self.request.get('edit_key'))
+        user_info=key.get()
+        logging.info(user_info)
+        self.render_template("admin_new/edit_user.html",{"user_info":user_info})
 
             
-            
-        def post(self,*args,**kargs):
+    @checkdomain        
+    def post(self,*args,**kargs):
             
 #             tenant_domain = self.request.get('company_domain')
 #             tenant_name = self.request.get('company_name')
@@ -335,25 +353,28 @@ class AdminEditUser(BaseHandler):
 
  
 class AdminDeleteUser(BaseHandler):  
-        def get(self,*args,**kargs):
-            key = ndb.Key(urlsafe=self.request.get('delete_key'))
-            user_info = key.get()
-            logging.info(user_info)
-            self.render_template("admin_new/delete_user.html",{"user_info":user_info})
-         
-        def post(self,*args,**kargs):
-            key= ndb.Key(urlsafe=self.request.get('delete_key'))
+    @checkdomain
+    def get(self,*args,**kargs):
+        key = ndb.Key(urlsafe=self.request.get('delete_key'))
+        user_info = key.get()
+        logging.info(user_info)
+        self.render_template("admin_new/delete_user.html",{"user_info":user_info})
+    
+    @checkdomain     
+    def post(self,*args,**kargs):
+        key= ndb.Key(urlsafe=self.request.get('delete_key'))
             
-            user_key=key.get()
-            user_info = self.auth.get_user_by_session()
-            user_key.modified_by = user_info['email_address']
-            user_key.modified_date = datetime.now()
-            user_key.status = False
-            user_key.put()
+        user_key=key.get()
+        user_info = self.auth.get_user_by_session()
+        user_key.modified_by = user_info['email_address']
+        user_key.modified_date = datetime.now()
+        user_key.status = False
+        user_key.put()
           #  user_key.delete()  
-            self.response.write("true")     
+        self.response.write("true")     
             
 class AdminProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobstore_handlers.BlobstoreDownloadHandler):
+    @checkdomain
     def get(self,*args,**kargs):
        
             #current_user =self.auth.get_user_by_session()
@@ -382,6 +403,7 @@ class AdminProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobsto
             
             self.render_template("admin_new/profile.html",{'user_image':user.blob_key,'permission':'success', 'user_db':user_db, 'role':role,"upload_url":upload_url})
             
+    @checkdomain
     def post(self,*args,**kargs):
         user_db = model.user.OurUser.query().fetch()
           
