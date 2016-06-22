@@ -172,11 +172,10 @@ $("#edit_userstory").on("click",function(){
 												<label class="task-label">Sprint</label>
 												<select class="form-control add-task-textbox apm-modal-textbox" name="sprint">
 													<option value="None">None</option>
+													
 													{%for i in sprint%}
 													{%if i.status%}
-																	{{i}}
-																	{{backlog_info.sprintId}}
-																<option value={{i.key.urlsafe}} {%ifequal i backlog_info.sprintId%} selected="true"{%endifequal%}>{{i.name}}</option>
+																<option value={{i.key.urlsafe}} {%ifequal i.key backlog_info.sprintId%} selected="true"{%endifequal%}>{{i.name}}</option>
 													{%endif%}
 													{%endfor%}
 												</select>  
