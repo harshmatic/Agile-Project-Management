@@ -36,7 +36,7 @@
 				var last_page_url =str.split("/")[3]
 				if(last_page_url == 'sprint')
 				{
-					$("a").prop("href", "/sprint");
+					$("#back_to_task").prop("href", "/sprint");
 					//$('.href_class').hide();
 				}
 				
@@ -179,7 +179,8 @@
 						
 						$('.datepicker').datepicker({
 							format: 'dd/mm/yyyy',
-							startDate: '0d'
+							//startDate: '0d',
+							autoclose:true
 						});
 						
 						
@@ -382,7 +383,11 @@
 												</td>
 												<td>{%if i.hour %}{{i.hour}}{%else%}00{%endif%}:{%if i.minute %}{{i.minute}}{%else%}00{%endif%}</td>
 												<td>
+												{%if user_obj == task.assignee%}
+												
 												<a href="/timelog/edit?edit_key={{i.key.urlsafe}}" data-toggle="modal" data-target="#edit-timelog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Time Log"  id="{{i.key.urlsafe}}"></a></i>
+												
+												{%endif%}
 												<!-- <a href="/timelog/delete?delete_key={{i.key.urlsafe}}" data-toggle="modal" data-target="#delete-timelog-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Time Log"  id="{{i.key.urlsafe}}"></a></i>
 											 -->
 												</td>

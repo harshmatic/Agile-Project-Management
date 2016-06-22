@@ -68,19 +68,19 @@ $(document).ready(function(){
 /****************************************datepicker starts*****************************************************/
   		$('body').on('focus',"#start,#start_edit", function(){
   		    $(this).datepicker({
-  				format: 'dd/mm/yyyy',
-  				startDate: '0d'
+  				format: 'mm/dd/yyyy',
+  				//startDate: '0d'
   			});
   		});
   		$('body').on('focus',"#end,#end_edit", function(){
   		    $(this).datepicker({
-  				format: 'dd/mm/yyyy',
-  				startDate: '0d'
+  				format: 'mm/dd/yyyy',
+  				//startDate: '0d'
   			});
   		});
   		$('.datepicker').datepicker({
 			format: 'mm/dd/yyyy',
-			startDate: '0d',
+			//startDate: '0d',
 			autoclose:true
 		});
   		
@@ -344,7 +344,7 @@ $(document).ready(function(){
 												<div class="col-md-6">
 													<div class="form-group">
 														<label class="apm-landing-reg-label">Start Date</label>
-														<input name="start" id="start_edit" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true" value="{{task_data.startDate|date:'d/m/Y'}}">
+														<input name="start" id="start_edit" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true" value="{{task_data.startDate|date:'m/d/Y'}}">
 														<i class="fa fa-calendar datepicker-cal open-datetimepicker" aria-hidden="true"></i>
 													</div>
 												</div>
@@ -353,7 +353,7 @@ $(document).ready(function(){
 												<div class="col-md-6">
 													<div class="form-group">
 														<label class="apm-landing-reg-label">End Date</label>
-														<input name="end" id="end_edit"  type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true" value="{{task_data.endDate|date:'d/m/Y'}}">
+														<input name="end" id="end_edit"  type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true" value="{{task_data.endDate|date:'m/d/Y'}}">
 														<i class="fa fa-calendar datepicker-cal open-datetimepicker1" aria-hidden="true"></i>
 													</div>
 												</div>

@@ -3,9 +3,9 @@
 {% block title %}User | Project | Release{% endblock %}
 		
 {% block header_links%}
-		<title>APM - All Projects</title>
+<title>Release</title>
 		
-		<style>
+<style>
 			.apm-nav-brand-1{
 				padding: 15px!important;
 				font-size: 15px!important;
@@ -25,9 +25,11 @@
     		font-weight: 700;
 			}
 			
-		</style>
-	<script>
-				$(document).ready(function(){
+</style>
+<script>
+$(document).ready(function(){
+
+/*********************************************Release validation starts**********************************************************/
 					
 					var release_validator=   $("#release_form").validate({
 					      rules: {
@@ -54,8 +56,11 @@
 					         }
 					     });
 					
+/*********************************************Release validation starts**********************************************************/
+
 					
-					
+/*********************************************datepicker starts**********************************************************/
+
 					$('.form-group').find('.open-datetimepicker').on('click', function(){
 					    $('#release_date').trigger('focus');
 					});
@@ -65,15 +70,22 @@
 						$(this).tab('show');
 					});
 					$('.datepicker').datepicker({
-						format: 'dd/mm/yyyy',
-						startDate: '0d'
+						format: 'mm/dd/yyyy',
+						//startDate: '0d',
+						autoclose:true
 					});
 					
+/*********************************************datepicker ends**********************************************************/
+
+/*********************************************release modal starts**********************************************************/
+
 					$("#add_release").click(function(e) {
 						$('#add-release-modal').modal('show');
 					});
-					
-					
+
+/*********************************************release modal ends**********************************************************/
+
+/*********************************************release submit starts**********************************************************/
 					$("#submit").on("click",function(event){
 						 if (!$('#release_form').valid()){
 							    event.preventDefault();
@@ -83,8 +95,9 @@
 						 else
 						 {
 							 var release_date=$('#release_date').val();
-							 var project_start_date="{{session.current_project.get.startDate|date:'d/m/Y'}}";
-							 var project_end_date="{{session.current_project.get.endDate|date:'d/m/Y'}}";
+							// alert(release_date);
+							 var project_start_date="{{session.current_project.get.startDate|date:'m/d/Y'}}";
+							 var project_end_date="{{session.current_project.get.endDate|date:'m/d/Y'}}";
 							
 							 var start_date=project_start_date;
 							 var end_date=project_end_date;
@@ -138,6 +151,9 @@
 								
 							})
 							
+/*********************************************release submit ends**********************************************************/
+
+/*********************************************release modal starts**********************************************************/
 							
 					$('#add-release-modal').on('hidden.bs.modal', function(e)
 									    { 
@@ -147,6 +163,8 @@
 									       /*  $('.table').load('/release .table', function(result) {
 							  				}); */
 									    }) ;
+									   
+/*********************************************release modal ends**********************************************************/
 					
 
 				});

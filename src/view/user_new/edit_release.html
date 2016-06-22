@@ -8,9 +8,12 @@
     		font-weight: 700;
 			}
 			
-		</style>
+</style>
 <script>
 $(document).ready(function(){	
+	
+/*********************************************edit form validation starts*********************************************************/	
+	
 	var release_validator=   $("#edit_form").validate({
 	      rules: {
 	    	  release_name: 
@@ -36,7 +39,10 @@ $(document).ready(function(){
 	         }
 	     });
 	
-	
+/*********************************************edit form validation ends*********************************************************/	
+
+/*********************************************edit form post starts*********************************************************/	
+
 	$("#edit_release").on("click",function(event){
 		 if (!$('#edit_form').valid()){
 			    event.preventDefault();
@@ -46,8 +52,8 @@ $(document).ready(function(){
 		 else
 		 {
 			 var release_date=$('#edit_release_date').val();
-			 var project_start_date="{{session.current_project.get.startDate|date:'d/m/Y'}}";
-			 var project_end_date="{{session.current_project.get.endDate|date:'d/m/Y'}}"
+			 var project_start_date="{{session.current_project.get.startDate|date:'m/d/Y'}}";
+			 var project_end_date="{{session.current_project.get.endDate|date:'m/d/Y'}}"
 			 
 			 var start_date=project_start_date;
 			 var end_date=project_end_date;
@@ -102,6 +108,7 @@ $(document).ready(function(){
 				
 			})
 			
+/*********************************************edit form post ends*********************************************************/	
 
 /* $("#edit_release").on("click",function(){
 	$.post( '/release/edit', $("#edit_form").serialize())
@@ -121,6 +128,7 @@ $(document).ready(function(){
 			
 		}); */
 		
+/*********************************************edit modal close starts*********************************************************/	
 		
 			$('#edit-release-modal').on('hidden.bs.modal', function(e)
 				    { 
@@ -131,10 +139,23 @@ $(document).ready(function(){
 				        /* $('.table').load('/release .table', function(result) {
 		  				}); */
 				    }) ;
+		
+/*********************************************edit modal close ends*********************************************************/	
+		
+/*********************************************datepicker starts*********************************************************/	
+		
 $('.datepicker').datepicker({
-	format: 'dd/mm/yyyy',
-	startDate: '0d'
+	format: 'mm/dd/yyyy',
+	//startDate: '0d',
+	autoclose:true
 });
+
+$('.form-group').find('.open-datetimepicker').on('click', function(){
+    $('#edit_release_date').trigger('focus');
+});
+
+/*********************************************datepicker ends*********************************************************/	
+
 });
 
 	</script>			
@@ -172,8 +193,8 @@ $('.datepicker').datepicker({
 											   <!-- Email --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Release Date<font color="red">*</font></label>
-												<input type="text" class="form-control add-task-textbox datepicker" name="release_date" id="edit_release_date" value="{{release_info.releaseDate|date:'d/m/Y'}}">
-											 <i class="fa fa-calendar datepicker-cal" aria-hidden="true"></i>
+												<input type="text" class="form-control add-task-textbox datepicker" name="release_date" id="edit_release_date" value="{{release_info.releaseDate|date:'m/d/Y'}}" readonly>
+											 <i class="fa fa-calendar datepicker-cal open-datetimepicker" aria-hidden="true"></i>
 											  </div>
 										
 											<input type="hidden" id="key" name="key" value="{{release_info.key.urlsafe}}">
