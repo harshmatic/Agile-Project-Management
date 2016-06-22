@@ -97,20 +97,20 @@ $('.form-group').find('.open-datetimepicker1').on('click', function(){
 					
 					$('body').on('focus',"#start,#start_edit", function(){
 					    $(this).datepicker({
-							format: 'dd/mm/yyyy',
-							startDate: '0d'
+							format: 'mm/dd/yyyy',
+							//startDate: '0d'
 						});
 					});
 					$('body').on('focus',"#end,#end_edit", function(){
 					    $(this).datepicker({
-							format: 'dd/mm/yyyy',
-							startDate: '0d'
+							format: 'mm/dd/yyyy',
+							//startDate: '0d'
 						});
 					    
 					});
 					$('.datepicker').datepicker({
 						format: 'mm/dd/yyyy',
-						startDate: '0d',
+						//startDate: '0d',
 						autoclose:true
 					});
 					$('.datepicker').datepicker()

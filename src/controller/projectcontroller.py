@@ -73,8 +73,8 @@ class AddProject(BaseHandler):
         projec.companyid = companyId
         projec.name = self.request.get("proj_name")
         projec.description = self.request.get("proj_desc")
-        projec.startDate = datetime.strptime(self.request.get("proj_start"), '%d/%m/%Y').date()
-        projec.endDate = datetime.strptime(self.request.get("proj_end"), '%d/%m/%Y').date()
+        projec.startDate = datetime.strptime(self.request.get("proj_start"), '%m/%d/%Y').date()
+        projec.endDate = datetime.strptime(self.request.get("proj_end"), '%m/%d/%Y').date()
         
         projec.created_by = currentUser['email_address']
         projec.status = True
@@ -156,8 +156,8 @@ class EditProj(BaseHandler):
         projec =  projkey.get()
         projec.name = self.request.get("proj_name")
         projec.description = self.request.get("proj_desc")
-        projec.startDate = datetime.strptime(self.request.get("proj_start"), '%d/%m/%Y').date()
-        projec.endDate = datetime.strptime(self.request.get("proj_end"), '%d/%m/%Y').date()
+        projec.startDate = datetime.strptime(self.request.get("proj_start"), '%m/%d/%Y').date()
+        projec.endDate = datetime.strptime(self.request.get("proj_end"), '%m/%d/%Y').date()
         user_info = self.auth.get_user_by_session()
         projec.modified_by = user_info['email_address']
         projec.modified_date = datetime.now()
