@@ -195,7 +195,7 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<label class="apm-landing-reg-label">Start Date</label>
-														<input name="proj_start" type="text" class="form-control apm-landing-textbox-reg datepicker" value="{{project.startDate|date:'d/m/Y'}}" readonly="true" id="pr_start">
+														<input name="proj_start" type="text" class="form-control apm-landing-textbox-reg datepicker" value="{{project.startDate|date:'m/d/Y'}}" readonly="true" id="pr_start">
 														<i class="fa fa-calendar datepicker-cal open-datetimepicker" aria-hidden="true"></i>
 													</div>
 												</div>
@@ -204,7 +204,7 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<label class="apm-landing-reg-label">End Date</label>
-														<input name="proj_end" type="text" class="form-control apm-landing-textbox-reg datepicker" value = "{{project.endDate|date:'d/m/Y'}}" readonly="true" id="pr_end">
+														<input name="proj_end" type="text" class="form-control apm-landing-textbox-reg datepicker" value = "{{project.endDate|date:'m/d/Y'}}" readonly="true" id="pr_end">
 														<i class="fa fa-calendar datepicker-cal open-datetimepicker1" aria-hidden="true"></i>
 													</div>
 												</div>
@@ -593,9 +593,10 @@
 						$('#prj-team').addClass('active');
 						}
 					$('.datepicker').datepicker({
-						format: 'dd/mm/yyyy',
-						startDate: '0d'
+						format: 'mm/dd/yyyy',
+						//startDate: '0d'
 					});
+					
 					
 					
 					$("#apm-addmember-btn").click(function(e) {
