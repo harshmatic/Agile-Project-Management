@@ -102,9 +102,7 @@ $("#edit_userstory").on("click",function(){
 							 var update="/backlog/update?update_key="+row_key;
 							 var edit="/backlog/edit?edit_key="+row_key;
 						     var delete_key ="/backlog/delete?delete_key="+row_key;
-						     //$('#edit_delete_panel').html('<a href="'+edit+'" id="edit_key" data-toggle="modal" data-target="#edit-backlog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Release"  id="{{i.key.urlsafe}}"></i></a><a id="delete_key" href="'+delete_key+'" data-toggle="modal" data-target="#delete-backlog-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Release"  id="{{i.key.urlsafe}}"></i></a>');
-								
-						     $('#edit_delete_panel').html('<a href="'+edit+'" id="edit_key" data-toggle="modal" data-target="#edit-backlog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Release"  id="{{i.key.urlsafe}}"></i></a>');
+						     $('#edit_delete_panel').html('<a href="'+edit+'" id="edit_key" data-toggle="modal" data-target="#edit-backlog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Release"  id="{{i.key.urlsafe}}"></i></a><a id="delete_key" href="'+delete_key+'" data-toggle="modal" data-target="#delete-backlog-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Release"  id="{{i.key.urlsafe}}"></i></a>');
 								
 							}
 						     

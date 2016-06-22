@@ -59,7 +59,7 @@ class Release(BaseHandler):
         release_obj.projectid= self.session['current_project']   
             
         release_obj.releaseName=self.request.get('release_name')
-        release_obj.releaseDate=datetime.strptime(self.request.get('release_date'), '%m/%d/%Y').date()
+        release_obj.releaseDate=datetime.strptime(self.request.get('release_date'), '%d/%m/%Y').date()
             
         currentUser=self.auth.get_user_by_session()
         companyId=self.user_model.get_by_id(currentUser['user_id']).tenant_key
@@ -102,12 +102,12 @@ class EditRelease(BaseHandler):
             
             
             if (release_date != release_key.releaseDate ):
-                releaseDate=datetime.strptime(self.request.get('release_date'), '%m/%d/%Y').date()
+                releaseDate=datetime.strptime(self.request.get('release_date'), '%d/%m/%Y').date()
                 
              #   startDate=datetime(0001,01,01)
                # x = datetime.now()
              #   logging.info(x.date())
-                endDate=datetime.strptime('01/01/0001','%m/%d/%Y').date()
+                endDate=datetime.strptime('01/01/0001','%d/%m/%Y').date()
                 
                
                 for i in sprint_data:
@@ -167,7 +167,7 @@ class ReleaseInfo(BaseHandler):
            # self.render_template("user_new/delete_sprint.html",{"sprint_info":sprint_info})
             
             endDate = release_info.releaseDate
-            endDate=endDate.strftime('%m/%d/%Y')
+            endDate=endDate.strftime('%d/%m/%Y')
            
             params=endDate
            
