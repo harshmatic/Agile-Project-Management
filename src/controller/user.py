@@ -143,8 +143,8 @@ class EndUserProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobs
           #  role= ndb.Key(urlsafe=self.request.get('role'))
         #    logging.info(role)
                 last_name = self.request.get('last_name')
-             #   designation = self.request.get('designation')
-              #  empid=self.request.get('emp_id')
+                designation = self.request.get('designation')
+                empid=self.request.get('emp_id')
                 contact=self.request.get('contact_no')
             
            # id=self.request.get('user_id')
@@ -155,8 +155,8 @@ class EndUserProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobs
                 user.name=name
                 user.last_name=last_name
                 user.email=email
-            #    user.designation=designation
-            #    user.empid=empid
+                user.designation=designation
+                user.empid=empid
                 user.contact=contact
          
                 user_info = self.auth.get_user_by_session()
@@ -182,8 +182,8 @@ class EndUserProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobs
           #  role= ndb.Key(urlsafe=self.request.get('role'))
         #    logging.info(role)
                 last_name = self.request.get('last_name')
-             #   designation = self.request.get('designation')
-            #    empid=self.request.get('emp_id')
+                designation = self.request.get('designation')
+                empid=self.request.get('emp_id')
                 contact=self.request.get('contact_no')
             
            # id=self.request.get('user_id')
@@ -194,8 +194,8 @@ class EndUserProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobs
                 user.name=name
                 user.last_name=last_name
                 user.email=email
-            #    user.designation=designation
-            #    user.empid=empid
+                user.designation=designation
+                user.empid=empid
                 user.contact=contact
          
                 user_info = self.auth.get_user_by_session()

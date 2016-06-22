@@ -130,7 +130,7 @@ class BaseHandler(webapp2.RequestHandler):
                 
                 logging.info("the roles is::::"+role)
                 
-                
+                params['userName'] = user_obj.name
                 params['approle'] = role
             else:
                 projpermission = user_obj.project_permission
@@ -139,6 +139,7 @@ class BaseHandler(webapp2.RequestHandler):
                 role = role.role
                 logging.info("the roles is::::"+role)
                 params['approle'] = role
+                params['userName'] = user_obj.name
                 self.session['current_project']=None
             if projects != None:
                 params['projects'] = projects
