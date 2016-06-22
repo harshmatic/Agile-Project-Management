@@ -9,10 +9,16 @@ $(document).ready(function(){
 		format: 'dd/mm/yyyy',
 		startDate: '0d'
 	});
-	
+	var sVal = "";
 	$('#task_completed').on('click', function () {
 	    $(this).val(this.checked ? 1 : 0);
 	    console.log($(this).val());
+	    sVal = $(this).val() ;
+	    if(sVal == 1)
+	    	{
+	    	sVal = 2 ;
+	    	}
+	    console.log("the val is"+sVal);
 	});
 	
 	$('#billable').on('click', function () {
@@ -61,6 +67,7 @@ $(document).ready(function(){
 			 {
 				$.post( "/mytasks/view", $("#time_log_form").serialize())
 		  		.done(function( data ) {
+		  			
 		  			if (data!="true"){
 		  				alert("Something Went Wrong");
 		  				return false
@@ -71,7 +78,11 @@ $(document).ready(function(){
 				
 		})
 		
-		
+		$('#apm-task-add-timelog-modal').on('hidden.bs.modal', function(e)
+			    { 
+					
+					 $("select#status_dropdown option[value='"+sVal+"']").attr('selected', 'selected'); 	
+			    }) ;	
 
 });
 
