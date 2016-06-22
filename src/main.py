@@ -22,6 +22,9 @@ def NotFoundPageHandler(request, response, exception):
     
     path = os.path.join(os.path.dirname(__file__), 'view/404.html')
     response.out.write(render(path,{}))
+
+
+
     
 app = webapp2.WSGIApplication([
     DomainRoute('<subdomain>.'+APP_DOMAIN, [

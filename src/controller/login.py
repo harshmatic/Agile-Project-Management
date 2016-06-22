@@ -489,7 +489,7 @@ class LoginHandler(BaseHandler):
         company_name=model.user.Tenant().query(model.user.Tenant.domain==company_domain).fetch()
         logging.info(company_name)
         if not company_name:
-            self.render_template('404.html')
+            self.render_template('404.html',{'uri':'http://'+APP_DOMAIN})
         else:
             company=company_name[0].name
             self.render_template('auth/login.html', {'company':company})

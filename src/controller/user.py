@@ -27,9 +27,12 @@ from google.appengine.ext import blobstore
 import webapp2
 import email
 from datetime import datetime
+from common import checkdomain
+
 
 
 class EndUserDashboardHandler(BaseHandler):
+    @checkdomain
     def get(self,*args,**kargs):
         if check_permission(self):
             currentUser=self.auth.get_user_by_session()
