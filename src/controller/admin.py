@@ -322,14 +322,21 @@ class AdminEditUser(BaseHandler):
             
     @checkdomain        
     def post(self,*args,**kargs):
+        user_info = self.auth.get_user_by_session()
+        u=model.user.OurUser()
+           # admin_key = user_info
+        role_key=u.get_by_id(user_info['user_id']).role
+         
+        logging.info(role_key)
+        qry=u.query().filter(user.OurUser.tenant_domain==kargs['subdomain'])
+        qry = qry.filter(user.OurUser.role == role_key)
+        qry = qry.filter(user.OurUser.status == True)
+        tenant_admin_count = qry.fetch(2)
+        
+        logging.info(tenant_admin_count)  
+        count = len(tenant_admin_count)
+        if count > 1:
             
-#             tenant_domain = self.request.get('company_domain')
-#             tenant_name = self.request.get('company_name')
-#             tenant = model.user.Tenant()
-#             tenant.name = tenant_name
-#             tenant.domain = tenant_domain
-#             tenant.created_by = self.request.get('email')
-#             tenant_key_added = tenant.put()
             if(self.request.get('proj') == 'True'):
                 project_permission = True
             else:
@@ -344,14 +351,26 @@ class AdminEditUser(BaseHandler):
             user_key.designation = self.request.get('designation')
             user_key.empid=self.request.get('emp_id')
             user_key.contact=self.request.get('contact_no')
+            
+            user_key.role= ndb.Key(urlsafe=self.request.get('role'))
+            
             user_key.project_permission = project_permission 
             
-            user_info = self.auth.get_user_by_session()
+            
             user_key.modified_by = user_info['email_address']
             user_key.modified_date = datetime.now()
-            user_key.put()
-                        
-            self.response.write("true")            
+            user_key.put()        
+            self.response.write("true") 
+          
+            
+        else:
+            self.response.write('false')      
+        
+            
+           
+            
+            
+                               
                         
 
  

@@ -356,11 +356,7 @@
 												<label class="task-label">Role</label>
 												<select class="form-control add-task-textbox apm-modal-textbox" name="role">
 
-												{% for admin in admin %}
-													
-													<option value="{{admin.key.urlsafe}}">{{admin.role}}</option>
-												
-												{% endfor %}
+											
 												{% for role in roles %}
 													{%if role.status%}
 													<option value="{{role.key.urlsafe}}">{{role.role}}</option>
