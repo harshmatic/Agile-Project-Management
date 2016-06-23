@@ -314,7 +314,10 @@ class AdminEditUser(BaseHandler):
         key = ndb.Key(urlsafe=self.request.get('edit_key'))
         user_info=key.get()
         logging.info(user_info)
-        self.render_template("admin_new/edit_user.html",{"user_info":user_info})
+        role=model.user.Groups()
+        roles=role.query(ndb.AND(model.user.Groups.tenant_domain==None,model.user.Groups.application_level==True)).fetch()
+        
+        self.render_template("admin_new/edit_user.html",{"user_info":user_info,"roles":roles})
 
             
     @checkdomain        

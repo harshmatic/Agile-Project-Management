@@ -6,10 +6,10 @@ $(document).ready(function(){
 	var user_validator=   $("#edit_form").validate({
 		      rules: {
 		    	
-		          emp_id: 
+		          /* emp_id: 
 		          {
 			      		 required: true
-			      },
+			      }, */
 			      first_name: 
 			      {
 				  		 required: true
@@ -20,28 +20,29 @@ $(document).ready(function(){
 						
 				  },
 				
-				  designation: 
+				 /*  designation: 
 				  {
 						 required: true
 						
 					
-				  },
+				  }, */
 				  contact_no:
 				  {
-					  
-					  required: true
-					  
-				 }
+				  //required: true
+				   minlength:10,
+				   maxlength:10,
+				   number:true
+				  }, 
 				
 	   
 		         },
 		         messages: 
 		         {
 		        	
-		           emp_id: 
+		           /* emp_id: 
 		           {
 		             required: "Please enter employee id."
-		           },
+		           }, */
 		           first_name:
 		           {
 			             required: "Please enter first name."
@@ -51,14 +52,17 @@ $(document).ready(function(){
 			             required: "Please enter last name."
 			            
 			       },
-			       designation: 
+			      /*  designation: 
 			       {
 			             required: "Please enter designation."
-			       },
+			       }, */
 			       contact_no:
-			    	   {
-			    	   required: "Please enter contact number."
-			    	   }
+		    	   {
+		    	   //required: "Please enter contact number."
+		        	minlength:"Please enter valid contact number of 10 digits.",
+					 maxlength:"Please enter valid contact number of 10 digits.",
+					 number:"Please enter valid numbers only."
+		    	   }, 
 			    
 		           
 		         }
@@ -68,7 +72,7 @@ $(document).ready(function(){
 	/****************************add user ***************************************/
 			
 			
-			$("#edit_user").on("click",function(){
+			$("#edit_user").on("click",function(event){
 					 if (!$('#edit_form').valid()){
 							    event.preventDefault();
 							    event.stopImmediatePropagation();
@@ -132,7 +136,7 @@ $(document).ready(function(){
 				
 				  <div class="modal-header add-task-modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title add-task-modal-heading" style="color:black;">Edit User</h4>
+					<h4 class="modal-title add-task-modal-heading">Edit User</h4>
 				  </div>
 					<div class="modal-body user-management-body">
 							<div class="row">
@@ -140,90 +144,116 @@ $(document).ready(function(){
 								</div>
 								
 								<div class="col-md-10">
-										
-									
-										
-											<!-- First Name --> 
+											<!-- Email --> 
 											  <div class="form-group task-form-group">
-												<label class="task-label">First Name</label>
-												<input type="text" class="form-control add-task-textbox" name="first_name" value="{{user_info.name}}">
-											  </div>
-										
-										    <!-- Last Name --> 
-											  <div class="form-group task-form-group">
-												<label class="task-label">Last Name</label>
-												<input type="text" class="form-control add-task-textbox" name="last_name" value="{{user_info.last_name}}">
-											  </div>
-											  
-											   <!-- Email --> 
-											  <div class="form-group task-form-group">
-												<label class="task-label">Email</label>
+												<label class="task-label">Email<font color="red">*</font></label>
 												<input type="text" class="form-control add-task-textbox" name="email" value="{{user_info.email_address}}" readonly>
-											  </div>
-											  
-											   <!-- Designation --> 
-											  <div class="form-group task-form-group">
-												<label class="task-label">Designation</label>
-												<input type="text" class="form-control add-task-textbox" name="designation" value="{{user_info.designation}}">
 											  </div>
 											  
 											  <!-- Employee ID --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Employee ID</label>
 												<input type="text" class="form-control add-task-textbox" name="emp_id" value="{{user_info.empid}}">
-											  </div>
+											 </div>
+									
+										 <div class="row">
+												  <div class="col-sm-6">
+													  <!-- First Name --> 
+													   <div class="form-group task-form-group">
+															<label class="task-label">First Name<font color="red">*</font></label>
+															<input type="text" class="form-control add-task-textbox" name="first_name" value="{{user_info.name}}">
+											  			</div>
+												  </div>
+												  
+												  <div class="col-sm-6">
+													  <!-- Last Name --> 
+													  <div class="form-group task-form-group">
+														<label class="task-label">Last Name<font color="red">*</font></label>
+														<input type="text" class="form-control add-task-textbox" name="last_name" value="{{user_info.last_name}}">
+											  		  </div>
 											  
+												  </div>
+											  </div>
+										
+										 <div class="row">
+												  <div class="col-sm-6">
+													  <!-- Designation --> 
+													  <div class="form-group task-form-group">
+														<label class="task-label">Designation</label>
+														<input type="text" class="form-control add-task-textbox" name="designation" value="{{user_info.designation}}">
+											  			</div>
+												  </div>
+												  
+												  <div class="col-sm-6">
+													  <!-- Contact No --> 
+													  <div class="form-group task-form-group">
+															<label class="task-label">Contact No.</label>
+															<input type="text" class="form-control add-task-textbox" name="contact_no" value="{{user_info.contact}}">
+											  		  </div>
+											  
+												  </div>
+											  </div>
+											
+											  
+											   <!-- Designation --> 
+											  
+											  
+											
 											 <!-- Company Name --> 
-											  <div class="form-group task-form-group">
+											 <!--  <div class="form-group task-form-group">
 												<label class="task-label">Company Name</label>
 												<input type="text" class="form-control add-task-textbox" name="company_name" value="{{user_info.tenant_key.get.name}}" readonly>
 											  </div>
 											  
 											  
-											  <!-- Domain --> 
+											  Domain 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Domain</label>
 												<input type="text" class="form-control add-task-textbox" name="company_domain" value="{{user_info.tenant_key.get.domain}}" readonly>
-											  </div> 
+											  </div>  -->
 											  
-											 
-											 
-											  
-											  <!-- Contact No --> 
-											  <div class="form-group task-form-group">
-												<label class="task-label">Contact No.</label>
-												<input type="text" class="form-control add-task-textbox" name="contact_no" value="{{user_info.contact}}">
+										
+											  <!-- Permissions/Role --> 
+											   <div class="form-group task-form-group">
+												<label class="task-label">Role</label>
+												<select class="form-control add-task-textbox apm-modal-textbox" name="role">
+
+												{% for admin in admin %}
+												
+													<option value="{{admin.key.urlsafe}}" selected>{{admin.role}}</option>
+												
+												{% endfor %}
+												
+												{% for role in roles %}
+													{%if role.status%}
+														{%if user_info.role == role.key %}	
+															<option value="{{role.key.urlsafe}}" selected>{{role.role}}</option>
+														{%else%}
+															<option value="{{role.key.urlsafe}}">{{role.role}}</option>
+														{%endif%}
+													{%endif%}
+												{% endfor %}
+													
+												</select>
 											  </div>
-											  
-											  
-											  <div class="form-group task-form-group">
+											 
+											   <div class="form-group task-form-group">
 												<label class="task-label">Project Creation Privilege</label>
 												<select class="form-control add-task-textbox apm-modal-textbox" name="proj">
 													
 													{%if user_info.project_permission %}
-													<option value="True" selected> Yes </option>
 													<option value="False"> No </option>
+													<option value="True" selected> Yes </option>
+													
 													{%else%}
-													<option value="True"> Yes </option>
 													<option value="False" selected> No </option>
+													<option value="True"> Yes </option>
+													
 													{%endif%}
 													
 												</select>
 											  </div>
-											  <!-- Permissions/Role --> 
-											<!--   <div class="form-group task-form-group">
-												<label class="task-label">Assign Role</label>
-												<select class="form-control add-task-textbox" name="role">
-													
-													{% for role in roles %}
-													<option value="{{role.key.urlsafe}}">{{role.role}}</option>
-													{% endfor %}
-												
-													<!-- <option>Admin</option>
-													<option>User</option>
-												</select>
-											  </div>
-											-->  
+											 
 											<input type="hidden" id="key" name="key" value="{{user_info.key.urlsafe}}">
 								</div>	
 								<div class="col-md-1">

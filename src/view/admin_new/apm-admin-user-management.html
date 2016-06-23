@@ -21,10 +21,10 @@
 						           		 required: true,
 						           		 email: true
 						          },
-						          emp_id: 
+						         /*  emp_id: 
 						          {
 							      		 required: true
-							      },
+							      }, */
 							      first_name: 
 							      {
 								  		 required: true
@@ -34,16 +34,19 @@
 										 required: true
 										
 								  },
-								  designation: 
+								 /*  designation: 
 								  {
 										 required: true
 										
 									
-								  },
-								 /*  contact_no:
+								  }, */
+								   contact_no:
 									  {
-									  required: true
-									  }, */
+									  //required: true
+									   minlength:10,
+									   maxlength:10,
+									   number:true
+									  }, 
 								  role :
 									  {
 									  required:true
@@ -58,10 +61,10 @@
 						             required: "Please enter email address.",
 						             email:"Please enter valid email address."
 						           },
-						           emp_id: 
+						          /*  emp_id: 
 						           {
 						             required: "Please enter employee id."
-						           },
+						           }, */
 						           first_name:
 						           {
 							             required: "Please enter first name."
@@ -71,18 +74,21 @@
 							             required: "Please enter last name."
 							            
 							       },
-							       designation: 
+							      /*  designation: 
 							       {
 							             required: "Please enter designation."
-							       },
-							     /*   contact_no:
+							       }, */
+							        contact_no:
 							    	   {
-							    	   required: "Please enter contact number."
-							    	   }, */
+							    	   //required: "Please enter contact number."
+							        	minlength:"Please enter valid contact number of 10 digits.",
+										 maxlength:"Please enter valid contact number of 10 digits.",
+										 number:"Please enter valid numbers only."
+							    	   }, 
 							       role :
 							    	   {
 							    	   
-							    	   required:"Please select a role"
+							    	   required:"Please select a role."
 							    	   }
 						           
 						         }
@@ -136,7 +142,7 @@
 			/*******************************************************************/
 			
 			
-				$("#add_user").click(function(){
+				$("#add_user").click(function(event){
 					 if (!$('#user_form').valid()){
 							    event.preventDefault();
 							    event.stopImmediatePropagation();
@@ -243,9 +249,10 @@
 														<td class="roll-td"><i>{{user1.role.get.role}}</i></td>
 														<td>{%if user1.status%}Active{%else%}Deactivated{%endif%}</td>
 														<td>{% if user1.verified%}Yes{%else%} No <a href="#" id="{{user1.key.urlsafe}}" class="verify">Verify</a> {%endif%}</td>
-														<td>{%if user1.email_address != user.email_address%}
+														<td>
 														
 														<a href="/admin/edit?edit_key={{user1.key.urlsafe}}" data-toggle="modal" data-target="#edit-user-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit User"  id="{{user1.key.urlsafe}}"></i></a>
+														{%if user1.email_address != user.email_address%}
 														<!-- <a href="/admin/deleteuser?delete_key={{user1.key.urlsafe}}" data-toggle="modal" data-target="#delete-user-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete User"  id="{{user1.key.urlsafe}}"></i></a> -->
 														
 														{%endif%}
@@ -302,7 +309,7 @@
 											  </div>
 											  <!-- Employee ID --> 
 											  <div class="form-group task-form-group">
-												<label class="task-label">Employee ID<font color="red">*</font></label>
+												<label class="task-label">Employee ID</label>
 												<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="emp_id">
 											  </div>
 											  
@@ -330,7 +337,7 @@
 												  <div class="col-sm-6">
 													  <!-- Designation --> 
 													  <div class="form-group task-form-group">
-														<label class="task-label">Designation<font color="red">*</font></label>
+														<label class="task-label">Designation</label>
 														<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="designation">
 													  </div>
 												  </div>
@@ -366,9 +373,9 @@
 											   <div class="form-group task-form-group">
 												<label class="task-label">Project Creation Privilege</label>
 												<select class="form-control add-task-textbox apm-modal-textbox" name="proj">
-													
-													<option value="True"> Yes </option>
 													<option value="False"> No </option>
+													<option value="True"> Yes </option>
+													
 													
 												</select>
 											  </div>
