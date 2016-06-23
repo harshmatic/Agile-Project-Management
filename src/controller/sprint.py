@@ -288,6 +288,8 @@ class EditSprint(BaseHandler):
         
         if (self.request.get('release') != 'None'):
             sprint_data.release_key=ndb.Key(urlsafe=self.request.get('release'))
+        else:
+            sprint_data.release_key=None
         
         sprintkey = sprint_data.set()
         sprintid = sprintkey.id()
