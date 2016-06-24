@@ -472,23 +472,23 @@
 								</div>
 								
 								<div class="col-md-8">
-										<form role="form">
+										<form role="form" id="addes">
 											  <!-- Complexity --> 
 											  <div class="form-group task-form-group">
 												<label class="apm-landing-reg-label">Complexity</label>
-												<input id="complexity" type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
+												<input name="name" id="complexity" type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
 											  </div>
 											  
 											  <!-- Complexity Points --> 
 											  <div class="form-group task-form-group">
 												<label class="apm-landing-reg-label">Complexity Points</label>
-												<input id="points" type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
+												<input name="pts" id="points" type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
 											  </div>
 											  
 											  <!-- Estimated Efforts --> 
 											  <div class="form-group task-form-group">
 												<label class="apm-landing-reg-label">Estimated Efforts</label>
-												<input id="efforts" type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
+												<input name="eff" id="efforts" type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
 											  </div>
 											
 										</form>
@@ -526,23 +526,23 @@
 								</div>
 								
 								<div class="col-md-8">
-										<form role="form">
+										<form role="form" id="edites">
 											  <!-- Complexity --> 
 											  <div class="form-group task-form-group">
 												<label class="apm-landing-reg-label">Complexity</label>
-												<input id="editcomplexity" type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
+												<input name="name" id="editcomplexity" type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
 											  </div>
 											  
 											  <!-- Complexity Points --> 
 											  <div class="form-group task-form-group">
 												<label class="apm-landing-reg-label">Complexity Points</label>
-												<input id="editpoints" type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
+												<input name="pts" id="editpoints" type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
 											  </div>
 											  
 											  <!-- Estimated Efforts --> 
 											  <div class="form-group task-form-group">
 												<label class="apm-landing-reg-label">Estimated Efforts</label>
-												<input id="editefforts" type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
+												<input name="eff" id="editefforts" type="text" class="form-control apm-landing-textbox-reg apm-modal-textbox">
 											  </div>
 											
 										</form>
@@ -564,6 +564,7 @@
 	<!-- Edit Estimation Timelines Modal Ends -->
 		
 		<script src="/assets_new/js/jquery.js"></script>
+		<script src="../assets_new/js/jquery.validate.min.js"></script>
 		<script src="/assets_new/js/bootstrap.min.js"></script>
 		<script src="/assets_new/js/side-menu.js"></script>
 		<script src="/assets_new/js/bootstrap-datepicker.min.js"></script>
@@ -592,6 +593,99 @@
 						$('#prj-details').removeClass('active');
 						$('#prj-team').addClass('active');
 						}
+					
+					// validation
+					
+					var est_validator=   $("#addes").validate({
+		      rules: {
+		    	  name: 
+		    	  {
+		           		 required: true
+		          },
+		          pts: 
+		          {
+			      		 required: true,
+			      		 number:true
+			      },
+			 
+				  eff: 
+				  {
+						 required: true,
+						 number:true
+						
+					
+				  }
+				 
+	   
+		         },
+		         messages: 
+		         {
+		        	 name: 
+		           {
+		             required: "Please enter a name."
+		           },
+		           pts: 
+		           {
+		             required: "Please enter a valid number for points."
+		           },
+		       
+		           eff: 
+			       {
+			             required: "Please enter a valid number for efforts."
+			       }
+			     
+		         }
+		     });
+
+					
+					// end of validation
+					
+			// edit validation
+					
+					var est_validator=   $("#edites").validate({
+		      rules: {
+		    	  name: 
+		    	  {
+		           		 required: true
+		          },
+		          pts: 
+		          {
+			      		 required: true,
+			      		 number:true
+			      },
+			 
+				  eff: 
+				  {
+						 required: true,
+						 number:true
+						
+					
+				  }
+				 
+	   
+		         },
+		         messages: 
+		         {
+		        	 name: 
+		           {
+		             required: "Please enter a name."
+		           },
+		           pts: 
+		           {
+		             required: "Please enter a valid number for points."
+		           },
+		       
+		           eff: 
+			       {
+			             required: "Please enter a valid number for efforts."
+			       }
+			     
+		         }
+		     });
+
+					
+					// end of  edit validation		
+					
 					$('.datepicker').datepicker({
 						format: 'mm/dd/yyyy',
 						//startDate: '0d'
@@ -768,7 +862,13 @@
 				
 				
 				$("#addestimates").on("click",function(){
-						
+					if (!$('#addes').valid()){
+					    event.preventDefault();
+					    event.stopImmediatePropagation();
+					    return false;
+				 }
+					else
+						{
 						var e = document.getElementById("complexity");
 						var strComplexity = e.value;
 						console.log("the members are"+strComplexity)
@@ -793,16 +893,24 @@
 		                var esti = JSON.parse(data);
 		                $('#' +d.id).remove();
 		                //$("#estilist").append('<tr id='+esti.id+'> <td>'+esti.estimationLevel+'</td> <td>'+esti.estimationPoint+'</td> <td>'+esti.estimationHours+'</td> <td> <i class="fa fa-pencil apm-add-esti-edit" aria-hidden="true" title="Edit"></i> <i id="delestimate" class="fa fa-trash apm-add-esti-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
-			  			
+			  			$("#addes").trigger('reset');
 		                $("#estilist").append('<tr id='+esti.id+'> <td>'+esti.estimationLevel+'</td> <td>'+esti.estimationPoint+'</td> <td>'+esti.estimationHours+'</td> <td> <i class="fa fa-pencil apm-add-esti-edit" aria-hidden="true" title="Edit"></i> </td> </tr>');
 			  			
 			  			
 			  		}); 
-					
+						}
 					
 				})
 				
 				$("#editestimates").on("click",function(){
+					
+					if (!$('#addes').valid()){
+					    event.preventDefault();
+					    event.stopImmediatePropagation();
+					    return false;
+				 }
+					else
+						{
 						
 						var e = document.getElementById("editcomplexity");
 						var strComplexity = e.value;
@@ -834,7 +942,7 @@
 			  			
 			  		}); 
 					
-					
+						}	
 				})
 				
 				    $(document).on('click', ".apm-add-esti-delete", function(){	
