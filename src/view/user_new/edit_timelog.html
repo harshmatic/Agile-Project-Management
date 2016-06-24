@@ -47,7 +47,7 @@ $(document).ready(function(){
 				        $('#new_status').load('/mytasks/view?key={{timelog_info.task_key.urlsafe}} #new_status', function(result) {
 			  				  
 		  				});
-				        $("select#status_dropdown option[value='"+sVal+"']").attr('selected', 'selected'); 
+				        $("select#status_dropdown").prop("selectedIndex",sVal);
 				       /*  $('#status_dropdown').load('/mytasks/view?key={{timelog_info.task_key.urlsafe}} #status_dropdown', function(result) {
 			  				   
 		  				}); */

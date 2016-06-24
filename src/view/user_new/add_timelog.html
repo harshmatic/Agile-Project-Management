@@ -68,6 +68,8 @@ $(document).ready(function(){
 				$.post( "/mytasks/view", $("#time_log_form").serialize())
 		  		.done(function( data ) {
 		  			
+					 //$("select#status_dropdown option[value='"+sVal+"']").attr('selected', 'selected');
+					
 		  			if (data!="true"){
 		  				alert("Something Went Wrong");
 		  				return false
@@ -78,11 +80,11 @@ $(document).ready(function(){
 				
 		})
 		
-		$('#apm-task-add-timelog-modal').on('hidden.bs.modal', function(e)
+		 $('#apm-task-add-timelog-modal').on('hidden.bs.modal', function(e)
 			    { 
-					
-					 $("select#status_dropdown option[value='"+sVal+"']").attr('selected', 'selected'); 	
-			    }) ;	
+					 console.log("comes here to reset"+sVal);
+					 $("select#status_dropdown").prop("selectedIndex",sVal); 	
+			    }) ;	 
 
 });
 

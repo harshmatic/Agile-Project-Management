@@ -250,7 +250,7 @@
 													<tbody>
 													{% for mem in projmem %}
 													  <tr id="{{mem.key.id}}">
-														<td>{{ mem.userid.get.name }}</td>
+														<td>{{ mem.userid.get.name }} {{ mem.userid.get.last_name }}</td>
 														<td>{{ mem.userRole }}</td>
 														<td>
 															<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>
@@ -363,7 +363,7 @@
 												<select id="memselect" class="form-control apm-landing-textbox-reg apm-modal-textbox">
 													<option>- Select -</option>
 													{% for users in userslist %}
-													<option  value= "{{ users.key.id }}"> {{ users.name }}</option>
+													<option  value= "{{ users.key.id }}"> {{ users.name }} {{ users.last_name}}</option>
 													{%endfor%}
 												</select>
 											  </div>
@@ -693,6 +693,18 @@
 					
 					
 					
+					$(".cancel-task-btn-modal").click(function(e) {
+						$("#addes").trigger('reset');
+						$("label.error").hide();
+						  $(".error").removeClass("error");
+					});
+					
+					$(".close").click(function(e) {
+						$("#addes").trigger('reset');
+						
+						$("label.error").hide();
+						  $(".error").removeClass("error");
+					});
 					$("#apm-addmember-btn").click(function(e) {
 						$('#add-member-modal').modal('show');
 					});

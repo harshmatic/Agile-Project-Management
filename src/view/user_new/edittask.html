@@ -324,9 +324,9 @@ $(document).ready(function(){
 													{% for team in team%}
 														{%if team.status%}
 															{%ifequal task_data.assignee team.userid%}
-																<option value="{{team.userid.urlsafe}}" selected="selected">{{team.userid.get.name}}</option>
+																<option value="{{team.userid.urlsafe}}" selected="selected">{{team.userid.get.name}} {{team.userid.get.last_name}}</option>
 															{%else%}
-																<option value="{{team.userid.urlsafe}}">{{team.userid.get.name}}</option>
+																<option value="{{team.userid.urlsafe}}">{{team.userid.get.name}} {{team.userid.get.last_name}}</option>
 															{%endifequal%}
 															
 														{%endif%}

@@ -309,7 +309,7 @@ $("#submit_item").on("click",function(event){
 													<option value="None">None</option>
 													{% for team in team%}
 													{%if team.status%}
-														<option value="{{team.userid.urlsafe}}">{{team.userid.get.name}}</option>
+														<option value="{{team.userid.urlsafe}}">{{team.userid.get.name}} {{ team.userid.get.last_name }}</option>
 													{%endif%}
 													{%endfor%}
 												</select>
