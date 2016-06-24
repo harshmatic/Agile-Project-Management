@@ -125,6 +125,8 @@ class BaseHandler(webapp2.RequestHandler):
                 pa.append({'project':current_project_id.projectid,"permit_for":permit[0].permissions})
                 params['permissions']=pa
                 params['sidebar']=sidebars
+                projpermission = user_obj.project_permission
+                params['per'] = projpermission
                 role = (user_obj.role).get()
                 role = role.role
                 

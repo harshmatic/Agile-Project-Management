@@ -124,17 +124,24 @@
 						    <li><a href="/setsession?project_key={{project.projectid.urlsafe}}"><i class="fa fa-cog"></i> {{project.projectid.get.name}}</a></li>
 						    
 						{%endfor%}	
+							{%if approle == "Admin" or per%}
+							 <li class="divider"></li>
 							
+							<li><a href="/project">View All Projects</a></li>
+							<li><a href="/project/addnewproject">Create New Project</a></li>
+							
+							{%else%}
 							{%for side in sidebars%}
 								{%for sides in side.list%}
-									{%ifequal sides.url "project"%}
+									{%if sides.url == "project"%}
 							<li class="divider"></li>
 							<li><a href="/project">View All Projects</a></li>
 							<li><a href="/project/addnewproject">Create New Project</a></li>
-									{%endifequal%}
+									{%endif%}
 								{%endfor%}
 								
 							{%endfor%}
+							{%endif%}
 							{%else%}
 							{%if per%}
 							<li><a href="/project/addnewproject">Create New Project</a></li>
