@@ -14,6 +14,7 @@ from google.appengine.api.taskqueue import taskqueue
 from urlparse import urlparse
 from const import OUT_MAIL_ADDRESS, APP_DOMAIN
 from common import checkdomain
+from model.user import Groups
 
 class AdminVerify(BaseHandler):
     @checkdomain
@@ -348,24 +349,29 @@ class AdminEditUser(BaseHandler):
         user_info = self.auth.get_user_by_session()
         u=model.user.OurUser()
            # admin_key = user_info
-        role_key=u.get_by_id(user_info['user_id']).role
-         
-        logging.info(role_key)
-        qry=u.query().filter(user.OurUser.tenant_domain==kargs['subdomain'])
-        qry = qry.filter(user.OurUser.role == role_key)
-        qry = qry.filter(user.OurUser.status == True)
-        tenant_admin_count = qry.fetch(2)
+        key= ndb.Key(urlsafe=self.request.get('key'))
+        user_key=key.get()
+        count=2
+        role_key = Groups().query(Groups.role=="Admin").filter(Groups.application_level==True).get().key
         
-        logging.info(tenant_admin_count)  
-        count = len(tenant_admin_count)
+#         role_key=u.get_by_id(user_info['user_id']).role
+        logging.info(role_key)
+        request_role_key = ndb.Key(urlsafe=self.request.get('role'))
+        if request_role_key != role_key:        
+            qry=u.query().filter(user.OurUser.tenant_domain==kargs['subdomain'])
+            qry = qry.filter(user.OurUser.role == role_key)
+            qry = qry.filter(user.OurUser.status == True)
+            tenant_admin_count = qry.fetch(2)
+            
+            logging.info(tenant_admin_count)  
+            count = len(tenant_admin_count)
         if count > 1:
             
             if(self.request.get('proj') == 'True'):
                 project_permission = True
             else:
                 project_permission = False
-            key= ndb.Key(urlsafe=self.request.get('key'))
-            user_key=key.get()
+            
             
             user_key.user_name = self.request.get('email')
             user_key.email = self.request.get('email')
