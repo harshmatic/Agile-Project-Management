@@ -2,6 +2,8 @@ from google.appengine.ext import ndb
 from model.user import *
 from base import BaseClass
 
+Sprint_Status = ["Open", "Close" , "Completed"]
+
 class Sprint(BaseClass):
     name = ndb.StringProperty(required=True)
     description = ndb.StringProperty()
@@ -11,7 +13,7 @@ class Sprint(BaseClass):
     project = ndb.KeyProperty()
     company = ndb.KeyProperty()
     createdby = ndb.KeyProperty()
-    sprint_status = ndb.StringProperty()
+    sprint_status = ndb.StringProperty(choices=Sprint_Status)
     workinghours = ndb.StringProperty()
     release_key=ndb.KeyProperty()
     def set(self):

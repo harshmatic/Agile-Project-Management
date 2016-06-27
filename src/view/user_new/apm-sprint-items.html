@@ -376,12 +376,13 @@ $(document).ready(function(){
 							 $.post( "/sprint", $("#add_sprint").serialize())
 						  		.done(function( data ) {
 						  			if (data!="true"){
-						  				alert("Something Went Wrong");
+						  				alert("Sprint cannot be added.");
 						  				return false
 						  			} 
 						  		//	$("#backlog_form").reset();
 						  		else
 						  			{
+						  			alert("Sprint added successfully.");
 						  			$('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
 						  				$(".table").each(function(){
 											if (!$(this).find("tr.find_empty").length){

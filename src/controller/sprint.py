@@ -10,6 +10,7 @@ from model import project
 from google.appengine.api.taskqueue import taskqueue 
 from model import product_backlog
 from common import checkdomain
+from model.sprint import Sprint_Status
 
 class Tasks(BaseHandler):
     @checkdomain
@@ -216,7 +217,9 @@ class Sprint(BaseHandler):
         
         sprint_data.project =self.session['current_project'] 
         sprint_data.createdby = createdBy
-        sprint_data.sprint_status = "Open"
+        sprint_data.sprint_status = Sprint_Status[0]
+        
+        
         sprint_data.company = self.user_model.get_by_id(currentUser['user_id']).tenant_key
         
         
@@ -274,7 +277,7 @@ class EditSprint(BaseHandler):
             sprint_data.endDate =None
 
         sprint_data.project=self.session['current_project']  
-        sprint_data.sprint_status = "Open"
+       # sprint_data.sprint_status = "Open"
       #  sprint_data.company = self.user_model.get_by_id(currentUser['user_id']).tenant_key
         
         

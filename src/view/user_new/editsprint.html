@@ -284,11 +284,15 @@ $('.form-group').find('.open-datetimepicker1').on('click', function(){
 							 $.post( "/sprint/edit", $("#edit_sprint").serialize())
 						  		.done(function( data ) {
 						  			if (data!="true"){
-						  				alert("Something Went Wrong");
+						  				alert("Sprint cannot be updated.");
 						  				return false
 						  			} 
 						  		//	$("#backlog_form").reset();
+						  		else
+						  			{
 						  			
+						  			alert("Sprint updated successfully.");
+						  			}
 						  			
 						  			 
 						  		
