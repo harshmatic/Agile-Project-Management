@@ -49,6 +49,8 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/admin/addpermissions', AddPermissions, name='addpermission'),
         webapp2.Route('/admin/addrole', AddRole, name='adrole'),
         webapp2.Route('/admin/editrole', EditRole, name='editrole'),
+       
+        webapp2.Route('/admin/test_permission', GetPermissions),
         webapp2.Route('/admin/delete', DeleteEntity, name='delete'),
         webapp2.Route('/admin', AdminHome,name="admindashboard"),
         webapp2.Route('/admin/dashboard', AdminHome,name="admindashboard"),

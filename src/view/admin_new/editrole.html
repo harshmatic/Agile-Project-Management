@@ -1,15 +1,61 @@
- <script>
+<style>
+.error{
+			color:red;
+
+			}
+</style>
+<script>
  
+ 
+ $(document).ready(function(){
+	 
+	 var edit_role_validator=   $("#editrole").validate({
+	      rules: {
+	    	  role_name: 
+	    	  {
+	           		 required: true
+	          }
+			 
+  
+	         },
+	         messages: 
+	         {
+	        	 role_name: 
+	           {
+	             required: "Please enter a name."
+	           }
+	         }
+	     });
+
+	 
+	 
+	 
  //for edit
-		$("#submit_edit_role").on("click",function(){
-			$.post( "/admin/editrole", $("#editrole").serialize())
-	  		.done(function( data ) {
-	  			if (data!="true"){
-	  				alert("Something Went Wrong");
-	  				return false
-	  			} 
-	  		});
+		$("#submit_edit_role").on("click",function(event){
 			
+			if (!$('#editrole').valid()){
+			    event.preventDefault();
+			    event.stopImmediatePropagation();
+			    return false;
+		 }
+			else
+			{
+			
+				$.post( "/admin/editrole", $("#editrole").serialize())
+	  			.done(function( data ) {
+	  				if (data!="true"){
+	  				alert("Role cannot be updated.");
+	  				return false
+	  				} 
+	  				else
+	  				{
+	  				alert("Role updated successfully.");
+	  				 $('#edit_permissions').load('/admin/permissions #edit_permissions', function(result) {
+		  				   // var variable = $('#edit_permissions').html();
+		  				});
+	  				}
+	  			});
+			}
 			
 		})
 	//for delete
@@ -25,16 +71,50 @@
 			
 		})
 		
+		 
 		
+		var role=$('#get_role_permissions').val();
+		if(role != 'None')
+			{
+				document.getElementById('key_role').value=role;
+				document.getElementById('role_name').value=$('#get_role_permissions option:first').text();
+				
+				$.get("/admin/test_permission?key="+role+"", function(data){
+			            $("#roles_permission").html(data);
+			           // 
+			           
+			        });
+			
+			
+			}
+ 			
+		
+		$(document).on("change",'#get_role_permissions',function(e){
+			var role=$('#get_role_permissions').val();
+			
+			document.getElementById('key_role').value=role;
+			document.getElementById('role_name').value=$(this).find("option:selected").text();
+			
+			$.get("/admin/test_permission?key="+role+"", function(data){
+		      $("#roles_permission").html(data);
+		     
+		    });
+			
+		});
+			
+			
+	
+		 
 		$('#edit-role-modal').on('hidden.bs.modal', function(e)
 				    { 
 				        $(this).removeData('bs.modal');
-				        $('#edit_permissions').load('/admin/permissions #edit_permissions', function(result) {
+				       /*  $('#edit_permissions').load('/admin/permissions #edit_permissions', function(result) {
 		  				    var variable = $('#edit_permissions').html();
-		  				});
+		  				}); */
 				    }) ;
+ }) ;
+</script>
 
-	</script>
 <div class="modal-header add-task-modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title add-task-modal-heading">Edit Role</h4>
@@ -46,36 +126,35 @@
 								
 								<div class="col-md-10">
 										<form role="form" id="editrole">
-											  <!-- Role Name --> 
-											  <input type="hidden" class="form-control add-task-textbox" value="{{role.key.urlsafe}}" name="key_role">
+											  
+											  
+											  <div class="form-group task-form-group">
+												<label class="task-label">Select Role</label>
+												<select name="role" id="get_role_permissions" class="form-control add-task-textbox apm-modal-textbox">		
+												{%for i in roles%}
+												{%if i.status%}
+												<option value="{{i.key.urlsafe}}">{{i.role}}</option>
+												{%endif%}
+												{%endfor%}
+												</select>									
+											  </div>
+											  
 											  <div class="form-group task-form-group">
 												<label class="task-label">Role Name</label>
-												<input type="text" class="form-control add-task-textbox apm-modal-textbox" value="{{role.role}}" name="role">
+												<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="role_name" id="role_name">
 												
 											  </div>
 											  
 											  <!-- Roll's Permissions --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Role's Permissions</label>
-												<div class="row">
-												{% for permission in permission%}
-													<div class="col-sm-4 add-role-modal-box">
-														<div class="checkbox">
-														  <label>
-														  {%if permission.key in role.permissions%}
-														  <input type="checkbox" value="{{permission.key.urlsafe}}" checked name="permissions">{{permission.permission}} ({{permission.url}})
-														  {%else%}
-														  <input type="checkbox" value="{{permission.key.urlsafe}}" name="permissions">{{permission.permission}} ({{permission.url}})
-														  {%endif%}
-														  </label>
-														</div>
-													</div>
-												{% endfor %}	
+												<div class="row" id="roles_permission">
+												
 													
 													
 												</div>
 											  </div>
-											
+											  <input type="hidden" class="form-control add-task-textbox" name="key_role" id="key_role">
 										</form>
 								</div>	
 								<div class="col-md-1">

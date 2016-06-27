@@ -73,18 +73,23 @@ class DeleteEntity(BaseHandler):
 class EditRole(BaseHandler):
     @checkdomain
     def get(self,*args,**kargs):
-        key = ndb.Key(urlsafe=self.request.get('key'))
-        role = key.get()
-        permiss=user.Permissions()
-        list_per=permiss.get_all()
-        self.render_template("admin_new/editrole.html",{"role":role,"permission":list_per})
+       # key = ndb.Key(urlsafe=self.request.get('key'))
+      #  role = key.get()
+      #  permiss=user.Permissions()
+     #   list_per=permiss.get_all()
+        
+        
+        role=model.user.Groups()
+        roles=role.query(user.Groups.tenant_domain==kargs['subdomain']).fetch()
+        
+        self.render_template("admin_new/editrole.html",{"roles":roles})
     
     @checkdomain    
     def post(self,*args,**kargs):
         user_info = self.auth.get_user_by_session()
         key = ndb.Key(urlsafe=self.request.get('key_role'))
         role =key.get()
-        role.role=self.request.get("role")
+        role.role=self.request.get("role_name")
         perm=[]
         array_permissions=self.request.get_all("permissions")
         logging.info(array_permissions)
@@ -118,7 +123,25 @@ class EditPermission(BaseHandler):
         
         permission.put()
         self.response.write("true")
+ 
+ 
+
+    
         
+class GetPermissions(BaseHandler):
+    @checkdomain
+    def get(self,*args,**kargs):
+        key=ndb.Key(urlsafe=self.request.get('key'))
+        role_key=key.get()
+        
+        permissions=[]
+        rolepermissions=role_key.permissions
+        permission_data=model.user.Permissions().get_all()
+       
+        self.render_template('admin_new/dropdown_permissions.html', {"permission":permission_data,"rolepermissions":rolepermissions})
+        
+        
+       
 class AddPermissions(BaseHandler):
     @checkdomain
     def get(self,*args,**kargs):

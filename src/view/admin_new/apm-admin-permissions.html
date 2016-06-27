@@ -22,7 +22,9 @@
 											<a href="/admin/addrole" data-toggle="modal" data-target="#add-role-modal">
 												<button class="apm-listing-add-proj-btn pro-button" id="add-role">Add Role</button>
 											</a>
-												
+											<a href="/admin/editrole" data-toggle="modal" data-target="#edit-role-modal">
+												<button class="apm-listing-add-proj-btn pro-button" id="edit-role">Edit Role</button>
+											</a>	
 												
 											</div>
 											<div class="table-responsive apm-admin-permission-table">
@@ -38,7 +40,10 @@
 															{% endfor %}
 															{% for role in role %}
 															{%if role.status%}
-																<th><a href="/admin/editrole?key={{role.key.urlsafe}}" class="roll-link" data-toggle="modal" data-target="#edit-role-modal">{{role.role}}</a></th>
+																<th>
+															<!-- 	<a href="/admin/editrole?key={{role.key.urlsafe}}" class="roll-link" data-toggle="modal" data-target="#edit-role-modal"></a> -->
+																{{role.role}}
+																</th>
 															{%endif%}
 															{% endfor %}
 														</tr>

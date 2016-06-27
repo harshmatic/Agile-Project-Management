@@ -1,0 +1,18 @@
+{% for permission in permission%}
+{%if permission.status%}
+<div class="col-sm-6 add-role-modal-box">
+<div class="checkbox">
+<label>
+
+{%if permission.key in rolepermissions%}
+<input type="checkbox" value="{{permission.key.urlsafe}}" checked name="permissions">{{permission.permission}} ({{permission.url}})
+{%else%}
+<input type="checkbox" value="{{permission.key.urlsafe}}" name="permissions">{{permission.permission}} ({{permission.url}})
+{%endif%}
+
+</label>
+</div>
+</div>
+{%endif%}
+{% endfor %}	
+

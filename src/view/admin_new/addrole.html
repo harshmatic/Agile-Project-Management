@@ -1,5 +1,12 @@
+
+<style>
+.error{
+			color:red;
+
+			}
+</style>
 <script>
-		$("#submit_role").on("click",function(){
+		$("#submit_role").on("click",function(event){
 			if (!$('#addrole').valid()){
 			    event.preventDefault();
 			    event.stopImmediatePropagation();
@@ -69,12 +76,13 @@
 												<label class="task-label">Role Permissions</label>
 												<div class="row">
 												{% for per in perm %}
+											
 													<div class="col-sm-4 add-role-modal-box">
 														<div class="checkbox">
 														  <label><input type="checkbox"  name="permissions" value="{{per.key.urlsafe}}">{{per.permission}} ({{per.url}})</label>
 														</div>
 													</div>
-			
+											
 												{% endfor %}
 													
 												</div>
