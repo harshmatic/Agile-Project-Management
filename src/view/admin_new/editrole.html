@@ -131,6 +131,7 @@
 											  <div class="form-group task-form-group">
 												<label class="task-label">Select Role</label>
 												<select name="role" id="get_role_permissions" class="form-control add-task-textbox apm-modal-textbox">		
+												
 												{%for i in roles%}
 												{%if i.status%}
 												<option value="{{i.key.urlsafe}}">{{i.role}}</option>
@@ -148,8 +149,22 @@
 											  <!-- Roll's Permissions --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Role's Permissions</label>
-												<div class="row" id="roles_permission">
 												
+												<div class="row" id="roles_permission">
+												{% for permission in permission%}
+												{%if permission.status%}
+												<div class="col-sm-6 add-role-modal-box">
+												<div class="checkbox">
+												<label>
+
+												
+												<input type="checkbox" value="{{permission.key.urlsafe}}" name="permissions">{{permission.permission}} ({{permission.url}})
+												
+												</label>
+												</div>
+												</div>
+												{%endif%}
+												{% endfor %}
 													
 													
 												</div>

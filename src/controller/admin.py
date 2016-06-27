@@ -82,8 +82,9 @@ class EditRole(BaseHandler):
         
         role=model.user.Groups()
         roles=role.query(user.Groups.tenant_domain==kargs['subdomain']).fetch()
+        permission_data=model.user.Permissions().get_all()
         
-        self.render_template("admin_new/editrole.html",{"roles":roles})
+        self.render_template("admin_new/editrole.html",{"roles":roles,"permission":permission_data})
     
     @checkdomain    
     def post(self,*args,**kargs):
@@ -135,7 +136,6 @@ class GetPermissions(BaseHandler):
         key=ndb.Key(urlsafe=self.request.get('key'))
         role_key=key.get()
         
-        permissions=[]
         rolepermissions=role_key.permissions
         permission_data=model.user.Permissions().get_all()
        

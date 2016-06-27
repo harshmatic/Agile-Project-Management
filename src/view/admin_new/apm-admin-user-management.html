@@ -229,6 +229,7 @@
 														<th>Employee ID</th>
 														<th>Role</th>
 														<th>Status</th>
+														<th>Created By</th>
 														<th>Verified</th>
 														<th>Action</th>
 															
@@ -248,6 +249,7 @@
 														<td>{{user1.empid}}</td>
 														<td class="roll-td"><i>{{user1.role.get.role}}</i></td>
 														<td>{%if user1.status%}Active{%else%}Deactivated{%endif%}</td>
+														<td>{{user1.created_by}}</td>
 														<td>{% if user1.verified%}Yes{%else%} No <a href="#" id="{{user1.key.urlsafe}}" class="verify">Verify</a> {%endif%}</td>
 														<td>
 														
