@@ -235,6 +235,15 @@ class Sprint(BaseHandler):
         logging.info("after setting task")
         self.response.out.write("true")
         
+class SprintDD(BaseHandler):
+    def get(self,*args,**kargs):
+        if self.session['current_project']:
+            logging.info("Inside")
+            project1 =self.session['current_project']   
+            sprint_data=sprint.Sprint().get_by_project(project1)
+            self.render_template("user_new/dropdown_sprint.html", {"sprint":sprint_data})
+
+
 class EditSprint(BaseHandler):
     @checkdomain
     def get(self,*args,**kargs):

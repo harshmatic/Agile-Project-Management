@@ -322,6 +322,10 @@
 						 	}		
 								
 						})
+						$('#add-issue-modal').on('shown.bs.modal', function () {
+  							$("#DDsprint").load("/sprints/dd");
+						})
+						
 					
 						$('#add-issue-modal').on('hidden.bs.modal', function(e)
 									    { 
@@ -569,8 +573,8 @@
 							  		//	$("#backlog_form").reset();
 							  			
 							  			alert("Sprint has been created.Please visit Sprint items tab to see all the sprints.");
-							  			 $('#backlog_form').load('/backlog #backlog_form', function(result) {
-							  				}); 
+							  			 /*$('#backlog_form').load('/backlog #backlog_form', function(result) {
+							  				});*/ 
 							  		
 							  		});
 								
@@ -954,7 +958,7 @@
 										   <!-- Issue Type --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Sprint</label>
-												<select class="form-control add-task-textbox apm-modal-textbox" name="sprint" id="sprint">
+												<select class="form-control add-task-textbox apm-modal-textbox" name="sprint" id="DDsprint">
 													<option value="None">None</option>
 													{%for i in sprint%}
 													{%if i.status%}

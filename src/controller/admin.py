@@ -357,13 +357,14 @@ class AdminEditUser(BaseHandler):
 #         role_key=u.get_by_id(user_info['user_id']).role
         logging.info(role_key)
         request_role_key = ndb.Key(urlsafe=self.request.get('role'))
-        if request_role_key != role_key:        
+        if request_role_key != role_key and user_key.role != request_role_key:        
             qry=u.query().filter(user.OurUser.tenant_domain==kargs['subdomain'])
             qry = qry.filter(user.OurUser.role == role_key)
             qry = qry.filter(user.OurUser.status == True)
             tenant_admin_count = qry.fetch(2)
             
-            logging.info(tenant_admin_count)  
+            logging.info(tenant_admin_count)
+            logging.info("here")
             count = len(tenant_admin_count)
         if count > 1:
             
