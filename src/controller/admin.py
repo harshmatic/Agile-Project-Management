@@ -15,6 +15,7 @@ from urlparse import urlparse
 from const import OUT_MAIL_ADDRESS, APP_DOMAIN
 from common import checkdomain
 from model.user import Groups
+from model import sprint,task,effort_estimation,project,product_backlog
 
 class AdminVerify(BaseHandler):
     @checkdomain
@@ -83,7 +84,9 @@ class EditRole(BaseHandler):
         role=model.user.Groups()
         roles=role.query(user.Groups.tenant_domain==kargs['subdomain']).fetch()
         
-        self.render_template("admin_new/editrole.html",{"roles":roles})
+        permission_data=model.user.Permissions().get_all()        
+                        
+        self.render_template("admin_new/editrole.html",{"roles":roles,"permission":permission_data})
     
     @checkdomain    
     def post(self,*args,**kargs):
@@ -423,6 +426,56 @@ class AdminDeleteUser(BaseHandler):
         user_key.status = False
         user_key.put()
           #  user_key.delete()  
+          
+         #for user tasks        
+        task_data=task.Task().query(task.Task.assignee == key,ndb.AND(task.Task.status == True)).fetch()        
+        #logging.info(task_data)        
+              
+        #for userstory        
+        userstory_data=product_backlog.ProductUserStory().query(product_backlog.ProductUserStory.assignee == key,ndb.AND(product_backlog.ProductUserStory.status == True)).fetch()        
+       # logging.info(userstory_data)        
+                
+        #to get product owner        
+        projmodel= project.ProjectMembers().query(project.ProjectMembers.userid == key).fetch()        
+       # logging.info(projmodel)        
+                
+        task_list=[]        
+        userstory_list=[]        
+                
+        for i in projmodel:        
+            product_owner=project.ProjectMembers().query(project.ProjectMembers.projectid == i.projectid , ndb.AND(project.ProjectMembers.userRole == 'Product Owner',ndb.AND(project.ProjectMembers.status == True))).get()        
+                    
+            for tasks in task_data:        
+                tasks_key=tasks.key.get()        
+                tasks_key.assignee = product_owner.userid        
+              #  tasks_key.put()        
+                task_list.append(tasks_key)        
+                logging.info(tasks_key)        
+                    
+         #   logging.info(task_list)        
+            ndb.put_multi(task_list)        
+                    
+                        
+            for userstories in userstory_data:        
+                userstories_key=userstories.key.get()        
+                userstories_key.assignee = product_owner.userid        
+             #   userstories_key.put()        
+                userstory_list.append(userstories_key)        
+                logging.info(userstories_key)        
+                    
+                    
+                    
+            ndb.put_multi(userstory_list)           
+                    
+            i.key.delete()        
+            logging.info('deleted')        
+                    
+         #   logging.info(userstory_list)        
+                        
+          #  logging.info(product_owner)        
+                
+          #  user_key.delete()         
+         
         self.response.write("true")     
             
 class AdminProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobstore_handlers.BlobstoreDownloadHandler):

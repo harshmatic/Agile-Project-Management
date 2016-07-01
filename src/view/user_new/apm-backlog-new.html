@@ -49,13 +49,13 @@
     		margin-bottom: 5px;
     		font-weight: 700;
 			}
-		</style>
+</style>
 		
 			
-		<script>
-				$(document).ready(function(){
+<script>
+$(document).ready(function(){
 					
-					
+/*******************************************for release dropdown starts*********************************************/					
 					var releasel;
 					release=$('#release').val();
 					 var release_start_date;
@@ -74,9 +74,10 @@
 							
 					  		});
 						}
-								
+							
+/**********************************************release dropdown ends******************************************/
 				
-					
+/********************************datepicker icon click starts************************************************/					
 					$('.form-group').find('.open-datetimepicker').on('click', function(){
 					    $('#start').trigger('focus');
 					});
@@ -88,8 +89,9 @@
 					    $('#end').trigger('focus');
 					});	
 		
+/********************************datepicker icon click ends************************************************/
 					
-				/*******************for detail table start************************/	
+/*******************************************for detail table starts*******************************************/	
 					 var a=$(".table tr:eq(2) td").map(function() {
 				           return $(this).text();
 				       }).get().join("|");
@@ -121,28 +123,29 @@
 				       $('#sprint_name').html(myArray[0]);
 				       $('#backlog_name').html(myArray[1]);
 				       $('#description').html(myArray[2]);
+				       $('#assigned_by').html(myArray[3]);
 				      
-				       if( myArray[3] == '' || myArray[3] == 'None')
+				       if( myArray[4] == '' || myArray[4] == 'None')
 				    	   {
 				    	   $('#assignee').html('<a href="'+update+'" id="update_key" data-toggle="modal" data-target="#add-assignee-modal">Assign<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Update User Story" id="{{i.key.urlsafe}}"></i></a>');
 				    	   }
 				       else
 				    	   {
-				      			 $('#assignee').html(myArray[3]);
+				      			 $('#assignee').html(myArray[4]);
 				    	   }
-				       $('#rough_estimate').html(myArray[4]);
-				       $('#priority').html(myArray[5]);
-				       $('#status').html(myArray[6]);
+				       $('#rough_estimate').html(myArray[5]);
+				       $('#priority').html(myArray[6]);
+				       $('#status').html(myArray[7]);
 				      
 					 
 					 
 					//alert( $.trim(a));
 					//console.log(a);
 					
-					/*******************for detail table end************************/	
+/***************************************************************for detail table end**********************************************/	
 					
 				
-					/*******************user story validation starts************************/	
+/************************************************************user story validation starts*****************************************/	
 					var validator=   $("#backlog_form").validate({
 						      rules: {
 						    	 
@@ -194,10 +197,10 @@
 						         }
 						     });
 					
-					/*******************user story validation ends************************/	
+/************************************************user story validation ends*****************************************************/	
 					
 					
-					/***********************sprint validation starts******************************/
+/**************************************************sprint validation starts*******************************************************/
 					
 					var sprint_validator=   $("#add_sprint").validate({
 						      rules: {
@@ -265,7 +268,9 @@
 						           
 						         }
 						     });
-					/***********************sprint validation ends******************************/
+/******************************************************sprint validation ends**************************************************/
+					
+/****************************************datepicker starts***********************************************************************/
 					//$("#details").hide();
 					$(".nav-tabs a").click(function(){
 						$(this).tab('show');
@@ -292,9 +297,9 @@
 					});
 					
 					
+/****************************************datepicker ends***********************************************************************/
 					
-					
-				/********************user story starts**********************************/
+/*********************************************************user story form post starts******************************************************/
 					$("#add_backlogs").on("click",function(event){
 						 if (!$('#backlog_form').valid()){
 							    event.preventDefault();
@@ -322,11 +327,15 @@
 						 	}		
 								
 						})
-						$('#add-issue-modal').on('shown.bs.modal', function () {
+
+/*********************************************************user story form post ends******************************************************/					
+$('#add-issue-modal').on('shown.bs.modal', function () {
   							$("#DDsprint").load("/sprints/dd");
-						})
-						
-					
+						})	
+
+
+
+/*********************************************************user story modal close starts******************************************************/						
 						$('#add-issue-modal').on('hidden.bs.modal', function(e)
 									    { 
 									 	
@@ -342,8 +351,9 @@
 	
 
 							
-					/********************user story ends**********************************/		
+/**********************************************************user story modal close ends*****************************************/		
 					
+/****************************************on table row click starts ***********************************************************/
 					$(".table").on("click",".clickable-row",function(){
 					//	$(".clickable-row").click(function() {
 					
@@ -378,23 +388,26 @@
 					       $('#sprint_name').html(myArray[0]);
 					       $('#backlog_name').html(myArray[1]);
 					       $('#description').html(myArray[2]);
-					      
-					       if( myArray[3] == '' || myArray[3] == 'None')
+					       $('#assigned_by').html(myArray[3]);
+					       
+					       if( myArray[4] == '' || myArray[4] == 'None')
 					    	   {
 					    	   $('#assignee').html('<a href="'+update+'" id="update_key" data-toggle="modal" data-target="#add-assignee-modal">Assign<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Update User Story" id="{{i.key.urlsafe}}"></i></a>');
 					    	   }
 					       else
 					    	   {
-					      			 $('#assignee').html(myArray[3]);
+					      			 $('#assignee').html(myArray[4]);
 					    	   }
-					       $('#rough_estimate').html(myArray[4]);
-					       $('#priority').html(myArray[5]);
-					       $('#status').html(myArray[6]);
+					       $('#rough_estimate').html(myArray[5]);
+					       $('#priority').html(myArray[6]);
+					       $('#status').html(myArray[7]);
 					      
 					    
 					    });
 					
-					//sprint
+/****************************************on table row click ends ***********************************************************/
+					
+/***********************************************sprint days calculator starts***********************************************/
 					
 					$('#end').datepicker()
 				    .on('changeDate', function(e) {
@@ -441,9 +454,10 @@
 				    	}
 				    });
 					
+/***********************************************sprint days calculator starts***********************************************/					
 					
-					
-					/**********************for sprint***********************************/
+/************************************************************sprint form post starts****************************************************/
+						
 						$("#add-sprint").click(function(e) {
 							$('#add-sprint-modal').modal('show');
 						});
@@ -573,9 +587,10 @@
 							  		//	$("#backlog_form").reset();
 							  			
 							  			alert("Sprint has been created.Please visit Sprint items tab to see all the sprints.");
-							  			 /*$('#backlog_form').load('/backlog #backlog_form', function(result) {
-							  				});*/ 
+							  			 $('#backlog_form').load('/backlog #backlog_form', function(result) {
+							  				}); 
 							  		
+							  			 
 							  		});
 								
 								
@@ -585,13 +600,10 @@
 							})
 						
 						
-					
+/************************************************************sprint form post ends****************************************************/
+											
+/************************************************************sprint modal hide starts****************************************************/
 							
-							
-							
-							
-					
-						
 						
 						$('#add-sprint-modal').on('hidden.bs.modal', function(e)
 							    { 
@@ -605,10 +617,13 @@
 							    }) ;
 						
 						
-						/**************sprint ends*************************/
+/************************************************************sprint modal hide ends****************************************************/
+						
 						
 
-				});
+});
+
+/******************************************for priority textbox starts********************************************************/
 					
 		 	function minmax(value, min, max) 
 				{
@@ -619,6 +634,10 @@
 				    else return value;
 				}	
 				
+/******************************************for priority textbox ends********************************************************/
+
+				
+/******************************************for rough estimate textbox starts********************************************************/
 				
 				$(function () {
 			        $("input[id*='rough_estimate']").keydown(function (event) {
@@ -639,7 +658,10 @@
 
 			        });
 			    });
-		</script>
+			    
+/******************************************for rough estimate ends**************************************************************/
+			    
+</script>
 		
 {% endblock %}	
 	
@@ -728,6 +750,7 @@
                													  <td><b>Sprint Name</b></td>
                													  <td><b>Story Name</b></td>
                													  <td><b>Story Description</b></td>
+               													  <td><b>Assigned By</b></td>
                													  <td><b>Assigned To</b></td>
                 												  <td><b>Rough Effort Estimate</b></td>
               													   <td><b>Priority</b></td>
@@ -751,6 +774,19 @@
 																<td>{{i.backlog_name}}</td>
 																<td>{{i.storyDesc}}</td>
 																<!-- <td>{{i.startDate}}</td> -->
+																
+																<td>
+																	{% for team in team%}
+																	{%if team.status%}
+																	{%if team.userid.get.email_address == i.created_by%}
+																	
+																	{{team.userid.get.name}} {{team.userid.get.last_name}}
+													
+																	{%endif%}
+																	{%endif%}	
+																	{%endfor%}
+																</td>
+																
 																<td>{{i.assignee.get.name}}</td>
 																<td>{{i.roughEstimate}}</td>
 																<td>{{i.priority}}</td>
@@ -765,7 +801,7 @@
 														  	
 														  {%empty%}
 														  <tr>
-																<td colspan="7" style="text-align:center;">No User Story Found.</td>
+																<td colspan="8" style="text-align:center;">No User Story Found.</td>
 															</tr>
 															 <tr class="separator" /> 
 													  {%endfor%}
@@ -802,8 +838,8 @@
 														
 														<li><b><span class=".apm-sprint-detail-span">Story Name -</span></b><i id="backlog_name"></i></li>
 														<li><b><span class=".apm-sprint-detail-span">Story Description -</span></b><i id="description"></i></li>
-														<li><b><span class=".apm-sprint-detail-span">Assigned To -</span></b><i id="assignee">												
-														  </li>
+														<li><b><span class=".apm-sprint-detail-span">Assigned By -</span></b><i id="assigned_by"></li>
+														<li><b><span class=".apm-sprint-detail-span">Assigned To -</span></b><i id="assignee"></li>
 														<li><b><span class=".apm-sprint-detail-span">Rough Effort Estimate  -</span></b><i id="rough_estimate"></i></li>
 														<li><b><span class=".apm-sprint-detail-span">Priority -</span></b><i id="priority"></i></li>
 														<li><b><span class=".apm-sprint-detail-span">Status -</span></b><i id="status"></i></li>
@@ -958,7 +994,9 @@
 										   <!-- Issue Type --> 
 											  <div class="form-group task-form-group">
 												<label class="task-label">Sprint</label>
-												<select class="form-control add-task-textbox apm-modal-textbox" name="sprint" id="DDsprint">
+												
+													<select class="form-control add-task-textbox apm-modal-textbox" name="sprint" id="DDsprint">
+													
 													<option value="None">None</option>
 													{%for i in sprint%}
 													{%if i.status%}

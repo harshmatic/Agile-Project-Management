@@ -1,5 +1,6 @@
 from google.appengine.ext import ndb
 import logging
+import model
 from model import user,project
 from login import BaseHandler,check_permission
 #import simplejson as json
@@ -10,6 +11,8 @@ from model import project
 from google.appengine.api.taskqueue import taskqueue 
 from model import product_backlog
 from common import checkdomain
+from model.sprint import Sprint_Status
+from model.status import Status
 
 class Tasks(BaseHandler):
     @checkdomain
@@ -37,21 +40,42 @@ class Tasks(BaseHandler):
         
         if (self.request.get('complexity') != 'None'):
             task_data.complexity = ndb.Key(urlsafe=self.request.get('complexity'))
+        else:
+            task_data.complexity=None
         
         if (self.request.get("start") != ''):
             task_data.startDate = datetime.strptime(self.request.get("start"), '%m/%d/%Y').date()
+        else:
+            task_data.startDate=None
         
         if (self.request.get("end")!=''):
             task_data.endDate = datetime.strptime(self.request.get("end"), '%m/%d/%Y').date()
+        else:
+            task_data.endDate=None    
             
         if (self.request.get('assignee') != 'None'):
             task_data.assignee = ndb.Key(urlsafe=self.request.get('assignee'))
+        else:
+            task_data.assignee=None
+            
+        task_data.efforts=0.0
             
         if (self.request.get('sprint') != 'None'):
-            task_data.sprint = ndb.Key(urlsafe=self.request.get('sprint'))
+            sprint_key = ndb.Key(urlsafe=self.request.get('sprint'))
+            task_data.sprint=sprint_key
+            sprint_data=sprint_key.get()
+            sprint_data.sprint_status=Sprint_Status[0]
+            sprint_data.put()
+            logging.info(sprint_data)
+        else:
+            task_data.sprint=None
+            
+            
             
         if (self.request.get('user_story') != 'None'):
             task_data.user_story = ndb.Key(urlsafe=self.request.get('user_story'))   
+        else:
+            task_data.user_story=None
         
        # task_data.project = ndb.Key(urlsafe=self.request.get('key'))
         
@@ -128,7 +152,12 @@ class EditTask(BaseHandler):
            task_data.assignee=None
         
         if (self.request.get('sprint') != 'None'):
-            task_data.sprint = ndb.Key(urlsafe=self.request.get('sprint'))
+            sprint_key = ndb.Key(urlsafe=self.request.get('sprint'))
+            task_data.sprint=sprint_key
+            sprint_data=sprint_key.get()
+            sprint_data.sprint_status=Sprint_Status[0]
+            sprint_data.put()
+            logging.info(sprint_data)
         else:
             task_data.sprint=None
         
@@ -173,6 +202,14 @@ class DeleteTask(BaseHandler):
         task_key.put()
             #user_key.delete()  
         self.response.write("true")     
+
+class SprintDD(BaseHandler):
+    def get(self,*args,**kargs):
+        if self.session['current_project']:
+            logging.info("Inside")
+            project1 =self.session['current_project']   
+            sprint_data=sprint.Sprint().get_by_project(project1)
+            self.render_template("user_new/dropdown_sprint.html", {"sprint":sprint_data})
         
         
             
@@ -188,7 +225,11 @@ class Sprint(BaseHandler):
             
             release=project.ProjectRelease()
             releases=release.get_by_project(self.session['current_project'])
-            self.render_template("user_new/apm-sprint-items.html",{"sprints":sprint_data,"tasks":tasks,"release":releases})
+            
+            key=self.session['current_project']  
+            team=project.ProjectMembers().get_all(key)
+            
+            self.render_template("user_new/apm-sprint-items.html",{"sprints":sprint_data,"team":team,"tasks":tasks,"release":releases})
         #else:
             #self.response.write("you are not allowed")
     
@@ -216,7 +257,9 @@ class Sprint(BaseHandler):
         
         sprint_data.project =self.session['current_project'] 
         sprint_data.createdby = createdBy
-        sprint_data.sprint_status = "Open"
+        sprint_data.sprint_status = Sprint_Status[0]
+        
+        
         sprint_data.company = self.user_model.get_by_id(currentUser['user_id']).tenant_key
         
         
@@ -235,15 +278,6 @@ class Sprint(BaseHandler):
         logging.info("after setting task")
         self.response.out.write("true")
         
-class SprintDD(BaseHandler):
-    def get(self,*args,**kargs):
-        if self.session['current_project']:
-            logging.info("Inside")
-            project1 =self.session['current_project']   
-            sprint_data=sprint.Sprint().get_by_project(project1)
-            self.render_template("user_new/dropdown_sprint.html", {"sprint":sprint_data})
-
-
 class EditSprint(BaseHandler):
     @checkdomain
     def get(self,*args,**kargs):
@@ -283,7 +317,7 @@ class EditSprint(BaseHandler):
             sprint_data.endDate =None
 
         sprint_data.project=self.session['current_project']  
-        sprint_data.sprint_status = "Open"
+       # sprint_data.sprint_status = "Open"
       #  sprint_data.company = self.user_model.get_by_id(currentUser['user_id']).tenant_key
         
         
@@ -367,6 +401,28 @@ class DeleteSprint(BaseHandler):
         self.response.write("true")
         
         
+class SprintStatus(BaseHandler):    
+    @checkdomain  
+    def post(self,*args,**kargs):
+        
+        logging.info(self.request.get("key"))
+        key=ndb.Key(urlsafe=self.request.get("key"))
+
+        tasks_data=model.task.Task().query(ndb.AND(model.task.Task.sprint == key ,ndb.AND(model.task.Task.status == True ,ndb.AND(model.task.Task.task_status.IN (['In Progress','Open','Done','ReOpen','Deferred']))))).get()
+        #tasks_data=tasks.fetch(1)
+        
+       # count = len(tasks_data)
+        logging.info(tasks_data)
+        
+        if tasks_data:
+            self.response.write('false')
+        else:
+            sprint_data=key.get()
+            sprint_data.sprint_status = Sprint_Status[2]
+            sprint_data.put()
+            self.response.write('true')
+        
+        
 class SprintInfo(BaseHandler):
     @checkdomain
     def post(self,*args,**kargs):
@@ -387,7 +443,7 @@ class SprintInfo(BaseHandler):
                
                 self.response.write(params)
             
-            
+           
             
 class GetUserStory(BaseHandler):
     @checkdomain

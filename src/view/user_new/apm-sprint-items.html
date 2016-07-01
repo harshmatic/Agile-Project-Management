@@ -376,12 +376,13 @@ $(document).ready(function(){
 							 $.post( "/sprint", $("#add_sprint").serialize())
 						  		.done(function( data ) {
 						  			if (data!="true"){
-						  				alert("Something Went Wrong");
+						  				alert("Sprint cannot be added.");
 						  				return false
 						  			} 
 						  		//	$("#backlog_form").reset();
 						  		else
 						  			{
+						  			alert("Sprint added successfully.");
 						  			$('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
 						  				$(".table").each(function(){
 											if (!$(this).find("tr.find_empty").length){
@@ -440,8 +441,42 @@ $(document).ready(function(){
 						        
 						    }) ;
 					
-/*****************************************submit event ends***********************************************/				
-				});
+/*****************************************submit event ends***********************************************/		
+/******************************************for complete sprint dropdown starts***********************************************/
+
+$(document).on("click", ".sprint_status_link",function() {
+					
+						var sprint_key=$(this).find('.sprint_key').val();
+						
+						$.post( "/sprint/status",{key : sprint_key},function( data ) {
+							
+							  //alert(data);
+							if (data!="true"){
+				  				alert("Sprint status cannot be updated as all the task within the sprint are not completed.Please complete all task to complete a sprint.");
+				  				return false
+				  			}  
+							
+							else {
+				  				
+				  				alert("Sprint status updated successfully.");
+					  			$('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
+					  				$(".table").each(function(){
+										if (!$(this).find("tr.find_empty").length){
+										a=$(this).find("tbody")[0];
+										$(a).append("<tr><td colspan='10' align='center'>There are no tasks in the sprint</td></tr>")
+										}
+										
+									})
+					  			});
+					  			
+				  				
+				  		}	
+						
+						});
+					});
+
+/****************************************complete sprint dropdown ends******************************************/
+});
 				
 
 				
@@ -497,19 +532,21 @@ $(document).ready(function(){
 											<div class="panel panel-default apm-sprint-panel" id="sprint">
 												<div class="panel-heading">
 													{{sprint.name}}
+												
+												
 												<!-- Sprint Action dropdown starts -->
-              									<li class="dropdown sprint-action-dropdown-box">
-              									 <a href="#" class="dropdown-toggle sprint-action-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
-             									  <i class="fa fa-cogs"></i> Action
-            									   <span class="caret"></span></a>
-            								   <ul class="dropdown-menu sprint-action-dropdown bullet">
-           								      <li><a href="/sprint/edit?edit_key={{sprint.key.urlsafe}}" data-toggle="modal" data-target="#edit-sprint-modal"><i class="fa fa-pencil"></i> Edit Sprint</a></li>
-                 						<!-- 	 <li><a href="#"><i class="fa fa-check-circle"></i> Complete Sprint</a></li>  -->
-                						<!-- <li><a href="/sprint/delete?delete_key={{sprint.key.urlsafe}}"  data-toggle="modal" data-target="#delete-sprint-modal"><i class="fa fa-trash"></i> Delete Sprint</a></li> -->
+              										<li class="dropdown sprint-action-dropdown-box">
+              									 		<a href="#" class="dropdown-toggle sprint-action-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+             									  		<i class="fa fa-cogs"></i> Action
+            									   		<span class="caret"></span></a>
+            								   			<ul class="dropdown-menu sprint-action-dropdown bullet">
+           								      		<li><a href="/sprint/edit?edit_key={{sprint.key.urlsafe}}" data-toggle="modal" data-target="#edit-sprint-modal"><i class="fa fa-pencil"></i> Edit Sprint</a></li>
+                 							  		<li><a href="#" class="sprint_status_link"><i class="fa fa-check-circle"></i><input type="hidden" class="sprint_key" value="{{sprint.key.urlsafe}}">Complete Sprint</a></li> 
+                									<!-- <li><a href="/sprint/delete?delete_key={{sprint.key.urlsafe}}"  data-toggle="modal" data-target="#delete-sprint-modal"><i class="fa fa-trash"></i> Delete Sprint</a></li> -->
                								
-               								</ul>
-            								  </li>
-										<!-- Sprint Action dropdown Ends -->
+               										</ul>
+            								  		</li>
+												<!-- Sprint Action dropdown Ends -->
 												</div>
 												<div class="panel-body">
 													<div class="table-responsive">
@@ -521,6 +558,7 @@ $(document).ready(function(){
 																	<th>User Story</th>
 																	<th>Planned Start Date</th>
 																	<th>Planned End Date</th>
+																	<th>Assigned By</th>
 																	<th>Assigned To</th>
 																	<th>Status</th>
 																	<th>Complexity</th>
@@ -540,6 +578,17 @@ $(document).ready(function(){
 																<td title="User Story">{%if task.user_story%}{{task.user_story.get.backlog_name}}{%else%}None{%endif%}</td>
 																<td title="Planned Start Date">{{task.startDate}}</td>
 																<td title="Planned End Date">{{task.endDate}}</td>
+																<td title="Assigned By">
+																	{% for team in team%}
+																	{%if team.status%}
+																	{%if team.userid.get.email_address == task.created_by%}
+																	
+																	{{team.userid.get.name}} {{team.userid.get.last_name}}
+													
+																	{%endif%}
+																	{%endif%}	
+																	{%endfor%}
+																</td>
 																<td title="Assigned To">{%if task.assignee%}{{task.assignee.get.name}}{%else%}None{%endif%}</td>
 																<td title="Status">{{task.task_status}}</td>
 																<td title="Complexity">{{task.complexity.get.estimationLevel}}</td>

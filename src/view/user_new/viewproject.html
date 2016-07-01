@@ -254,7 +254,9 @@
 														<td>{{ mem.userRole }}</td>
 														<td>
 															<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>
-															<!-- <i id="deletemember" class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i> -->
+															{%if product_owner%}
+															<i id="deletemember" class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i>
+															{%endif%}
 														</td>
 													  </tr>
 													   {%endfor%}
@@ -363,7 +365,9 @@
 												<select id="memselect" class="form-control apm-landing-textbox-reg apm-modal-textbox">
 													<option>- Select -</option>
 													{% for users in userslist %}
+													{%if users.status%}
 													<option  value= "{{ users.key.id }}"> {{ users.name }} {{ users.last_name}}</option>
+													{%endif%}
 													{%endfor%}
 												</select>
 											  </div>
@@ -573,6 +577,10 @@
 		
 		<script>
 				$(document).ready(function(){
+					
+					
+		  				
+				
 					$(".nav-tabs a").click(function(){
 						console.log("this is"+this)
 						$(this).tab('show');
@@ -811,10 +819,16 @@
 			  			console.log("the data is"+data);
 			  			var d = JSON.parse(data);
 			  			
-			  			
-			  			//$("#memlist").append('<tr id='+d.id+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i> <i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
-			  			
-			  			$("#memlist").append('<tr id='+d.id+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>  </td> </tr>');
+			  			product_owner='{{product_owner}}';
+			  			//alert(a);
+			  			if(product_owner == 'True')
+			  			{
+			  				$("#memlist").append('<tr id='+d.id+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i> <i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
+			  			}
+			  			else
+			  			{
+			  				$("#memlist").append('<tr id='+d.id+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>  </td> </tr>');
+			  			}
 			  			//$("#memselect option[value='"+d.id+"']").remove();
 			  			$("select#memselect option[value='"+d.userid+"']").remove(); 
 			  			$('#memselect').prop('selectedIndex',0);
@@ -861,9 +875,18 @@
 			  			var d = JSON.parse(data);
 			  			
 			  			$('#' +d.id).remove();
-			  			//$("#memlist").append('<tr id='+d.userid+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i> <i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
+			  			product_owner='{{product_owner}}';
+			  			//alert(a);
+			  			if(product_owner == 'True')
+			  			{
+			  			 	$("#memlist").append('<tr id='+d.userid+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i> <i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
+				  		}
+			  			else
+			  			{
+			  				$("#memlist").append('<tr id='+d.id+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>  </td> </tr>');
+				  		}
 			  			
-			  			$("#memlist").append('<tr id='+d.id+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>  </td> </tr>');
+			  			
 			  			
 			  				
 			  			

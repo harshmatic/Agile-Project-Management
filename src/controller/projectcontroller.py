@@ -5,6 +5,7 @@ import logging
 import os.path
 import webapp2
 import time
+import model
 from model import user
 from model import project,sprint
 import webapp2_extras.appengine.auth.models as auth_user
@@ -20,6 +21,7 @@ from datetime import datetime
 import json
 from google.appengine.api.taskqueue import taskqueue
 from common import checkdomain
+from model import task,effort_estimation,product_backlog
  
 
 class ProjectManagement(BaseHandler):
@@ -372,13 +374,61 @@ class DeleteProjectMember(BaseHandler):
         key= ndb.Key('ProjectMembers',int(projmemid))
         projmem = key.get()
         
+       # logging.info(projmem)
+        
         projmem.modified_by = user_info['email_address']
         projmem.modified_date = datetime.now()
         projmem.status = False
         projmem.put()
         
         sprints = sprint.Sprint().get_by_project(projmem.projectid)
-        logging.info
+        
+        project_key=self.session['current_project']  
+        logging.info(project_key)
+        
+        user_id=user_info['user_id']
+        user_key=ndb.Key('OurUser',int(user_id))
+        logging.info(user_key)
+        
+        
+        
+         #for user tasks
+        task_data=model.task.Task().query(model.task.Task.assignee == projmem.userid,ndb.AND(model.task.Task.status == True),ndb.AND(model.task.Task.project == project_key)).fetch()
+        #logging.info(task_data)
+      
+        #for userstory
+        userstory_data=model.product_backlog.ProductUserStory().query(model.product_backlog.ProductUserStory.assignee == projmem.userid,ndb.AND(model.product_backlog.ProductUserStory.status == True,ndb.AND(model.product_backlog.ProductUserStory.project_key == project_key))).fetch()
+       # logging.info(userstory_data)
+        
+       # logging.info(projmodel)
+        
+        task_list=[]
+        userstory_list=[]
+        
+        
+        
+        for tasks in task_data:
+                tasks_key=tasks.key.get()
+                tasks_key.assignee = user_key
+              #  tasks_key.put()
+                task_list.append(tasks_key)
+                logging.info(tasks_key)
+            
+        logging.info(task_list)
+        ndb.put_multi(task_list)
+            
+                
+        for userstories in userstory_data:
+                userstories_key=userstories.key.get()
+                userstories_key.assignee = user_key
+             #   userstories_key.put()
+                userstory_list.append(userstories_key)
+                logging.info(userstories_key)
+            
+        ndb.put_multi(userstory_list)   
+            
+        logging.info(userstory_list)
+    
         if not sprints:
             logging.info("No sprints")
         else:
@@ -442,7 +492,19 @@ class ViewProject(BaseHandler):
             for mem in projmem:
                 if(usr.key == mem.userid):
                     usermodel.remove(usr)
-        self.render_template("user_new/viewproject.html",{"project":proj,"userslist":usermodel,'estimation':esti,'projmem':projmem,'roles':groupmodel})
+                    
+        user_id=currentUser['user_id']
+        user_key=ndb.Key('OurUser',int(user_id))
+        logging.info(user_key)
+        
+        product_owner=project.ProjectMembers().query(project.ProjectMembers.projectid == ndb.Key('Project',projkey) , ndb.AND(project.ProjectMembers.userRole == 'Product Owner',ndb.AND(project.ProjectMembers.status == True))).get()
+        
+        if product_owner.userid == user_key:
+            a=True
+        else:
+            a=False
+        
+        self.render_template("user_new/viewproject.html",{"project":proj,"userslist":usermodel,'estimation':esti,'projmem':projmem,'roles':groupmodel,'product_owner':a})
         
         
 class GetTeamMembersForProject(BaseHandler):

@@ -105,9 +105,13 @@ class AddBacklog(BaseHandler):
         
         if (self.request.get('sprint') != 'None'):
             backlog.sprintId=ndb.Key(urlsafe=self.request.get('sprint'))
+        else:
+            backlog.sprintId=None
             
         if (self.request.get('assignee') != 'None'):
             backlog.assignee=ndb.Key(urlsafe=self.request.get('assignee'))
+        else:
+            backlog.assignee=None
             
         backlog.type = ndb.Key(urlsafe=self.request.get('type'))
         backlog.storyDesc = self.request.get("description")
@@ -178,9 +182,13 @@ class EditBacklog(BaseHandler):
             
             if (self.request.get('sprint') != 'None'):
                 backlog_key.sprintId=ndb.Key(urlsafe=self.request.get('sprint'))
+            else:
+                backlog_key.sprintId=None
             
             if (self.request.get('assignee') != 'None'):
                 backlog_key.assignee=ndb.Key(urlsafe=self.request.get('assignee'))
+            else:
+                backlog_key.assignee=None
             
             backlog_key.type = ndb.Key(urlsafe=self.request.get('type'))
             backlog_key.storyDesc = self.request.get("description")
@@ -214,6 +222,8 @@ class UpdateBacklog(BaseHandler):
             backlog_key=key.get()
             if (self.request.get('assignee') != 'None'):
                 backlog_key.assignee=ndb.Key(urlsafe=self.request.get('assignee'))
+            else:
+                backlog_key.assignee=None
             
             
             user_info = self.auth.get_user_by_session()

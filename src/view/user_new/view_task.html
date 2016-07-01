@@ -60,10 +60,23 @@
 					 $("#apm-task-add-timelog-modal #task_completed").prop( "checked", true );
 				}
 				else
-					if (default_status == 'Deferred')
-					{
+				if (default_status == 'ReOpen')
+				{
+						 $('#status_dropdown').val( '3' );
+						
+				}
+				
+				else
+				if (default_status == 'Deferred')
+				{
 						 $('#status_dropdown').val( '4' );
-					}
+				}
+				else
+				if (default_status == 'Close')
+				{
+						$('#status_dropdown').val( '5' );
+						$("#apm-task-add-timelog-modal #task_completed").prop( "checked", true );
+				}
 				
 				
 				var task_key=$('#task_key').val();
@@ -277,7 +290,9 @@
   								<option value="0">Open</option>
   								<option value="1">In Progress</option>
   								<option value="2">Done</option>
+  								<option value="3">ReOpen</option>
   								<option value="4">Deferred</option>
+  								<option value="5">Close</option>
 							</select>
 							</div>
 							
@@ -323,6 +338,16 @@
 								<ul class="apm-task-descr-list">
 									<li><b>Project Name:</b>{{task.project.get.name}}</li>	
 									<li><b>Sprint:</b> {{task.sprint.get.name}}</li>
+									<li><b>Assigned By:</b> 
+									{% for team in team%}
+									{%if team.status%}
+									{%if team.userid.get.email_address == task.created_by%}
+													
+									{{team.userid.get.name}} {{team.userid.get.last_name}}
+												
+									{%endif%}
+									{%endif%}	
+									{%endfor%}</li>
 									<li><b>Assigned To:</b> {{task.assignee.get.name}}</li>
 									<li><b>Estimated Hours:</b>{{task.actual_efforts}}</li>
 									<li id="new_status"><b>Status:</b>{{task.task_status}}</li>
@@ -359,6 +384,7 @@
 											<thead>
 											  <tr>
 												<th>Date</th>
+												<th>Assigned By</th>
 												<th>Who</th>
 												<th>Description</th>
 												<th>Billable</th>
@@ -373,6 +399,16 @@
 											
 											  <tr>
 												<td>{{i.today_date}}</td>
+												<td>{% for team in team%}
+													{%if team.status%}
+													{%if team.userid.get.email_address == i.created_by%}
+													
+													{{team.userid.get.name}} {{team.userid.get.last_name}}
+												
+													{%endif%}
+													{%endif%}	
+													{%endfor%}
+												</td>
 												<td>{{i.assigne_key.get.name}}</td>
 												<td>{{i.description}}</td>
 												<td>{%if i.billable%}

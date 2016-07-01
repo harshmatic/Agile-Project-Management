@@ -36,9 +36,12 @@ class MyTasks(BaseHandler):
         logging.info(projectKey)
         logging.info(project_member)
         tasks=task.Task().get_by_project_user(projectKey,currentUser)
+        
+        team=project.ProjectMembers().get_all(projectKey)
+        
         logging.info('da.das.dasd')
         logging.info(tasks)
-        self.render_template("user_new/my_tasks.html",{"tasks":tasks})
+        self.render_template("user_new/my_tasks.html",{"tasks":tasks,"team":team})
 
 class MyTaskView(BaseHandler):
     @checkdomain
@@ -52,7 +55,10 @@ class MyTaskView(BaseHandler):
         
         time_log_data=time_log_data.getByTask(taskKey)
         status=task.task_status
-        self.render_template("user_new/view_task.html",{"task":task,"time_log":time_log_data,"status":status,
+        
+        team=project.ProjectMembers().get_all(projectKey)
+        
+        self.render_template("user_new/view_task.html",{"task":task,"team":team,"time_log":time_log_data,"status":status,
                                                         "user_obj":currentUser})
     
     @checkdomain
@@ -72,25 +78,36 @@ class MyTaskView(BaseHandler):
         
         if (self.request.get('date')):
             timelog_key.today_date= datetime.strptime(self.request.get('date'), '%d/%m/%Y').date()
-    
+        else:
+            timelog_key.today_date=None
         
-        if (self.request.get('hours')):
-            timelog_key.hour=int(self.request.get('hours'))
+        
+        t_hours =self.request.get('hours')
+        if (t_hours):
+            timelog_key.hour=int(t_hours)
+            taskhours=int(t_hours)
         else:
             timelog_key.hour=00
+            taskhours=00
         
-        if (self.request.get('minutes')):
-            timelog_key.minute=int(self.request.get('minutes'))
+        
+        t_minutes=self.request.get('minutes')
+        if (t_minutes):
+            timelog_key.minute=int(t_minutes)
+            taskminutes=int(t_minutes)
         else:
             timelog_key.minute=00
+            taskminutes=00
         
         timelog_key.created_by=currentUser['email_address']
         timelog_key.status=True
+        
         
         if (self.request.get('billable')):
             timelog_key.billable=True
         else:
             timelog_key.billable=False
+        
         
         timelog_key.description=self.request.get('description')
         
@@ -104,13 +121,23 @@ class MyTaskView(BaseHandler):
             tasks.task_status=Status[2]
             tasks.modified_by = currentUser['email_address']
             tasks.modified_date = datetime.now()
-            tasks.put()
+           
         else:
             logging.info('not equal')
             tasks.task_status=Status[0]
             tasks.modified_by = currentUser['email_address']
             tasks.modified_date = datetime.now()
-            tasks.put()
+   
+        timelog_data=time_log.Time_Log().query(time_log.Time_Log.task_key == timelog_key.task_key, ndb.AND(time_log.Time_Log.status == True)).fetch()
+                    
+        time=0.0
+        for i in timelog_data:
+            time += float(float(i.hour) + float(float(i.minute)/60) )
+            logging.info(time) 
+            
+        tasks.efforts=time
+             
+        tasks.put()
     
         self.response.write('true')
         
@@ -140,16 +167,22 @@ class EditTimelog(BaseHandler):
         
             #if (self.request.get('minutes')):
                 #timelog_key.minute=int(self.request.get('minutes'))
-                
-            if (self.request.get('hours')):
-                timelog_key.hour=int(self.request.get('hours'))
+            
+            t_hours=self.request.get('hours')
+            if (t_hours):
+                timelog_key.hour=int(t_hours)
+                taskhours=int(t_hours)
             else:
                 timelog_key.hour=00
+                taskhours=00
         
-            if (self.request.get('minutes')):
-                timelog_key.minute=int(self.request.get('minutes'))
+            t_minutes=self.request.get('minutes')
+            if (t_minutes):
+                timelog_key.minute=int(t_minutes)
+                taskminutes=int(t_minutes)
             else:
                 timelog_key.minute=00
+                taskminutes=00
                 
             timelog_key.modified_by = currentUser['email_address']
             timelog_key.modified_date= datetime.now() 
@@ -169,15 +202,28 @@ class EditTimelog(BaseHandler):
                 tasks.task_status=Status[2]
                 tasks.modified_by = currentUser['email_address']
                 tasks.modified_date = datetime.now()
-                tasks.put()
+               
             else:
                 logging.info('not equal')
                 tasks.task_status=Status[0]
                 tasks.modified_by = currentUser['email_address']
                 tasks.modified_date = datetime.now()
-                tasks.put()
+             
+           
+            #for all time log
+            timelog_data=time_log.Time_Log().query(time_log.Time_Log.task_key == timelog_key.task_key, ndb.AND(time_log.Time_Log.status == True)).fetch()
+         
             
             
+            time=0.0
+            for i in timelog_data:
+                
+                time += float(float(i.hour) + float(float(i.minute)/60) )
+                logging.info(time)   
+            
+            tasks.efforts=time
+            
+            tasks.put()
             self.response.write('true')
 
  

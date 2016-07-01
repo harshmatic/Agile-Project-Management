@@ -25,54 +25,49 @@ $("#delete_backlog").on("click",function(){
 				        	
 				        	/*******************for detail table start************************/	
 							 var a=$(".table tr:eq(2) td").map(function() {
-						           return $(this).text();
-						       }).get().join("|");
-							 
-							 row_key=$(".table tr:eq(2)").attr("id");
-							 
-							 if(a != "No User Story Found." )
-							{
-							 $("#edit_key").attr("href", "/backlog/edit?edit_key="+row_key)
-							 $("#delete_key").attr("href", "/backlog/delete?delete_key="+row_key)
-						     
-							 var update="/backlog/update?update_key="+row_key;
-							 var edit="/backlog/edit?edit_key="+row_key;
-						     var delete_key ="/backlog/delete?delete_key="+row_key;
-						  //   $('#edit_delete_panel').html('<a href="'+edit+'" id="edit_key" data-toggle="modal" data-target="#edit-backlog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Release"  id="{{i.key.urlsafe}}"></i></a><a id="delete_key" href="'+delete_key+'" data-toggle="modal" data-target="#delete-backlog-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Release"  id="{{i.key.urlsafe}}"></i></a>');
-							
-						     $('#edit_delete_panel').html('<a href="'+edit+'" id="edit_key" data-toggle="modal" data-target="#edit-backlog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Release"  id="{{i.key.urlsafe}}"></i></a>');
-								
-						     
-							}
-						     
-						     
-						       var myList =a;
-						       var myArray = myList.split( '|' );  
-						       
-						       
-						     
-						       
-						       $('#sprint').html(myArray[0]);
-						       $('#sprint_name').html(myArray[0]);
-						       $('#backlog_name').html(myArray[1]);
-						       $('#description').html(myArray[2]);
-						      
-						       if( myArray[3] == '' || myArray[3] == 'None')
-						    	   {
-						    	   $('#assignee').html('<a href="'+update+'" id="update_key" data-toggle="modal" data-target="#add-assignee-modal">Assign<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Update User Story" id="{{i.key.urlsafe}}"></i></a>');
-						    	   }
-						       else
-						    	   {
-						      			 $('#assignee').html(myArray[3]);
-						    	   }
-						       $('#rough_estimate').html(myArray[4]);
-						       $('#priority').html(myArray[5]);
-						       $('#status').html(myArray[6]);
-						      
-							 
-							 
-							//alert( $.trim(a));
-							//console.log(a);
+				           return $(this).text();
+				       }).get().join("|");
+					 
+					 row_key=$(".table tr:eq(2)").attr("id");
+					 
+					 if(a != "No User Story Found." )
+					{
+					 $("#edit_key").attr("href", "/backlog/edit?edit_key="+row_key)
+					 $("#delete_key").attr("href", "/backlog/delete?delete_key="+row_key)
+				     
+					 var update="/backlog/update?update_key="+row_key;
+					 var edit="/backlog/edit?edit_key="+row_key;
+				     var delete_key ="/backlog/delete?delete_key="+row_key;
+				   //  $('#edit_delete_panel').html('<a href="'+edit+'" id="edit_key" data-toggle="modal" data-target="#edit-backlog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Story"  id="{{i.key.urlsafe}}"></i></a><a id="delete_key" href="'+delete_key+'" data-toggle="modal" data-target="#delete-backlog-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Story"  id="{{i.key.urlsafe}}"></i></a>');
+					
+				     $('#edit_delete_panel').html('<a href="'+edit+'" id="edit_key" data-toggle="modal" data-target="#edit-backlog-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Story"  id="{{i.key.urlsafe}}"></i></a>');
+						
+					}
+				     
+				     
+				       var myList =a;
+				       var myArray = myList.split( '|' );  
+				       
+				       
+				     
+				       
+				       $('#sprint').html(myArray[0]);
+				       $('#sprint_name').html(myArray[0]);
+				       $('#backlog_name').html(myArray[1]);
+				       $('#description').html(myArray[2]);
+				       $('#assigned_by').html(myArray[3]);
+				      
+				       if( myArray[4] == '' || myArray[4] == 'None')
+				    	   {
+				    	   $('#assignee').html('<a href="'+update+'" id="update_key" data-toggle="modal" data-target="#add-assignee-modal">Assign<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Update User Story" id="{{i.key.urlsafe}}"></i></a>');
+				    	   }
+				       else
+				    	   {
+				      			 $('#assignee').html(myArray[4]);
+				    	   }
+				       $('#rough_estimate').html(myArray[5]);
+				       $('#priority').html(myArray[6]);
+				       $('#status').html(myArray[7]);
 							
 							/*******************for detail table end************************/	
 		  			

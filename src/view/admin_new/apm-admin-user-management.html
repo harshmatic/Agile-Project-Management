@@ -229,6 +229,7 @@
 														<th>Employee ID</th>
 														<th>Role</th>
 														<th>Status</th>
+														<th>Created By</th>
 														<th>Verified</th>
 														<th>Action</th>
 															
@@ -248,13 +249,16 @@
 														<td>{{user1.empid}}</td>
 														<td class="roll-td"><i>{{user1.role.get.role}}</i></td>
 														<td>{%if user1.status%}Active{%else%}Deactivated{%endif%}</td>
+														<td>{{user1.created_by}}</td>
 														<td>{% if user1.verified%}Yes{%else%} No <a href="#" id="{{user1.key.urlsafe}}" class="verify">Verify</a> {%endif%}</td>
 														<td>
 														
 														<a href="/admin/edit?edit_key={{user1.key.urlsafe}}" data-toggle="modal" data-target="#edit-user-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit User"  id="{{user1.key.urlsafe}}"></i></a>
 														{%if user1.email_address != user.email_address%}
-														<!-- <a href="/admin/deleteuser?delete_key={{user1.key.urlsafe}}" data-toggle="modal" data-target="#delete-user-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete User"  id="{{user1.key.urlsafe}}"></i></a> -->
-														
+														 {%if user1.status%}
+														 
+														 <a href="/admin/deleteuser?delete_key={{user1.key.urlsafe}}" data-toggle="modal" data-target="#delete-user-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete User"  id="{{user1.key.urlsafe}}"></i></a>
+														{%endif%}
 														{%endif%}
 														</td>
 		

@@ -20,9 +20,10 @@ class Task(BaseClass):
     user_story=ndb.KeyProperty()
     type = ndb.KeyProperty()
     task_status = ndb.StringProperty(choices=Status)
-    
+    efforts=ndb.FloatProperty()
     actual_efforts = ndb.StringProperty()
     comments = ndb.StructuredProperty(Comments,repeated=True)
+    
     def set(self,data):
         self.put()
     def get_all(self,projectId):

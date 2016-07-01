@@ -115,6 +115,68 @@
 						  }
 						  
 						  else
+						  if(filter_name == 'ReOpen')
+								
+						  {
+							  
+						  $("#fbody").find("tr td").not("#table_header").filter(function() {
+							    if($(this).text() == "ReOpen"){
+							        retval=1;
+							        
+							      	$('#table_header').show();
+							        $(this).parent().show();
+							       // alert('Same item found');
+							        return false;
+							    }else{
+							        retval=0;
+							        $(this).parent().hide();
+							        $('#table_header').show();
+							    }
+							});
+							  }
+						  
+						  else
+							  if(filter_name == 'Deferred')
+									
+							  {
+								  
+							  $("#fbody").find("tr td").not("#table_header").filter(function() {
+								    if($(this).text() == "Deferred"){
+								        retval=1;
+								        
+								      	$('#table_header').show();
+								        $(this).parent().show();
+								       // alert('Same item found');
+								        return false;
+								    }else{
+								        retval=0;
+								        $(this).parent().hide();
+								        $('#table_header').show();
+								    }
+								});
+								  }
+							  else
+								  if(filter_name == 'Close')
+										
+								  {
+									  
+								  $("#fbody").find("tr td").not("#table_header").filter(function() {
+									    if($(this).text() == "Close"){
+									        retval=1;
+									        
+									      	$('#table_header').show();
+									        $(this).parent().show();
+									       // alert('Same item found');
+									        return false;
+									    }else{
+									        retval=0;
+									        $(this).parent().hide();
+									        $('#table_header').show();
+									    }
+									});
+									  }
+						  
+						  else
 						  {
 							  $("#fbody").find("tr").show()
 						  }
@@ -264,6 +326,9 @@
 								<li><a href="#" value="Pending Tasks">Open</a></li>
 								<li><a href="#" value="Ongoing Tasks">In Progress</a></li>
 								<li><a href="#" value="Completed Tasks">Done</a></li>
+								<li><a href="#" value="ReOpen Tasks">ReOpen</a></li>
+								<li><a href="#" value="Deferred Tasks">Deferred</a></li>
+								<li><a href="#" value="Close Tasks">Close</a></li>
 								<li><a href="#" value="All Tasks">All Tasks</a></li>
 							  </ul>
 							</div>
@@ -316,7 +381,9 @@
                													 <tr id="table_header" href="#"> 
                													  <td><b>Title</b></td>
                													  <td><b>Task Description</b></td>
+               													  <td><b>Assigned By</b></td>
                 												  <td><b>Effort Estimate</b></td>
+                												  <td><b>Total Logged Hrs</b></td>
               													   <td><b>Status</b></td>
                  												
              													   </tr>
@@ -330,7 +397,18 @@
 															<!--   <a class="task_key" href="/mytasks/view?key={{task.key.urlsafe}}" ></a> -->
 																<td>{{task.name}}</td>
 																<td>{{task.description}}</td>
+																<td>{% for team in team%}
+																	{%if team.status%}
+																	{%if team.userid.get.email_address == task.created_by%}
+																	
+																	{{team.userid.get.name}} {{team.userid.get.last_name}}
+													
+																	{%endif%}
+																	{%endif%}	
+																	{%endfor%}
+																</td>
 																<td>{{task.actual_efforts}}</td>
+																<td>{%if task.efforts%}{{task.efforts}}{%else%}0.0{%endif%}</td>
 																<td>{{task.task_status}}</td>
 																
 															  </tr>
@@ -341,7 +419,7 @@
 															  {%endfor%}
 														{%else%}
 															<tr id="blank_row" href="#">
-																<td colspan="5" style="text-align:center;">Hurray! There are no tasks assigned to you for now .</td>
+																<td colspan="6" style="text-align:center;">Hurray! There are no tasks assigned to you for now .</td>
 														{%endif%}
 																
 															  </tr>
