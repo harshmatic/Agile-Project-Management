@@ -172,6 +172,7 @@
 													<tbody>
 													{% for proje in project %}
 													{% if proje.status%}
+													{%if user.email_address == proje.created_by%}
 														<tr id="{{proje.key.urlsafe}}">
 															<td><i class="fa fa-cogs" aria-hidden="true"></i></td>
 															<td><a href="/project/viewproject?proj_id={{proje.key.id}}">{{ proje.name }}</a></td>
@@ -185,8 +186,9 @@
 															   <!--  <a href="/project/deleteproject?delete_key={{proje.key.urlsafe}}" data-toggle="modal" data-target="#delete-project-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></a></i> -->
 															</td>
 														</tr>
-														{%endif%}
-														 {%endfor%}
+													{%endif%}
+													{%endif%}
+													{%endfor%}
 													</tbody>
 												</table>
 											</div>

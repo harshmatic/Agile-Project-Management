@@ -447,8 +447,10 @@ $(document).ready(function(){
 $(document).on("click", ".sprint_status_link",function() {
 					
 						var sprint_key=$(this).find('.sprint_key').val();
+					
+						var status= $(this).text()
 						
-						$.post( "/sprint/status",{key : sprint_key},function( data ) {
+						$.post( "/sprint/status",{key : sprint_key , status : status},function( data ) {
 							
 							  //alert(data);
 							if (data!="true"){
@@ -541,7 +543,13 @@ $(document).on("click", ".sprint_status_link",function() {
             									   		<span class="caret"></span></a>
             								   			<ul class="dropdown-menu sprint-action-dropdown bullet">
            								      		<li><a href="/sprint/edit?edit_key={{sprint.key.urlsafe}}" data-toggle="modal" data-target="#edit-sprint-modal"><i class="fa fa-pencil"></i> Edit Sprint</a></li>
+                 							  		
+                 							  		{%if sprint.sprint_status == 'Completed'%}
+                 							  		<li><a href="#" class="sprint_status_link"><i class="fa fa-check-circle"></i><input type="hidden" class="sprint_key" value="{{sprint.key.urlsafe}}">Open Sprint</a></li> 
+                 							  		{%else%}
                  							  		<li><a href="#" class="sprint_status_link"><i class="fa fa-check-circle"></i><input type="hidden" class="sprint_key" value="{{sprint.key.urlsafe}}">Complete Sprint</a></li> 
+                									{%endif%}	
+                									
                 									<!-- <li><a href="/sprint/delete?delete_key={{sprint.key.urlsafe}}"  data-toggle="modal" data-target="#delete-sprint-modal"><i class="fa fa-trash"></i> Delete Sprint</a></li> -->
                								
                										</ul>
@@ -558,7 +566,7 @@ $(document).on("click", ".sprint_status_link",function() {
 																	<th>User Story</th>
 																	<th>Planned Start Date</th>
 																	<th>Planned End Date</th>
-																	<th>Assigned By</th>
+																	<th>Created By</th>
 																	<th>Assigned To</th>
 																	<th>Status</th>
 																	<th>Complexity</th>

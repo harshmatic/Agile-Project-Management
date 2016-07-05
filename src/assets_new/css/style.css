@@ -9,6 +9,24 @@
 	font-size: 18px!important;
 	color:#fff!important;
 }
+.apm-nav-brand-1{
+	width: 140px!important;
+    white-space: nowrap!important;
+    overflow: hidden!important;
+    text-overflow: ellipsis!important;
+}
+.role-label {
+    color: #fff;
+    position: relative;
+    top: 15px;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+.apm-dropdown-projects {
+    margin-left: -133px!important;
+    margin-top: 50px!important;
+    z-index: 99999999;
+}
 #menu-toggle-2{
 	float: left;
 	margin: 11px 12px;
@@ -16,7 +34,7 @@
 	cursor:pointer;
 }
 .nav-apm{
-	background:#3978BF;
+	background:#1565C0;
 	border:none;
 	border-radius:0;
 }
@@ -28,7 +46,7 @@
 }
 .apm-panel-heading{
 	padding:5px 15px;
-	background:#3978BF!important;
+	background:#1565C0!important;
 	color:#fff!important;
 	border-radius:0!important;
 }
@@ -39,15 +57,15 @@
 .apm-all-reports-heading{
 	margin-top: 10px;
     margin-bottom: 10px;
-    font-size: 24px;
+    font-size: 22px;
     letter-spacing: 1px;
     line-height: 1.2em;
-    font-family: Raleway;
+    font-family: Roboto;
     font-weight: 500;
 }
 .apm-numbox-dashboard{
-	padding:20px;
-	height:150px;
+	padding:15px;
+	height:110px;
 	border:1px solid transparent;
 	text-align:right;
 }
@@ -70,17 +88,18 @@
 	background:#f8f8f8;
 }
 .apm-numbox-heading{
-	font-size: 50px;
+	font-size: 35px;
     color: #fff;
-    font-family: Raleway;
+    font-family: Roboto;
     font-weight: 400;
+    margin-top: 3px;
 }
 .apm-numbox-label{
 	color: #fff;
-    font-size: 15px;
+    font-size: 14px;
     letter-spacing: 1px;
     font-weight: 500;
-    font-family: Raleway;
+    font-family: Roboto;
 }
 @media (max-width: 767px){
 	.apm-numbox-dashboard{
@@ -92,7 +111,7 @@
 
 .landing-top-section{
 	padding: 15px;
-    background: #3978BF;
+    background: #1565C0;
     padding-top: 15px;
 	-webkit-box-shadow: -1px 4px 10px 0px rgba(163,163,163,1);
 	-moz-box-shadow: -1px 4px 10px 0px rgba(163,163,163,1);
@@ -135,6 +154,7 @@
 .apm-landing-form-grp label{
 	color: #fff;
     font-size: 12px;
+    font-weight: 500!important;
 }
 .apm-landing-forgt-pass-link{
 	font-size: 25px!important;
@@ -159,12 +179,12 @@
 	padding:6em 3em;
 }
 .apm-landing-main-heading{
-	color: #3978BF;
+	color: #1565C0;
     text-align: center;
     font-size: 28px;
     margin: 0;
     text-shadow: 1px 1px #C9C9C9;
-	font-family:Raleway;
+	font-family:Roboto;
 	
 }
 .apm-landing-para{
@@ -175,8 +195,8 @@
     margin: 0 auto;
     margin-top: 20px;
     line-height: 1.8em;
-    font-weight: 600;
-    font-family: Raleway;
+    font-weight: 500;
+    font-family: Roboto;
 }
 .apm-landing-left-box{
 	text-align:center;
@@ -194,10 +214,10 @@
     font-size: 22px;
     margin: 0;
     text-shadow: 1px 1px #C9C9C9;
-    font-family: Raleway;
+    font-family: Roboto;
     margin-top: 25px;
-	margin-bottom: 25px;
-	font-weight:500;
+    margin-bottom: 25px;
+    font-weight: 500;
 }
 .apm-landing-textbox-reg{
 	font-size: 12px;
@@ -206,15 +226,15 @@
     box-shadow: none!important;
     border: 1px solid #ccc;
 	letter-spacing: 1px;
-	font-family: Raleway;
+	font-family: Roboto;
 	font-weight: 700;
 }
 .apm-landing-textbox-reg:focus{
 	border-color: grey!important;
 }
 .apm-landing-reg-label{
-	font-family: Raleway;
-    font-weight: 600;
+	font-family: Roboto;
+    font-weight: 500;
     letter-spacing: 1px;
     color: #000;
     font-size: 12px;
@@ -222,11 +242,11 @@
 .apm-landing-reg-btn{
 	border: none;
     padding: 5px 20px;
-    background: #3978BF;
+    background: #1565C0;
     font-size: 13px;
     outline: none;
 	color:#fff;
-	font-family: Raleway;
+	font-family: Roboto;
 	font-weight: 500;
 	letter-spacing: 1px;
 	margin-top: 10px;
@@ -236,12 +256,12 @@
 }
 .apm-landing-reg-comp-label{
 	margin: 0;
-	color:#3978BF;
+    color: #1565C0;
     letter-spacing: 1px;
-    font-family: Raleway;
+    font-family: Roboto;
     font-size: 15px;
     margin-bottom: 34px;
-    font-weight: 800;
+    font-weight: 500;
     text-shadow: 1px 1px #CFCFCF;
     text-align: center;
 }
@@ -285,7 +305,7 @@
 
 /**************For Add Project page *****************/
 .apm-add-proj-tab-title{
-	font-family: Raleway;
+	font-family: Roboto;
     font-size: 13px;
     letter-spacing: 1px;
     font-weight: 500;
@@ -298,7 +318,7 @@
 	resize:none;
 }
 .datepicker{
-	font-family: Raleway;
+	font-family: Roboto;
 	border-radius:0!important;
 }
 .datepicker-cal{
@@ -307,7 +327,7 @@
     margin-right: 7px;
 }
 .apm-nomember-text{
-	font-family: Raleway;
+	font-family: Roboto;
 	font-weight:500;
 	letter-spacing: 1px;
 	line-height: 2em;
@@ -315,11 +335,11 @@
 .apm-addmember-btn{
 	border: none;
     padding: 5px 20px;
-    background: #3978BF;
+    background: #1565C0;
     font-size: 13px;
     outline: none;
     color: #fff;
-    font-family: Raleway;
+    font-family: Roboto;
     font-weight: 500;
     letter-spacing: 1px;
     margin-top: 10px;
@@ -335,13 +355,13 @@
 	margin-bottom:20px;
 }
 .apm-member-listing-table{
-	font-family: Raleway;
+	font-family: Roboto;
 }
 .apm-member-listing-table th{
 	text-align: center;
     font-size: 12px;
     letter-spacing: 1px;
-    background: #3978BF;
+    background: #1565C0;
     color: #fff;
     font-weight: 500;
 }
@@ -386,7 +406,7 @@
 	
 }
 .nav-tabs>li.active{
-	border-bottom:2px solid #3978BF;
+	border-bottom:2px solid #1565C0;
 }
 .nav-tabs>li.active a{
 	border:none!important;
@@ -411,11 +431,11 @@
 .apm-add-proj-btn{
     border: none;
     padding: 5px 20px;
-    background: #3978BF;
+    background: #1565C0;
     font-size: 13px;
     outline: none;
     color: #fff;
-    font-family: Raleway;
+    font-family: Roboto;
     font-weight: 500;
     letter-spacing: 1px;
     margin-top: 10px;
@@ -443,20 +463,20 @@
     padding: 15px;
 }
 .apm-all-proj-table a{
-	color:#3978BF;
+	color:#1565C0;
 	font-weight:600!important;
 }
 .apm-all-proj-table a:focus, .apm-all-proj-table a:active, .apm-all-proj-table a:visited{
-	color:#3978BF!important;
+	color:#1565C0!important;
 }
 .apm-listing-add-proj-btn{
     border: none;
     padding: 5px 20px;
-    background: #3978BF;
+    background: #1565C0;
     font-size: 13px;
     outline: none;
     color: #fff;
-    font-family: Raleway;
+    font-family: Roboto;
     font-weight: 500;
     letter-spacing: 1px;
     margin-top: 10px;
@@ -476,7 +496,7 @@
 .apm-proj-detail-label{
 	font-size: 13px;
     color: #000;
-    font-family: Raleway;
+    font-family: Roboto;
     font-weight: 600;
     letter-spacing: 1px;
     
@@ -484,7 +504,7 @@
 .apm-proj-detail-info{
 	font-size: 13px;
     color: #000;
-    font-family: Raleway;
+    font-family: Roboto;
     font-weight: 500;
     letter-spacing: 1px;
     
@@ -495,7 +515,7 @@
 	}	
 }
 .apm-backbtn-pro-details{
-	font-family: Raleway;
+	font-family: Roboto;
     font-weight: 600;
     letter-spacing: 1px;
 	font-size:13px;
@@ -507,7 +527,7 @@
 	cursor:pointer;
 }
 .add-role-modal-box .checkbox{
-	font-family: Raleway;
+	font-family: Roboto;
 }
 .apm-modal-textbox{
 	font-size: 12px!important;
@@ -542,7 +562,7 @@
 }
 .apm-backlog-filter-dropdown{
 	display:inline;
-	font-family:Raleway;
+	font-family:Roboto;
 	font-size:12px!important;
 }
 .apm-backlog-filter-dropdown button{
@@ -551,7 +571,7 @@
 	font-weight:600;
     padding: 4px 12px;
     border-radius: 0;
-	background: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#FEFEFD),color-stop(3%,#F9F9F9),color-stop(100%,#E6E6E6));
+	
 }
 @media (max-width: 600px){
 	.apm-backlog-filter-box{
@@ -568,47 +588,58 @@
 		color:#000!important;
 	}
 	.apm-backlog-filter-dropdown .dropdown-menu  a:hover{
-		color:#3978BF!important;
+		color:#1565C0!important;
 	}
 }
 .apm-backlog-filter-dropdown button{
 	outline:none;
 }
 .apm-sprint-panel{
-	font-family:Raleway;
+	font-family:Roboto;
 	font-weight:600;
 	font-size:12px;
 	letter-spacing:1px;
 }
 .apm-subpanel-body{
-	background:#FAFAFA;
+	background:#fff;
+	padding-top: 0px;
 }
 
 .apm-sprint-panel .panel-heading{
 	padding:5px 15px!important;
-	background:#3978BF;
+	background:#1565C0;
 	color:#fff;
 	border-radius:0;
+	font-weight:400;
 }
 .apm-sprint-table{
 	margin:0;
 }
 .apm-sprint-table td{
 	padding: 8px 10px!important;
-	font-family:Raleway;
+	font-family:Roboto;
 }
 .apm-sprint-table tr{
 	padding: 4px 4px!important;
-	background: linear-gradient(#FEFEFD,#F9F9F9 3%,#E6E6E6);
-    background: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#FEFEFD),color-stop(3%,#F9F9F9),color-stop(100%,#E6E6E6));
+	/*background: linear-gradient(#FEFEFD,#F9F9F9 3%,#E6E6E6);
+    background: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#FEFEFD),color-stop(3%,#F9F9F9),color-stop(100%,#E6E6E6));*/
 	margin-bottom:5px;
-	font-family:Raleway;
+	font-family:Roboto;
 	font-size:11px;
 	font-weight:600;
 	letter-spacing:1px;
 	border:1px solid #ccc;
-	border-left:4px solid #3978BF;
+	border-left:4px solid #1565C0;
 	color:#000;
+}
+.apm-sprint-table thead tr:first-child {
+    padding: 2px 2px!important;
+    color: #000!important;
+    border: none!important;
+    background: transparent!important;
+    font-size: 10px!important;
+    letter-spacing: 0!important;
+	cursor:inherit!important;
 }
 table tr.separator { height: 5px; }
 
@@ -617,9 +648,9 @@ table tr.separator { height: 5px; }
 	list-style-type:none;
 }
 .apm-sprint-detail-list li{
-	font-size: 12px;
+	font-size: 11px;
     font-weight: 500;
-    padding: 10px 0px;
+    padding: 6px 0px;
     border-bottom: 1px solid #D9D6D6;
 	line-height:2em;
 	letter-spacing:1px;
@@ -654,7 +685,7 @@ table tr.separator { height: 5px; }
 	text-align: center;
     padding: 15px 5px;
     font-size: 13px;
-    font-family: Raleway;
+    font-family: Roboto;
     font-weight: 600;
     letter-spacing: 1px;
 	text-transform:uppercase;
@@ -662,16 +693,16 @@ table tr.separator { height: 5px; }
 }
 .apm-user-info-label{
 	font-size: 16px;
-    font-family: Raleway;
+    font-family: Roboto;
     font-weight: 500;
     letter-spacing: 1px;
-	color:#3978BF;
+	color:#1565C0;
 	text-shadow: 1px 1px #C9C9C9;
 }
 .apm-user-info-label2{
 	font-size: 16px;
     color: #000;
-    font-family: Raleway;
+    font-family: Roboto;
     font-weight: 500;
     letter-spacing: 1px;
 	color:#000;
@@ -688,7 +719,7 @@ table tr.separator { height: 5px; }
 }
 .apm-profile-page-main-heading{
 	margin:0;
-	font-family: Raleway;
+	font-family: Roboto;
 	font-size:28px;
 	letter-spacing:2px;
 	line-height:1.5em;
@@ -717,7 +748,7 @@ table tr.separator { height: 5px; }
 	margin-top: 10px!important;
 }	
 .apm-profile-page-main-heading span{
-	color: #3978BF;
+	color: #1565C0;
     font-size: 20px;
 }
 
@@ -749,7 +780,7 @@ table tr.separator { height: 5px; }
 /************************ Styles according to new designs ENDS *******************************/
 
 body{
-	font-family: Arial;
+	font-family: Roboto;
 	overflow-x:hidden;
 	font-weight:normal;
 }
@@ -765,7 +796,7 @@ body{
 	border-left:0px;
 	box-shadow: -4px -3px 12px 0px rgb(161, 161, 161);
 	-webkit-box-shadow: -4px -3px 12px 0px rgb(161, 161, 161);
-	background:#3978BF!important
+	background:#1565C0!important
 }
 .navbar-brand {
 	padding:0;
@@ -799,6 +830,7 @@ body{
 	margin-left: 12px;
     margin-top: -1px;
 	border-radius:0!important;
+	z-index:999999;
 }
 @media (min-width: 768px){
 	.dropdown-menu li a{
@@ -811,7 +843,7 @@ body{
 		background-color: transparent!important;
 		border:none!important;
 		margin-bottom: 0px!important;
-		color:#3978BF!important;
+		color:#1565C0!important;
 	}
 	
 }
@@ -1014,12 +1046,13 @@ body{
 }
 @media (min-width: 768px){
 	.chatbox-pro-management{
-		width:18%;
+		width: 18%;
+		height: 100%;
 	}
 		
 }
 .chatbox-heading{
-	background:#FF5B61!important;
+	background:#1565C0!important;
 	color:#fff!important;
 	border-radius:0!important;
 }
@@ -1028,11 +1061,8 @@ body{
 	margin-top: -19px;
 }
 .chatbox-action-link{
-	border-radius: 6px;
-	color: #171717!important;
+	color: #fff!important;
     padding: 1px 5px;
-    border: 2px solid #fff;
-    background: #fff;
 }
 .message-box-panel-sender{
 	padding:15px;
@@ -1055,15 +1085,16 @@ body{
 	padding-left:15px!important;
 	padding-right:15px!important;
 	margin-top: 12px;
-	color:#ED1B23;
+	color:#1565C0;
 	font-weight:bold;
 }
 .chatbox-textarea{
-	
+	resize:none;
 	border-radius:0!important;
 	box-shadow:none!important;
 	width:80%;
 	display:inline;
+	font-size:13px;
 }
 @media (max-width: 768px){
 	.chatbox-textarea{
@@ -1075,36 +1106,89 @@ body{
 	border-color:grey!important;
 }
 .chatbox-send-btn{
-	padding: 12px;
-    margin-top: 8px;
+	padding: 11px;
+    margin-top: 5px;
     position: absolute;
-    background: #FF5B61!important;
-    border-radius: 30px;
+    background: #1565C0!important;
+    border-radius: 50%;
     color: #fff!important;
     margin-left: 8px;
-	cursor:pointer;
+    cursor: pointer;
+    height: 40px;
+    width: 40px;
 }
 .messages-main-box{
-	height:290px;
-	padding-right: 8px;
-	padding-left:8px;
+	/*height: 535px;*/
+	height:69vh!important;
+    padding-right: 8px;
+    padding-left: 8px;
+    overflow-y: auto;
 }
 .chatbox-main-panel-body{
 	-webkit-transition: height 2s; /* For Safari 3.1 to 6.0 */
     transition: height 2s;
-	padding-top: 23px;
+	padding-top: 20px;
 }
 .online-user-name{
-	cursor:pointer;
 	font-size: 13px;
-}
-.online-user-name:hover{
-	text-decoration:underline;
 }
 .fa-circle{
 	color:#41DC41;
-	margin-left: 10px;
+	margin-right:8px;
 }
+.apm-chat-user-name{
+	font-weight:600;
+	font-size:12px;
+	margin-bottom:10px;
+	letter-spacing:1px;
+}
+.chat-arrow-up, .chat-arrow-down{
+	font-size:16px!important;
+	cursor:pointer;
+}
+.apm-vid-icon{
+	font-size:16px!important;
+	vertical-align:middle;
+	margin-right:10px;
+	cursor:pointer;
+	margin-top: -2px;
+}
+.apm-online-user-text{
+	margin: 0;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+    font-weight: 600;
+    font-size: 12px;
+	background: #f5f5f5;
+}
+.apm-chat-online-dropdown{
+	margin: 0!important;
+    width: 100%!important;
+    border-radius: 4px!important;
+    box-shadow: none!important;
+    border-color: #eee!important;
+}
+.apm-chat-online-dropdown li{
+	font-size: 11px!important;
+    padding: 8px;
+    padding-left: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+.apm-chat-online-dropdown li:hover{
+	background:#f2f2f2;
+}
+.online-user-dropdown-icon{
+	float: right;
+    color: #000;
+    font-size: 20px!important;
+    vertical-align: middle;
+    margin-top: -4px;
+}
+
 /******************* CHATBOX styles ends ************************/
 
 @media (min-width: 768px){
@@ -1144,7 +1228,7 @@ body{
 .project-management-textbox:focus{
 	
 	/*border-bottom:4px solid #ED1B23!important;*/
-	border-color:#3978BF!important
+	border-color:#1565C0!important
 }
 
 /************************ LOGIN Screen styles starts **************************/
@@ -1174,13 +1258,13 @@ body{
 	position: absolute;
     margin-top: 30px;
     margin-left: 9px;
-    color: #3978BF!important
+    color: #1565C0!important
 }
 .login-lock-icon{
 	position: absolute;
     margin-top: 12px;
     margin-left: 10px;
-    color: #3978BF!important
+    color: #1565C0!important
 }
 @media (max-width: 991px){
 	.login-user-icon {
@@ -1193,19 +1277,19 @@ body{
 	
 }
 .forget-pass-div a{
-	color: #3978BF!important;
+	color: #1565C0!important;
 	font-weight:bold;
 	letter-spacing:1px;
 	font-size:13px;
 }
 .login-btn{
     width: 100%;
-	border: 2px solid #3978BF!important;
+	border: 2px solid #1565C0!important;
 	color:#fff!important;
 	letter-spacing:1px;
 	padding: 10px;
 	transition: all 0.3s ease-out;
-	background:#3978BF!important;
+	background:#1565C0!important;
 	
 }
 .login-btn:hover{
@@ -1221,11 +1305,11 @@ body{
 .change-pass-btn {
     margin-top: -3px;
     width: 100%;
-    border: 2px solid #3978BF!important;
+    border: 2px solid #1565C0!important;
     letter-spacing: 1px;
     padding: 10px;
     transition: all 0.3s ease-out;
-    background:#3978BF!important;
+    background:#1565C0!important;
 	color:#fff!important;
 	
 }
@@ -1264,11 +1348,11 @@ body{
     margin-bottom: 25px;
 }
 .register-main-heading{
-	color:#3978BF!important;
+	color:#1565C0!important;
 	font-weight:500;
 	letter-spacing:2px;
 	margin-bottom: 30px;
-	font-family:Raleway;
+	font-family:Roboto;
 }
 .register-label-box{
 	padding-top: 8px;
@@ -1277,22 +1361,22 @@ body{
 	font-size: 13px;
     letter-spacing: 2px;
     font-weight: 600;
-	font-family:Raleway;
+	font-family:Roboto;
 }
 .register-para{
 	margin-bottom: 40px;
     letter-spacing: 2px;
     font-size: 13px;
     line-height: 1.8em;
-	font-family:Raleway;
+	font-family:Roboto;
 	font-weight:600;
 }
 .register-btn{
-    border: 2px solid #3978BF!important;
+    border: 2px solid #1565C0!important;
     letter-spacing: 1px;
     padding: 8px 40px;
     transition: all 0.3s ease-out;
-    background:#3978BF!important;
+    background:#1565C0!important;
 	color:#fff!important;
 	outline:none!important;
 	margin-bottom:40px;
@@ -1371,7 +1455,7 @@ body{
 
 /************************ PERMISSIONS Screen styles Ends **************************/
 .red-panel-heading{
-	background:#3978BF!important;
+	background:#1565C0!important;
 	color:#fff!important;
 }
 
@@ -1456,9 +1540,10 @@ div.Tokenize {
 	margin: 4px 0 0 4px!important;
 }
 .task-label{
-	font-size:13px;
-	letter-spacing:2px;
-	font-family:raleway;
+	font-size: 12px;
+    letter-spacing: 2px;
+    font-family: Roboto;
+    font-weight: 600;
 }
 .task-form-group{
 	margin-bottom:12px!important;
@@ -1475,7 +1560,7 @@ div.Tokenize {
 .add-task-modal-heading{
 	font-size: 16px;
     letter-spacing: 2px;
-    font-family:Raleway;
+    font-family:Roboto;
 	font-weight:500;
 }
 .add-task-modal-content{
@@ -1487,7 +1572,7 @@ div.Tokenize {
 .add-task-modal-header{
 	/*background: -webkit-linear-gradient(top, rgb(254, 254, 253), rgb(249, 249, 249) 3%, rgb(229, 229, 229));
     background: linear-gradient(top, rgb(254, 254, 253), rgb(249, 249, 249) 3%, rgb(229, 229, 229));*/
-	background:#3978BF;
+	background:#1565C0;
 	color:#fff;
 	
  
@@ -1511,27 +1596,27 @@ div.Tokenize {
 	margin-left:10px;
 }*/
 .datepicker table tr td.active, .datepicker table tr td.active:hover, .datepicker table tr td.active.disabled, .datepicker table tr td.active.disabled:hover{
-	background-color:#3978BF!important;
+	background-color:#1565C0!important;
 	background-image:none!important;
 }
 .add-task-btn-modal{
     font-size: 13px;
-    border: 2px solid #3978BF!important;
+    border: 2px solid #1565C0!important;
     letter-spacing: 2px;
     padding: 5px 25px;
     transition: all 0.3s ease-out;
-    background: #3978BF!important;
+    background: #1565C0!important;
     color: #fff!important;
     outline: none!important;
-	font-family: Raleway;
+	font-family: Roboto;
 }
 .cancel-task-btn-modal{
     margin-left:13px;
-	color:#3978BF!important;
-	font-size:12px;
+	color:#1565C0!important;
+	font-size:13px;
 	letter-spacing:1px;
 	font-weight:bold;
-	font-family: Raleway;
+	font-family: Roboto;
 }
 /************************ TASKS Screen styles Ends **************************/
 #menu-toggle img{
@@ -1555,7 +1640,7 @@ div.Tokenize {
     font-size: 24px;
     letter-spacing: 1px;
     line-height: 1.2em;
-    font-family: Raleway;
+    font-family: Roboto;
     font-weight: 500;
 }
 .apm-all-reports-taskname{
@@ -1564,7 +1649,7 @@ div.Tokenize {
     font-size: 15px;
     letter-spacing: 1px;
     line-height: 1.2em;
-    font-family: Raleway;
+    font-family: Roboto;
     font-weight: 500;
 }
 .apm-task-descr{
@@ -1574,7 +1659,7 @@ div.Tokenize {
     letter-spacing: 1px;
     line-height: 2.2em;
     font-weight: 500;
-	font-family: Raleway;
+	font-family: Roboto;
 }
 .apm-task-descr-table{
 	margin-top: 20px;
@@ -1586,8 +1671,9 @@ div.Tokenize {
 }
 .apm-task-descr-table th{
 	text-align: center;
-    background: #3978BF;
+    background: #1565C0;
     color: #fff;
+	font-weight:400;
 }
 .apm-task-descr-table td{
 	text-align:center;
@@ -1616,7 +1702,7 @@ div.Tokenize {
 	font-size: 15px;
     letter-spacing: 1px;
     line-height: 1.2em;
-    font-family: Raleway;
+    font-family: Roboto;
     font-weight: 500;
 }
 .apm-logtime-separator{
@@ -1627,7 +1713,7 @@ div.Tokenize {
 	font-size: 12px;
     letter-spacing: 1px;
     line-height: 1.2em;
-    font-family: Raleway;
+    font-family: Roboto;
     font-weight: 500;
 }
 .apm-logtime-modal-row .checkbox input[type=checkbox]{
@@ -1637,14 +1723,14 @@ div.Tokenize {
 	font-size: 13px;
     letter-spacing: 1px;
     line-height: 1.2em;
-    font-family: Raleway;
+    font-family: Roboto;
     font-weight: 600;
 }
 .apm-comment-date-time-span{
 	font-size: 10px;
     letter-spacing: 1px;
     line-height: 1.2em;
-    font-family: Raleway;
+    font-family: Roboto;
     font-weight: 500;
 	margin-left:10px;
 }
@@ -1677,6 +1763,79 @@ div.Tokenize {
 	
 /************** For TASKS DETAILS page ENDS *****************/
 
+/************************ ACTIVITIES STREAM Screen styles Starts **************************/
+
+.activities-img-box{
+	float:left;
+	margin-right: 19px;
+}
+.activities-content-box{
+	display:inline;
+}
+.activities-img{
+	width:45px;
+	height:45px;
+	border-radius:50%;
+}
+.activities-content-para{
+	padding-left: 65px;
+	font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+	line-height: 1.8em;
+	color:#999;
+	margin:0!important;
+}
+.activities-content-heading{
+	font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-top: 0;
+    font-family: Roboto;
+}
+.apm-activities-body{
+	height:300px;
+	overflow-y:auto;
+}
+.activities-box{
+	margin-top:15px;
+}
+@media (max-width: 500px){
+	.activities-content-heading{
+		font-size: 13px;
+	}
+	.activities-content-para{
+		font-size: 12px;
+	}
+}
+.activities-main-box{
+	padding: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+.activities-main-box:hover{
+	background:#f2f2f2;
+}
+@media (max-width: 380px){
+	.activities-img-box{
+		float:none;	
+	}		
+	.activities-main-box{
+		text-align:center;
+	}	
+	.activities-content-heading{
+		margin-top:15px;
+	}
+	.activities-content-para {
+		padding-left: 0px; 
+	}
+	.activities-img-box{
+		margin-right:0;
+	}	
+}
+/************************ ACTIVITIES STREAM Screen styles Ends **************************/
+
 
 /** For Timesheet Page STARTS ***/
 .apm-all-reports-empname {
@@ -1685,14 +1844,14 @@ div.Tokenize {
     font-size: 13px;
     letter-spacing: 1px;
     line-height: 1.2em;
-    font-family: Raleway;
+    font-family: Roboto;
     font-weight: 500;
 }
 .apm-timesheet-monthname-weekname{
  font-size: 18px;
     letter-spacing: 1px;
     line-height: 1.2em;
-    font-family: Raleway;
+    font-family: Roboto;
     font-weight: 600;
     margin-top: 20px;
 }
@@ -1700,21 +1859,21 @@ div.Tokenize {
  font-size: 14px;
     letter-spacing: 2px;
     line-height: 1.2em;
-    font-family: Raleway;
+    font-family: Roboto;
     font-weight: 600;
  text-transform:uppercase;
  text-align:right;
 }
 .apm-timesheet-go-btn{
  font-size: 13px;
-    border: 2px solid #3978BF!important;
+    border: 2px solid #1565C0!important;
     letter-spacing: 2px;
     padding: 3px 15px;
     transition: all 0.3s ease-out;
-    background: #3978BF!important;
+    background: #1565C0!important;
     color: #fff!important;
     outline: none!important;
-    font-family: Raleway;
+    font-family: Roboto;
     margin-top: 24px;
 } 
 .apm-timesheet-separator{
@@ -1745,33 +1904,33 @@ div.Tokenize {
  text-align:right;
  font-weight:600;
  font-size: 16px;
- font-family: Raleway;
+ font-family: Roboto;
  letter-spacing:1px;
 }
 .timesheet-navigation-box{
- text-align: right;
+	text-align: right;
     margin-top: -33px;
 }
 .timesheet-navigation-box button{
- font-size: 10px;
-    border: 2px solid #3978BF!important;
+	font-size: 10px;
+    border: 2px solid #1565C0!important;
     letter-spacing: 2px;
     padding: 5px 10px;
     transition: all 0.3s ease-out;
-    background: #3978BF!important;
+    background: #1565C0!important;
     color: #fff!important;
     outline: none!important;
-    font-family: Raleway;
+    font-family: Roboto;
 }
 @media (max-width: 650px){
- .timesheet-navigation-box{
-  text-align: left;
-  margin-top: 15px;
- }
+	.timesheet-navigation-box{
+		text-align: left;
+		margin-top: 15px;
+	}
 }
 .timesheet-row-separator{
- height:6px;
- border:none!important;
+	height:6px;
+	border:none!important;
 }
 
 /*** For Timesheet Page ENDs ***/
@@ -1780,7 +1939,7 @@ div.Tokenize {
 .apm-effort-est-lbl{
 	font-size: 12px!important;
     letter-spacing: 1px!important;
-    font-family: Raleway;
+    font-family: Roboto;
     font-weight: 600;
 }
 .apm-effort-est-dropdown{
@@ -1799,7 +1958,7 @@ div.Tokenize {
 .apm-eff-est-sprint-name{
 	font-size: 16px!important;
 	letter-spacing:2px!important;
-	font-family:Raleway;
+	font-family:Roboto;
 	font-weight:600;
 	margin:0;
 }
@@ -1840,7 +1999,7 @@ div.Tokenize {
 	margin-bottom:15px;
 }
 .eff-est-modal-box .task-label{
-	font-family: Arial!important;
+	font-family: Roboto!important;
     font-weight: 400!important;
     font-size: 12px!important;
 }
@@ -1868,26 +2027,26 @@ div.Tokenize {
 
 /******23 May 2016 **********/
 .apm-select-sprint-dropdown{
- margin-bottom: 25px;
+	margin-bottom: 25px;
 }
 .est-eff-information-modal-text{
- color: #000;
+	color: #000;
     letter-spacing:1px;
     font-size: 12px;
-    font-family: Raleway;
- line-height:1.6em;
- margin:0;
+    font-family: Roboto;
+	line-height:1.6em;
+	margin:0;
 }
 .est-eff-information-modal-text b{ 
- margin-bottom:8px;
+	margin-bottom:8px;
 }
 /************** For Efforts Estimates page ENDS *****************/
 
 .cell-effort{
- cursor:pointer;
+	cursor:pointer;
 }
 .cell-effort:hover{
- background:#eee;
+	background:#eee;
 }
 
 /* draggable targets */
@@ -1949,7 +2108,7 @@ div.Tokenize {
 				line-height: 1.8em;
 			}
 			.apm-user-actionitem-label{
-				font-family:Raleway;
+				font-family:Roboto;
 				letter-spacing:1px;
 				font-size: 16px;
 			}
@@ -1958,14 +2117,86 @@ div.Tokenize {
 				font-size: 14px!important;
     			margin: 0 3px;
     			cursor: pointer;
-    			color: #3978BF;
+    			color: #1565C0;
 			}
-			.apm-sprint-table thead tr:first-child{
-    			padding: 2px 2px!important;
-    			color: #000!important;
-   				border: none!important;
-    			background: transparent!important;
-    			font-size: 11px!important;
-    			letter-spacing: 0!important;
-    			border-color:transparent!important; 
+			
+			
+/************ For ALERT BOX  ************/
+			.alert-close {
+				font-size: 20px!important;
+				line-height: 0.6!important;
+				outline: none!important;
+				color: #000!important;
+				opacity: 0.9!important;
+				margin-top: 2px;
 			}
+			.apm-alert-box{
+				letter-spacing: 1px;
+				position: absolute;
+				z-index: 9999;
+				width: 350px;
+				right: 0;
+				left: 0;
+				margin: auto;
+				top: 40px;
+				color:#000;
+				background:#FFF59D!important;
+				border-color:#d0dc45!important;
+				font-size: 13px!important;
+				line-height:1.6em;
+				border-radius:4px;
+			}
+			@media (max-width: 600px){
+				.apm-alert-box{
+					width: 230px;
+					font-size: 12px!important;
+				}
+				.alert-close {
+					font-size: 20px!important;
+					margin-left: 20px;
+					margin-top: -3px;
+					margin-right: -3px;
+				}
+			}
+/************ For ALERT BOX ENDS ************/	
+
+/********** For Loading Icon  **************/
+			.apm-loading-icon2, .apm-loading-icon1{
+				vertical-align:middle;
+			}
+			.apm-loading-icon2{
+				font-size:20px;
+			}
+			.head-loader{
+				text-align: center;
+				font-size: 16px;
+				letter-spacing: 1px;
+				font-weight: 600;
+				margin-top: -35px;
+				color: #499de6;
+			}
+			@media (max-width: 767px){
+				.head-loader {
+					text-align: right;
+					font-size: 13px;
+					margin-top: -31px;
+				}
+				.apm-loading-icon2 {
+					font-size: 20px;
+				}	
+			}
+/********** For Loading Icon Ends **********/
+
+.apm-selected-row{
+	background: #cfe9ff;
+}
+.apm-selected-row:hover{
+	background: #cfe9ff!important;
+}
+.td-resize{
+    max-width: 100px!important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100px;
+}			

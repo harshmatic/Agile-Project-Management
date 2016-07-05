@@ -405,20 +405,28 @@ class SprintStatus(BaseHandler):
     @checkdomain  
     def post(self,*args,**kargs):
         
-        logging.info(self.request.get("key"))
+        #logging.info(self.request.get("key"))
         key=ndb.Key(urlsafe=self.request.get("key"))
-
-        tasks_data=model.task.Task().query(ndb.AND(model.task.Task.sprint == key ,ndb.AND(model.task.Task.status == True ,ndb.AND(model.task.Task.task_status.IN (['In Progress','Open','Done','ReOpen','Deferred']))))).get()
+        status = self.request.get('status')
+        
+        if(status == 'Complete Sprint'):
+            tasks_data=model.task.Task().query(ndb.AND(model.task.Task.sprint == key ,ndb.AND(model.task.Task.status == True ,ndb.AND(model.task.Task.task_status.IN (['In Progress','Open','Done','ReOpen','Deferred']))))).get()
         #tasks_data=tasks.fetch(1)
         
        # count = len(tasks_data)
-        logging.info(tasks_data)
+            logging.info(tasks_data)
         
-        if tasks_data:
-            self.response.write('false')
-        else:
+            if tasks_data:
+                self.response.write('false')
+            else:
+                sprint_data=key.get()
+                sprint_data.sprint_status = Sprint_Status[2]
+                sprint_data.put()
+                self.response.write('true')
+                
+        if(status == 'Open Sprint'):
             sprint_data=key.get()
-            sprint_data.sprint_status = Sprint_Status[2]
+            sprint_data.sprint_status = Sprint_Status[0]
             sprint_data.put()
             self.response.write('true')
         

@@ -338,7 +338,7 @@
 								<ul class="apm-task-descr-list">
 									<li><b>Project Name:</b>{{task.project.get.name}}</li>	
 									<li><b>Sprint:</b> {{task.sprint.get.name}}</li>
-									<li><b>Assigned By:</b> 
+									<li><b>Created By:</b> 
 									{% for team in team%}
 									{%if team.status%}
 									{%if team.userid.get.email_address == task.created_by%}
@@ -384,7 +384,7 @@
 											<thead>
 											  <tr>
 												<th>Date</th>
-												<th>Assigned By</th>
+												
 												<th>Who</th>
 												<th>Description</th>
 												<th>Billable</th>
@@ -399,17 +399,7 @@
 											
 											  <tr>
 												<td>{{i.today_date}}</td>
-												<td>{% for team in team%}
-													{%if team.status%}
-													{%if team.userid.get.email_address == i.created_by%}
-													
-													{{team.userid.get.name}} {{team.userid.get.last_name}}
-												
-													{%endif%}
-													{%endif%}	
-													{%endfor%}
-												</td>
-												<td>{{i.assigne_key.get.name}}</td>
+												<td>{{i.assigne_key.get.name}} {{i.assigne_key.get.last_name}}</td>
 												<td>{{i.description}}</td>
 												<td>{%if i.billable%}
 													Yes

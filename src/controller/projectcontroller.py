@@ -38,6 +38,15 @@ class ProjectManagement(BaseHandler):
                 keys.append(promem.projectid)
                 
             proj = ndb.get_multi(keys)
+            
+            #to display only the prject created by the user
+            user_id=currentUser['user_id']
+            user_key=ndb.Key('OurUser',int(user_id))
+            logging.info(user_key)
+        
+            #user_projects=project.ProjectMembers().query(project.ProjectMembers.projectid == ndb.Key('Project',projkey) , ndb.AND(project.ProjectMembers.userRole == 'Product Owner',ndb.AND(project.ProjectMembers.status == True,ndb.AND(project.ProjectMembers.userid == user_key)))).get()
+        
+            
                     
             #usermodel = user.OurUser().query(user.OurUser.tenant_key==self.user_model.get_by_id(currentUser['user_id']).tenant_key)
             self.render_template("user_new/apm-all-projects.html",{"project":proj})
@@ -222,6 +231,7 @@ class AddProjectMembers(BaseHandler):
         data['userName'] = (projmodel.userid).get().name
         data['userid'] = projmodel.userid.id()
         data['userRole'] = projmodel.userRole
+        data['urlsafe']=projmodel.key.urlsafe()
         
         self.response.write(json.dumps(data, ensure_ascii=False))
 
@@ -238,17 +248,26 @@ class EditProjMem(BaseHandler):
         projemem.modified_by = user_info['email_address']
         projemem.modified_date = datetime.now()
         
+        user_id=user_info['user_id']
+        user_key=ndb.Key('OurUser',int(user_id))
+        
+        projemem.role_id=ndb.Key('Groups',int(self.request.get('role_id')))
+        
+      
         projmemkey = projemem.set()
         projmemmodel = projmemkey.get()
         data = {}
         data['id'] = projmemmodel.key.id()
         data['projectid'] = projmemmodel.projectid.id()
         data['companyid'] = projmemmodel.companyid.id()
-        data['userName'] = (projmemmodel.userid).get().name
+        data['userName'] = projmemmodel.userName
         data['userid'] = projmemmodel.userid.id()
         data['userRole'] = projmemmodel.userRole
+        data['urlsafe']=projmemmodel.key.urlsafe()
         
         self.response.write(json.dumps(data, ensure_ascii=False))
+        
+
 
 class EditEstimates(BaseHandler):
         
@@ -367,6 +386,25 @@ class DeleteProject(BaseHandler):
         
 class DeleteProjectMember(BaseHandler):
     @checkdomain
+    def get(self,*args,**kargs):
+        delete_key = ndb.Key(urlsafe=self.request.get('key'))
+        teammember_info=delete_key.get()
+        
+        logging.info(delete_key)
+        
+        project_key=self.session['current_project']  
+        
+        #list of all product_owners
+        product_owner_data =project.ProjectMembers().query(project.ProjectMembers.projectid == project_key , ndb.AND(project.ProjectMembers.userRole == 'Product Owner',ndb.AND(project.ProjectMembers.status == True))).fetch()
+        
+        
+        task_data=model.task.Task().query(model.task.Task.assignee == teammember_info.userid,ndb.AND(model.task.Task.status == True),ndb.AND(model.task.Task.project == project_key)).fetch()
+        userstory_data=model.product_backlog.ProductUserStory().query(model.product_backlog.ProductUserStory.assignee == teammember_info.userid,ndb.AND(model.product_backlog.ProductUserStory.status == True,ndb.AND(model.product_backlog.ProductUserStory.project_key == project_key))).fetch()
+      
+        self.render_template("user_new/teammember.html",{"task_data":task_data,"userstory_data":userstory_data,"teammember_info":teammember_info,"product_owner_data":product_owner_data})
+        
+    
+    @checkdomain
     def post(self,*args,**kargs):
         logging.info("it is here "+self.request.__str__())
         projmemid = self.request.get("id")
@@ -374,12 +412,18 @@ class DeleteProjectMember(BaseHandler):
         key= ndb.Key('ProjectMembers',int(projmemid))
         projmem = key.get()
         
+        #product_owner
+        product_owner=ndb.Key(urlsafe=self.request.get('product_owner'))
+        product_owner_data=product_owner.get()
+        logging.info(product_owner_data)
+        
+        
        # logging.info(projmem)
         
         projmem.modified_by = user_info['email_address']
         projmem.modified_date = datetime.now()
         projmem.status = False
-        projmem.put()
+        projmemkey=projmem.put()
         
         sprints = sprint.Sprint().get_by_project(projmem.projectid)
         
@@ -409,7 +453,7 @@ class DeleteProjectMember(BaseHandler):
         
         for tasks in task_data:
                 tasks_key=tasks.key.get()
-                tasks_key.assignee = user_key
+                tasks_key.assignee = product_owner_data.userid
               #  tasks_key.put()
                 task_list.append(tasks_key)
                 logging.info(tasks_key)
@@ -420,7 +464,7 @@ class DeleteProjectMember(BaseHandler):
                 
         for userstories in userstory_data:
                 userstories_key=userstories.key.get()
-                userstories_key.assignee = user_key
+                userstories_key.assignee = product_owner_data.userid
              #   userstories_key.put()
                 userstory_list.append(userstories_key)
                 logging.info(userstories_key)
@@ -441,7 +485,24 @@ class DeleteProjectMember(BaseHandler):
      #   projmem.status = 'False'
      #   projmem.set()
         #projmem.delete_entity(projmemid)
-        self.response.write("success")
+        
+        
+        projmemmodel = projmemkey.get()
+        data = {}
+        data['id'] = projmemmodel.key.id()
+        data['projectid'] = projmemmodel.projectid.id()
+        data['companyid'] = projmemmodel.companyid.id()
+        data['userName'] = (projmemmodel.userid).get().name
+        data['last_name']=(projmemmodel.userid).get().last_name
+        data['userid'] = projmemmodel.userid.id()
+        data['userRole'] = projmemmodel.userRole
+        
+        
+        self.response.write(json.dumps(data, ensure_ascii=False))
+        
+        
+        
+       # self.response.write("success")
         
 class DeleteEstimates(BaseHandler):
     @checkdomain
@@ -497,9 +558,9 @@ class ViewProject(BaseHandler):
         user_key=ndb.Key('OurUser',int(user_id))
         logging.info(user_key)
         
-        product_owner=project.ProjectMembers().query(project.ProjectMembers.projectid == ndb.Key('Project',projkey) , ndb.AND(project.ProjectMembers.userRole == 'Product Owner',ndb.AND(project.ProjectMembers.status == True))).get()
+        product_owner=project.ProjectMembers().query(project.ProjectMembers.projectid == ndb.Key('Project',projkey) , ndb.AND(project.ProjectMembers.userRole == 'Product Owner',ndb.AND(project.ProjectMembers.status == True,ndb.AND(project.ProjectMembers.userid == user_key)))).get()
         
-        if product_owner.userid == user_key:
+        if product_owner:
             a=True
         else:
             a=False

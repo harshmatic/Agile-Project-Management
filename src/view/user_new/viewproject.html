@@ -255,7 +255,11 @@
 														<td>
 															<i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>
 															{%if product_owner%}
-															<i id="deletemember" class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i>
+															
+															<a href="/project/deleteMember?key={{mem.key.urlsafe}}" data-toggle="modal" data-target="#delete-teammember-modal">
+															<i id="deletemember" class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></a></i>
+															
+															
 															{%endif%}
 														</td>
 													  </tr>
@@ -365,9 +369,9 @@
 												<select id="memselect" class="form-control apm-landing-textbox-reg apm-modal-textbox">
 													<option>- Select -</option>
 													{% for users in userslist %}
-													{%if users.status%}
+													
 													<option  value= "{{ users.key.id }}"> {{ users.name }} {{ users.last_name}}</option>
-													{%endif%}
+													
 													{%endfor%}
 												</select>
 											  </div>
@@ -566,6 +570,20 @@
 			  </div>
 			</div>
 	<!-- Edit Estimation Timelines Modal Ends -->
+		
+		<!-- Delete Team Member Modal Starts -->
+			<div id="delete-teammember-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				  
+				</div>
+
+			  </div>
+			</div>
+	<!-- Create Issue Modal Ends -->
+		
 		
 		<script src="/assets_new/js/jquery.js"></script>
 		<script src="../assets_new/js/jquery.validate.min.js"></script>
@@ -823,7 +841,7 @@
 			  			//alert(a);
 			  			if(product_owner == 'True')
 			  			{
-			  				$("#memlist").append('<tr id='+d.id+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i> <i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
+			  				$("#memlist").append('<tr id='+d.id+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i> <a href="/project/deleteMember?key='+d.urlsafe+'" data-toggle="modal" data-target="#delete-teammember-modal"><i id="deletemember" class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i></a> </td> </tr>');
 			  			}
 			  			else
 			  			{
@@ -852,6 +870,10 @@
 						var strRole = r.options[r.selectedIndex].text;
 						console.log("the role are"+strRole) 
 						
+						
+						var role_id=$('#editmemrole').val();
+						console.log(role_id);
+						
 						var projid = {{ project.key.id }}
 						console.log("the projid are"+projid) 
 						if(strUser === "- Select -" || strRole === "- Select -")
@@ -867,27 +889,37 @@
 						
 							console.log("it is in else");
 							$('#date_error').text("")
-						var parameters = "role="+strRole+"&projid="+projid+"&userid="+strUser+""
+						var parameters = "role="+strRole+"&projid="+projid+"&userid="+strUser+"&role_id="+role_id+""
 					    console.log("the param are"+parameters);   
 					$.post( "/project/editmembertoproj", parameters)
 			  		.done(function( data ) {
-			  			console.log("the data is"+data);
-			  			var d = JSON.parse(data);
 			  			
-			  			$('#' +d.id).remove();
-			  			product_owner='{{product_owner}}';
-			  			//alert(a);
-			  			if(product_owner == 'True')
+			  		if(data == 'false')
 			  			{
-			  			 	$("#memlist").append('<tr id='+d.userid+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i> <i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i> </td> </tr>');
-				  		}
-			  			else
+			  				alert('There is only one product owner in this project kindly make other team member as product owner before changing the role of this team member.');
+			  			
+			  			}
+			  		else
 			  			{
-			  				$("#memlist").append('<tr id='+d.id+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>  </td> </tr>');
-				  		}
+			  				console.log("the data is"+data);
+			  				var d = JSON.parse(data);
+			  			
+			  				$('#' +d.id).remove();
+			  				product_owner='{{product_owner}}';
+			  				//alert(a);
+			  				if(product_owner == 'True')
+			  				{
+			  			 			$("#memlist").append('<tr id='+d.userid+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i> <a href="/project/deleteMember?key='+d.urlsafe+'" data-toggle="modal" data-target="#delete-teammember-modal"><i id="deletemember" class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete"></i></a> </td> </tr>');
+				  			
+			  				
+			  				}
+			  				else
+			  				{
+			  						$("#memlist").append('<tr id='+d.id+'> <td>'+d.userName+'</td> <td>'+d.userRole+'</td> <td> <i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit"></i>  </td> </tr>');
+				  			}
 			  			
 			  			
-			  			
+			  			}	
 			  				
 			  			
 			  		}); 
@@ -1001,7 +1033,7 @@
 					
 					
 				})
-				$(document).on('click', ".apm-add-proj-delete", function(){	
+				/* $(document).on('click', ".apm-add-proj-delete", function(){	
 				//$(".apm-add-proj-delete").on("click",function(){
 						
 						console.log("comes here"); 
@@ -1010,18 +1042,29 @@
 						var parameters = "id="+ser+""
 					$.post( "/project/deleteMember", parameters)
 			  		.done(function( data ) {
-			  			if (data =="success"){
+			  			/* if (data =="success"){
 			  				
 			  				$("#"+ser).remove() ;
+			  				$('#memselect').load("/project/viewproject?proj_id=""+{{ project.key.id }} ; #memselect', function(result) {
+			  				});
 			  				
 			  			} else {
 			  				
 			  				
-			  			}
+			  			} */
+						/* var d = JSON.parse(data);
+			  			$("#"+ser).remove() ;
+			  			
+			  			
+			  			$('select#memselect').append($("<option></option>").attr("value",d.userid).text(d.userName+' '+d.last_name)); 
+			  			
+			  				
+			  			
+			  			
 			  		});
 					
 					
-				})
+				 }) */
 
 				});
 		</script>

@@ -142,7 +142,7 @@
 											  
 											  <div class="form-group task-form-group">
 												<label class="task-label">Role Name</label>
-												<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="role_name" id="role_name">
+												<input type="text" class="form-control add-task-textbox apm-modal-textbox" name="role_name" id="role_name"/>
 												
 											  </div>
 											  
@@ -155,12 +155,10 @@
 												{%if permission.status%}
 												<div class="col-sm-6 add-role-modal-box">
 												<div class="checkbox">
-												<label>
-
 												
 												<input type="checkbox" value="{{permission.key.urlsafe}}" name="permissions">{{permission.permission}} ({{permission.url}})
 												
-												</label>
+												
 												</div>
 												</div>
 												{%endif%}
@@ -169,7 +167,7 @@
 													
 												</div>
 											  </div>
-											  <input type="hidden" class="form-control add-task-textbox" name="key_role" id="key_role">
+											  <input type="hidden" class="form-control add-task-textbox" name="key_role" id="key_role"/>
 										</form>
 								</div>	
 								<div class="col-md-1">

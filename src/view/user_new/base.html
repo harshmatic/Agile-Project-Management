@@ -17,20 +17,7 @@
 		
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-		<style>
-			.apm-nav-brand-1{
-				padding: 15px!important;
-				font-size: 15px!important;
-				margin: 0!important;
-				padding-left: 8px!important;
-			}
-			.apm-dropdown-projects{
-				margin-left: -48px!important;
-				margin-top: 50px!important;
-				z-index:99999999;
-			}
-			
-		</style>
+		
 			<script>
 		$(document).ready(function(){
 			var url = window.location.href.split(".com/").pop();
@@ -154,7 +141,9 @@
 						</ul>
 					</span>
                
-					
+					<!--  Role Name -->
+     				<span class="role-label">[ Product Owner ]</span>
+     				<!--  Role Name ENDS-->
                 </div><!-- navbar-header-->
  
                 <div class="collapse navbar-collapse apm-navbar" id="bs-example-navbar-collapse-1">
@@ -195,8 +184,37 @@
 									  
                             </ul>
 							 -->
+							 
+				
+                            <ul class="nav navbar-nav nav-sub-items">
+									<li class="dropdown">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										<i class="fa fa-reply"></i> Release
+										<span class="caret"></span></a>
+										<ul class="dropdown-menu">
+										  <li><a href="#"><i class="fa fa-reply"></i> Release 1</a></li>
+										  <li><a href="#"><i class="fa fa-reply"></i> Release 2</a></li>
+										  <li><a href="#"><i class="fa fa-reply"></i> Release 3</a></li>
+										</ul>
+									  </li>
+									  
+									  
+									  <li class="dropdown">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										<i class="fa fa-recycle"></i> Sprint
+										<span class="caret"></span></a>
+										<ul class="dropdown-menu">
+										  <li><a href="#"><i class="fa fa-recycle"></i> Sprint 1</a></li>
+										  <li><a href="#"><i class="fa fa-recycle"></i> Sprint 2</a></li>
+										  <li><a href="#"><i class="fa fa-recycle"></i> Sprint 3</a></li>
+										</ul>
+									  </li>
+									
+                            </ul>
 							
 							
+							
+               
 							<ul class="nav navbar-nav navbar-right nav-desktop">
 									<li class="search-field-box">
 										<i class="fa fa-search search-icon"></i><input type="text" class="form-control search-field" placeholder="Search...">
@@ -378,6 +396,7 @@
 		<script src="../assets_new/js/bootstrap-datepicker.min.js"></script>
 		<!-- <script src="../assets_new/js/main.js"></script> -->
 		<script src="../assets_new/js/jquery.validate.min.js"></script>
+		<script src="../assets_new/js/draggable.js"></script>
 		
 		<!-- <script src="../assets_new/js/draggable.js"></script> -->
 </body>
