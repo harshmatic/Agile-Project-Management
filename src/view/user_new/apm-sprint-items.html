@@ -454,8 +454,17 @@ $(document).on("click", ".sprint_status_link",function() {
 							
 							  //alert(data);
 							if (data!="true"){
-				  				alert("Sprint status cannot be updated as all the task within the sprint are not completed.Please complete all task to complete a sprint.");
-				  				return false
+				  				/* alert("Sprint status cannot be updated as all the task within the sprint are not completed.Please complete all task to complete a sprint.");
+				  				return false */
+				  				
+								$.post('/sprint/tasklist',{key : sprint_key},function(data){
+									
+									console.log(data);
+									$('#tr_content').html(data);
+									
+									$('#pending-task-modal').modal('show');
+								});
+				  				
 				  			}  
 							
 							else {
@@ -718,6 +727,23 @@ $(document).on("click", ".sprint_status_link",function() {
 			  </div>
 			</div>
 	<!-- Create Issue Modal Ends -->
+	
+		<!-- pending task Modal Starts -->
+			<div id="pending-task-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content" id="tr_content">
+				  
+				  
+				  
+				  
+				</div>
+
+			  </div>
+			</div>
+	<!-- edit Issue Modal Ends -->
+	
 	
 		<!-- Create Spritn Modal Starts -->
 			<div id="add-sprint-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">

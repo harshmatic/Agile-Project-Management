@@ -39,6 +39,9 @@ class EndUserDashboardHandler(BaseHandler):
             comp_key =  self.user_model.get_by_id(currentUser['user_id']).tenant_key
             currentUser=self.user_model.get_by_id(currentUser['user_id']).key
             
+            #sprint_key=ndb.Key(urlsafe=self.request.get('sprint_key'))
+            
+            
             if not self.session.has_key('current_project'):
                 
                 projects= model.project.ProjectMembers().get_proj_by_user(comp_key,currentUser)
@@ -54,27 +57,51 @@ class EndUserDashboardHandler(BaseHandler):
                 projectKey=self.session['current_project']
             #currentUser=self.auth.get_user_by_session()
             #currentUser=self.user_model.get_by_id(currentUser['user_id']).key
+            
+            open_count=0
+            inprogress_count =0
+            completed_count=0
+            
+            
             if(projectKey != None):
-                project_member=project.ProjectMembers().get_by_project_user(projectKey,currentUser)
-                tasks=task.Task().get_by_project_user(projectKey,currentUser)
+                #project_member=project.ProjectMembers().get_by_project_user(projectKey,currentUser)
+                 
+                #if sprint key is present
+                if (self.request.get('sprint_key')):
+                    sprint_key=ndb.Key(urlsafe=self.request.get('sprint_key'))
+                    sprint_info=sprint_key.get()
+                    tasks=task.Task().query(task.Task.sprint == sprint_key).fetch()
+                    logging.info(tasks)
+                    for i in tasks:
+                        if i.task_status == 'Open':
+                            open_count=open_count+1
+                        if i.task_status == 'In Progress':
+                            inprogress_count=inprogress_count+1
+                        if i.task_status == 'Completed':
+                            completed_count=completed_count+1  
+                    
+                    self.render_template("user_new/test.html",{"tasks":tasks,"open_count":open_count,"inprogress_count":inprogress_count,"completed_count":completed_count,"sprint_name":sprint_info.name})
                 
-                open_count=0
-                inprogress_count =0
-                completed_count=0
-                for i in tasks:
-                    if i.task_status == 'Open':
-                        open_count=open_count+1
-                    if i.task_status == 'In Progress':
-                        inprogress_count=inprogress_count+1
-                    if i.task_status == 'Done':
-                        completed_count=completed_count+1   
-                self.render_template("user_new/apm-user-dashboard.html",{"tasks":tasks,"open_count":open_count,"inprogress_count":inprogress_count,"completed_count":completed_count})
+                #if sprint key is not there 
+                else:
+                    tasks=task.Task().get_by_project_user(projectKey,currentUser)
+                
+                    
+                    for i in tasks:
+                        if i.task_status == 'Open':
+                            open_count=open_count+1
+                        if i.task_status == 'In Progress':
+                            inprogress_count=inprogress_count+1
+                        if i.task_status == 'Completed':
+                            completed_count=completed_count+1  
+                    self.render_template("user_new/test.html",{"tasks":tasks,"open_count":open_count,"inprogress_count":inprogress_count,"completed_count":completed_count})
+                
+            
             else:
                 
-                self.render_template("user_new/apm-user-dashboard.html",{"tasks":None,"open_count":0,"inprogress_count":0,"completed_count":0})
+                self.render_template("user_new/test.html",{"tasks":None,"open_count":0,"inprogress_count":0,"completed_count":0})
         else:
             self.response.write("you are not allowed")
-            
             
             
 #class ProjectManagementHandler(BaseHandler):

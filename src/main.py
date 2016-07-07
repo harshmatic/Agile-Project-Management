@@ -102,6 +102,8 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/sprint_info', SprintInfo),
         webapp2.Route('/sprints/dd', SprintDD, name="sprint_dd"),
         webapp2.Route('/sprint/status', SprintStatus),
+        webapp2.Route('/sprint/tasklist', PendingTaskList),
+        
         
         #Task
         webapp2.Route('/task', Tasks,name='Task'),

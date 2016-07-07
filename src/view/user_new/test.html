@@ -249,20 +249,20 @@
 								<div class="row apm-numbox-row">
 									<div class="col-md-4 col-sm-4">
 										<div class="apm-numbox-dashboard apm-numbox-1">
-											<h2 class="apm-numbox-heading">4</h2>
+											<h2 class="apm-numbox-heading" id="open_count">{{open_count}}</h2>
 											<label class="apm-numbox-label">Pending Tasks</label>
 										</div>	
 									</div>
 								
 									<div class="col-md-4 col-sm-4">
 										<div class="apm-numbox-dashboard apm-numbox-3">
-											<h2 class="apm-numbox-heading">2</h2>
+											<h2 class="apm-numbox-heading" id="inprogress_count">{{inprogress_count}}</h2>
 											<label class="apm-numbox-label">Ongoing Tasks</label>
 										</div>	
 									</div>
 									<div class="col-md-4 col-sm-4">
 										<div class="apm-numbox-dashboard apm-numbox-4">
-											<h2 class="apm-numbox-heading">1</h2>
+											<h2 class="apm-numbox-heading" id="completed_count">{{completed_count}}</h2>
 											<label class="apm-numbox-label">Completed Tasks</label>
 										</div>	
 									</div>
@@ -272,51 +272,51 @@
 								
 								
 								<div class="row">
-									<div class="col-md-4 col-sm-4">
+									<div class="col-md-4 col-sm-4" id="myDroppablePending">
 										<h4 class="apm-user-actionitem-label">Pending Tasks:</h4>
 										<!--<div class="apm-user-action-item">
 											
 										</div>-->
 										<ol data-draggable="target" class="to-do-list">
-										  <li data-draggable="item">
-											<h5 class="drag-task-heading">Task 1</h5>
-											<p class="drag-task-descr">Lorem ipsum dolor sit amet.</p>
+										
+										{%for i in tasks%}
+											{%if i.task_status == 'Open' %}
+										  <li data-draggable="item" id="{{i.key.urlsafe}}">
+										  <a href="/mytasks/view?key={{i.key.urlsafe}}" style="text-decoration: none;">
+											<h5 class="drag-task-heading">Task- {{i.name}}</h5>
+											<p class="drag-task-descr">{{i.description}}</p>
 										  </li>
-										  <li data-draggable="item">
-											<h5 class="drag-task-heading">Task 2</h5>
-											<p class="drag-task-descr">Lorem ipsum dolor sit amet.</p>
-										  </li>
-										  <li data-draggable="item">
-											<h5 class="drag-task-heading">Task 3</h5>
-											<p class="drag-task-descr">Lorem ipsum dolor sit amet.</p>
-										  </li>
-										  <li data-draggable="item">
-											<h5 class="drag-task-heading">Task 4</h5>
-											<p class="drag-task-descr">Lorem ipsum dolor sit amet.</p>
-										  </li>
+										  {%endif%}
+										{%endfor%}
+										 
 										</ol>
 									</div>
-									<div class="col-md-4 col-sm-4">
+									<div class="col-md-4 col-sm-4" id="myDroppableOngoing">
 										<h4 class="apm-user-actionitem-label">Ongoing Tasks:</h4>
 										<ol data-draggable="target" class="in-progress-list">
-										   <li data-draggable="item">
-											<h5 class="drag-task-heading">Task 5</h5>
-											<p class="drag-task-descr">Lorem ipsum dolor sit amet.</p>
+										{%for i in tasks%}
+											{%if i.task_status == 'In Progress' %}
+										   <li data-draggable="item" id="{{i.key.urlsafe}}">
+										   <a href="/mytasks/view?key={{i.key.urlsafe}}" style="text-decoration: none;">
+											<h5 class="drag-task-heading">Task-{{i.name}}</h5>
+											<p class="drag-task-descr">{{i.description}}</p>
 										  </li>
-										  <li data-draggable="item">
-											<h5 class="drag-task-heading">Task 6</h5>
-											<p class="drag-task-descr">Lorem ipsum dolor sit amet.</p>
-										  </li>
+										 {%endif%}
+									{%endfor%}
 										</ol>
 									</div>
-									<div class="col-md-4 col-sm-4">
+									<div class="col-md-4 col-sm-4" id="myDroppableCompleted" >
 										<h4 class="apm-user-actionitem-label">Completed Tasks:</h4>
 										<ol data-draggable="target" class="done-list">
-										   <li data-draggable="item">
-											<h5 class="drag-task-heading">Task 7</h5>
-											<p class="drag-task-descr">Lorem ipsum dolor sit amet.</p>
+										{%for i in tasks%}
+								  			{%if i.task_status == 'Completed' %}
+										   <li data-draggable="item" id="{{i.key.urlsafe}}">
+										     <a href="/mytasks/view?key={{i.key.urlsafe}}" style="text-decoration: none;">
+											<h5 class="drag-task-heading">Task -{{i.name}}</h5>
+											<p class="drag-task-descr">{{i.description}}</p>
 										  </li>
-										 
+										   {%endif%}
+								  			{%endfor%}
 										</ol>
 									</div>
 									
@@ -488,6 +488,68 @@
 		  });
 
 		  
-		</script>
+				$(document).ready(function(){
+					
+					
+					
+					 $('#myDroppablePending').on("dragstart",function(param)
+						    {
+						   	
+						   	total = parseInt($("#open_count").html()) - 1 ;
+						   	$("#open_count").html(total);
+						        
+						    });
+					$('#myDroppableOngoing').on("dragstart",function(param)
+						    {
+						
+						total = parseInt($("#inprogress_count").html()) - 1 ;
+					   	$("#inprogress_count").html(total);
+						        
+						    });
+					
+					$('#myDroppableCompleted').on("dragstart",function(param)
+						    {
+						
+						total = parseInt($("#completed_count").html()) - 1 ;
+					   	$("#completed_count").html(total);
+						        
+						    }); 
+					
+					
+					 $('#myDroppablePending').on("dragend",function(param)
+							    {
+							   
+							   	total = parseInt($("#open_count").html()) + 1 ;
+							   	$("#open_count").html(total);
+							        
+							    });
+						$('#myDroppableOngoing').on("dragend",function(param)
+							    {
+							
+							total = parseInt($("#inprogress_count").html()) + 1 ;
+						   	$("#inprogress_count").html(total);
+							        
+							    });
+						
+						$('#myDroppableCompleted').on("dragend",function(param)
+							    {
+							
+							total = parseInt($("#completed_count").html()) + 1 ;
+						   	$("#completed_count").html(total);    
+							    }); 
+						
+						
+						var sprint_name="{{sprint_name}}";
+						if (sprint_name){
+							//alert(sprint_name);
+							
+							
+							$('#selected').html(':'+sprint_name);
+						}
+						
+					
+				});
+				</script>
+		
 		
 	{%endblock%}

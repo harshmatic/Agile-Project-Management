@@ -11,7 +11,9 @@
 		<link rel="stylesheet" href="../assets_new/css/button.css">
 		<link rel="stylesheet" href="../assets_new/css/bootstrap-datepicker.min.css">
 		
-		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Raleway">
+		
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto">
+		
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link rel='shortcut icon' href='../assets_new/img/favicon.ico' type='image/x-icon' />
 		
@@ -21,8 +23,18 @@
 			<script>
 		$(document).ready(function(){
 			var url = window.location.href.split(".com/").pop();
-			url = url.split("/")
-			page = url[0];
+			var s= window.location.href.split(".com/").pop();
+			url = url.split("/");
+			if (url.indexOf("?sprint_key"))
+				{
+					page=s.substring(0, s.indexOf('?'));
+				}
+			else
+				{
+					page = url[0];
+				}
+			
+			//console.log(page);
 			
 		//harshit 
 		var link=$('a[href="/'+page+'"]');
@@ -142,7 +154,11 @@
 					</span>
                
 					<!--  Role Name -->
-     				<span class="role-label">[ Product Owner ]</span>
+					{%for i in projects%}
+					{%if i.projectid == session.current_project%}
+     				<span class="role-label">[ {{i.userRole}} ]</span>
+     				{%endif%}
+     				{%endfor%}
      				<!--  Role Name ENDS-->
                 </div><!-- navbar-header-->
  
@@ -187,26 +203,46 @@
 							 
 				
                             <ul class="nav navbar-nav nav-sub-items">
-									<li class="dropdown">
+									<li class="dropdown" id='release_data'>
 										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 										<i class="fa fa-reply"></i> Release
 										<span class="caret"></span></a>
 										<ul class="dropdown-menu">
-										  <li><a href="#"><i class="fa fa-reply"></i> Release 1</a></li>
-										  <li><a href="#"><i class="fa fa-reply"></i> Release 2</a></li>
-										  <li><a href="#"><i class="fa fa-reply"></i> Release 3</a></li>
+										{%if release%}
+										{%for i in release%}
+										
+										  <li><a href="#"><i class="fa fa-reply"></i> {{i.releaseName}}</a></li>
+										 
+										 {%endfor%}
+										  <li class="divider"></li>
+										  <li><a href="/release"><i class="fa fa-reply"></i>Create Release</a></li>
+										 {%else%}
+										 {%if projects%}
+										  <li><a href="/release"><i class="fa fa-reply"></i>Create Release</a></li>
+										 {%endif%}
+										 {%endif%}
 										</ul>
 									  </li>
 									  
 									  
-									  <li class="dropdown">
+									  <li class="dropdown" id='sprint_data'>
 										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 										<i class="fa fa-recycle"></i> Sprint
+										<span id="selected"></span>
 										<span class="caret"></span></a>
-										<ul class="dropdown-menu">
-										  <li><a href="#"><i class="fa fa-recycle"></i> Sprint 1</a></li>
-										  <li><a href="#"><i class="fa fa-recycle"></i> Sprint 2</a></li>
-										  <li><a href="#"><i class="fa fa-recycle"></i> Sprint 3</a></li>
+										<ul class="dropdown-menu" id="sprint_dropdown">
+										{%if sprint%}
+										{%for i in sprint%}
+										  <li><a href="/dashboard?sprint_key={{i.key.urlsafe}}"><i class="fa fa-recycle"></i>{{i.name}}</a></li>
+										  
+										{%endfor%}
+										<li class="divider"></li>
+										  <li><a href="/sprint"><i class="fa fa-recycle"></i>Create Sprint</a></li>
+										{%else%}
+										{%if projects%}
+										 <li><a href="/sprint"><i class="fa fa-recycle"></i>Create Sprint</a></li>
+										{%endif%}
+										 {%endif%}
 										</ul>
 									  </li>
 									

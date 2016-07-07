@@ -18,7 +18,7 @@ import urllib
 from google.appengine.api.taskqueue import taskqueue 
 from const import OUT_MAIL_ADDRESS, APP_DOMAIN
 from common import checkdomain
-from model import user
+from model import user,project,sprint
 
 
 
@@ -145,6 +145,11 @@ class BaseHandler(webapp2.RequestHandler):
                 self.session['current_project']=None
             if projects != None:
                 params['projects'] = projects
+                #logging.info(projects)
+    
+            if projects != []:    
+                params['release']=project.ProjectRelease().query(project.ProjectRelease.projectid == current_project_id.projectid ,ndb.AND(project.ProjectRelease.created_by == user['email_address'] ,ndb.AND(project.ProjectRelease.status == True))).fetch()    
+                params['sprint']=sprint.Sprint().query(sprint.Sprint.project == current_project_id.projectid,ndb.AND(sprint.Sprint.created_by == user['email_address'],ndb.AND(sprint.Sprint.status == True))).fetch()
             
         if user != None :
             params['blob'] = self.user_model.get_by_id(user['user_id']).blob_key

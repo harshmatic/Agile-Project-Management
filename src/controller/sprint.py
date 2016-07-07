@@ -417,7 +417,9 @@ class SprintStatus(BaseHandler):
             logging.info(tasks_data)
         
             if tasks_data:
+              #  self.render_template("user_new/task_list.html",{"tasks_data":tasks_data})
                 self.response.write('false')
+                
             else:
                 sprint_data=key.get()
                 sprint_data.sprint_status = Sprint_Status[2]
@@ -429,7 +431,15 @@ class SprintStatus(BaseHandler):
             sprint_data.sprint_status = Sprint_Status[0]
             sprint_data.put()
             self.response.write('true')
-        
+
+class PendingTaskList(BaseHandler):
+    @checkdomain
+    def post(self,*args,**kargs):
+        key=ndb.Key(urlsafe=self.request.get("key"))   
+        tasks_data=model.task.Task().query(ndb.AND(model.task.Task.sprint == key ,ndb.AND(model.task.Task.status == True ,ndb.AND(model.task.Task.task_status.IN (['In Progress','Open','Done','ReOpen','Deferred']))))).fetch()
+        self.render_template("user_new/task_list.html",{"tasks_data":tasks_data})
+  
+  
         
 class SprintInfo(BaseHandler):
     @checkdomain

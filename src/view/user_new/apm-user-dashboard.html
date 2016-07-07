@@ -1,28 +1,25 @@
 {% extends "base.html" %}
 
-{% block title %}User|Dashboard{% endblock %}
-
+{% block title %}User | Dashboard{% endblock %}
+		
 {% block header_links%}
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto">
 		<style>
+			body{
+				font-family:Roboto!important;
+			}
 			.apm-nav-brand-1{
 				padding: 15px!important;
 				font-size: 15px!important;
 				margin: 0!important;
 				padding-left: 8px!important;
 			}
-			.apm-dropdown-projects{
-				margin-left: -48px!important;
-				margin-top: 50px!important;
-				z-index:99999999;
-			}
-			
-			
 			
 			/* draggable targets */
 			[data-draggable="target"]
 			{
 			   	list-style-type: none;
-				height: 500px;
+				height: 395px;
 				overflow-y: auto;
 				padding: 15px;
 				border-radius: 0.2em;
@@ -30,6 +27,12 @@
 				background:#f8f8f8;
 				border:1px solid #eee;
 			}
+			
+			@media (max-width: 767px){
+				[data-draggable="target"]{
+					height: auto;
+				}
+			}	
 
 			/* draggable items */
 			[data-draggable="item"]
@@ -54,13 +57,13 @@
 				}
 			}	
 			.to-do-list [data-draggable="item"]{
-				border-left:5px solid #ff0000;
+				border-left:5px solid #3598DC;
 			}
 			.in-progress-list [data-draggable="item"]{
-				border-left:5px solid #F0AD4E;
+				border-left:5px solid #32C5D2;
 			}
 			.done-list [data-draggable="item"]{
-				border-left:5px solid #5CB85C;
+				border-left:5px solid #8E44AD;
 			}
 			.drag-task-heading{
 				margin:0;
@@ -76,9 +79,10 @@
 				letter-spacing:1px;
 				font-weight:500;
 				line-height: 1.8em;
+				color:#999;
 			}
 			.apm-user-actionitem-label{
-				font-family:Raleway;
+				font-family:Roboto;
 				letter-spacing:1px;
 				font-size: 16px;
 			}
@@ -90,6 +94,8 @@
 			}
 			.user-dashboard-left-box{
 				padding-left:0;
+				padding-right:0;
+				margin-top: 15px;
 			}
 			@media (max-width: 767px){
 				.user-dashboard-right-box{
@@ -99,11 +105,76 @@
 					padding-left:15px;
 				}
 			}	
+			/********************************************/
+			
+			.nav-sub-items{
+				margin-left:30px!important;
+			}
+			.nav-sub-items a{
+				font-size:13px!important;
+			}
+			.graph-btn{
+				font-size: 13px;
+				border: 2px solid #1565C0!important;
+				letter-spacing: 2px;
+				padding: 3px 15px;
+				transition: all 0.3s ease-out;
+				background: #1565C0!important;
+				color: #fff!important;
+				outline: none!important;
+				font-family: Roboto;
+				float:right;
+				margin-top: -60px;
+			}
+			.graph-btn:before {
+				font-family: 'FontAwesome';
+				content: '\f080';
+				padding-right: 8px;
+				position: relative;
+				font-size: 90%;
+				color: #fff!important;
+			}			
+			@media (max-width: 991px){
+				.activity-box1{
+					margin-top:10px;
+				}
+			}
+			@media (max-width: 500px){
+				.graph-btn{
+					margin-top: 10px;
+					margin-bottom: 10px;
+					float:none;
+				}
+			}
+			@media (max-width: 767px){
+				.nav-sub-items {
+					margin-left: 30px!important;
+				}
+			}
+			
+			
+			.modal-graph-box{
+				text-align:center;
+			}
+			.modal-graph-box h4{
+				font-family:Roboto;
+				font-size:15px;
+				font-weight:500;
+				letter-spacing:1px;
+			}
+			
 		</style>
+{% endblock %}	
 	
-	{% endblock %}	
-	
+
+
+     
 {%block content%}	
+
+	
+  
+		
+		
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid">
@@ -113,160 +184,310 @@
 					<h2 class="apm-all-reports-heading">User Dashboard</h2>
 						
 					<hr>
+				
+				
+	<!--****************************** Charts section Starts ******************************************-->
+					
+					<div class="row" style="margin-top:-10px;">
 						
-					<!----- Left Box  --->	
-					<div class="col-md-8 user-dashboard-left-box">
-						<!-- Number Boxes -->
-						<div class="row apm-numbox-row">
-							
-							<div class="col-md-4 col-sm-4">
-							<a href="/mytasks?status=open"  style="text-decoration: none; color: white;">
-								<div class="apm-numbox-dashboard apm-numbox-1">
-									<h2 class="apm-numbox-heading" id="open_count">{{open_count}}</h2>
-									<label class="apm-numbox-label"> Pending Tasks</label>
+						<div class="col-md-12">
+							<button class="graph-btn">Graph</button>
+						</div>
+						
+						<!--Chart 1 -->
+						<div class="col-md-4 activities-box activity-box1">
+							<div class="panel panel-default">
+											<div class="panel-heading apm-panel-heading">
+												Resource Workload
+											</div>
+											<div class="panel-body apm-panel-body">
+												<img src="../assets_new/img/pie.png" class="img-responsive" style="width: 35%;">
+												<p class="apm-para">
+													Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+												</p>
+											</div>
+							</div>
+						</div>
+						
+						<!--Chart 2-->
+						<div class="col-md-4 activities-box">
+							<div class="panel panel-default">
+											<div class="panel-heading apm-panel-heading">
+												Timesheet Report
+											</div>
+											<div class="panel-body apm-panel-body">
+												<img src="../assets_new/img/barchart.png" class="img-responsive" style="width: 40%;">
+												<p class="apm-para">
+													Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+												</p>
+											</div>
+							</div>
+						</div>
+						
+						<!--Chart 3-->
+						<div class="col-md-4 activities-box">
+							<div class="panel panel-default">
+											<div class="panel-heading apm-panel-heading">
+												Sprints
+											</div>
+											<div class="panel-body apm-panel-body">
+												<img src="../assets_new/img/barchart.png" class="img-responsive" style="width: 40%;">
+												<p class="apm-para">
+													Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+												</p>
+											</div>
+							</div>
+						</div>
+						
+					</div>
+			<!--***************** Charts section ENDs *******************-->			
+				
+				
+					<!----- Stats Box  --->	
+							<div class="col-md-12 user-dashboard-left-box">
+								<!-- Number Boxes -->
+								<div class="row apm-numbox-row">
+									<div class="col-md-4 col-sm-4">
+										<div class="apm-numbox-dashboard apm-numbox-1">
+											<h2 class="apm-numbox-heading" id="open_count">{{open_count}}</h2>
+											<label class="apm-numbox-label">Pending Tasks</label>
+										</div>	
+									</div>
+								
+									<div class="col-md-4 col-sm-4">
+										<div class="apm-numbox-dashboard apm-numbox-3">
+											<h2 class="apm-numbox-heading" id="inprogress_count">{{inprogress_count}}</h2>
+											<label class="apm-numbox-label">Ongoing Tasks</label>
+										</div>	
+									</div>
+									<div class="col-md-4 col-sm-4">
+										<div class="apm-numbox-dashboard apm-numbox-4">
+											<h2 class="apm-numbox-heading" id="completed_count">{{completed_count}}</h2>
+											<label class="apm-numbox-label">Completed Tasks</label>
+										</div>	
+									</div>
 								</div>
-							</a>	
-							</div>
-							
-						
-							
-							<div class="col-md-4 col-sm-4">
-							<a href="/mytasks?status=inprogress" style="text-decoration: none; color: white;">
-								<div class="apm-numbox-dashboard apm-numbox-3">
-									<h2 class="apm-numbox-heading" id="inprogress_count">{{inprogress_count}}</h2>
-									<label class="apm-numbox-label"> Ongoing Tasks</label>
-								</div>	
-							</a>
-							</div>
-							
-							
-							
-							<div class="col-md-4 col-sm-4">
-							<a href="/mytasks?status=done" style="text-decoration: none; color: white;">
-								<div class="apm-numbox-dashboard apm-numbox-4">
-									<h2 class="apm-numbox-heading" id="completed_count">{{completed_count}}</h2>
-									<label class="apm-numbox-label"> Completed Tasks</label>
-								</div>	
-							</a>
-							</div>
-							
-						</div>
-						<!-- Number Boxes ENDS -->
-						
-						
-						
-						<div class="row">
-						
-						
-							<div class="col-md-4 col-sm-4" id="myDroppablePending">
-								<h4 class="apm-user-actionitem-label">Pending Tasks:</h4>	
-						
-								<ol data-draggable="target" class="to-do-list">
-								{%for i in tasks%}
-								{%if i.task_status == 'Open' %}
-								  <li data-draggable="item" id="{{i.key.urlsafe}}">
-								   <a href="/mytasks/view?key={{i.key.urlsafe}}" style="text-decoration: none;">
-									<h5 class="drag-task-heading">Task- {{i.name}}</h5>
-									<!-- <p class="drag-task-descr">{{i.description}}</p> -->
-								  </a>
-								  </li>
-								  	
-								{%endif%}
-								{%endfor%}
-								 </ol>
-							
+								<!-- Number Boxes ENDS -->
 								
-							</div>
-							
-							
-						
-							
-							<div class="col-md-4 col-sm-4" id="myDroppableOngoing">
-								<h4 class="apm-user-actionitem-label">Ongoing Tasks:</h4>
-									
-								<ol data-draggable="target" class="in-progress-list">
-									{%for i in tasks%}
-									{%if i.task_status == 'In Progress' %}
-								   <li data-draggable="item" id="{{i.key.urlsafe}}">
-								   <a href="/mytasks/view?key={{i.key.urlsafe}}" style="text-decoration: none;">
-									<h5 class="drag-task-heading">Task-{{i.name}}</h5>
-									<!-- <p class="drag-task-descr">{{i.description}}</p> -->
-									</a>
-								 	</li>
-								 	{%endif%}
+								
+								
+								<div class="row">
+									<div class="col-md-4 col-sm-4" id="myDroppablePending">
+										<h4 class="apm-user-actionitem-label">Pending Tasks:</h4>
+										<!--<div class="apm-user-action-item">
+											
+										</div>-->
+										<ol data-draggable="target" class="to-do-list">
+										
+										{%for i in tasks%}
+											{%if i.task_status == 'Open' %}
+										  <li data-draggable="item" id="{{i.key.urlsafe}}">
+										  <a href="/mytasks/view?key={{i.key.urlsafe}}" style="text-decoration: none;">
+											<h5 class="drag-task-heading">Task- {{i.name}}</h5>
+											<p class="drag-task-descr">{{i.description}}</p>
+										  </li>
+										  {%endif%}
+										{%endfor%}
+										 
+										</ol>
+									</div>
+									<div class="col-md-4 col-sm-4" id="myDroppableOngoing">
+										<h4 class="apm-user-actionitem-label">Ongoing Tasks:</h4>
+										<ol data-draggable="target" class="in-progress-list">
+										{%for i in tasks%}
+											{%if i.task_status == 'In Progress' %}
+										   <li data-draggable="item" id="{{i.key.urlsafe}}">
+										   <a href="/mytasks/view?key={{i.key.urlsafe}}" style="text-decoration: none;">
+											<h5 class="drag-task-heading">Task-{{i.name}}</h5>
+											<p class="drag-task-descr">{{i.description}}</p>
+										  </li>
+										 {%endif%}
 									{%endfor%}
-								</ol>
-								
-							
-							</div>
-							
-								 
-								
-						
-							
-							<div class="col-md-4 col-sm-4" id="myDroppableCompleted" >
-								<h4 class="apm-user-actionitem-label">Completed Tasks:</h4>
-								
-								<ol data-draggable="target" class="done-list" >
-								  {%for i in tasks%}
-								  {%if i.task_status == 'Done' %}
-								  <li data-draggable="item" id="{{i.key.urlsafe}}">
-								  <a href="/mytasks/view?key={{i.key.urlsafe}}" style="text-decoration: none;">
-								  <h5 class="drag-task-heading">Task -{{i.name}}</h5>
-								  <!-- <p class="drag-task-descr">{{i.description}}</p> -->
-								  </a>
-								  </li>
-								  {%endif%}
-								  {%endfor%}
-								</ol>
-								
-							</div>
+										</ol>
+									</div>
+									<div class="col-md-4 col-sm-4" id="myDroppableCompleted" >
+										<h4 class="apm-user-actionitem-label">Completed Tasks:</h4>
+										<ol data-draggable="target" class="done-list">
+										{%for i in tasks%}
+								  			{%if i.task_status == 'Completed' %}
+										   <li data-draggable="item" id="{{i.key.urlsafe}}">
+										     <a href="/mytasks/view?key={{i.key.urlsafe}}" style="text-decoration: none;">
+											<h5 class="drag-task-heading">Task -{{i.name}}</h5>
+											<p class="drag-task-descr">{{i.description}}</p>
+										  </li>
+										   {%endif%}
+								  			{%endfor%}
+										</ol>
+									</div>
+									
+								</div>
+							</div> <!-- .col-md-12 ends -->
 							
 							
-								
 							
-						</div>
-					</div> <!-- .col-md-8 ends -->
-						
-						
-					<!----- Right Box  --->		
-					<div class="col-md-4 user-dashboard-right-box">
-						<!-- Chart 1 -->
-						<div class="panel panel-default">
+				<!--****************************** Activities Stream section Starts ******************************************-->
+					
+					<div class="row">
+						<div class="col-md-6 activities-box">
+							<div class="panel panel-default">
 									<div class="panel-heading apm-panel-heading">
-										Burndown Chart
+										Activities of Other Members
 									</div>
-									<div class="panel-body apm-panel-body">
-										<img src="../assets_new/img/pie.png" class="img-responsive" style="width: 35%;">
-										<p class="apm-para">
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-										</p>
+									<div class="panel-body apm-activities-body">
+										<!-- User 1 -->
+										<div class="activities-main-box">
+											<div class="activities-img-box">
+												<img src="../assets_new/img/profile.jpg" class="activities-img">
+											</div>
+											<div class="activities-content-box">
+												<h5 class="activities-content-heading">Chaitanya Belsare</h5>
+												<p class="activities-content-para">
+													Lorem ipsum dolor sit amet, consectetur.
+												</p>
+											</div>
+										</div>
+										
+										
+										<!-- User 2 -->
+										<div class="activities-main-box">
+											<div class="activities-img-box">
+												<img src="../assets_new/img/profile.jpg" class="activities-img">
+											</div>
+											<div class="activities-content-box">
+												<h5 class="activities-content-heading">Harshit Jyoti</h5>
+												<p class="activities-content-para">
+													Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+												</p>
+											</div>
+										</div>
+										
+										
+										<!-- User 3 -->
+										<div class="activities-main-box">
+											<div class="activities-img-box">
+												<img src="../assets_new/img/profile.jpg" class="activities-img">
+											</div>
+											<div class="activities-content-box">
+												<h5 class="activities-content-heading">Atul Sharma</h5>
+												<p class="activities-content-para">
+													Lorem ipsum dolor sit amet.
+												</p>
+											</div>
+										</div>
+										
+										<!-- User 4 -->
+										<div class="activities-main-box">
+											<div class="activities-img-box">
+												<img src="../assets_new/img/profile.jpg" class="activities-img">
+											</div>
+											<div class="activities-content-box">
+												<h5 class="activities-content-heading">Ram Balaji</h5>
+												<p class="activities-content-para">
+													Lorem ipsum dolor sit amet, consectetur
+												</p>
+											</div>
+										</div>
+										
 									</div>
+							</div>
 						</div>
 						
-						<!-- Chart 2 -->
-						<div class="panel panel-default">
+						<!--Linear Chart-->
+						<div class="col-md-6 activities-box">
+							<div class="panel panel-default">
 									<div class="panel-heading apm-panel-heading">
-										Velocity Chart
+										Linear Chart
 									</div>
-									<div class="panel-body apm-panel-body">
-										<img src="../assets_new/img/barchart.png" class="img-responsive" style="width: 40%;">
-										<p class="apm-para">
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-										</p>
+									<div class="panel-body apm-activities-body">
+										<div id="curve_chart" style="width: 100%; height: auto;"></div>
 									</div>
+							</div>		
 						</div>
-					</div>		
 						
+					</div>
+				<!--***************** Activities Stream section ENDs *******************-->		
+								
+					
                     </div> <!-- .col-lg-12 ends -->
                 </div>
             </div> <!-- .container ends -->
         </div>
         <!-- /#page-content-wrapper ENDS -->
+	
+    </div>
+    <!-- /#wrapper -->
+	
+	
+	
+	<!-- Graph Modal Starts -->
+			<div id="graph-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog modal-lg">
 
-       
-		<script src="../assets_new/js/draggable.js"></script>
-		<script>
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Graphs</h4>
+				  </div>
+					<div class="modal-body user-management-body">
+							
+							<div class="row">
+								<div class="col-md-4 modal-graph-box">
+									<h4 class="modal-graph-heading">Resource Workload</h4>
+									<img src="../assets_new/img/barchart.png" class="img-responsive" style="width:50%;margin: 0 auto;">
+								</div>
+								<div class="col-md-4 modal-graph-box">
+									<h4 class="modal-graph-heading">Timesheet</h4>
+									<img src="../assets_new/img/barchart.png" class="img-responsive" style="width:50%;margin: 0 auto;">
+								</div>
+								<div class="col-md-4 modal-graph-box">
+									<h4 class="modal-graph-heading">Sprint</h4>
+									<img src="../assets_new/img/pie.png" class="img-responsive" style="width:40%;margin: 0 auto;">
+								</div>
+								
+							</div>
+							
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<button type="button" class="add-task-btn-modal" data-dismiss="modal">OK !!!</button>
+					
+				  </div>
+				</div>
+
+			  </div>
+			</div>
+	<!-- Graph Modal Ends -->
+
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+		<script type="text/javascript">
+		  google.charts.load('current', {'packages':['corechart']});
+		  google.charts.setOnLoadCallback(drawChart);
+
+		  function drawChart() {
+			var data = google.visualization.arrayToDataTable([
+			  ['Week', 'Tasks', 'Hours'],
+			  ['Week 1',  4,      8],
+			  ['Week 2',  2,      6],
+			  ['Week 3',  5,      4],
+			  ['Week 4',  3,      3]
+			]);
+
+			var options = {
+			  title: 'Weekly Performance',
+			  curveType: 'function',
+			  legend: { position: 'bottom' }
+			};
+
+			var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+			chart.draw(data, options);
+		  }
+		  
+		  $(".graph-btn").click(function(e) {
+						$('#graph-modal').modal('show');
+		  });
+
+		  
 				$(document).ready(function(){
 					
 					
@@ -316,7 +537,19 @@
 							total = parseInt($("#completed_count").html()) + 1 ;
 						   	$("#completed_count").html(total);    
 							    }); 
+						
+						
+						var sprint_name="{{sprint_name}}";
+						if (sprint_name){
+							//alert(sprint_name);
+							
+							
+							$('#selected').html(':'+sprint_name);
+						}
+						
 					
 				});
 				</script>
-{% endblock %}
+		
+		
+	{%endblock%}
