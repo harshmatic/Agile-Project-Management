@@ -94,12 +94,12 @@ class EndUserDashboardHandler(BaseHandler):
                             inprogress_count=inprogress_count+1
                         if i.task_status == 'Completed':
                             completed_count=completed_count+1  
-                    self.render_template("user_new/test.html",{"tasks":tasks,"open_count":open_count,"inprogress_count":inprogress_count,"completed_count":completed_count})
+                    self.render_template("user_new/apm-user-dashboard.html",{"tasks":tasks,"open_count":open_count,"inprogress_count":inprogress_count,"completed_count":completed_count})
                 
             
             else:
                 
-                self.render_template("user_new/test.html",{"tasks":None,"open_count":0,"inprogress_count":0,"completed_count":0})
+                self.render_template("user_new/apm-user-dashboard.html",{"tasks":None,"open_count":0,"inprogress_count":0,"completed_count":0})
         else:
             self.response.write("you are not allowed")
             
