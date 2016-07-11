@@ -1,3 +1,11 @@
+$('.pro-planning-link').on("click", function(event){
+  $('.panel-collapse').each(function(){
+   if ($(this).hasClass('in')) {
+    $(this).collapse('toggle');
+   }
+  });
+ });
+
 $("#menu-toggle-2").click(function(e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");

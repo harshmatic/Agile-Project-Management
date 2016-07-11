@@ -1,0 +1,49 @@
+
+<script type="text/javascript">
+ //sprint pie chart
+ 		
+		 google.charts.setOnLoadCallback(sprint_piechart);
+		 
+		 var open=0;
+		 
+		  if( {{opencount}} != 0 )
+		  {
+			  open={{opencount}};
+		  }
+		 
+		  var inprogress=0;
+		  if({{inprogresscount}} != 0 )
+			{
+			  inprogress={{inprogresscount}};
+			}
+		  
+		  var done=0 ;
+		  if({{donecount}} != 0)
+			{
+			  done ={{donecount}};
+			}
+		  
+				 
+			  function sprint_piechart(){
+				var sprint_data= google.visualization.arrayToDataTable([
+				['Tasks','Count'],
+				['Open',open],
+				['In Progress',inprogress],
+				['Done',done]
+				                                                        
+				]);  
+				
+				var sprint_options={
+					//	'title':'Sprint Pie Chart',
+						'colors': ['#ec7063', '#2e86c1', '#2ecc71'],
+						'backgroundColor':'#f8f8f8',
+						'chartArea': {'width': '100%', 'height': '80%'}
+				}
+				
+				var sprint_chart=new google.visualization.PieChart(document.getElementById('sprint_piecharts'));
+				sprint_chart.draw(sprint_data,sprint_options);
+				  
+			  }
+			
+</script>
+<p id="sprint_piecharts"></p>

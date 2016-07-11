@@ -31,7 +31,8 @@ app = webapp2.WSGIApplication([
                                                         
         #General
         webapp2.Route('/', Main, name='subdomain-home'),
-        webapp2.Route('/dashboard', EndUserDashboardHandler, name='dashboard'),                           
+        webapp2.Route('/dashboard', EndUserDashboardHandler, name='dashboard'),          
+        webapp2.Route(' /sprint_chart', SprintChart),                 
         webapp2.Route('/login', LoginHandler, name='login'),
         webapp2.Route('/signupadmin', SignupAdminHandler, name='signupadmin'),
         webapp2.Route('/logout', LogoutHandler, name='logout'),
@@ -103,7 +104,8 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/sprints/dd', SprintDD, name="sprint_dd"),
         webapp2.Route('/sprint/status', SprintStatus),
         webapp2.Route('/sprint/tasklist', PendingTaskList),
-        
+        webapp2.Route('/sprint/pie_chart', SprintPieChart),
+       
         
         #Task
         webapp2.Route('/task', Tasks,name='Task'),

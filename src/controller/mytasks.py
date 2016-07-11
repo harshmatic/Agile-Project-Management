@@ -296,7 +296,33 @@ class TaskStatusUpdate(BaseHandler):
         tasks.modified_by = currentUser['email_address']
         tasks.modified_date = datetime.now()
         tasks.put()
-        self.response.write("true")     
+        #self.response.write("true")    
+        
+        #for sprint data 
+        sprint_key=tasks.sprint
+        sprint_info=sprint_key.get()
+        tasks=task.Task().query(task.Task.sprint == sprint_key).fetch()
+        logging.info(tasks)
+        
+        open_count=0
+        inprogress_count =0
+        done_count=0
+        a=[]
+        
+        for i in tasks:
+            
+            if i.task_status == 'Open':
+                open_count=open_count+1
+               
+            if i.task_status == 'In Progress':
+                inprogress_count=inprogress_count+1
+                
+            if i.task_status == 'Done':
+                done_count=done_count+1   
+                
+        a=[open_count,inprogress_count,done_count]   
+        
+        self.response.write(a)
         
         
 class AddTimelog(BaseHandler):  

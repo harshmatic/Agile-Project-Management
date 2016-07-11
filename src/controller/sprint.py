@@ -461,7 +461,16 @@ class SprintInfo(BaseHandler):
                
                 self.response.write(params)
             
-           
+            
+class SprintPieChart(BaseHandler):
+    def post(self,*args,**kargs):
+        open_count=self.request.get('openscount')
+        inprogress_count=self.request.get('inprogresscount')
+        done_count=self.request.get('completedcount')    
+        
+        self.render_template('user_new/sprint_piechart.html', {"opencount":open_count,"inprogresscount":inprogress_count,"donecount":done_count})        
+            
+              
             
 class GetUserStory(BaseHandler):
     @checkdomain

@@ -86,10 +86,27 @@
 		$.post( "/task/status", parameters)
   		.done(function( data ) {
   			console.log("the data is"+data);
-           
-  				
+  			var task_list=data;
+  			var open=0;
+  			var inprogress=0;
+  			var complete=0;
+  			
+  			
+  			open= task_list[1];
+  			inprogress= task_list[4];
+  			complete= task_list[7];
+  			//$('#sprint_piecharts_div').html(""); 
+        
+  			$.post('/sprint/pie_chart',{openscount: open , inprogresscount: inprogress , completedcount:complete}).done( function (data){
+  				//console.log(data);
+  				$('#sprint_piecharts_div').html(data); 
+  				sprint_piechart();
+  			});
+  			
   			
   		}); 
+		
+        
         }
     
     }, false);

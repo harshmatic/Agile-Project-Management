@@ -230,11 +230,13 @@
 											<div class="panel-heading apm-panel-heading">
 												Sprints
 											</div>
-											<div class="panel-body apm-panel-body">
-												<img src="../assets_new/img/barchart.png" class="img-responsive" style="width: 40%;">
+											<div class="panel-body apm-panel-body" id="sprint_piecharts">
+												<!-- <img src="../assets_new/img/barchart.png" class="img-responsive" style="width: 40%;"> 
 												<p class="apm-para">
 													Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-												</p>
+												</p>-->
+												
+											
 											</div>
 							</div>
 						</div>
@@ -262,7 +264,7 @@
 									</div>
 									<div class="col-md-4 col-sm-4">
 										<div class="apm-numbox-dashboard apm-numbox-4">
-											<h2 class="apm-numbox-heading" id="completed_count">{{completed_count}}</h2>
+											<h2 class="apm-numbox-heading" id="completed_count">{{done_count}}</h2>
 											<label class="apm-numbox-label">Completed Tasks</label>
 										</div>	
 									</div>
@@ -309,7 +311,7 @@
 										<h4 class="apm-user-actionitem-label">Completed Tasks:</h4>
 										<ol data-draggable="target" class="done-list">
 										{%for i in tasks%}
-								  			{%if i.task_status == 'Completed' %}
+								  			{%if i.task_status == 'Done' %}
 										   <li data-draggable="item" id="{{i.key.urlsafe}}">
 										     <a href="/mytasks/view?key={{i.key.urlsafe}}" style="text-decoration: none;">
 											<h5 class="drag-task-heading">Task -{{i.name}}</h5>
@@ -463,6 +465,51 @@
 		  google.charts.load('current', {'packages':['corechart']});
 		  google.charts.setOnLoadCallback(drawChart);
 
+		  //sprint pie chart
+		  var s= window.location.href.split(".com/").pop();
+		  if (s.indexOf("?sprint_key"))
+			{
+			  google.charts.setOnLoadCallback(sprint_piechart);
+			  open=0;
+			  if({{open_count}})
+			  {
+				  open={{open_count}};
+			  }
+			  inprogress=0;
+			  if({{inprogress_count}})
+				{
+				  inprogress={{inprogress_count}};
+				}
+			  
+			  done=0 ;
+			  if({{done_count}})
+				{
+				  done ={{done_count}};
+				}
+				 
+			  function sprint_piechart(){
+				var sprint_data= google.visualization.arrayToDataTable([
+				['Tasks','Count'],
+				['Open',open],
+				['In Progress',inprogress],
+				['Done',done]
+				                                                        
+				]);  
+				
+				var sprint_options={
+						title:'Sprint Pie Chart',
+						colors: ['#EC7063', '#2E86C1', '#2ECC71'],
+				}
+				
+				var sprint_chart=new google.visualization.PieChart(document.getElementById('sprint_piecharts'));
+				sprint_chart.draw(sprint_data);
+				  
+			  }
+			  
+			  
+			}
+		  
+		  
 		  function drawChart() {
 			var data = google.visualization.arrayToDataTable([
 			  ['Week', 'Tasks', 'Hours'],

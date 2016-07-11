@@ -60,7 +60,7 @@ class EndUserDashboardHandler(BaseHandler):
             
             open_count=0
             inprogress_count =0
-            completed_count=0
+            done_count=0
             
             
             if(projectKey != None):
@@ -77,10 +77,10 @@ class EndUserDashboardHandler(BaseHandler):
                             open_count=open_count+1
                         if i.task_status == 'In Progress':
                             inprogress_count=inprogress_count+1
-                        if i.task_status == 'Completed':
-                            completed_count=completed_count+1  
+                        if i.task_status == 'Done':
+                            done_count=done_count+1  
                     
-                    self.render_template("user_new/test.html",{"tasks":tasks,"open_count":open_count,"inprogress_count":inprogress_count,"completed_count":completed_count,"sprint_name":sprint_info.name})
+                    self.render_template("user_new/apm-user-dashboard.html",{"tasks":tasks,"open_count":open_count,"inprogress_count":inprogress_count,"done_count":done_count,"sprint_name":sprint_info.name})
                 
                 #if sprint key is not there 
                 else:
@@ -92,9 +92,9 @@ class EndUserDashboardHandler(BaseHandler):
                             open_count=open_count+1
                         if i.task_status == 'In Progress':
                             inprogress_count=inprogress_count+1
-                        if i.task_status == 'Completed':
-                            completed_count=completed_count+1  
-                    self.render_template("user_new/apm-user-dashboard.html",{"tasks":tasks,"open_count":open_count,"inprogress_count":inprogress_count,"completed_count":completed_count})
+                        if i.task_status == 'Done':
+                            done_count=done_count+1  
+                    self.render_template("user_new/apm-user-dashboard.html",{"tasks":tasks,"open_count":open_count,"inprogress_count":inprogress_count,"done_count":done_count})
                 
             
             else:
@@ -114,6 +114,31 @@ class EndUserDashboardHandler(BaseHandler):
     #        self.render_template("project.html",{'permission':'you are not authorized to view this page'})
             
             
+class SprintChart(BaseHandler):
+    @checkdomain
+    def get(self,*args,**kargs):
+        
+        sprint_key=ndb.Key(urlsafe=self.session['sprint'])
+        sprint_info=sprint_key.get()
+        tasks=task.Task().query(task.Task.sprint == sprint_key).fetch()
+        logging.info(tasks)
+        
+        open_count=0
+        inprogress_count =0
+        done_count=0
+        
+        for i in tasks:
+            if i.task_status == 'Open':
+                open_count=open_count+1
+            if i.task_status == 'In Progress':
+                inprogress_count=inprogress_count+1
+            if i.task_status == 'Done':
+                done_count=done_count+1   
+        
+        self.render_template("user_new/sprint_piechart.html",{"open_count":open_count,"inprogress_count":inprogress_count,"done_count":done_count})
+                
+ 
+ 
             
 class EndUserProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobstore_handlers.BlobstoreDownloadHandler):
     @checkdomain

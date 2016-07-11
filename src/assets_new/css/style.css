@@ -27,7 +27,7 @@
     letter-spacing: 1px;
 }
 .apm-dropdown-projects {
-    margin-left: -115px!important;
+    margin-left: -133px!important;
     margin-top: 50px!important;
     z-index: 99999999;
 }
@@ -2202,4 +2202,8 @@ div.Tokenize {
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 100px;
-}			
+}	
+
+#wrapper i{
+     			font-style: initial!important;
+			}		

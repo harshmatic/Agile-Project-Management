@@ -230,11 +230,13 @@
 											<div class="panel-heading apm-panel-heading">
 												Sprints
 											</div>
-											<div class="panel-body apm-panel-body">
-												<img src="../assets_new/img/barchart.png" class="img-responsive" style="width: 40%;">
+											<div class="panel-body apm-panel-body" id="sprint_piecharts_div">
+												<!-- <img src="../assets_new/img/barchart.png" class="img-responsive" style="width: 40%;"> 
 												<p class="apm-para">
 													Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-												</p>
+												</p>-->
+												
+											
 											</div>
 							</div>
 						</div>
@@ -262,7 +264,7 @@
 									</div>
 									<div class="col-md-4 col-sm-4">
 										<div class="apm-numbox-dashboard apm-numbox-4">
-											<h2 class="apm-numbox-heading" id="completed_count">{{completed_count}}</h2>
+											<h2 class="apm-numbox-heading" id="completed_count">{{done_count}}</h2>
 											<label class="apm-numbox-label">Completed Tasks</label>
 										</div>	
 									</div>
@@ -309,7 +311,7 @@
 										<h4 class="apm-user-actionitem-label">Completed Tasks:</h4>
 										<ol data-draggable="target" class="done-list">
 										{%for i in tasks%}
-								  			{%if i.task_status == 'Completed' %}
+								  			{%if i.task_status == 'Done' %}
 										   <li data-draggable="item" id="{{i.key.urlsafe}}">
 										     <a href="/mytasks/view?key={{i.key.urlsafe}}" style="text-decoration: none;">
 											<h5 class="drag-task-heading">Task -{{i.name}}</h5>
@@ -461,9 +463,37 @@
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type="text/javascript">
 		  google.charts.load('current', {'packages':['corechart']});
-		  google.charts.setOnLoadCallback(drawChart);
+		  //google.charts.setOnLoadCallback(drawChart);
 
-		  function drawChart() {
+		  //sprint pie chart
+		  var s= window.location.href.split(".com/").pop();
+		  if (s.indexOf("?sprint_key"))
+			{
+			   open=0;
+			   /*if({{open_count}})
+			  {
+				  open={{open_count}};
+			  }
+			   inprogress=0;
+			  if({{inprogress_count}})
+				{
+				  inprogress={{inprogress_count}};
+				}
+			  
+			  done=0 ;
+			  if({{done_count}})
+				{
+				  done ={{done_count}};
+				} */
+				 $.post('/sprint/pie_chart',{openscount: {{open_count}} , inprogresscount: {{inprogress_count}} , completedcount : {{done_count}}},function(data){
+					$('#sprint_piecharts_div').html(data); 
+				 });
+			  
+			  
+			}
+		  
+		  
+		 /*  function drawChart() {
 			var data = google.visualization.arrayToDataTable([
 			  ['Week', 'Tasks', 'Hours'],
 			  ['Week 1',  4,      8],
@@ -481,7 +511,7 @@
 			var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
 
 			chart.draw(data, options);
-		  }
+		  } */
 		  
 		  $(".graph-btn").click(function(e) {
 						$('#graph-modal').modal('show');
