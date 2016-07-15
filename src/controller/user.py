@@ -64,6 +64,10 @@ class EndUserDashboardHandler(BaseHandler):
             inprogress_count =0
             done_count=0
             
+            task_open_count=0
+            task_inprogress_count =0
+            task_done_count=0
+            
             logging.info(projectKey)
             
             
@@ -93,6 +97,14 @@ class EndUserDashboardHandler(BaseHandler):
                             inprogress_count=inprogress_count+1
                         if i.task_status == 'Done':
                             done_count=done_count+1  
+                            
+                        if (i.assignee == currentUser):
+                            if i.task_status == 'Open':
+                                task_open_count=task_open_count+1
+                            if i.task_status == 'In Progress':
+                                task_inprogress_count=task_inprogress_count+1
+                            if i.task_status == 'Done':
+                                task_done_count=task_done_count+1  
                         
                      #changes for graph pop-up starts        
                     b = Barchart()
@@ -103,7 +115,7 @@ class EndUserDashboardHandler(BaseHandler):
                     udata = u.udata(sprint_key)
                     
                     
-                    self.render_template("user_new/apm-user-dashboard.html",{"currentUser":currentUser,"tasks":tasks,"open_count":open_count,"inprogress_count":inprogress_count,"done_count":done_count,"sprint_name":sprint_info.name,"bdata":bdata,"vdata":vdata,"udata":udata,"release":release,"sprint_data":sprint_data})
+                    self.render_template("user_new/apm-user-dashboard.html",{"currentUser":currentUser,"tasks":tasks,"open_count":open_count,"inprogress_count":inprogress_count,"done_count":done_count,"task_open_count":task_open_count,"task_inprogress_count":task_inprogress_count,"task_done_count":task_done_count,"sprint_name":sprint_info.name,"bdata":bdata,"vdata":vdata,"udata":udata,"release":release,"sprint_data":sprint_data})
                     #changes for graph pop-up ends
                     
                    # self.render_template("user_new/apm-user-dashboard.html",{"currentUser":currentUser,"tasks":tasks,"open_count":open_count,"inprogress_count":inprogress_count,"done_count":done_count,"sprint_name":sprint_info.name,})
@@ -118,8 +130,17 @@ class EndUserDashboardHandler(BaseHandler):
                         if i.task_status == 'In Progress':
                             inprogress_count=inprogress_count+1
                         if i.task_status == 'Done':
-                            done_count=done_count+1  
-                    self.render_template("user_new/apm-user-dashboard.html",{"currentUser":currentUser,"tasks":tasks,"open_count":open_count,"inprogress_count":inprogress_count,"done_count":done_count,"release":release,"sprint_data":sprint_data})
+                            done_count=done_count+1
+                         
+                        if (i.assignee == currentUser):
+                            if i.task_status == 'Open':
+                                task_open_count=task_open_count+1
+                            if i.task_status == 'In Progress':
+                                task_inprogress_count=task_inprogress_count+1
+                            if i.task_status == 'Done':
+                                task_done_count=task_done_count+1  
+                          
+                    self.render_template("user_new/apm-user-dashboard.html",{"currentUser":currentUser,"tasks":tasks,"open_count":open_count,"inprogress_count":inprogress_count,"done_count":done_count,"task_open_count":task_open_count,"task_inprogress_count":task_inprogress_count,"task_done_count":task_done_count,"release":release,"sprint_data":sprint_data})
                 
             
             else:
