@@ -156,7 +156,7 @@
 					<!--  Role Name -->
 					{%for i in projects%}
 					{%if i.projectid == session.current_project%}
-     				<span class="role-label">[ {{i.userRole}} ]</span>
+     				<span class="role-label" id="role_name">[ {{i.userRole}} ]</span>
      				{%endif%}
      				{%endfor%}
      				<!--  Role Name ENDS-->
@@ -201,54 +201,10 @@
                             </ul>
 							 -->
 							 
-				
-                            <ul class="nav navbar-nav nav-sub-items">
-									<li class="dropdown" id='release_data'>
-										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-										<i class="fa fa-reply"></i> Release
-										<span class="caret"></span></a>
-										<ul class="dropdown-menu">
-										{%if release%}
-										{%for i in release%}
-										
-										  <li><a href="#"><i class="fa fa-reply"></i> {{i.releaseName}}</a></li>
-										 
-										 {%endfor%}
-										  <li class="divider"></li>
-										  <li><a href="/release"><i class="fa fa-reply"></i>Create Release</a></li>
-										 {%else%}
-										 {%if projects%}
-										  <li><a href="/release"><i class="fa fa-reply"></i>Create Release</a></li>
-										 {%endif%}
-										 {%endif%}
-										</ul>
-									  </li>
-									  
-									  
-									  <li class="dropdown" id='sprint_data'>
-										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-										<i class="fa fa-recycle"></i> Sprint
-										<span id="selected"></span>
-										<span class="caret"></span></a>
-										<ul class="dropdown-menu" id="sprint_dropdown">
-										{%if sprint%}
-										{%for i in sprint%}
-										  <li><a href="/dashboard?sprint_key={{i.key.urlsafe}}"><i class="fa fa-recycle"></i>{{i.name}}</a></li>
-										  
-										{%endfor%}
-										<li class="divider"></li>
-										  <li><a href="/sprint"><i class="fa fa-recycle"></i>Create Sprint</a></li>
-										{%else%}
-										{%if projects%}
-										 <li><a href="/sprint"><i class="fa fa-recycle"></i>Create Sprint</a></li>
-										{%endif%}
-										 {%endif%}
-										</ul>
-									  </li>
-									
-                            </ul>
+				{%block sprint_header%}
+                         
 							
-							
+						{%endblock%}	
 							
                
 							<ul class="nav navbar-nav navbar-right nav-desktop">

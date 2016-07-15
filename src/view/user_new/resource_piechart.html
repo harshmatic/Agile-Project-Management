@@ -1,0 +1,33 @@
+
+<script type="text/javascript">
+ //sprint pie chart
+ 		
+		 google.charts.setOnLoadCallback(resource_piechart);
+		 
+		
+				 
+			  function resource_piechart(){
+				var resource_data= google.visualization.arrayToDataTable([
+				['User','Workload'],
+				
+				{%for i in user_list%}
+				  [ '{{i.user}}' ,{{ i.hours}}]   ,                                                
+				{%endfor%}
+				          
+				                                                        
+				]);  
+				
+				var resource_options={
+					//	'title':'Sprint Pie Chart',
+						
+						'backgroundColor':'#f8f8f8',
+						'chartArea': {'width': '100%', 'height': '80%'}
+				}
+				
+				var resource_chart=new google.visualization.PieChart(document.getElementById('resource_piecharts'));
+				resource_chart.draw(resource_data,resource_options);
+				  
+			  }
+			
+</script>
+<p id="resource_piecharts"></p>

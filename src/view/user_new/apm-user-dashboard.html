@@ -164,9 +164,316 @@
 			}
 			
 		</style>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+
+google.charts.load('current', {'packages':['corechart','line','bar']});
+
+/******************************************************when sprint key is present starts*******************************************************************************/
+		  
+var s= window.location.href.split(".com/").pop();
+if (s.indexOf("?sprint_key")>1)
+{
+	
+	//sprint pie chart
+	$.post('/sprint/pie_chart',{openscount: '{{open_count}}' , inprogresscount: '{{inprogress_count}}' , completedcount : '{{done_count}}' }).done(function(data){
+	//console.log(data);	
+	$('#chart_name').html('Sprint');
+	$('#sprint_piecharts_div').html(data);
+					
+	});
+				 
+	//resource workload chart
+	var sprintkey = window.location.href.split(".com/dashboard?sprint_key=").pop();
+	$.post('/resource_workload',{sprint_key : sprintkey }).done(function(data){
+					 //console.log(data);	 
+					$('#resource_workload_piecharts_div').html(data); 
+				 });
+			  
+			  
+}
+
+else
+{
+	$.post('/sprint/pie_chart',{openscount: '{{open_count}}' , inprogresscount: '{{inprogress_count}}' , completedcount : '{{done_count}}' }).done(function(data){
+		//console.log(data);	
+		$('#chart_name').html('Task');
+		$('#sprint_piecharts_div').html(data);
+						
+		});
+	
+	
+	
+}
+		
+/********************************************************when sprint key is present ends***************************************************************************************/
+		  
+/********************************************graph modal starts***************************************************************************************************************/		  
+		/*   $(".graph-btn").click(function(e) {
+						$('#graph-modal').modal('show');
+		  });
+ */
+		  
+/********************************************graph modal ends***************************************************************************************************************/
+		  
+		  	  // *** Changes for chart pop-up starts ***********
+		  $(document).on('click', '.graph-btn', function(e) {
+		 // $(".graph-btn").click(function(e) {
+			  var sprint_name="{{sprint_name}}";
+				if (sprint_name)
+				  {
+				//bar chart starts
+			  var brows = "{{bdata}}"
+			  		 
+		  		  //var replacedrow = rows.replace(/&#39;/g, '"');
+		  		  var breplacedrow = brows.replace(/&quot;/g, '"');
+		  		  console.log("the replace row is"+breplacedrow);
+		  	       //replacedrow = replacedrow.replace("None", null);
+		  	  var barr = JSON.parse(breplacedrow);
+		  	  console.log("the data is"+barr[0][0]);
+		  	  var brwsfinal = [];
+		  	  for(r in barr)
+		  		  {
+		  		  var brws = [];
+		  		  console.log("the r is"+barr[r]);
+		  		  brws.push(new Date(barr[r][0]),barr[r][1],barr[r][2]);
+		  		  brwsfinal.push(brws);
+		  		  }
+		  	  console.log("the changed data is"+brwsfinal);
+		        var bdata = new google.visualization.DataTable();
+		        bdata.addColumn('date', 'X');
+		       bdata.addColumn('number', 'Remaining');
+		        bdata.addColumn('number', 'Steady Pace');
+
+		        bdata.addRows(brwsfinal);
+
+		        var boptions = {
+		        		title: 'Sprint Performance',
+		  			 
+		  			width: 250,
+		  			 legend: { position: 'none' },
+		          hAxis: {
+		            title: 'Date',
+		            format: 'MMM dd',
+		          	  textStyle: {
+		                    color: '#01579b',
+		                    fontSize: 10,
+		                    fontName: 'Arial',
+		                    bold: true,
+		                    italic: true
+		                  },
+		                  titleTextStyle: {
+		                    color: '#01579b',
+		                    fontSize: 10,
+		                    fontName: 'Arial',
+		                    bold: false,
+		                    italic: true
+		                  }
+		          },
+		          vAxis: {
+		            title: 'Estimates',
+		          	  textStyle: {
+		                    color: '#1a237e',
+		                    fontSize: 10,
+		                    bold: true
+		                  },
+		                  titleTextStyle: {
+		                    color: '#1a237e',
+		                    fontSize: 10,
+		                    bold: true
+		                  }
+		          },
+		          colors: ['#a52714', '#097138']
+		          
+		        };
+
+		        var bchart = new google.visualization.LineChart(document.getElementById('chart_div_burndown'));
+		        bchart.draw(bdata, boptions);
+		        
+		      //bar chart ends
+		        
+		       //velocity chart starts
+		       
+		       var vrows = "{{vdata}}"
+  	  		 
+    		  //var replacedrow = rows.replace(/&#39;/g, '"');
+    		 var vreplacedrow = vrows.replace(/&quot;/g, '"');
+    		  console.log("the replace row is"+vreplacedrow);
+    	      
+    	  var varr = JSON.parse(vreplacedrow);
+    	  //console.log("the data is"+arr[0][0]);
+      var vdata = google.visualization.arrayToDataTable(varr);
+
+      var voptions = {
+        width: 250,
+        legend: { position: 'none' },
+        chartArea: {width: '20%', height: '20%'},
+        chart: {
+          title: 'Velocity Chart',
+          subtitle: 'Committed Points vs Completed Points',
+         
+        },
+        bar: { groupWidth: "5%" }
+      };
+
+      var vchart = new google.charts.Bar(document.getElementById('chart_div_velocity'));
+
+      vchart.draw(vdata, voptions);
+      
+      //velocity ends
+      
+      //utilization starts
+      
+      var urows = "{{udata}}"
+  	  		 
+    		  //var replacedrow = rows.replace(/&#39;/g, '"');
+    		 var ureplacedrow = urows.replace(/&quot;/g, '"');
+    		  console.log("the replace row is"+ureplacedrow);
+    	      
+    	  var uarr = JSON.parse(ureplacedrow);
+    	  //console.log("the data is"+arr[0][0]);
+      var udata = google.visualization.arrayToDataTable(uarr);
+
+      var uoptions = {
+        width: 250,
+        legend: { position: 'none' },
+        chartArea: {width: '20%', height: '20%'},
+        chart: {
+          title: 'Resource Utilization',
+          subtitle: 'Effort Available vs Effort Booked',
+         
+        },
+        bar: { groupWidth: "5%" }
+      };
+
+      var uchart = new google.charts.Bar(document.getElementById('chart_div_utilization'));
+
+      uchart.draw(udata, uoptions);
+				  }
+     
+						$('#graph-modal').modal('show');
+		  });
+
+		// *** Changes for chart pop-up ends ***********
+		  
+				$(document).ready(function(){
+					
+					
+					
+					 $('#myDroppablePending').on("dragstart",function(param)
+						    {
+						   	
+						   	total = parseInt($("#open_count").html()) - 1 ;
+						   	$("#open_count").html(total);
+						        
+						    });
+					$('#myDroppableOngoing').on("dragstart",function(param)
+						    {
+						
+						total = parseInt($("#inprogress_count").html()) - 1 ;
+					   	$("#inprogress_count").html(total);
+						        
+						    });
+					
+					$('#myDroppableCompleted').on("dragstart",function(param)
+						    {
+						
+						total = parseInt($("#completed_count").html()) - 1 ;
+					   	$("#completed_count").html(total);
+						        
+						    }); 
+					
+					
+					 $('#myDroppablePending').on("dragend",function(param)
+							    {
+							   
+							   	total = parseInt($("#open_count").html()) + 1 ;
+							   	$("#open_count").html(total);
+							        
+							    });
+						$('#myDroppableOngoing').on("dragend",function(param)
+							    {
+							
+							total = parseInt($("#inprogress_count").html()) + 1 ;
+						   	$("#inprogress_count").html(total);
+							        
+							    });
+						
+						$('#myDroppableCompleted').on("dragend",function(param)
+							    {
+							
+							total = parseInt($("#completed_count").html()) + 1 ;
+						   	$("#completed_count").html(total);    
+							    }); 
+						
+/*****************************************sprint starts***********************************************************/
+						var sprint_name="{{sprint_name}}";
+						if (sprint_name){
+							//alert(sprint_name);
+							
+							
+							$('#selected').html(':'+sprint_name);
+						}
+						
+/********************************************sprint ends*********************************************************/					
+						$('#resource_workload_piecharts_div').html("No resource workload chart.Please select a sprint.");
+						//$('#chart_name').html('Task');
+});
+
+</script>
+				
+
 {% endblock %}	
 	
-
+				 
+				{%block sprint_header%}
+                            <ul class="nav navbar-nav nav-sub-items">
+									<li class="dropdown" id='release_data'>
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										<i class="fa fa-reply"></i> Release
+										<span class="caret"></span></a>
+										<ul class="dropdown-menu">
+										{%if release%}
+										{%for i in release%}
+										
+										  <li><a href="#"><i class="fa fa-reply"></i> {{i.releaseName}}</a></li>
+										 
+										 {%endfor%}
+										  <li class="divider"></li>
+										  <li><a href="/release"><i class="fa fa-reply"></i>Create Release</a></li>
+										 {%else%}
+										 {%if projects%}
+										  <li><a href="/release"><i class="fa fa-reply"></i>Create Release</a></li>
+										 {%endif%}
+										 {%endif%}
+										</ul>
+									  </li>
+									  
+									  
+									  <li class="dropdown" id='sprint_data'>
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+										<i class="fa fa-recycle"></i> Sprint
+										<span id="selected"></span>
+										<span class="caret"></span></a>
+										<ul class="dropdown-menu" id="sprint_dropdown">
+										{%if sprint_data%}
+										{%for i in sprint_data%}
+										  <li><a href="/dashboard?sprint_key={{i.key.urlsafe}}"><i class="fa fa-recycle"></i>{{i.name}}</a></li>
+										  
+										{%endfor%}
+										<li class="divider"></li>
+										  <li><a href="/sprint"><i class="fa fa-recycle"></i>Create Sprint</a></li>
+										{%else%}
+										{%if projects%}
+										 <li><a href="/sprint"><i class="fa fa-recycle"></i>Create Sprint</a></li>
+										{%endif%}
+										 {%endif%}
+										</ul>
+									  </li>
+									
+                            </ul>
+							
+						{%endblock%}
 
      
 {%block content%}	
@@ -189,10 +496,16 @@
 	<!--****************************** Charts section Starts ******************************************-->
 					
 					<div class="row" style="margin-top:-10px;">
+						{%for i in projects%}
+							{%if i.projectid == session.current_project%}
+     							{%if i.userRole == "Product Owner" or i.userRole == "Scrum Master" %}	
+     								<div class="col-md-12" id="graph_button">
+										<button class="graph-btn">Graph</button>
+									</div>
+     							{%endif%}
+     						{%endif%}
+     					{%endfor%}
 						
-						<div class="col-md-12">
-							<button class="graph-btn">Graph</button>
-						</div>
 						
 						<!--Chart 1 -->
 						<div class="col-md-4 activities-box activity-box1">
@@ -200,11 +513,11 @@
 											<div class="panel-heading apm-panel-heading">
 												Resource Workload
 											</div>
-											<div class="panel-body apm-panel-body">
-												<img src="../assets_new/img/pie.png" class="img-responsive" style="width: 35%;">
+											<div class="panel-body apm-panel-body" id="resource_workload_piecharts_div">
+												<!-- <img src="../assets_new/img/pie.png" class="img-responsive" style="width: 35%;">
 												<p class="apm-para">
 													Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-												</p>
+												</p> -->
 											</div>
 							</div>
 						</div>
@@ -227,16 +540,11 @@
 						<!--Chart 3-->
 						<div class="col-md-4 activities-box">
 							<div class="panel panel-default">
-											<div class="panel-heading apm-panel-heading">
-												Sprints
+											<div class="panel-heading apm-panel-heading" id="chart_name">
+												
 											</div>
 											<div class="panel-body apm-panel-body" id="sprint_piecharts_div">
-												<!-- <img src="../assets_new/img/barchart.png" class="img-responsive" style="width: 40%;"> 
-												<p class="apm-para">
-													Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-												</p>-->
 												
-											
 											</div>
 							</div>
 						</div>
@@ -283,11 +591,13 @@
 										
 										{%for i in tasks%}
 											{%if i.task_status == 'Open' %}
+											{%if i.assignee == currentUser%}
 										  <li data-draggable="item" id="{{i.key.urlsafe}}">
 										  <a href="/mytasks/view?key={{i.key.urlsafe}}" style="text-decoration: none;">
 											<h5 class="drag-task-heading">Task- {{i.name}}</h5>
 											<p class="drag-task-descr">{{i.description}}</p>
 										  </li>
+										  {%endif%}
 										  {%endif%}
 										{%endfor%}
 										 
@@ -298,11 +608,13 @@
 										<ol data-draggable="target" class="in-progress-list">
 										{%for i in tasks%}
 											{%if i.task_status == 'In Progress' %}
+											{%if i.assignee == currentUser%}
 										   <li data-draggable="item" id="{{i.key.urlsafe}}">
 										   <a href="/mytasks/view?key={{i.key.urlsafe}}" style="text-decoration: none;">
 											<h5 class="drag-task-heading">Task-{{i.name}}</h5>
 											<p class="drag-task-descr">{{i.description}}</p>
 										  </li>
+										  {%endif%}
 										 {%endif%}
 									{%endfor%}
 										</ol>
@@ -312,11 +624,13 @@
 										<ol data-draggable="target" class="done-list">
 										{%for i in tasks%}
 								  			{%if i.task_status == 'Done' %}
+								  			{%if i.assignee == currentUser%}
 										   <li data-draggable="item" id="{{i.key.urlsafe}}">
 										     <a href="/mytasks/view?key={{i.key.urlsafe}}" style="text-decoration: none;">
 											<h5 class="drag-task-heading">Task -{{i.name}}</h5>
 											<p class="drag-task-descr">{{i.description}}</p>
 										  </li>
+										  {%endif%}
 										   {%endif%}
 								  			{%endfor%}
 										</ol>
@@ -421,8 +735,7 @@
 	
 	
 	
-	<!-- Graph Modal Starts -->
-			<div id="graph-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+	<div id="graph-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
 			  <div class="modal-dialog modal-lg">
 
 				<!-- Modal content-->
@@ -434,17 +747,20 @@
 					<div class="modal-body user-management-body">
 							
 							<div class="row">
-								<div class="col-md-4 modal-graph-box">
-									<h4 class="modal-graph-heading">Resource Workload</h4>
-									<img src="../assets_new/img/barchart.png" class="img-responsive" style="width:50%;margin: 0 auto;">
+								<div  class="col-md-4 modal-graph-box">
+								<div id="chart_div_burndown"></div>
+									<!-- <h4 class="modal-graph-heading">Resource Workload</h4>
+									<img src="../assets_new/img/barchart.png" class="img-responsive" style="width:50%;margin: 0 auto;"> -->
 								</div>
 								<div class="col-md-4 modal-graph-box">
-									<h4 class="modal-graph-heading">Timesheet</h4>
-									<img src="../assets_new/img/barchart.png" class="img-responsive" style="width:50%;margin: 0 auto;">
+								<div id="chart_div_utilization"></div>
+									<!-- <h4 class="modal-graph-heading">Timesheet</h4>
+									<img src="../assets_new/img/barchart.png" class="img-responsive" style="width:50%;margin: 0 auto;"> -->
 								</div>
 								<div class="col-md-4 modal-graph-box">
-									<h4 class="modal-graph-heading">Sprint</h4>
-									<img src="../assets_new/img/pie.png" class="img-responsive" style="width:40%;margin: 0 auto;">
+								<div id="chart_div_velocity"></div>
+									<!-- <h4 class="modal-graph-heading">Sprint</h4>
+									<img src="../assets_new/img/pie.png" class="img-responsive" style="width:40%;margin: 0 auto;"> -->
 								</div>
 								
 							</div>
@@ -460,126 +776,6 @@
 			</div>
 	<!-- Graph Modal Ends -->
 
-		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-		<script type="text/javascript">
-		  google.charts.load('current', {'packages':['corechart']});
-		  //google.charts.setOnLoadCallback(drawChart);
-
-		  //sprint pie chart
-		  var s= window.location.href.split(".com/").pop();
-		  if (s.indexOf("?sprint_key"))
-			{
-			   open=0;
-			   /*if({{open_count}})
-			  {
-				  open={{open_count}};
-			  }
-			   inprogress=0;
-			  if({{inprogress_count}})
-				{
-				  inprogress={{inprogress_count}};
-				}
-			  
-			  done=0 ;
-			  if({{done_count}})
-				{
-				  done ={{done_count}};
-				} */
-				 $.post('/sprint/pie_chart',{openscount: {{open_count}} , inprogresscount: {{inprogress_count}} , completedcount : {{done_count}}},function(data){
-					$('#sprint_piecharts_div').html(data); 
-				 });
-			  
-			  
-			}
-		  
-		  
-		 /*  function drawChart() {
-			var data = google.visualization.arrayToDataTable([
-			  ['Week', 'Tasks', 'Hours'],
-			  ['Week 1',  4,      8],
-			  ['Week 2',  2,      6],
-			  ['Week 3',  5,      4],
-			  ['Week 4',  3,      3]
-			]);
-
-			var options = {
-			  title: 'Weekly Performance',
-			  curveType: 'function',
-			  legend: { position: 'bottom' }
-			};
-
-			var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-			chart.draw(data, options);
-		  } */
-		  
-		  $(".graph-btn").click(function(e) {
-						$('#graph-modal').modal('show');
-		  });
-
-		  
-				$(document).ready(function(){
-					
-					
-					
-					 $('#myDroppablePending').on("dragstart",function(param)
-						    {
-						   	
-						   	total = parseInt($("#open_count").html()) - 1 ;
-						   	$("#open_count").html(total);
-						        
-						    });
-					$('#myDroppableOngoing').on("dragstart",function(param)
-						    {
-						
-						total = parseInt($("#inprogress_count").html()) - 1 ;
-					   	$("#inprogress_count").html(total);
-						        
-						    });
-					
-					$('#myDroppableCompleted').on("dragstart",function(param)
-						    {
-						
-						total = parseInt($("#completed_count").html()) - 1 ;
-					   	$("#completed_count").html(total);
-						        
-						    }); 
-					
-					
-					 $('#myDroppablePending').on("dragend",function(param)
-							    {
-							   
-							   	total = parseInt($("#open_count").html()) + 1 ;
-							   	$("#open_count").html(total);
-							        
-							    });
-						$('#myDroppableOngoing').on("dragend",function(param)
-							    {
-							
-							total = parseInt($("#inprogress_count").html()) + 1 ;
-						   	$("#inprogress_count").html(total);
-							        
-							    });
-						
-						$('#myDroppableCompleted').on("dragend",function(param)
-							    {
-							
-							total = parseInt($("#completed_count").html()) + 1 ;
-						   	$("#completed_count").html(total);    
-							    }); 
-						
-						
-						var sprint_name="{{sprint_name}}";
-						if (sprint_name){
-							//alert(sprint_name);
-							
-							
-							$('#selected').html(':'+sprint_name);
-						}
-						
-					
-				});
-				</script>
-		
+	
 		
 	{%endblock%}

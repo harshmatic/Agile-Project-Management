@@ -298,32 +298,51 @@ class TaskStatusUpdate(BaseHandler):
         tasks.put()
         #self.response.write("true")    
         
-        #for sprint data 
-        sprint_key=tasks.sprint
-        sprint_info=sprint_key.get()
-        tasks=task.Task().query(task.Task.sprint == sprint_key).fetch()
-        logging.info(tasks)
-        
         open_count=0
         inprogress_count =0
         done_count=0
         a=[]
         
-        for i in tasks:
+        #for sprint data 
+        if(self.request.get('sprint') == 'true'):
+            sprint_key=tasks.sprint
+            sprint_info=sprint_key.get()
+            tasks=task.Task().query(task.Task.sprint == sprint_key).fetch()
+            #logging.info(tasks)
+        
+            for i in tasks:
             
-            if i.task_status == 'Open':
-                open_count=open_count+1
+                if i.task_status == 'Open':
+                    open_count=open_count+1
                
-            if i.task_status == 'In Progress':
-                inprogress_count=inprogress_count+1
+                if i.task_status == 'In Progress':
+                    inprogress_count=inprogress_count+1
                 
-            if i.task_status == 'Done':
-                done_count=done_count+1   
+                if i.task_status == 'Done':
+                    done_count=done_count+1   
                 
-        a=[open_count,inprogress_count,done_count]   
+            a=[open_count,inprogress_count,done_count]   
         
-        self.response.write(a)
+            self.response.write(a)
+        else:
+            projectKey=self.session['current_project']
+            currentUser=self.auth.get_user_by_session()
+            currentUser=self.user_model.get_by_id(currentUser['user_id']).key
+            
+            tasks=task.Task().get_by_project_user(projectKey,currentUser)
+                
+                    
+            for i in tasks:
+                if i.task_status == 'Open':
+                    open_count=open_count+1
+                if i.task_status == 'In Progress':
+                    inprogress_count=inprogress_count+1
+                if i.task_status == 'Done':
+                    done_count=done_count+1  
+                    
+            a=[open_count,inprogress_count,done_count]   
         
+            self.response.write(a)
         
 class AddTimelog(BaseHandler):  
         @checkdomain

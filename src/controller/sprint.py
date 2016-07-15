@@ -464,10 +464,20 @@ class SprintInfo(BaseHandler):
             
 class SprintPieChart(BaseHandler):
     def post(self,*args,**kargs):
-        open_count=self.request.get('openscount')
-        inprogress_count=self.request.get('inprogresscount')
-        done_count=self.request.get('completedcount')    
+        if (self.request.get('openscount') !=0):
+            open_count=self.request.get('openscount')
+        else:
+            open_count = 0
         
+        if (self.request.get('inprogresscount') != 0):
+            inprogress_count=self.request.get('inprogresscount')
+        else:
+            inprogress_count = 0
+            
+        if (self.request.get('completedcount') != 0):
+            done_count=self.request.get('completedcount')    
+        else:
+            done_count = 0
         self.render_template('user_new/sprint_piechart.html', {"opencount":open_count,"inprogresscount":inprogress_count,"donecount":done_count})        
             
               

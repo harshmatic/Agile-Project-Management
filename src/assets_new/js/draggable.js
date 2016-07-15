@@ -81,30 +81,67 @@
         		{
         		status = 2 ;
         		}
-        	var parameters = "status="+status+"&task_key="+taskid+""
-		    console.log("the param are"+parameters);   
-		$.post( "/task/status", parameters)
-  		.done(function( data ) {
-  			console.log("the data is"+data);
-  			var task_list=data;
-  			var open=0;
-  			var inprogress=0;
-  			var complete=0;
-  			
-  			
-  			open= task_list[1];
-  			inprogress= task_list[4];
-  			complete= task_list[7];
-  			//$('#sprint_piecharts_div').html(""); 
+        	
         
+  			var s= window.location.href.split(".com/").pop();
+  			if (s.indexOf("?sprint_key")>1)
+  			{
+  				
+  				var sprint = 'true';
+  				var parameters = "status="+status+"&task_key="+taskid+"&sprint="+sprint+"";
+  			    console.log("the param are"+parameters);   
+  				$.post( "/task/status", parameters).done(function( data ) {
+  	  			console.log("the data is"+data);
+  	  			var task_list=data;
+  	  			var open=0;
+  	  			var inprogress=0;
+  	  			var complete=0;
+  	  			
+  	  			
+  	  			open= task_list[1];
+  	  			inprogress= task_list[4];
+  	  			complete= task_list[7];
+  	  			//$('#sprint_piecharts_div').html(""); 
+  				
   			$.post('/sprint/pie_chart',{openscount: open , inprogresscount: inprogress , completedcount:complete}).done( function (data){
   				//console.log(data);
+  				$('#chart_name').html('Sprint');
   				$('#sprint_piecharts_div').html(data); 
   				sprint_piechart();
   			});
+  				}); 
+  			}
+  			else
+  			{
+  				var parameters = "status="+status+"&task_key="+taskid+"";
+  			    console.log("the param are"+parameters);   
+  				$.post( "/task/status", parameters).done(function( data ) {
+  	  			console.log("the data is"+data);
+  	  			var task_list=data;
+  	  			var open=0;
+  	  			var inprogress=0;
+  	  			var complete=0;
+  	  			
+  	  			
+  	  			open= task_list[1];
+  	  			inprogress= task_list[4];
+  	  			complete= task_list[7];
+  				$.post('/sprint/pie_chart',{openscount: open , inprogresscount: inprogress , completedcount:complete}).done( function (data){
+  	  				//console.log(data);
+  					$('#chart_name').html('Task');
+  	  				$('#sprint_piecharts_div').html(data); 
+  	  				sprint_piechart();
+  					
+  				});
+  			
+  				}); 
+  				
+  				}
   			
   			
-  		}); 
+  			
+  			
+  		
 		
         
         }

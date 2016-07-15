@@ -4,7 +4,7 @@
  		
 		 google.charts.setOnLoadCallback(sprint_piechart);
 		 
-		 var open=0;
+	/* 	 var open=0;
 		 
 		  if( {{opencount}} != 0 )
 		  {
@@ -23,13 +23,14 @@
 			  done ={{donecount}};
 			}
 		  
+		  console.log(open,inprogress,done); */
 				 
 			  function sprint_piechart(){
 				var sprint_data= google.visualization.arrayToDataTable([
-				['Tasks','Count'],
-				['Open',open],
-				['In Progress',inprogress],
-				['Done',done]
+				['Tasks' , 'Count' ],
+				['Open', {{opencount}} ],
+				['In Progress', {{inprogresscount}} ],
+				['Done', {{donecount}} ]
 				                                                        
 				]);  
 				

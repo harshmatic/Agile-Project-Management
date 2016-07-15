@@ -147,9 +147,9 @@ class BaseHandler(webapp2.RequestHandler):
                 params['projects'] = projects
                 #logging.info(projects)
     
-            if projects != []:    
-                params['release']=project.ProjectRelease().query(project.ProjectRelease.projectid == current_project_id.projectid ,ndb.AND(project.ProjectRelease.created_by == user['email_address'] ,ndb.AND(project.ProjectRelease.status == True))).fetch()    
-                params['sprint']=sprint.Sprint().query(sprint.Sprint.project == current_project_id.projectid,ndb.AND(sprint.Sprint.created_by == user['email_address'],ndb.AND(sprint.Sprint.status == True))).fetch()
+          #  if projects != []:    
+           #     params['release']=project.ProjectRelease().query(project.ProjectRelease.projectid == current_project_id.projectid ,ndb.AND(project.ProjectRelease.created_by == user['email_address'] ,ndb.AND(project.ProjectRelease.status == True))).fetch()    
+           #     params['sprint']=sprint.Sprint().query(sprint.Sprint.project == current_project_id.projectid,ndb.AND(sprint.Sprint.created_by == user['email_address'],ndb.AND(sprint.Sprint.status == True))).fetch()
             
         if user != None :
             params['blob'] = self.user_model.get_by_id(user['user_id']).blob_key
