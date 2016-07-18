@@ -178,6 +178,24 @@ class EditTask(BaseHandler):
         task_data.put()
         self.response.out.write("true")
         
+
+class MoveTask(BaseHandler):
+    @checkdomain
+    def get(self,*args,**kargs):
+        key=self.session['current_project']
+        task_key=ndb.Key(urlsafe= self.request.get('task_key'))
+        task_info=task_key.get()
+        sprints = sprint.Sprint().get_by_project(key)
+        self.render_template("user_new/movetask.html",{'sprints':sprints,"task_info":task_info})
+    
+    @checkdomain 
+    def post(self,*args,**kargs):
+        sprint_name=ndb.Key(urlsafe=self.request.get('sprint_name'))
+        task_key=ndb.Key(urlsafe=self.request.get('task_key'))
+        task_data=task_key.get()
+        task_data.sprint=sprint_name
+        task_data.put()
+        self.response.out.write("true")
         
         
 class DeleteTask(BaseHandler):

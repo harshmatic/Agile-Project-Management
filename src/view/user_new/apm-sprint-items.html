@@ -614,7 +614,10 @@ $(document).on("click", ".sprint_status_link",function() {
 															  	<td>
 															  	<a href="/mytasks/view?key={{task.key.urlsafe}}"><i class="fa fa-eye apm-add-proj-view" title="View Task" aria-hidden="true"></i></a>
 															  	<a href="/task/edittask?edit_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#edit-issue-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Task"  id="{{task.key.urlsafe}}"></i></a>
+															  	<a href="/task/movetask?task_key={{task.key.urlsafe}}" data-toggle="modal" data-target="#move-issue-modal"><i class="fa fa-arrows" aria-hidden="true" title="Move Task"></i></a>
+															  	
 																<!-- <a href="/task/deletetask?delete_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#delete-issue-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Task"  id="{{task.key.urlsafe}}"></i></a> -->
+															  	
 															  	</td>
 															  	
 															  </tr>
@@ -677,6 +680,19 @@ $(document).on("click", ".sprint_status_link",function() {
 			  </div>
 			</div>
 	<!-- edit Issue Modal Ends -->
+		<!-- move task Modal Starts -->
+			<div id="move-issue-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				  
+				</div>
+
+			  </div>
+			</div>
+	<!-- move task Modal Ends -->
+	
 	<!-- edit Issue Modal Starts -->
 			<div id="delete-issue-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
 			  <div class="modal-dialog">
