@@ -345,3 +345,24 @@ class Velocitychart(BaseHandler):
                          
               
         self.render_template("user_new/velocitychart.html" ,{"data":json.dumps(datalist)})    
+        
+        
+        
+class EffortsChart(BaseHandler):
+    def post(self,*args,**kargs):
+        projectKey=self.session['current_project']
+        sprints = sprint.Sprint().get_by_project(projectKey)
+        currentUser=self.auth.get_user_by_session()
+        currentUser=self.user_model.get_by_id(currentUser['user_id']).key
+        if(self.request.get("sprint_id") != ''):
+            logging.info("The sprintid is"+self.request.get("sprint_id"))   
+            estimates = effort_estimation.EffortEstimation().get_esti_by_sprint(ndb.Key('Sprint',int(self.request.get("sprint_id"))))
+        else: 
+            if not sprints:
+                 estimates = None
+            else:
+                estimates = effort_estimation.EffortEstimation().get_esti_by_sprint(sprints[0].key)
+           # projectKey = estimates[0].project
+        self.render_template('user_new/efforts_barchart.html', {"efforestimate":estimates})        
+            
+    

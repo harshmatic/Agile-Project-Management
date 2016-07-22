@@ -457,7 +457,7 @@ $(document).on("click", ".sprint_status_link",function() {
 				  				/* alert("Sprint status cannot be updated as all the task within the sprint are not completed.Please complete all task to complete a sprint.");
 				  				return false */
 				  				
-								$.post('/sprint/tasklist',{key : sprint_key},function(data){
+								$.get('/sprint/tasklist',{key : sprint_key},function(data){
 									
 									console.log(data);
 									$('#tr_content').html(data);

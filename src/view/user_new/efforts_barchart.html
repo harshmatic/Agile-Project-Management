@@ -1,0 +1,42 @@
+<script type="text/javascript">
+ //efforts chart
+ 		 google.charts.setOnLoadCallback(drawChart);
+
+		  function drawChart() {
+			  var data = google.visualization.arrayToDataTable([
+			   
+				['Genre',   
+			   {% for eff in efforestimate.0.effort %}
+				
+				 '{{ eff.userName }}', 
+		
+				{%endfor%}
+				 ],
+			   {% for est in efforestimate %}
+			   
+				[ '{{ est.date|date:"SHORT_DATE_FORMAT"}}', 
+					{% for eff in est.effort %}
+					{{eff.effortHours}},
+					
+				     {%endfor%}
+					],
+					
+				{%endfor%}
+			   
+			 
+			   ]);
+
+			var options = {
+			
+			legend: { position: 'top'},
+			bar: { groupWidth: '45%' },
+			isStacked: true,
+			};
+
+			var chart = new google.visualization.ColumnChart(document.getElementById('effort_chart'));
+
+			chart.draw(data, options);
+		  }
+		
+</script>
+<p id="effort_chart"></p>

@@ -3,11 +3,7 @@
 {% block title %}User | Dashboard{% endblock %}
 		
 {% block header_links%}
-		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto">
 		<style>
-			body{
-				font-family:Roboto!important;
-			}
 			.apm-nav-brand-1{
 				padding: 15px!important;
 				font-size: 15px!important;
@@ -15,155 +11,228 @@
 				padding-left: 8px!important;
 			}
 			
-			/* draggable targets */
-			[data-draggable="target"]
-			{
-			   	list-style-type: none;
-				height: 395px;
-				overflow-y: auto;
-				padding: 15px;
-				border-radius: 0.2em;
-				color: #555;
-				background:#f8f8f8;
-				border:1px solid #eee;
+			/******** for select sprint dropdown *****/
+			.effort-heading{
+				float:left;
 			}
-			
-			@media (max-width: 767px){
-				[data-draggable="target"]{
-					height: auto;
-				}
-			}	
-
-			/* draggable items */
-			[data-draggable="item"]
-			{
-				display: block;
-				list-style-type: none;
-				margin: 0 0 2px 0;
-				padding: 12px;
-				border: 1px solid #fff;
-				margin-bottom: 15px;
-				background:#fff;
-				cursor:move;
-				/*height: 115px;*/
-				height:auto;
-				-webkit-box-shadow: -1px 1px 3px 0px rgba(122,122,122,1);
-				-moz-box-shadow: -1px 1px 3px 0px rgba(122,122,122,1);
-				box-shadow: -1px 1px 3px 0px rgba(122,122,122,1);
+			.select-sprint-label{
+				margin-left:50px;
 			}
-			@media (max-width: 991px){
-				[data-draggable="item"]{
-					height: auto;
-				}
-			}	
-			.to-do-list [data-draggable="item"]{
-				border-left:5px solid #3598DC;
+			.select-sprint-dropdown-box{
+				padding-top: 8px;
 			}
-			.in-progress-list [data-draggable="item"]{
-				border-left:5px solid #32C5D2;
-			}
-			.done-list [data-draggable="item"]{
-				border-left:5px solid #8E44AD;
-			}
-			.drag-task-heading{
-				margin:0;
-				margin-bottom:8px;
-				font-size:12px;
-				letter-spacing:1px;
-				font-weight:600;
-				text-transform:uppercase;
-			}
-			.drag-task-descr{
-				margin:0;
-				font-size:12px;
-				letter-spacing:1px;
-				font-weight:500;
-				line-height: 1.8em;
-				color:#999;
-			}
-			.apm-user-actionitem-label{
-				font-family:Roboto;
-				letter-spacing:1px;
-				font-size: 16px;
-			}
-			
-			/*********** For user dashboard chart structure *******/
-			
-			.user-dashboard-right-box{
-				padding-right:0;
-			}
-			.user-dashboard-left-box{
-				padding-left:0;
-				padding-right:0;
-				margin-top: 15px;
-			}
-			@media (max-width: 767px){
-				.user-dashboard-right-box{
-					padding-right:15px;
-				}
-				.user-dashboard-left-box{
-					padding-left:15px;
-				}
-			}	
-			/********************************************/
-			
-			.nav-sub-items{
-				margin-left:30px!important;
-			}
-			.nav-sub-items a{
-				font-size:13px!important;
-			}
-			.graph-btn{
-				font-size: 13px;
-				border: 2px solid #1565C0!important;
-				letter-spacing: 2px;
-				padding: 3px 15px;
-				transition: all 0.3s ease-out;
-				background: #1565C0!important;
-				color: #fff!important;
-				outline: none!important;
-				font-family: Roboto;
-				float:right;
-				margin-top: -60px;
-			}
-			.graph-btn:before {
-				font-family: 'FontAwesome';
-				content: '\f080';
-				padding-right: 8px;
-				position: relative;
-				font-size: 90%;
-				color: #fff!important;
-			}			
-			@media (max-width: 991px){
-				.activity-box1{
-					margin-top:10px;
-				}
-			}
-			@media (max-width: 500px){
-				.graph-btn{
-					margin-top: 10px;
-					margin-bottom: 10px;
+			@media (max-width: 600px){
+				.effort-heading{
 					float:none;
 				}
-			}
-			@media (max-width: 767px){
-				.nav-sub-items {
-					margin-left: 30px!important;
+				.select-sprint-label{
+					margin-left:0px;
+				}
+				.apm-eff-est-table-box {
+					margin-top: 8px;
 				}
 			}
-			
-			
-			.modal-graph-box{
-				text-align:center;
-			}
-			.modal-graph-box h4{
-				font-family:Roboto;
-				font-size:15px;
-				font-weight:500;
-				letter-spacing:1px;
-			}
-			
 		</style>
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+		<script type="text/javascript">
+		
+		  google.charts.load('current', {'packages': ['corechart', 'bar']});
+		  
+		  /******************************************************when sprint id is present starts*******************************************************************************/
+		  
+		  var s= window.location.href.split(".com/").pop();
+		  if (s.indexOf("?sprint_id")>1)
+		  {
+		  			 
+		  	//resource workload chart
+		  	var sprint_id = window.location.href.split(".com/test?sprint_id=").pop();
+		  	$.post("/efforts/chart?sprint_id="+sprint_id).done(function(data){
+		  					 //console.log(data);	 
+		  					$('#curve_chart').html(data); 
+		  				 });
+		  			  
+		  			  
+		  }
+
+		  else
+		  { 
+		  	$.post('/efforts/chart').done(function(data){
+		  		//console.log(data);	
+		  	
+		  		$('#curve_chart').html(data);
+		  						
+		  		});
+		  	
+		  	
+		  	
+		 }
+		  		
+		  /********************************************************when sprint id is present ends***************************************************************************************/
+		  		   	
+
+		  
+				$(document).ready(function(){
+					
+					var modal_id ;
+					var modal_val ;
+					
+					$('.datepicker').datepicker({
+						format: 'dd/mm/yyyy',
+						startDate: '0d'
+					});
+					
+					
+					$("#apm-addmember-btn").click(function(e) {
+						$('#add-member-modal').modal('show');
+					});
+					$("#apm-addmember-btn2").click(function(e) {
+						$('#add-member-modal').modal('show');
+					});
+					$("#apm-addestimates-btn").click(function(e) {
+						$('#add-estimation-timeline-modal').modal('show');
+					});
+					
+					$(".apm-eff-est-hr-num").click(function(e) {
+						console.log("Inside put hour");
+						$('#put-hour-modal').modal('show');
+					});
+					
+					
+					/******* To change modal header text according to member names ******/
+					
+					$('.apm-eff-est-table').on('click', '.cell-effort', function () {
+						
+						console.log("Inside put table");
+						var th = $('.apm-eff-est-table th').eq($(this).index());
+						//console.log("the th is"+JSON.stringify(th));
+						var cells = [];
+						var id = $(this).closest('td').attr('id');
+						console.log("the id is"+id);
+						$('td', $(this).closest('tr')).each(function() {
+					        cells.push($(this).html());
+					    });
+						
+						console.log("the val is"+cells[0])
+						
+						$('#put-hour-modal #member-header-text').text(th.text());
+						$('#celldate').html(cells[0]);
+						$('#celldate').attr('name',id);
+						
+						
+						
+						
+					});
+					
+					/******* To show Modal on Effort estimation dropdown ******/
+					$(".effort-dropdown").change(function () {
+						
+						$('#info-modal').modal('show');
+						modal_id = $(this).children(":selected").attr("id");
+						modal_val = $(this).children(":selected").val();
+						modal_val = modal_val.replace("%","");
+					});
+					
+					$("#submitperc").on("click",function(){
+						var e = document.getElementById("sprintselect");
+						var strSprint = e.options[e.selectedIndex].value;
+						console.log("the id is"+modal_id);
+						console.log("the value is"+modal_val);
+						var parameters = "estiper="+modal_val+"&sprintid="+strSprint+"&userid="+modal_id+""
+						$.post( "/efforts/edit", parameters)
+				  		.done(function( data ) {
+				  			if(data == "reload")
+				  				{
+				  				window.location.href = "/test?sprint_id="+strSprint;
+				  				}
+				  			
+				  			
+				  			});
+						/* $.post("/test?sprint_id="+strSprint).done(function(data){
+		  					 //console.log(data);	 
+		  					$('#curve_chart').html(data); 
+		  				 }); */
+						
+					})
+					
+					$(".sprint-dropdown").change(function () {
+						var e = document.getElementById("sprintselect");
+						var strSprint = e.options[e.selectedIndex].value;
+						console.log("the sprint id is"+strSprint)
+						window.location.href = "/test?sprint_id="+strSprint;
+					});
+					
+					$("#submit").on("click",function(){
+					 
+					var concatid = $('#celldate').attr('name'); 
+					var arr = concatid.split('_');
+					var effestid = arr[0];
+					var userid = arr[1];
+					var eff = $('#effesti').val();
+					var total = $('#'+effestid+'_total b').html();
+					var oldval = $('#'+concatid+' span:eq(0)').html();
+					console.log("the total is"+total);
+					console.log("the oldval is"+oldval);
+					console.log("the concatid is"+concatid);
+					console.log("the est id"+effestid)
+					console.log("the userid is"+userid);
+					console.log("the eff is"+eff)
+					var parameters = "estival="+eff+"&effestid="+effestid+"&userid="+userid+""
+					console.log("the param are"+parameters);   
+					$.post( "/efforts/edit", parameters)
+			  		.done(function( data ) {
+			  			console.log("comes here"+data)
+			  			if(data == "success")
+			  				{
+			  				
+			  					if (s.indexOf("?sprint_id")>1)
+			  			  		{
+			  			  			 
+			  			  			
+			  			  			var sprint_id = window.location.href.split(".com/test?sprint_id=").pop();
+			  			  			$.post("/efforts/chart?sprint_id="+sprint_id).done(function(data){
+			  			  					 //console.log(data);	 
+			  			  					$('#curve_chart').html(data); 
+			  			  				drawChart();	
+			  			  				 });
+			  			  			  
+			  			  			  
+			  			  		}
+
+			  			  		else
+			  			  		{ 
+			  			  			$.post('/efforts/chart').done(function(data){
+			  			  			
+			  			  	
+			  			  			$('#curve_chart').html(data);
+			  			  			drawChart();				
+			  			  			});
+			  			  	
+			  			  	
+			  			  	
+			  			 		}
+			  				
+			  			  
+			  				console.log("comes here after success");
+			  				$('#'+concatid+' span').html(eff);
+			  				var ttl = total - oldval ;
+			  				console.log("minus"+ttl);
+			  				ttl = ttl + parseInt(eff) ;
+			  				console.log("plus"+ttl);
+			  				$('#'+effestid+'_total b').html(ttl);
+			  				
+			  			//	window.location.href = "/test";
+			  				}
+			  			
+			  			
+			  				
+			  			
+			  		});
+					})
+
+				});
+	
+		
+		</script>
 {% endblock %}	
 	
 
@@ -171,432 +240,224 @@
      
 {%block content%}	
 
-	
-  
-		
-		
-        <!-- Page Content -->
+
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div class="row">
-                   <div class="col-lg-12">
+                    <div class="col-lg-12">
 					
-					<h2 class="apm-all-reports-heading">User Dashboard</h2>
+						<h2 class="apm-all-reports-heading effort-heading">Effort Estimation</h2>
 						
-					<hr>
-				
-				
-	<!--****************************** Charts section Starts ******************************************-->
-					
-					<div class="row" style="margin-top:-10px;">
-						
-						<div class="col-md-12">
-							<button class="graph-btn">Graph</button>
-						</div>
-						
-						<!--Chart 1 -->
-						<div class="col-md-4 activities-box activity-box1">
-							<div class="panel panel-default">
-											<div class="panel-heading apm-panel-heading">
-												Resource Workload
-											</div>
-											<div class="panel-body apm-panel-body">
-												<img src="../assets_new/img/pie.png" class="img-responsive" style="width: 35%;">
-												<p class="apm-para">
-													Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-												</p>
-											</div>
-							</div>
-						</div>
-						
-						<!--Chart 2-->
-						<div class="col-md-4 activities-box">
-							<div class="panel panel-default">
-											<div class="panel-heading apm-panel-heading">
-												Timesheet Report
-											</div>
-											<div class="panel-body apm-panel-body">
-												<img src="../assets_new/img/barchart.png" class="img-responsive" style="width: 40%;">
-												<p class="apm-para">
-													Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-												</p>
-											</div>
-							</div>
-						</div>
-						
-						<!--Chart 3-->
-						<div class="col-md-4 activities-box">
-							<div class="panel panel-default">
-											<div class="panel-heading apm-panel-heading">
-												Sprints
-											</div>
-											<div class="panel-body apm-panel-body" id="sprint_piecharts">
-												<!-- <img src="../assets_new/img/barchart.png" class="img-responsive" style="width: 40%;"> 
-												<p class="apm-para">
-													Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-												</p>-->
-												
+						<!-- Select sprint dropdown -->
+						<div class="form-group select-sprint-dropdown-box">
+										<label class="apm-effort-est-lbl select-sprint-label">Select Sprint:</label>
+										<select class="add-task-textbox apm-modal-textbox apm-effort-est-dropdown sprint-dropdown" id="sprintselect">
+											{% for sprints in sprint %}
+										    {% if sprints.key == efforestimate.0.sprint %}
+											<option  value= "{{ sprints.key.id }}" selected> {{ sprints.name }}</option>
 											
-											</div>
-							</div>
-						</div>
-						
-					</div>
-			<!--***************** Charts section ENDs *******************-->			
-				
-				
-					<!----- Stats Box  --->	
-							<div class="col-md-12 user-dashboard-left-box">
-								<!-- Number Boxes -->
-								<div class="row apm-numbox-row">
-									<div class="col-md-4 col-sm-4">
-										<div class="apm-numbox-dashboard apm-numbox-1">
-											<h2 class="apm-numbox-heading" id="open_count">{{open_count}}</h2>
-											<label class="apm-numbox-label">Pending Tasks</label>
-										</div>	
-									</div>
-								
-									<div class="col-md-4 col-sm-4">
-										<div class="apm-numbox-dashboard apm-numbox-3">
-											<h2 class="apm-numbox-heading" id="inprogress_count">{{inprogress_count}}</h2>
-											<label class="apm-numbox-label">Ongoing Tasks</label>
-										</div>	
-									</div>
-									<div class="col-md-4 col-sm-4">
-										<div class="apm-numbox-dashboard apm-numbox-4">
-											<h2 class="apm-numbox-heading" id="completed_count">{{done_count}}</h2>
-											<label class="apm-numbox-label">Completed Tasks</label>
-										</div>	
-									</div>
-								</div>
-								<!-- Number Boxes ENDS -->
-								
-								
-								
-								<div class="row">
-									<div class="col-md-4 col-sm-4" id="myDroppablePending">
-										<h4 class="apm-user-actionitem-label">Pending Tasks:</h4>
-										<!--<div class="apm-user-action-item">
+											{%else%}
 											
-										</div>-->
-										<ol data-draggable="target" class="to-do-list">
-										
-										{%for i in tasks%}
-											{%if i.task_status == 'Open' %}
-										  <li data-draggable="item" id="{{i.key.urlsafe}}">
-										  <a href="/mytasks/view?key={{i.key.urlsafe}}" style="text-decoration: none;">
-											<h5 class="drag-task-heading">Task- {{i.name}}</h5>
-											<p class="drag-task-descr">{{i.description}}</p>
-										  </li>
-										  {%endif%}
+											<option  value= "{{ sprints.key.id }}"> {{ sprints.name }}</option>
+											{%endif%}
 										{%endfor%}
-										 
-										</ol>
-									</div>
-									<div class="col-md-4 col-sm-4" id="myDroppableOngoing">
-										<h4 class="apm-user-actionitem-label">Ongoing Tasks:</h4>
-										<ol data-draggable="target" class="in-progress-list">
-										{%for i in tasks%}
-											{%if i.task_status == 'In Progress' %}
-										   <li data-draggable="item" id="{{i.key.urlsafe}}">
-										   <a href="/mytasks/view?key={{i.key.urlsafe}}" style="text-decoration: none;">
-											<h5 class="drag-task-heading">Task-{{i.name}}</h5>
-											<p class="drag-task-descr">{{i.description}}</p>
-										  </li>
-										 {%endif%}
-									{%endfor%}
-										</ol>
-									</div>
-									<div class="col-md-4 col-sm-4" id="myDroppableCompleted" >
-										<h4 class="apm-user-actionitem-label">Completed Tasks:</h4>
-										<ol data-draggable="target" class="done-list">
-										{%for i in tasks%}
-								  			{%if i.task_status == 'Done' %}
-										   <li data-draggable="item" id="{{i.key.urlsafe}}">
-										     <a href="/mytasks/view?key={{i.key.urlsafe}}" style="text-decoration: none;">
-											<h5 class="drag-task-heading">Task -{{i.name}}</h5>
-											<p class="drag-task-descr">{{i.description}}</p>
-										  </li>
-										   {%endif%}
-								  			{%endfor%}
-										</ol>
-									</div>
-									
-								</div>
-							</div> <!-- .col-md-12 ends -->
-							
-							
-							
-				<!--****************************** Activities Stream section Starts ******************************************-->
-					
-					<div class="row">
-						<div class="col-md-6 activities-box">
-							<div class="panel panel-default">
-									<div class="panel-heading apm-panel-heading">
-										Activities of Other Members
-									</div>
-									<div class="panel-body apm-activities-body">
-										<!-- User 1 -->
-										<div class="activities-main-box">
-											<div class="activities-img-box">
-												<img src="../assets_new/img/profile.jpg" class="activities-img">
-											</div>
-											<div class="activities-content-box">
-												<h5 class="activities-content-heading">Chaitanya Belsare</h5>
-												<p class="activities-content-para">
-													Lorem ipsum dolor sit amet, consectetur.
-												</p>
-											</div>
-										</div>
-										
-										
-										<!-- User 2 -->
-										<div class="activities-main-box">
-											<div class="activities-img-box">
-												<img src="../assets_new/img/profile.jpg" class="activities-img">
-											</div>
-											<div class="activities-content-box">
-												<h5 class="activities-content-heading">Harshit Jyoti</h5>
-												<p class="activities-content-para">
-													Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-												</p>
-											</div>
-										</div>
-										
-										
-										<!-- User 3 -->
-										<div class="activities-main-box">
-											<div class="activities-img-box">
-												<img src="../assets_new/img/profile.jpg" class="activities-img">
-											</div>
-											<div class="activities-content-box">
-												<h5 class="activities-content-heading">Atul Sharma</h5>
-												<p class="activities-content-para">
-													Lorem ipsum dolor sit amet.
-												</p>
-											</div>
-										</div>
-										
-										<!-- User 4 -->
-										<div class="activities-main-box">
-											<div class="activities-img-box">
-												<img src="../assets_new/img/profile.jpg" class="activities-img">
-											</div>
-											<div class="activities-content-box">
-												<h5 class="activities-content-heading">Ram Balaji</h5>
-												<p class="activities-content-para">
-													Lorem ipsum dolor sit amet, consectetur
-												</p>
-											</div>
-										</div>
-										
-									</div>
-							</div>
+										</select>
 						</div>
+						<!-- Select sprint dropdown Ends -->
 						
-						<!--Linear Chart-->
-						<div class="col-md-6 activities-box">
-							<div class="panel panel-default">
-									<div class="panel-heading apm-panel-heading">
-										Linear Chart
-									</div>
-									<div class="panel-body apm-activities-body">
-										<div id="curve_chart" style="width: 100%; height: auto;"></div>
-									</div>
-							</div>		
-						</div>
+						<hr>
 						
-					</div>
-				<!--***************** Activities Stream section ENDs *******************-->		
+						<div class="row apm-select-sprint-dropdown">
+							
+							<!-- <div class="col-md-1"></div> -->
+							<div class="col-md-10 apm-eff-est-table-box">
+							
+							
+								{% for sprints in sprint %}
+							 						{% if sprints.key == efforestimate.0.sprint %}
+														<h4 class="apm-eff-est-sprint-name">{{ sprints.name }}</h4>
+													{%endif%}
+												{%endfor%}
+								<hr>
 								
+								<!--Burndown Chart-->
+								<div class="panel panel-default">
+											<div class="panel-heading apm-panel-heading">
+												{% for sprints in sprint %}
+							 						{% if sprints.key == efforestimate.0.sprint %}
+														<h4 class="apm-eff-est-sprint-name">{{ sprints.name }}</h4>
+													{%endif%}
+												{%endfor%}
+							
+											</div>
+											<div class="panel-body">
+												<div id="curve_chart" style="width: 100%; height: auto;"></div>
+											</div>
+								</div>
+								
+								<div class="table-responsive">
+												<table class="table table-condensed table-bordered apm-member-listing-table apm-all-proj-table apm-eff-est-table">
+													
+														<tr>
+															
+														<th rowspan="2">DATES</th>
+															{% for eff in efforestimate.0.effort %}
+															
+															<th id="{{eff.userKey.id}}">{{ eff.userName }} </th>
+													
+															{%endfor%}
+															
+															<th>Total Efforts</th>
+														</tr>
+													
+													
+														<tr>
+															{% for eff in efforestimate.0.effort %}
+															<td>
+																<select class="form-control add-task-textbox apm-modal-textbox apm-effort-est-dropdown effort-dropdown" placeholder="Availability">
+																	<option>-Availability-</option>
+																	<option id="{{eff.userKey.id}}">100%</option>
+																	<option id="{{eff.userKey.id}}">75% </option>
+																	<option id="{{eff.userKey.id}}">50% </option>
+																	<option id="{{eff.userKey.id}}">25% </option>
+																</select>
+															</td>
+															{%endfor%}
+														
+															<td style="vertical-align: middle;">
+																<b>DAYWISE</b>
+															</td>
+														</tr>
+														
+														
+														<!-- Main table rows starts -->
+														
+														<!-- Main table rows starts -->
+														
+														{% for est in efforestimate %}
+														<tr>
+														
+															<td>{{ est.date }}</td>
+															{% for eff in est.effort %}
+															<td id="{{est.key.id}}_{{eff.userKey.id}}" title="Click to edit" class="cell-effort">
+																<span class="apm-eff-est-hr-num">{{eff.effortHours}}</span>
+																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
+															</td>
+															{%endfor%}
+															<td id="{{est.key.id}}_total"><b>{{est.total_effort}}</b></td>
+														</tr>
+														{%endfor%}
+													
+												</table>
+											</div>
+											
+											
+											<!--<div class="">
+												<button class="apm-add-proj-btn apm-eff-est-save-btn">SAVE</button>
+											</div>  -->
+
+							</div> <!-- .col-md-10 ENDS -->
+							<div class="col-md-1"></div>
+						</div>
+						
+						
 					
+						
                     </div> <!-- .col-lg-12 ends -->
                 </div>
             </div> <!-- .container ends -->
         </div>
         <!-- /#page-content-wrapper ENDS -->
-	
+		
     </div>
     <!-- /#wrapper -->
-	
-	
-	
-	<!-- Graph Modal Starts -->
-			<div id="graph-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
-			  <div class="modal-dialog modal-lg">
+  
+		
+<!-- Put Hour value Modal Starts -->
+			<div id="put-hour-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog modal-sm">
 
 				<!-- Modal content-->
 				<div class="modal-content add-task-modal-content">
 				  <div class="modal-header add-task-modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title add-task-modal-heading">Graphs</h4>
+					<h4 class="modal-title add-task-modal-heading" id="member-header-text">Member 1</h4>
 				  </div>
 					<div class="modal-body user-management-body">
-							
 							<div class="row">
-								<div class="col-md-4 modal-graph-box">
-									<h4 class="modal-graph-heading">Resource Workload</h4>
-									<img src="../assets_new/img/barchart.png" class="img-responsive" style="width:50%;margin: 0 auto;">
-								</div>
-								<div class="col-md-4 modal-graph-box">
-									<h4 class="modal-graph-heading">Timesheet</h4>
-									<img src="../assets_new/img/barchart.png" class="img-responsive" style="width:50%;margin: 0 auto;">
-								</div>
-								<div class="col-md-4 modal-graph-box">
-									<h4 class="modal-graph-heading">Sprint</h4>
-									<img src="../assets_new/img/pie.png" class="img-responsive" style="width:40%;margin: 0 auto;">
-								</div>
+								
+								<div class="col-md-12">
+										<form role="form">
+											  <!-- Complexity --> 
+											  <div class="form-group task-form-group">
+												<label class="apm-landing-reg-label">Date</label> :
+												<label class="apm-landing-reg-label" id="celldate"></label>
+											  </div>
+											
+											  
+											  <!-- Estimated Efforts --> 
+											  <div class="form-group task-form-group">
+												<label class="apm-landing-reg-label">Estimated Hours</label>
+												<input type="text" id="effesti" class="form-control apm-landing-textbox-reg apm-modal-textbox">
+											  </div>
+											
+										</form>
+										
+								</div>	
 								
 							</div>
 							
 				  </div>
 				  <div class="modal-footer add-task-modal-footer">
-					<button type="button" class="add-task-btn-modal" data-dismiss="modal">OK !!!</button>
+					<button type="button" id="submit" class="add-task-btn-modal" data-dismiss="modal">Save</button>
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
+				  </div>
+				</div>
+
+			  </div>
+			</div>
+	<!-- Put Hour value Modal Ends -->
+		
+	<!-- Information modal on change of dropdown Modal Starts -->
+			<div id="info-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading" id="member-header-text">Information</h4>
+				  </div>
+					<div  class="modal-body user-management-body">
+							<div class="row">
+								
+								<div class="col-md-12">
+									<p class="est-eff-information-modal-text">	
+										
+										<b>Update Availability:</b><br><br>
+										
+										The efforts for the person will be updated based on the selected availability percentage of total work hours.
+										
+									</p>
+								</div>	
+								
+							</div>
+							
+				  </div>
+				  
+				  <div class="modal-footer add-task-modal-footer">
+					<button id="submitperc" type="button" class="add-task-btn-modal" data-dismiss="modal">OK</button>
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</a>
 					
 				  </div>
 				</div>
 
 			  </div>
 			</div>
-	<!-- Graph Modal Ends -->
-
-		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-		<script type="text/javascript">
-		  google.charts.load('current', {'packages':['corechart']});
-		  google.charts.setOnLoadCallback(drawChart);
-
-		  //sprint pie chart
-		  var s= window.location.href.split(".com/").pop();
-		  if (s.indexOf("?sprint_key"))
-			{
-			  google.charts.setOnLoadCallback(sprint_piechart);
-			  open=0;
-			  if({{open_count}})
-			  {
-				  open={{open_count}};
-			  }
-			  inprogress=0;
-			  if({{inprogress_count}})
-				{
-				  inprogress={{inprogress_count}};
-				}
-			  
-			  done=0 ;
-			  if({{done_count}})
-				{
-				  done ={{done_count}};
-				}
-				 
-			  function sprint_piechart(){
-				var sprint_data= google.visualization.arrayToDataTable([
-				['Tasks','Count'],
-				['Open',open],
-				['In Progress',inprogress],
-				['Done',done]
-				                                                        
-				]);  
-				
-				var sprint_options={
-						title:'Sprint Pie Chart',
-						colors: ['#EC7063', '#2E86C1', '#2ECC71'],
-				}
-				
-				var sprint_chart=new google.visualization.PieChart(document.getElementById('sprint_piecharts'));
-				sprint_chart.draw(sprint_data);
-				  
-			  }
-			  
-			  
-			}
-		  
-		  
-		  function drawChart() {
-			var data = google.visualization.arrayToDataTable([
-			  ['Week', 'Tasks', 'Hours'],
-			  ['Week 1',  4,      8],
-			  ['Week 2',  2,      6],
-			  ['Week 3',  5,      4],
-			  ['Week 4',  3,      3]
-			]);
-
-			var options = {
-			  title: 'Weekly Performance',
-			  curveType: 'function',
-			  legend: { position: 'bottom' }
-			};
-
-			var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-			chart.draw(data, options);
-		  }
-		  
-		  $(".graph-btn").click(function(e) {
-						$('#graph-modal').modal('show');
-		  });
-
-		  
-				$(document).ready(function(){
-					
-					
-					
-					 $('#myDroppablePending').on("dragstart",function(param)
-						    {
-						   	
-						   	total = parseInt($("#open_count").html()) - 1 ;
-						   	$("#open_count").html(total);
-						        
-						    });
-					$('#myDroppableOngoing').on("dragstart",function(param)
-						    {
-						
-						total = parseInt($("#inprogress_count").html()) - 1 ;
-					   	$("#inprogress_count").html(total);
-						        
-						    });
-					
-					$('#myDroppableCompleted').on("dragstart",function(param)
-						    {
-						
-						total = parseInt($("#completed_count").html()) - 1 ;
-					   	$("#completed_count").html(total);
-						        
-						    }); 
-					
-					
-					 $('#myDroppablePending').on("dragend",function(param)
-							    {
-							   
-							   	total = parseInt($("#open_count").html()) + 1 ;
-							   	$("#open_count").html(total);
-							        
-							    });
-						$('#myDroppableOngoing').on("dragend",function(param)
-							    {
-							
-							total = parseInt($("#inprogress_count").html()) + 1 ;
-						   	$("#inprogress_count").html(total);
-							        
-							    });
-						
-						$('#myDroppableCompleted').on("dragend",function(param)
-							    {
-							
-							total = parseInt($("#completed_count").html()) + 1 ;
-						   	$("#completed_count").html(total);    
-							    }); 
-						
-						
-						var sprint_name="{{sprint_name}}";
-						if (sprint_name){
-							//alert(sprint_name);
-							
-							
-							$('#selected').html(':'+sprint_name);
-						}
-						
-					
-				});
-				</script>
+	<!-- Information modal on change of dropdown Modal Ends -->		
+	
+	
 		
+
 		
 	{%endblock%}

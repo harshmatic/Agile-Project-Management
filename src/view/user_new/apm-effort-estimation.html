@@ -1,25 +1,76 @@
 {% extends "base.html" %}
 
-{% block title %}User |Effort Estimation {% endblock %}
+{% block title %}User | Effort Estimation{% endblock %}
 		
 {% block header_links%}
-		
-	<style>
+		<style>
 			.apm-nav-brand-1{
 				padding: 15px!important;
 				font-size: 15px!important;
 				margin: 0!important;
 				padding-left: 8px!important;
 			}
-			.apm-dropdown-projects{
-				margin-left: -98px!important;
-				margin-top: 50px!important;
-				z-index:99999999;
-			}
 			
+			/******** for select sprint dropdown *****/
+			.effort-heading{
+				float:left;
+			}
+			.select-sprint-label{
+				margin-left:50px;
+			}
+			.select-sprint-dropdown-box{
+				padding-top: 8px;
+			}
+			@media (max-width: 600px){
+				.effort-heading{
+					float:none;
+				}
+				.select-sprint-label{
+					margin-left:0px;
+				}
+				.apm-eff-est-table-box {
+					margin-top: 8px;
+				}
+			}
 		</style>
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+		<script type="text/javascript">
 		
-		<script>
+		  google.charts.load('current', {'packages': ['corechart', 'bar']});
+		  
+		  /******************************************************when sprint id is present starts*******************************************************************************/
+		  
+		  var s= window.location.href.split(".com/").pop();
+		  if (s.indexOf("?sprint_id")>1)
+		  {
+		  			 
+		  	//resource workload chart
+		  	var sprint_id = window.location.href.split(".com/efforts?sprint_id=").pop();
+		  	$.post("/efforts/chart?sprint_id="+sprint_id).done(function(data){
+		  					 //console.log(data);	 
+		  					$('#curve_chart').html(data); 
+		  				 });
+		  			  
+		  			  
+		  }
+
+		  else
+		  { 
+		  	$.post('/efforts/chart').done(function(data){
+		  		//console.log(data);	
+		  	
+		  		$('#curve_chart').html(data);
+		  						
+		  		});
+		  	
+		  	
+		  	
+		 }
+		  		
+		  /********************************************************when sprint id is present ends***************************************************************************************/
+		  		   	
+
+		  
 				$(document).ready(function(){
 					
 					var modal_id ;
@@ -53,7 +104,7 @@
 						
 						console.log("Inside put table");
 						var th = $('.apm-eff-est-table th').eq($(this).index());
-						console.log("the th is"+JSON.stringify(th));
+						//console.log("the th is"+JSON.stringify(th));
 						var cells = [];
 						var id = $(this).closest('td').attr('id');
 						console.log("the id is"+id);
@@ -94,7 +145,9 @@
 				  				window.location.href = "/efforts?sprint_id="+strSprint;
 				  				}
 				  			
+				  			
 				  			});
+						
 						
 					})
 					
@@ -127,6 +180,35 @@
 			  			console.log("comes here"+data)
 			  			if(data == "success")
 			  				{
+			  				
+			  					if (s.indexOf("?sprint_id")>1)
+			  			  		{
+			  			  			 
+			  			  			
+			  			  			var sprint_id = window.location.href.split(".com/efforts?sprint_id=").pop();
+			  			  			$.post("/efforts/chart?sprint_id="+sprint_id).done(function(data){
+			  			  					 //console.log(data);	 
+			  			  					$('#curve_chart').html(data); 
+			  			  				drawChart();	
+			  			  				 });
+			  			  			  
+			  			  			  
+			  			  		}
+
+			  			  		else
+			  			  		{ 
+			  			  			$.post('/efforts/chart').done(function(data){
+			  			  			
+			  			  	
+			  			  			$('#curve_chart').html(data);
+			  			  			drawChart();				
+			  			  			});
+			  			  	
+			  			  	
+			  			  	
+			  			 		}
+			  				
+			  			  
 			  				console.log("comes here after success");
 			  				$('#'+concatid+' span').html(eff);
 			  				var ttl = total - oldval ;
@@ -134,48 +216,50 @@
 			  				ttl = ttl + parseInt(eff) ;
 			  				console.log("plus"+ttl);
 			  				$('#'+effestid+'_total b').html(ttl);
+			  				
+			  			
 			  				}
 			  			
 			  			
 			  				
 			  			
 			  		});
+					
 					})
 					
+					$('#put-hour-modal').on('hidden.bs.modal', function(e)
+						    { 
+								 $(this).removeData('bs.modal');
+					        	 $(this).find('form')[0].reset();
+						        //alert("hello");
+						    }) ;
 					
-					/*On click of member hours. change it to textbox*/
-					/*$(".apm-eff-est-hr-num").click(function(e) {
-						$(".apm-eff-est-hr-num").each(function() {
-						  $(this).show();
-						  $(this).siblings('.apm-eff-est-hr-text').hide();
-						});
-						$(this).hide();
-						$(this).siblings('.apm-eff-est-hr-text').show();
-						$('.apm-eff-est-hr-text').focus();
-					});*/
+					
 
 				});
-		</script>	
-		{% endblock %}	
 	
+		
+		</script>
+{% endblock %}	
+	
+
+
+     
 {%block content%}	
-        <!-- Page Content -->
+
+
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
 					
-						<h2 class="apm-all-reports-heading">Effort Estimation</h2>
+						<h2 class="apm-all-reports-heading effort-heading">Effort Estimation</h2>
 						
-						<hr>
-						
-						<div class="row apm-select-sprint-dropdown">
-							<div class="col-md-2">
-							<div class="form-group">
-										<label class="apm-effort-est-lbl">Select Sprint:</label>
-										<select class="form-control add-task-textbox apm-modal-textbox apm-effort-est-dropdown sprint-dropdown" id="sprintselect">
-										
-										{% for sprints in sprint %}
+						<!-- Select sprint dropdown -->
+						<div class="form-group select-sprint-dropdown-box">
+										<label class="apm-effort-est-lbl select-sprint-label">Select Sprint:</label>
+										<select class="add-task-textbox apm-modal-textbox apm-effort-est-dropdown sprint-dropdown" id="sprintselect">
+											{% for sprints in sprint %}
 										    {% if sprints.key == efforestimate.0.sprint %}
 											<option  value= "{{ sprints.key.id }}" selected> {{ sprints.name }}</option>
 											
@@ -185,29 +269,45 @@
 											{%endif%}
 										{%endfor%}
 										</select>
-									</div>
-							</div>
 						</div>
+						<!-- Select sprint dropdown Ends -->
 						
+						<hr>
 						
-						
-						<div class="row">
+						<div class="row apm-select-sprint-dropdown">
+							
+							<!-- <div class="col-md-1"></div> -->
+							<div class="col-md-10 apm-eff-est-table-box">
 							
 							
-							<div class="col-md-12 apm-eff-est-table-box">
-							{% for sprints in sprint %}
-							 {% if sprints.key == efforestimate.0.sprint %}
-								<h4 class="apm-eff-est-sprint-name">{{ sprints.name }}</h4>
-								{%endif%}
-								{%endfor%}
+								{% for sprints in sprint %}
+							 						{% if sprints.key == efforestimate.0.sprint %}
+														<h4 class="apm-eff-est-sprint-name">{{ sprints.name }}</h4>
+													{%endif%}
+												{%endfor%}
 								<hr>
+								
+								<!--Burndown Chart-->
+								<div class="panel panel-default">
+											<div class="panel-heading apm-panel-heading">
+												{% for sprints in sprint %}
+							 						{% if sprints.key == efforestimate.0.sprint %}
+														<h4 class="apm-eff-est-sprint-name">{{ sprints.name }}</h4>
+													{%endif%}
+												{%endfor%}
+							
+											</div>
+											<div class="panel-body">
+												<div id="curve_chart" style="width: 100%; height: auto;"></div>
+											</div>
+								</div>
 								
 								<div class="table-responsive">
 												<table class="table table-condensed table-bordered apm-member-listing-table apm-all-proj-table apm-eff-est-table">
 													
 														<tr>
 															
-															<th rowspan="2">DATES</th>
+														<th rowspan="2">DATES</th>
 															{% for eff in efforestimate.0.effort %}
 															
 															<th id="{{eff.userKey.id}}">{{ eff.userName }} </th>
@@ -219,7 +319,7 @@
 													
 													
 														<tr>
-														{% for eff in efforestimate.0.effort %}
+															{% for eff in efforestimate.0.effort %}
 															<td>
 																<select class="form-control add-task-textbox apm-modal-textbox apm-effort-est-dropdown effort-dropdown" placeholder="Availability">
 																	<option>-Availability-</option>
@@ -239,6 +339,8 @@
 														
 														<!-- Main table rows starts -->
 														
+														<!-- Main table rows starts -->
+														
 														{% for est in efforestimate %}
 														<tr>
 														
@@ -252,106 +354,6 @@
 															<td id="{{est.key.id}}_total"><b>{{est.total_effort}}</b></td>
 														</tr>
 														{%endfor%}
-														<!-- <tr>
-															<td>3 May 2016</td>
-															<td title="Click on number to edit" class="cell-effort">
-																<span class="apm-eff-est-hr-num">5</span>
-																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
-															</td>
-															<td title="Click on number to edit" class="cell-effort">
-																<span class="apm-eff-est-hr-num">1</span>
-																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
-															</td>
-															<td title="Click on number to edit" class="cell-effort">
-																<span class="apm-eff-est-hr-num">4</span>
-																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
-															</td>
-															<td title="Click on number to edit" class="cell-effort">
-																<span class="apm-eff-est-hr-num">2</span>
-																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
-															</td>
-															<td><b>12</b></td>
-														</tr>
-														<tr>
-															<td>2 May 2016</td>
-															<td title="Click on number to edit" class="cell-effort">
-																<span class="apm-eff-est-hr-num">5</span>
-																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
-															</td>
-															<td title="Click on number to edit" class="cell-effort">
-																<span class="apm-eff-est-hr-num">1</span>
-																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
-															</td>
-															<td title="Click on number to edit" class="cell-effort">
-																<span class="apm-eff-est-hr-num">4</span>
-																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
-															</td>
-															<td title="Click on number to edit" class="cell-effort">
-																<span class="apm-eff-est-hr-num">2</span>
-																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
-															</td>
-															<td><b>11</b></td>
-														</tr>
-														<tr>
-															<td>3 May 2016</td>
-															<td title="Click on number to edit" class="cell-effort">
-																<span class="apm-eff-est-hr-num">5</span>
-																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
-															</td>
-															<td title="Click on number to edit" class="cell-effort">
-																<span class="apm-eff-est-hr-num">1</span>
-																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
-															</td>
-															<td title="Click on number to edit" class="cell-effort">
-																<span class="apm-eff-est-hr-num">4</span>
-																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
-															</td>
-															<td title="Click on number to edit" class="cell-effort">
-																<span class="apm-eff-est-hr-num">2</span>
-																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
-															</td>
-															<td><b>12</b></td>
-														</tr>
-														<tr>
-															<td>2 May 2016</td>
-															<td title="Click on number to edit" class="cell-effort">
-																<span class="apm-eff-est-hr-num">5</span>
-																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
-															</td>
-															<td title="Click on number to edit" class="cell-effort">
-																<span class="apm-eff-est-hr-num">1</span>
-																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
-															</td>
-															<td title="Click on number to edit" class="cell-effort">
-																<span class="apm-eff-est-hr-num">4</span>
-																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
-															</td>
-															<td title="Click on number to edit" class="cell-effort">
-																<span class="apm-eff-est-hr-num">2</span>
-																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
-															</td>
-															<td><b>11</b></td>
-														</tr>
-														<tr>
-															<td></td>
-															<td title="Click on number to edit">
-																<span class="apm-eff-est-hr-num">5</span>
-																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
-															</td>
-															<td title="Click on number to edit">
-																<span class="apm-eff-est-hr-num">1</span>
-																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
-															</td>
-															<td title="Click on number to edit">
-																<span class="apm-eff-est-hr-num">4</span>
-																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
-															</td>
-															<td title="Click on number to edit">
-																<span class="apm-eff-est-hr-num">2</span>
-																<span class="apm-eff-est-hr-text"><input type="text" class="form-control add-task-textbox apm-modal-textbox"></span>
-															</td>
-															<td><b>12</b></td>
-														</tr> -->
 													
 												</table>
 											</div>
@@ -362,6 +364,7 @@
 											</div>  -->
 
 							</div> <!-- .col-md-10 ENDS -->
+							<div class="col-md-1"></div>
 						</div>
 						
 						
@@ -376,8 +379,8 @@
     </div>
     <!-- /#wrapper -->
   
-	
-	<!-- Put Hour value Modal Starts -->
+		
+<!-- Put Hour value Modal Starts -->
 			<div id="put-hour-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
 			  <div class="modal-dialog modal-sm">
 
@@ -462,4 +465,6 @@
 	
 	
 		
-{%endblock%}
+
+		
+	{%endblock%}

@@ -377,8 +377,8 @@ class AdminEditUser(BaseHandler):
                 project_permission = False
             
             
-            user_key.user_name = self.request.get('email')
-            user_key.email = self.request.get('email')
+            user_key.user_name = self.request.get('email').lower()
+            user_key.email = self.request.get('email').lower()
             user_key.name = self.request.get('first_name')
             user_key.last_name = self.request.get('last_name')
             user_key.designation = self.request.get('designation')
@@ -524,8 +524,8 @@ class AdminProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobsto
               #  logging.info(upload.key())
          
                 
-                user_name = self.request.get('email')
-                email = self.request.get('email')
+                user_name = self.request.get('email').lower()
+                email = self.request.get('email').lower()
                 name = self.request.get('first_name')
           #  role= ndb.Key(urlsafe=self.request.get('role'))
         #    logging.info(role)
@@ -563,8 +563,8 @@ class AdminProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobsto
     
             except (IndexError, ValueError):
                    
-                user_name = self.request.get('email')
-                email = self.request.get('email')
+                user_name = self.request.get('email').lower()
+                email = self.request.get('email').lower()
                 name = self.request.get('first_name')
           #  role= ndb.Key(urlsafe=self.request.get('role'))
         #    logging.info(role)

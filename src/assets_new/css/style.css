@@ -2213,3 +2213,30 @@ div.Tokenize {
 #wrapper i{
      			font-style: initial!important;
 			}		
+			
+
+   .effort-heading{
+    float:left;
+   }
+   .select-sprint-label{
+    margin-left:50px;
+   }
+   .select-sprint-dropdown-box{
+    padding-top: 8px;
+   }
+   @media (max-width: 600px){
+    .effort-heading{
+     float:none;
+    }
+    .select-sprint-label{
+     margin-left:0px;
+    }
+    .apm-eff-est-table-box {
+     margin-top: 8px;
+    }
+   }
+   
+.email{
+	text-transform: lowercase;
+}  
+ 

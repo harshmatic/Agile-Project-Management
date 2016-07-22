@@ -419,7 +419,7 @@ class DeleteSprint(BaseHandler):
         self.response.write("true")
         
         
-class SprintStatus(BaseHandler):    
+class SprintStatus(BaseHandler):   
     @checkdomain  
     def post(self,*args,**kargs):
         
@@ -452,11 +452,63 @@ class SprintStatus(BaseHandler):
 
 class PendingTaskList(BaseHandler):
     @checkdomain
+    def get(self,*args,**kargs):
+        #key=ndb.Key(urlsafe=self.request.get("key"))   
+       # tasks_data=model.task.Task().query(ndb.AND(model.task.Task.sprint == key ,ndb.AND(model.task.Task.status == True ,ndb.AND(model.task.Task.task_status.IN (['In Progress','Open','Done','ReOpen','Deferred']))))).fetch()
+       # self.render_template("user_new/task_list.html",{"tasks_data":tasks_data})
+        project_key=self.session['current_project']
+        key=ndb.Key(urlsafe=self.request.get('key'))
+        sprint_data=key.get()
+        completed_task=0
+        pending_task=0
+        open_task=0
+        close_task=0
+        reopen_task=0
+        deferred_task=0
+        
+        task_data=model.task.Task().query(ndb.AND(model.task.Task.sprint == key ,ndb.AND(model.task.Task.status == True))).fetch()
+        
+        logging.info(task_data)
+        
+        for i in task_data:
+            if (i.task_status == 'Open'):
+                open_task=open_task+1
+            if (i.task_status == 'In Progress'):
+                pending_task=pending_task+1
+            if (i.task_status == 'Done'):
+                completed_task=completed_task+1
+            if (i.task_status == 'Close'):
+                close_task=close_task+1
+            if (i.task_status == 'ReOpen'):
+                reopen_task=reopen_task+1
+            if (i.task_status == 'Deferred'):
+                deferred_task=deferred_task+1
+        
+        sprints = sprint.Sprint().get_by_project(project_key)
+        
+        self.render_template("user_new/sprintstatus.html",{'sprint_data':sprint_data,'sprints':sprints,"open_task":open_task,"pending_task":pending_task,"completed_task":completed_task,"close_task":close_task,"reopen_task":reopen_task,"deferred_task":deferred_task,"task_data":task_data})
+    
+    @checkdomain
     def post(self,*args,**kargs):
-        key=ndb.Key(urlsafe=self.request.get("key"))   
+        key=ndb.Key(urlsafe=self.request.get('sprint_key'))
+        new_sprint_key=ndb.Key(urlsafe=self.request.get('sprint_data'))
+     #   logging.info(new_sprint_key)
         tasks_data=model.task.Task().query(ndb.AND(model.task.Task.sprint == key ,ndb.AND(model.task.Task.status == True ,ndb.AND(model.task.Task.task_status.IN (['In Progress','Open','Done','ReOpen','Deferred']))))).fetch()
-        self.render_template("user_new/task_list.html",{"tasks_data":tasks_data})
-  
+      
+        task_list=[]
+        
+        for i in tasks_data:
+            tasks_key=i.key.get()        
+            
+            tasks_key.sprint = new_sprint_key        
+              #  tasks_key.put()        
+            task_list.append(tasks_key)        
+                    
+                    
+         #   logging.info(task_list)        
+        ndb.put_multi(task_list)           
+    
+        self.response.out.write('true')
   
         
 class SprintInfo(BaseHandler):

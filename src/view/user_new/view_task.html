@@ -89,18 +89,18 @@
 						$.post( "/task/status",  {status: status,task_key: task_key},function( data ) {
 							
 							  //alert(data);
-							if (data!="true"){
+					/* 		if (data!="true"){
 				  				alert("Status cannot be updated ");
 				  				return false
 				  			}  else {
-				  				 $('#new_status').load('/mytasks/view?key={{task.key.urlsafe}} #new_status', function(result) {
+ */				  				 $('#new_status').load('/mytasks/view?key={{task.key.urlsafe}} #new_status', function(result) {
 					  				   
 					  				});
 				  					alert('Status changed successfully !!!');
 				  				
 				  				$("#apm-task-add-timelog-modal #task_completed").prop( "checked", true );
 				  				
-				  		}	
+				 // 		}	
 						
 						});
 					});

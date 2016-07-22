@@ -13,6 +13,7 @@ from controller.timelog import *
 from controller.email_handler import *
 from controller.testuserdashboard import *
 from controller.effort_estimation_controller import *
+from controller.email import *
 from webapp2_extras import routes
 from webapp2_extras.routes import DomainRoute
 from google.appengine.ext.webapp import template
@@ -103,6 +104,7 @@ app = webapp2.WSGIApplication([
         webapp2.Route('/sprint_info', SprintInfo),
         webapp2.Route('/sprints/dd', SprintDD, name="sprint_dd"),
         webapp2.Route('/sprint/status', SprintStatus),
+       # webapp2.Route('/sprint/sprintstatus', SprintStatus),
         webapp2.Route('/sprint/tasklist', PendingTaskList),
         webapp2.Route('/sprint/pie_chart', SprintPieChart),
        
@@ -131,6 +133,7 @@ app = webapp2.WSGIApplication([
         
         #Effort Estimation
         webapp2.Route('/efforts', EffortEstimationView,name='estimationView'), 
+        webapp2.Route('/efforts/chart', EffortsChart),
        
         webapp2.Route('/efforts/edit', EditEffortEstimation),
         
@@ -139,7 +142,10 @@ app = webapp2.WSGIApplication([
         
         webapp2.Route('/barchart', Barchart),
         webapp2.Route('/uchart', Utilizationchart),
-        webapp2.Route('/velchart', Velocitychart)
+        webapp2.Route('/velchart', Velocitychart),
+        
+        #to change all the saved email address to lower
+      #  webapp2.Route('/change_email', ChangeEmail)
         
     ]),
         webapp2.Route('/', SignupUser, name='home'),

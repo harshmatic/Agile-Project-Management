@@ -338,8 +338,8 @@ class EndUserProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobs
               #  logging.info(upload.key())
          
                 
-                user_name = self.request.get('email')
-                email = self.request.get('email')
+                user_name = self.request.get('email').lower()
+                email = self.request.get('email').lower()
                 name = self.request.get('first_name')
           #  role= ndb.Key(urlsafe=self.request.get('role'))
         #    logging.info(role)
@@ -377,8 +377,8 @@ class EndUserProfile(BaseHandler,blobstore_handlers.BlobstoreUploadHandler,blobs
             
             except (IndexError, ValueError):
                 
-                user_name = self.request.get('email')
-                email = self.request.get('email')
+                user_name = self.request.get('email').lower()
+                email = self.request.get('email').lower()
                 name = self.request.get('first_name')
           #  role= ndb.Key(urlsafe=self.request.get('role'))
         #    logging.info(role)

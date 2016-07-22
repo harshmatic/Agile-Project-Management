@@ -1,0 +1,122 @@
+<style>
+.notify{
+color:burlywood;
+}
+</style>
+<script>
+$(document).ready(function(){	
+	
+
+	$("#move_sprint_tasks").on("click",function(){
+		$.post( '/sprint/tasklist', $("#update_form").serialize())
+			.done(function( data ) {
+				if (data!="true"){
+					alert("Tasks cannot be moved.");
+					return false
+				} else {
+					
+					/* alert("Task updated."); */
+					
+				}
+			});
+			
+			
+				
+				
+			})
+			
+			
+				$('#pending-task-modal').on('hidden.bs.modal', function(e)
+					    { 
+					        $(this).removeData('bs.modal');
+					        
+					        $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
+					        //	$("#details").hide();
+					        	
+					  
+					        	
+			  				});
+					  
+					        
+					    }) ;
+	});
+</script>
+<form role="form" id="update_form" enctype="multipart/form-data">
+			<div class="modal-content add-task-modal-content">
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">{{sprint_data.name|upper}} Details</h4>
+				  </div>
+				  
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								
+								<div class="col-md-10">
+								
+								
+								<div class="form-group task-form-group">
+								<label class="task-label">Total Completed Task: {{completed_task}}</label><br/>
+								<label class="task-label">Total Open Task: {{open_task}}</label><br/>
+								<label class="task-label">Total In Progress Task: {{pending_task}}</label><br/>
+								<label class="task-label">Total Deferred Task: {{deferred_task}}</label><br/>
+								<label class="task-label">Total Close Task: {{close_task}}</label><br/>
+								<label class="task-label">Total Reopened Task: {{reopen_task}}</label><br/>
+								</div>
+								
+								<table class="table table-bordered apm-member-listing-table apm-all-proj-table">
+									<thead>
+										<tr>
+										
+										<th>Title</th>
+										<th>Description</th>
+										<th>Status</th>
+										</tr>
+									</thead>						
+    
+    								<tbody>
+													
+									{%for tasks in task_data%}
+									<tr>
+								
+									<td>{{tasks.name}}</td>
+									<td>{{tasks.description}}</td>
+									<td>{{tasks.task_status}}</td>
+									</tr>
+									{%endfor%}
+														
+									</tbody>
+							</table>
+								
+					<i class="notify">To change the task's sprint please select sprint from the dropdown and click move button.</i>
+											 <br/>
+											 <br/>					
+						<div class="form-group task-form-group">
+						<label class="task-label">Sprint</label>
+						<select class="form-control add-task-textbox apm-modal-textbox" name="sprint_data" id="sprint_data">
+						{% for sprint in sprints%}
+						{%if sprint.status%}
+						
+						{%ifnotequal sprint_data.key sprint.key%}
+						<option value="{{sprint.key.urlsafe}}">{{sprint.name}}</option>
+						{%endifnotequal%}
+						{%endif%}
+						{%endfor%}
+						</select>
+						</div>		
+											
+									
+		  <input type="hidden" id="sprint_key" name="sprint_key" value="{{sprint_data.key.urlsafe}}">  
+											
+								</div>	
+								<div class="col-md-1">
+								</div>		
+							</div>
+						
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<input type="submit" class="add-task-btn-modal" data-dismiss="modal" id="move_sprint_tasks" value="Move">
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">OK</button>
+				  </div>
+	</form>			
