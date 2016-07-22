@@ -516,8 +516,15 @@ $(document).on("click", ".sprint_status_link",function() {
 						<!-- Backlog Filter section -->
 						<div class="apm-backlog-filter-box">
 							
+							{% if next_cursor %}
+							<a href="/sprint?page={{next_cursor}}">Next</a>
+							{% endif %}
+							
 							<!-- Add issue button -->
 							<a href="/task" data-toggle="modal" data-target="#add-issue-modal">
+							
+							
+							
 												<button class="apm-listing-add-proj-btn pro-button apm-add-sprint-btn" id="add-issue">Add Issue</button>
 											</a>
 								
@@ -545,9 +552,16 @@ $(document).on("click", ".sprint_status_link",function() {
 													{{sprint.name}}
 												
 												
+												
+												
 												<!-- Sprint Action dropdown starts -->
               										<li class="dropdown sprint-action-dropdown-box">
               									 		<a href="#" class="dropdown-toggle sprint-action-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+             									  		
+             									  		{% if task_next_cursor %}
+															<a class="panel-heading" href="/sprint?tp={{next_cursor}}">Next</a>
+														{% endif %}
+             									  		
              									  		<i class="fa fa-cogs"></i> Action
             									   		<span class="caret"></span></a>
             								   			<ul class="dropdown-menu sprint-action-dropdown bullet">

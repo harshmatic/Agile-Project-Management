@@ -13,6 +13,7 @@ from model import product_backlog
 from common import checkdomain
 from model.sprint import Sprint_Status
 from model.status import Status
+from google.appengine.datastore.datastore_query import Cursor
 
 class Tasks(BaseHandler):
     @checkdomain
@@ -238,7 +239,19 @@ class Sprint(BaseHandler):
            # project = ndb.Key(urlsafe=self.request.get("key"))
             project1 =self.session['current_project']   
             sprint_data=sprint.Sprint().get_by_project(project1)
-            tasks=task.Task().get_all(project1)
+          
+            task_cursor_str=self.request.get('tp',None)
+            t_cursor=None
+            
+            if task_cursor_str:
+                t_cursor=Cursor(urlsafe=task_cursor_str)
+                
+            
+           # tasks=task.Task().get_all(project1)
+            
+            tasks,task_next_cursor,t_more= task.Task().query(task.Task.project == project1,ndb.AND(task.Task.status == True)).order(-task.Task.created_date).fetch_page(15, start_cursor=t_cursor)
+            
+            
             logging.info(tasks)
             
             release=project.ProjectRelease()
@@ -246,8 +259,17 @@ class Sprint(BaseHandler):
             
             key=self.session['current_project']  
             team=project.ProjectMembers().get_all(key)
+              
+            if t_more:
+                
+                    t_next_cursor= task_next_cursor.urlsafe()
+                    
+                    self.render_template("user_new/apm-sprint-items.html",{"sprints":sprint_data,"team":team,"tasks":tasks,"release":releases,"task_next_cursor":t_next_cursor})
             
-            self.render_template("user_new/apm-sprint-items.html",{"sprints":sprint_data,"team":team,"tasks":tasks,"release":releases})
+            else:
+                
+                    self.render_template("user_new/apm-sprint-items.html",{"sprints":sprint_data,"team":team,"tasks":tasks,"release":releases})
+            
         #else:
             #self.response.write("you are not allowed")
     

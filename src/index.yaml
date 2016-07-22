@@ -13,3 +13,16 @@ indexes:
   properties:
   - name: sprint
   - name: date
+- kind: Sprint
+  properties:
+  - name: project
+  - name: status
+  - name: created_date
+    direction: desc
+- kind: Task
+  properties:
+  - name: project
+  - name: status
+  - name: created_date
+    direction: desc
+
