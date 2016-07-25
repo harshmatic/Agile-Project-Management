@@ -22,4 +22,11 @@ class Sprint(BaseClass):
         return self.query().fetch()
     def get_by_project(self,projId): 
         return self.query(ndb.AND(Sprint.project == projId,Sprint.status == True)).order(-Sprint.created_date).fetch()
+    def get_sprints(self,**kwargs):
+        qry=self.query()
+        if 'project' in kwargs:
+            qry = qry.filter(Sprint.project == kwargs['project'])
+            
+        return qry.filter(Sprint.status==True).order(-Sprint.created_date).fetch(keys_only=True) 
+    
     

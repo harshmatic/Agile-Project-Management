@@ -23,6 +23,17 @@ indexes:
   properties:
   - name: project
   - name: status
+  - name: sprint
   - name: created_date
     direction: desc
-
+- kind: Task
+  properties:
+  - name: sprint
+  - name: created_date
+    direction: desc
+- kind: ProjectRelease
+  properties:
+  - name: projectid
+  - name: status
+  - name: created_date
+    direction: desc

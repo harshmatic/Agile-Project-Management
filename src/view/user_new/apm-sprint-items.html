@@ -43,6 +43,25 @@
 <script>
 
 $(document).ready(function(){
+
+/**************************************select sprint from dropdown start*********************************************/
+	
+	//alert($('#sprintselect').val());
+
+ 	$(document).on("change","#sprintselect",function() {
+		
+		var sprint_key =this.value;
+		$.get( "/sprint?sprint_key="+sprint_key ,function( data ) {
+		
+			//console.log(data);
+			
+			window.location.href = "/sprint?sprint_key="+sprint_key;
+  			
+		});
+	}); 
+	
+
+/**************************************select sprint from dropdown end*********************************************/
 				
 /******************************get release data starts**********************************************/					
 				var releasel;
@@ -86,6 +105,14 @@ $(document).ready(function(){
 						    	  {
 						           		 required: true
 						          },
+						          start: 
+						    	  {
+						           		 required: true
+						          },
+						          end: 
+						    	  {
+						           		 required: true
+						          },
 						          desc: 
 						          {
 							      		 required: true
@@ -103,6 +130,14 @@ $(document).ready(function(){
 						           {
 						             required: "Please enter sprint name."
 						           },
+						           start: 
+							    	{
+							           		 required: "Please enter start date."
+							        },
+							        end: 
+							    	{
+							           		 required: "Please enter end date."
+							       },
 						           desc: 
 						           {
 						             required: "Please enter sprint description."
@@ -171,18 +206,18 @@ $(document).ready(function(){
 					$('body').on('focus',"#start,#start_edit", function(){
 					    $(this).datepicker({
 							format: 'dd/mm/yyyy',
-							startDate: '0d'
+							//startDate: '0d'
 						});
 					});
 					$('body').on('focus',"#end,#end_edit", function(){
 					    $(this).datepicker({
 							format: 'dd/mm/yyyy',
-							startDate: '0d'
+							//startDate: '0d'
 						});
 					});
 					$('.datepicker').datepicker({
 						format: 'mm/dd/yyyy',
-						startDate: '0d',
+						//startDate: '0d',
 						autoclose:true
 					});
 					$('.datepicker').datepicker()
@@ -279,8 +314,10 @@ $(document).ready(function(){
 							 
 							 
 							// alert(release_end_date);
-							 
-							 if(start_date < project_start_date && start_date!='' && end_date > project_start_date && end_date !='')
+							
+							//to check if sprint start date is before project start date
+							
+							 if(start_date < project_start_date && start_date!='')
 							 {
 								 
 									$('#date_error').text("Start date cannot before project start date("+project_startdate+").")
@@ -292,6 +329,7 @@ $(document).ready(function(){
 							 }
 							 else
 							 
+							//to check if sprint start date is after project end date	 
 							 if (start_date > project_end_date && start_date!='')
 							 {
 									 
@@ -303,7 +341,9 @@ $(document).ready(function(){
 								 
 							 }
 							 else
-								 if (end_date < project_start_date && end_date !='' && start_date > project_start_date && start_date!='')
+								 
+							//to check if sprint end date before project start date 
+								if (end_date < project_start_date && end_date !='' )
 								 {
 										 
 										$('#date_error').text("End Date cannot be before project start date("+project_startdate+").")
@@ -315,7 +355,9 @@ $(document).ready(function(){
 								 }
 								 
 								 else
-								 if (end_date > project_end_date && end_date !='' && start_date < project_end_date && start_date!='')
+									 
+							//to check if sprint end date is after project end date
+								 if (end_date > project_end_date && end_date !='')
 								 {
 										 
 										$('#date_error').text("End date cannot be after project end date("+project_enddate+").")
@@ -326,6 +368,8 @@ $(document).ready(function(){
 									 
 								 }
 							 else
+							/* 	 
+							//to check if 
 								if (end_date > project_end_date && start_date > project_end_date && end_date !='' && start_date!='')
 									 {
 											 
@@ -336,7 +380,9 @@ $(document).ready(function(){
 											 
 										 
 									 } 
-								 else
+								 else 
+								 
+								 
 								if (end_date < project_start_date && start_date < project_start_date && end_date !='' && start_date!='')
 											 {
 													 
@@ -347,7 +393,10 @@ $(document).ready(function(){
 													 
 												 
 											 } 
-								else
+											 
+								else*/
+								
+								//to check if sprint start date is after sprint end date
 									if(start_date > end_date)
 									{
 										$('#date_error').text("Start date cannot be after end date.")
@@ -383,7 +432,10 @@ $(document).ready(function(){
 						  		else
 						  			{
 						  			alert("Sprint added successfully.");
+						  		
 						  			$('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
+						  			
+						  				
 						  				$(".table").each(function(){
 											if (!$(this).find("tr.find_empty").length){
 											a=$(this).find("tbody")[0];
@@ -391,6 +443,9 @@ $(document).ready(function(){
 											}
 											
 										})
+						  			});
+									$('#sprint_dropdown').load('/sprint #sprint_dropdown', function(result) {
+						  			
 						  			});
 						  			
 						  			}
@@ -438,6 +493,9 @@ $(document).ready(function(){
 						        $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
 				  				    //var variable = $('#edit_permissions').html();
 				  				});
+						        $('#sprint_dropdown').load('/sprint #sprint_dropdown', function(result) {
+						  			
+					  			});
 						        
 						    }) ;
 					
@@ -480,6 +538,7 @@ $(document).on("click", ".sprint_status_link",function() {
 									})
 					  			});
 					  			
+					  			
 				  				
 				  		}	
 						
@@ -513,6 +572,21 @@ $(document).on("click", ".sprint_status_link",function() {
 					
 						<h2 class="apm-all-reports-heading">Sprint Items</h2>
 						
+						<div class="form-group select-sprint-dropdown-box" id="sprint_dropdown">
+							<label class="apm-effort-est-lbl select-sprint-label"></label>
+							<select class="add-task-textbox apm-modal-textbox apm-effort-est-dropdown sprint-dropdown" id="sprintselect">
+							{% for i in all_sprint %}
+								{% if i.get.key == sprints.key %}
+									<option  value= "{{ i.get.key.urlsafe }}" selected> {{ i.get.name }}</option>
+											
+									{%else%}
+											
+									<option  value= "{{ i.get.key.urlsafe }}"> {{ i.get.name }}</option>
+								{%endif%}
+							{%endfor%}
+							</select>
+						</div>
+						
 						<!-- Backlog Filter section -->
 						<div class="apm-backlog-filter-box">
 							
@@ -544,12 +618,12 @@ $(document).on("click", ".sprint_status_link",function() {
 								<div class="col-md-12">
 									<div class="">
 									{%if sprints%}
-									{% for sprint in sprints%}
-									{%if sprint.status%}
+									
+									
 											<!-- Sprint 1 panel -->
 											<div class="panel panel-default apm-sprint-panel" id="sprint">
 												<div class="panel-heading">
-													{{sprint.name}}
+													{{sprints.name}}
 												
 												
 												
@@ -565,12 +639,12 @@ $(document).on("click", ".sprint_status_link",function() {
              									  		<i class="fa fa-cogs"></i> Action
             									   		<span class="caret"></span></a>
             								   			<ul class="dropdown-menu sprint-action-dropdown bullet">
-           								      		<li><a href="/sprint/edit?edit_key={{sprint.key.urlsafe}}" data-toggle="modal" data-target="#edit-sprint-modal"><i class="fa fa-pencil"></i> Edit Sprint</a></li>
+           								      		<li><a href="/sprint/edit?edit_key={{sprints.key.urlsafe}}" data-toggle="modal" data-target="#edit-sprint-modal"><i class="fa fa-pencil"></i> Edit Sprint</a></li>
                  							  		
-                 							  		{%if sprint.sprint_status == 'Completed'%}
-                 							  		<li><a href="#" class="sprint_status_link"><i class="fa fa-check-circle"></i><input type="hidden" class="sprint_key" value="{{sprint.key.urlsafe}}">Open Sprint</a></li> 
+                 							  		{%if sprints.sprint_status == 'Completed'%}
+                 							  		<li><a href="#" class="sprint_status_link"><i class="fa fa-check-circle"></i><input type="hidden" class="sprint_key" value="{{sprints.key.urlsafe}}">Open Sprint</a></li> 
                  							  		{%else%}
-                 							  		<li><a href="#" class="sprint_status_link"><i class="fa fa-check-circle"></i><input type="hidden" class="sprint_key" value="{{sprint.key.urlsafe}}">Complete Sprint</a></li> 
+                 							  		<li><a href="#" class="sprint_status_link"><i class="fa fa-check-circle"></i><input type="hidden" class="sprint_key" value="{{sprints.key.urlsafe}}">Complete Sprint</a></li> 
                 									{%endif%}	
                 									
                 									<!-- <li><a href="/sprint/delete?delete_key={{sprint.key.urlsafe}}"  data-toggle="modal" data-target="#delete-sprint-modal"><i class="fa fa-trash"></i> Delete Sprint</a></li> -->
@@ -601,18 +675,18 @@ $(document).on("click", ".sprint_status_link",function() {
 															<tbody>
 															{%if tasks%}
 															{%for task in tasks %}
-															{%if task.status%}
-																{%ifequal task.sprint sprint.key%}
+															
+																{%ifequal task.get.sprint sprints.key%}
 															  <tr class="find_empty">
 																
-																<td title="Task">{{task.name}}</td>
-																<td title="User Story">{%if task.user_story%}{{task.user_story.get.backlog_name}}{%else%}None{%endif%}</td>
-																<td title="Planned Start Date">{{task.startDate}}</td>
-																<td title="Planned End Date">{{task.endDate}}</td>
+																<td title="Task">{{task.get.name}}</td>
+																<td title="User Story">{%if task.get.user_story%}{{task.get.user_story.get.backlog_name}}{%else%}None{%endif%}</td>
+																<td title="Planned Start Date">{{task.get.startDate}}</td>
+																<td title="Planned End Date">{{task.get.endDate}}</td>
 																<td title="Assigned By">
 																	{% for team in team%}
 																	{%if team.status%}
-																	{%if team.userid.get.email_address == task.created_by%}
+																	{%if team.userid.get.email_address == task.get.created_by%}
 																	
 																	{{team.userid.get.name}} {{team.userid.get.last_name}}
 													
@@ -620,15 +694,15 @@ $(document).on("click", ".sprint_status_link",function() {
 																	{%endif%}	
 																	{%endfor%}
 																</td>
-																<td title="Assigned To">{%if task.assignee%}{{task.assignee.get.name}}{%else%}None{%endif%}</td>
-																<td title="Status">{{task.task_status}}</td>
-																<td title="Complexity">{{task.complexity.get.estimationLevel}}</td>
+																<td title="Assigned To">{%if task.get.assignee%}{{task.get.assignee.get.name}}{%else%}None{%endif%}</td>
+																<td title="Status">{{task.get.task_status}}</td>
+																<td title="Complexity">{{task.get.complexity.get.estimationLevel}}</td>
 																
-																<td title="Estimated Efforts (Hrs.)">{{task.actual_efforts}}</td>
+																<td title="Estimated Efforts (Hrs.)">{{task.get.actual_efforts}}</td>
 															  	<td>
-															  	<a href="/mytasks/view?key={{task.key.urlsafe}}"><i class="fa fa-eye apm-add-proj-view" title="View Task" aria-hidden="true"></i></a>
-															  	<a href="/task/edittask?edit_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#edit-issue-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Task"  id="{{task.key.urlsafe}}"></i></a>
-															  	<a href="/task/movetask?task_key={{task.key.urlsafe}}" data-toggle="modal" data-target="#move-issue-modal"><i class="fa fa-arrows" aria-hidden="true" title="Move Task"></i></a>
+															  	<a href="/mytasks/view?key={{task.get.key.urlsafe}}"><i class="fa fa-eye apm-add-proj-view" title="View Task" aria-hidden="true"></i></a>
+															  	<a href="/task/edittask?edit_key={{task.get.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#edit-issue-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Task"  id="{{task.get.key.urlsafe}}"></i></a>
+															  	<a href="/task/movetask?task_key={{task.get.key.urlsafe}}" data-toggle="modal" data-target="#move-issue-modal"><i class="fa fa-arrows" aria-hidden="true" title="Move Task"></i></a>
 															  	
 																<!-- <a href="/task/deletetask?delete_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#delete-issue-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Task"  id="{{task.key.urlsafe}}"></i></a> -->
 															  	
@@ -639,7 +713,7 @@ $(document).on("click", ".sprint_status_link",function() {
 															   
 															  {% endifequal %}
 															 
-															  {%endif%}
+															
 															  {% endfor %}
 															  
 															  {%endif%}
@@ -649,9 +723,9 @@ $(document).on("click", ".sprint_status_link",function() {
 												</div>
 											</div>
 											<!-- Sprint 1 panel ENDS -->
-											{%endif%}
+											
 
-									{% endfor%}		
+								
 									{%endif%}		
 									
 										
@@ -814,7 +888,7 @@ $(document).on("click", ".sprint_status_link",function() {
 												<!-- Start Date -->
 												<div class="col-md-6">
 													<div class="form-group">
-														<label class="apm-landing-reg-label">Start Date</label>
+														<label class="task-label">Start Date<font color="red">*</font></label>
 														<input name="start" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true" id="sprint_start">
 														<i class="fa fa-calendar datepicker-cal open-datetimepicker" aria-hidden="true"></i>
 													</div>
@@ -823,7 +897,7 @@ $(document).on("click", ".sprint_status_link",function() {
 												<!-- End Date -->
 												<div class="col-md-6">
 													<div class="form-group">
-														<label class="apm-landing-reg-label">End Date</label>
+														<label class="task-label">End Date<font color="red">*</font></label>
 														<input name="end" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true" id="sprint_end">
 														<i class="fa fa-calendar datepicker-cal open-datetimepicker1" aria-hidden="true"></i>
 													</div>
@@ -844,10 +918,10 @@ $(document).on("click", ".sprint_status_link",function() {
 														<label class="task-label">Release</label>
 														<select class="form-control add-task-textbox apm-modal-textbox" name="release" id="release">
 														<option value="None">None</option>
-														{%for i in release%}
-														{%if i.status%}
-															<option value={{i.key.urlsafe}}>{{i.releaseName}}</option>
-														{%endif%}
+														{%for rel in release%}
+														
+															<option value={{rel.get.key.urlsafe}}>{{rel.get.releaseName}}</option>
+														
 														{%endfor%}
 												</select>
 												 </div>
@@ -869,9 +943,3 @@ $(document).on("click", ".sprint_status_link",function() {
 			</div>
 	<!-- Create Sprint Modal Ends -->
 {%endblock%}		
-		
-		
-		
-		
-</body>
-</html>

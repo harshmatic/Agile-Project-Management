@@ -32,7 +32,24 @@ class Task(BaseClass):
     def get_by_project_user(self,projectId,userId):
         return self.query(ndb.AND(Task.project==projectId,Task.assignee==userId)).fetch() 
 
-
+    def get_tasks(self,count=15,order="desc",**kwargs):
+        qry = self.query()
+        if 'project' in kwargs:
+            qry = qry.filter(Task.project==kwargs['project'])
+        if 'sprint' in kwargs:
+            qry = qry.filter(Task.sprint==kwargs['sprint'])
+        if 'start_cursor' in kwargs:
+            if order == 'desc':
+                return qry.filter(Task.status==True).order(-Task.created_date).fetch_page(count, start_cursor=kwargs['start_cursor'],keys_only=True)
+            else:
+                return qry.filter(Task.status==True).order(Task.created_date).fetch_page(count, start_cursor=kwargs['start_cursor'],keys_only=True)
+           
+        else:
+            if order == 'desc':
+                return qry.filter(Task.status==True).order(-Task.created_date).fetch(keys_only=True) 
+            else:
+               return qry.filter(Task.status==True).order(Task.created_date).fetch(keys_only=True) 
+           
     
 class Type(BaseClass):
     name = ndb.StringProperty(required=True)

@@ -235,43 +235,78 @@ class SprintDD(BaseHandler):
 class Sprint(BaseHandler):
     @checkdomain
     def get(self,*args,**kargs):
-        #if check_permission(self):
-           # project = ndb.Key(urlsafe=self.request.get("key"))
+        if check_permission(self):
+        
             project1 =self.session['current_project']   
-            sprint_data=sprint.Sprint().get_by_project(project1)
-          
-            task_cursor_str=self.request.get('tp',None)
-            t_cursor=None
+            all_sprint=sprint.Sprint().get_sprints(project=project1)
             
-            if task_cursor_str:
-                t_cursor=Cursor(urlsafe=task_cursor_str)
+            #release=project.ProjectRelease()
+            #releases=release.get_by_project(project1)
+            
+            releases=project.ProjectRelease().get_releases(project=project1)
+           
+            
+            
+            team=project.ProjectMembers().get_all(project1)
+            
+            
+            if not (self.request.get('sprint_key')):
                 
+           
+                
+                sprint_data=sprint.Sprint().query(sprint.Sprint.project == project1,ndb.AND(sprint.Sprint.status == True)).order(-sprint.Sprint.created_date).get()
+          
+                task_cursor_str=self.request.get('tp',None)
+                t_cursor=None
             
-           # tasks=task.Task().get_all(project1)
+                if task_cursor_str:
+                    t_cursor=Cursor(urlsafe=task_cursor_str)
+                
+                #tasks,task_next_cursor,t_more= task.Task().query(task.Task.project == project1,ndb.AND(task.Task.status == True)).order(-task.Task.created_date).fetch_page(15, start_cursor=t_cursor)
             
-            tasks,task_next_cursor,t_more= task.Task().query(task.Task.project == project1,ndb.AND(task.Task.status == True)).order(-task.Task.created_date).fetch_page(15, start_cursor=t_cursor)
-            
-            
-            logging.info(tasks)
-            
-            release=project.ProjectRelease()
-            releases=release.get_by_project(self.session['current_project'])
-            
-            key=self.session['current_project']  
-            team=project.ProjectMembers().get_all(key)
+                tasks,task_next_cursor,t_more= task.Task().get_tasks(project=project1,start_cursor=t_cursor)
               
-            if t_more:
+                if t_more:
                 
                     t_next_cursor= task_next_cursor.urlsafe()
                     
-                    self.render_template("user_new/apm-sprint-items.html",{"sprints":sprint_data,"team":team,"tasks":tasks,"release":releases,"task_next_cursor":t_next_cursor})
+                    self.render_template("user_new/apm-sprint-items.html",{"all_sprint":all_sprint,"sprints":sprint_data,"team":team,"tasks":tasks,"release":releases,"task_next_cursor":t_next_cursor})
+            
+                else:
+                
+                    self.render_template("user_new/apm-sprint-items.html",{"all_sprint":all_sprint,"sprints":sprint_data,"team":team,"tasks":tasks,"release":releases})
+            
             
             else:
+               
+                sprint_key=ndb.Key(urlsafe=self.request.get('sprint_key'))
+                sprint_data=sprint_key.get()
                 
-                    self.render_template("user_new/apm-sprint-items.html",{"sprints":sprint_data,"team":team,"tasks":tasks,"release":releases})
+                task_cursor_str=self.request.get('tp',None)
+                t_cursor=None
             
-        #else:
-            #self.response.write("you are not allowed")
+                if task_cursor_str:
+                    t_cursor=Cursor(urlsafe=task_cursor_str)
+                
+               # tasks,task_next_cursor,t_more= task.Task().query(task.Task.sprint == sprint_data.key).order(-task.Task.created_date).fetch_page(15, start_cursor=t_cursor)
+               
+                tasks,task_next_cursor,t_more= task.Task().get_tasks(project=project1,sprint=sprint_data.key,start_cursor=t_cursor)
+              
+                if t_more:
+                
+                    t_next_cursor= task_next_cursor.urlsafe()
+                    
+                    self.render_template("user_new/apm-sprint-items.html",{"all_sprint":all_sprint,"sprints":sprint_data,"team":team,"tasks":tasks,"release":releases,"task_next_cursor":t_next_cursor})
+            
+                else:
+                
+                    self.render_template("user_new/apm-sprint-items.html",{"all_sprint":all_sprint,"sprints":sprint_data,"team":team,"tasks":tasks,"release":releases})
+            
+          
+                
+            
+        else:
+            self.response.write("you are not allowed")
     
     @checkdomain
     def post(self,*args,**kargs):

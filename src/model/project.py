@@ -88,3 +88,9 @@ class ProjectRelease(BaseClass):
         return res
     def get_by_project(self,projId): 
         return self.query(ProjectRelease.projectid == projId).fetch()
+    def get_releases(self,**kwargs):
+        qry=self.query()
+        if 'project' in kwargs:
+            qry = qry.filter(ProjectRelease.projectid==kwargs['project'])
+        
+        return qry.filter(ProjectRelease.status==True).order(-ProjectRelease.created_date).fetch(keys_only=True) 

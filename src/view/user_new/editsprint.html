@@ -58,6 +58,14 @@ $('.form-group').find('.open-datetimepicker1').on('click', function(){
 						    	  {
 						           		 required: true
 						          },
+						          start: 
+						    	  {
+						           		 required: true
+						          },
+						          end: 
+						    	  {
+						           		 required: true
+						          },
 						          desc: 
 						          {
 							      		 required: true
@@ -78,6 +86,14 @@ $('.form-group').find('.open-datetimepicker1').on('click', function(){
 						           {
 						             required: "Please enter sprint name."
 						           },
+						           start: 
+							    	{
+							           		 required: "Please enter start date."
+							        },
+							        end: 
+							    	{
+							           		 required: "Please enter end date."
+							       },
 						           desc: 
 						           {
 						             required: "Please enter sprint description."
@@ -200,7 +216,9 @@ $('.form-group').find('.open-datetimepicker1').on('click', function(){
 						 project_end_date =Date.parse(project_end_date);
 						 
 						 
-						 if(start_date < project_start_date && start_date!='' && end_date > project_start_date && end_date !='')
+						//to check if sprint start date is before project start date
+							
+						 if(start_date < project_start_date && start_date!='')
 						 {
 							 
 								$('#date_error').text("Start date cannot before project start date("+project_startdate+").")
@@ -210,8 +228,10 @@ $('.form-group').find('.open-datetimepicker1').on('click', function(){
 								 
 							 
 						 }
+						 else
 						 
-						 if (start_date > project_end_date && start_date!='' && end_date < project_end_date && end_date !='')
+						//to check if sprint start date is after project end date	 
+						 if (start_date > project_end_date && start_date!='')
 						 {
 								 
 								$('#date_error').text("Start date cannot be after project end date("+project_enddate+").")
@@ -222,7 +242,9 @@ $('.form-group').find('.open-datetimepicker1').on('click', function(){
 							 
 						 }
 						 else
-							 if (end_date < project_start_date && end_date !='' && start_date > project_start_date && start_date!='')
+							 
+						//to check if sprint end date before project start date 
+							if (end_date < project_start_date && end_date !='' )
 							 {
 									 
 									$('#date_error').text("End Date cannot be before project start date("+project_startdate+").")
@@ -234,10 +256,12 @@ $('.form-group').find('.open-datetimepicker1').on('click', function(){
 							 }
 							 
 							 else
-							 if (end_date > project_end_date && end_date !='' && start_date < project_end_date && start_date!='')
+								 
+						//to check if sprint end date is after project end date
+							 if (end_date > project_end_date && end_date !='')
 							 {
 									 
-									$('#date_error').text("End date cannot be greater than Project Date("+project_enddate+").")
+									$('#date_error').text("End date cannot be after project end date("+project_enddate+").")
 									event.preventDefault();
 									 event.stopImmediatePropagation();
 									 return false;
@@ -245,6 +269,8 @@ $('.form-group').find('.open-datetimepicker1').on('click', function(){
 								 
 							 }
 						 else
+						/* 	 
+						//to check if 
 							if (end_date > project_end_date && start_date > project_end_date && end_date !='' && start_date!='')
 								 {
 										 
@@ -255,7 +281,9 @@ $('.form-group').find('.open-datetimepicker1').on('click', function(){
 										 
 									 
 								 } 
-							 else
+							 else 
+							 
+							 
 							if (end_date < project_start_date && start_date < project_start_date && end_date !='' && start_date!='')
 										 {
 												 
@@ -266,7 +294,10 @@ $('.form-group').find('.open-datetimepicker1').on('click', function(){
 												 
 											 
 										 } 
-							else
+										 
+							else*/
+							
+							//to check if sprint start date is after sprint end date
 								if(start_date > end_date)
 								{
 									$('#date_error').text("Start date cannot be after end date.")
@@ -329,10 +360,14 @@ $('.form-group').find('.open-datetimepicker1').on('click', function(){
 												}
 												
 											})
-										
+											
 										
 										
 										});
+										
+										$('#sprint_dropdown').load('/sprint #sprint_dropdown', function(result) {
+								  			
+							  			});
 								
 								    }) ;
 							
@@ -372,7 +407,7 @@ $('.form-group').find('.open-datetimepicker1').on('click', function(){
 												<!-- Start Date -->
 												<div class="col-md-6">
 													<div class="form-group">
-														<label class="apm-landing-reg-label">Start Date</label>
+														<label class="task-label">Start Date<font color="red">*</font></label>
 														<input name="start" id="start" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true" id="sprint_start" value="{{sprint_info.startDate|date:'m/d/Y'}}">
 														<i class="fa fa-calendar datepicker-cal open-datetimepicker" aria-hidden="true"></i>
 													</div>
@@ -381,7 +416,7 @@ $('.form-group').find('.open-datetimepicker1').on('click', function(){
 												<!-- End Date -->
 												<div class="col-md-6">
 													<div class="form-group">
-														<label class="apm-landing-reg-label">End Date</label>
+														<label class="task-label">End Date<font color="red">*</font></label>
 														<input name="end" id="end" type="text" class="form-control apm-landing-textbox-reg datepicker" readonly="true" id="sprint_end" value="{{sprint_info.endDate|date:'m/d/Y'}}">
 														<i class="fa fa-calendar datepicker-cal open-datetimepicker1" aria-hidden="true"></i>
 													</div>
