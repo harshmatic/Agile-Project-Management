@@ -3,6 +3,7 @@ import logging
 from model.user import *
 from base import BaseClass
 from status import Status
+from tag import Tags
 
 class Comments(BaseClass):
     comment=ndb.StringProperty()
@@ -17,7 +18,7 @@ class Task(BaseClass):
     assignee = ndb.KeyProperty()
     project = ndb.KeyProperty()
     sprint = ndb.KeyProperty()
-    tag = ndb.KeyProperty()
+    tag = ndb.KeyProperty(Tags , default=None)
     user_story=ndb.KeyProperty()
     type = ndb.KeyProperty()
     task_status = ndb.StringProperty(choices=Status)

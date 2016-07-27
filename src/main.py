@@ -107,7 +107,8 @@ app = webapp2.WSGIApplication([
        # webapp2.Route('/sprint/sprintstatus', SprintStatus),
         webapp2.Route('/sprint/tasklist', PendingTaskList),
         webapp2.Route('/sprint/pie_chart', SprintPieChart),
-        webapp2.Route('/addtag', AddTag),
+        webapp2.Route('/alltags',Alltags),
+        webapp2.Route('/tag',TagOperations),
        
         
         #Task

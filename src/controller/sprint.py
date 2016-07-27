@@ -648,14 +648,26 @@ class GetUserStory(BaseHandler):
         logging.info(productBacklog_key)
         
         self.render_template('user_new/dropdown_userstory.html', {"stories":productBacklog_key})
-    
-class AddTag(BaseHandler):
+
+class Alltags(BaseHandler):
     @checkdomain
     def get(self,*args,**kargs):
-        if not (self.request.get('tag_key')):
+        key=self.session['current_project'] 
+        tags=model.tag.Tags().get_tags(project=key)
+        self.render_template("user_new/alltags.html",{"tags":tags})
+
+       
+    
+class TagOperations(BaseHandler):
+    @checkdomain
+    def get(self,*args,**kargs):
+        key=self.session['current_project'] 
+        tags=model.tag.Tags().get_tags(project=key)
+        
+        if not (self.request.get('edit_key')):
             self.render_template("user_new/tag.html")
         else:
-            tag_key=ndb.Key(urlsafe=self.request.get('tag_key'))
+            tag_key=ndb.Key(urlsafe=self.request.get('edit_key'))
             tag_info=tag_key.get()
             self.render_template("user_new/tag.html",{"tag_info":tag_info})
        

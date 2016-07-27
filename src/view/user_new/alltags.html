@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block title %}User | Project | Tags{% endblock %}
+		
+{% block header_links%}
+<title>Release</title>
+		
+<style>
+			.apm-nav-brand-1{
+				padding: 15px!important;
+				font-size: 15px!important;
+				margin: 0!important;
+				padding-left: 8px!important;
+			}
+			.apm-dropdown-projects{
+				margin-left: -98px!important;
+				margin-top: 50px!important;
+				z-index:99999999;
+			}
+			.error{
+			color:red;
+			display: inline-block;
+    		max-width: 100%;
+    		margin-bottom: 5px;
+    		font-weight: 700;
+			}
+			
+</style>
+<script>
+$(document).ready(function(){
+
+
+
+				});
+				
+				
+				
+				
+				
+		</script>	
+		
+{% endblock %}	
+	
+
+
+     
+{%block content%}	
+		
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+					
+						<h2 class="apm-all-reports-heading">All Tags</h2>
+						
+						<hr>
+						
+						
+							<div class="row">
+								<div class="col-md-10">
+									<div class="">
+											<div class="apm-listing-add-proj-box">
+												<!-- Add tag button -->
+											<a href="/tag" data-toggle="modal" data-target="#add-tag-modal">
+												<button class="apm-listing-add-proj-btn pro-button apm-add-sprint-btn" id="add_tag">Add Tags</button>
+											</a>
+
+											</div>
+											<div class="table-responsive">
+												<table  class="table-condensed table table-bordered apm-member-listing-table apm-all-proj-table" id="tag_table">
+													<thead>
+														<tr>
+															<th></th>
+														<!-- 	<th>Project Name</th> -->
+															<th>Tag Title</th>
+															<th>Description</th>
+															<th>Action</th>
+														</tr>
+													</thead>
+													<tbody>
+													{% for i in tags %}
+												
+														<tr id="{{i.get.key.urlsafe}}">
+															<td><i class="fa fa-cogs" aria-hidden="true"></i></td>
+															
+															<td>{{ i.get.name }}</td>
+															<td>{{ i.get.description }}</td>
+															<td>
+																<a href="/tag?edit_key={{i.get.key.urlsafe}}" data-toggle="modal" data-target="#add-tag-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Tag"  id="{{i.get.key.urlsafe}}"></a></i>
+																<!-- <a href="/tag?delete_key={{i.get.key.urlsafe}}" data-toggle="modal" data-target="#add-tag-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Tag"  id="{{i.get.key.urlsafe}}"></a></i>  -->
+															</td>
+														</tr>
+													
+													
+													{%endfor%}
+													</tbody>
+												</table>
+											</div>
+									</div>
+								</div>
+								<div class="col-md-2">
+									
+								</div>
+							</div>		
+						</div>
+						
+                    </div> <!-- .col-lg-12 ends -->
+                </div>
+            </div> <!-- .container ends -->
+        </div>
+        <!-- /#page-content-wrapper ENDS -->
+		
+    </div>
+    <!-- /#wrapper -->
+  
+		
+		<!-- Add Team Members Starts -->
+			<div id="add-tag-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				
+				 		 
+				</div>
+
+			  </div>
+			</div>
+	<!-- Add Team Members Modal Ends -->
+	<!--Edit Modal Starts -->
+			<div id="edit-tag-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				
+				</div>
+
+			  </div>
+			</div>
+	<!-- edit Modal Ends -->
+	
+	<!-- delete Modal Starts -->
+			<div id="delete-tag-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				 
+				</div>
+
+			  </div>
+			</div>
+	<!--delete Modal Ends -->
+{%endblock%}
+		
+		
+		
