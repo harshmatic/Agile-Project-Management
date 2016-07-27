@@ -13,6 +13,7 @@ from model import product_backlog
 from common import checkdomain
 from model.sprint import Sprint_Status
 from model.status import Status
+from model.tag import Tags
 from google.appengine.datastore.datastore_query import Cursor
 
 class Tasks(BaseHandler):
@@ -25,8 +26,9 @@ class Tasks(BaseHandler):
             complexity=project.Estimation().get_all(key)
             logging.info(complexity)
             sprints = sprint.Sprint().get_by_project(key)
+            tags=model.tag.Tags().get_tags(project=key)
             
-            self.render_template("user_new/addtask.html",{"type":type_data,"team":team,"complex":complexity,'sprints':sprints})
+            self.render_template("user_new/addtask.html",{"type":type_data,"team":team,"complex":complexity,'sprints':sprints,"tags":tags})
         #else:
             #self.response.write("you are not allowed")
     
@@ -43,6 +45,11 @@ class Tasks(BaseHandler):
             task_data.complexity = ndb.Key(urlsafe=self.request.get('complexity'))
         else:
             task_data.complexity=None
+            
+        if (self.request.get('tag') != 'None'):
+            task_data.tag = ndb.Key(urlsafe=self.request.get('tag'))
+        else:
+            task_data.tag=None
         
         if (self.request.get("start") != ''):
             task_data.startDate = datetime.strptime(self.request.get("start"), '%m/%d/%Y').date()
@@ -108,7 +115,9 @@ class EditTask(BaseHandler):
             team=project.ProjectMembers().get_all(key)
             complexity=project.Estimation().get_all(key)
             sprints = sprint.Sprint().get_by_project(key)
-            self.render_template("user_new/edittask.html",{"type":type_data,"team":team,"complex":complexity,'sprints':sprints,'task_data':task_data})
+            
+            tags=model.tag.Tags().get_tags(project=key)
+            self.render_template("user_new/edittask.html",{"type":type_data,"team":team,"complex":complexity,'sprints':sprints,'task_data':task_data,"tags":tags})
         #else:
             #self.response.write("you are not allowed")
     
@@ -151,6 +160,11 @@ class EditTask(BaseHandler):
             task_data.assignee = ndb.Key(urlsafe=self.request.get('assignee'))
         else:
            task_data.assignee=None
+           
+        if (self.request.get('tag') != 'None'):
+            task_data.tag = ndb.Key(urlsafe=self.request.get('tag'))
+        else:
+            task_data.tag=None
         
         if (self.request.get('sprint') != 'None'):
             sprint_key = ndb.Key(urlsafe=self.request.get('sprint'))
@@ -635,30 +649,44 @@ class GetUserStory(BaseHandler):
         
         self.render_template('user_new/dropdown_userstory.html', {"stories":productBacklog_key})
     
+class AddTag(BaseHandler):
+    @checkdomain
+    def get(self,*args,**kargs):
+        if not (self.request.get('tag_key')):
+            self.render_template("user_new/tag.html")
+        else:
+            tag_key=ndb.Key(urlsafe=self.request.get('tag_key'))
+            tag_info=tag_key.get()
+            self.render_template("user_new/tag.html",{"tag_info":tag_info})
+       
     
-#     def post(self,*args,**kargs):
-#         #if check_permission(self):
-#            # project = ndb.Key(urlsafe=self.request.get("key"))
-#             key = ndb.Key(urlsafe=self.request.get('key'))
-#             product_info=key.get()
-#             
-#             logging.info(key)
-#             
-#             productBacklog = product_backlog.ProductUserStory()
-#             productBacklog = productBacklog.query(product_backlog.ProductUserStory.sprintId == key).fetch()
-#             
-#             
-#             productBacklog_key=[]
-#             for i in productBacklog:
-#                 productBacklog_key.append(
-#                     {
-#                         "value":i.key.urlsafe(),
-#                         "name":i.backlog_name
-#                     }
-#                 )
-#                  
-#             logging.info(productBacklog)
-#             
-#          
-#             self.response.write(productBacklog)
-#            
+    @checkdomain
+    def post(self,*args,**kargs):
+        currentUser=self.auth.get_user_by_session()
+        
+        if not (self.request.get('edit_key')):
+            tag_obj=model.tag.Tags()
+            title=self.request.get('tag_name')
+            desc=self.request.get('desc')
+        
+            tag_obj.name =title
+            tag_obj.project=self.session['current_project']  
+            tag_obj.description =desc
+            tag_obj.created_by = currentUser['email_address']
+            tag_obj.status = True
+            tag_obj.set()
+        
+        else:
+            tag_key=ndb.Key(urlsafe=self.request.get('edit_key'))
+            tag_obj=tag_key.get()
+            title=self.request.get('tag_name')
+            desc=self.request.get('desc')
+        
+            tag_obj.name = title
+            tag_obj.description = desc
+            tag_obj.modified_by = currentUser['email_address']
+            tag_obj.modified_date = datetime.now()
+            tag_obj.set()
+        
+        self.response.out.write("true")
+        

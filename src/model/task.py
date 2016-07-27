@@ -17,6 +17,7 @@ class Task(BaseClass):
     assignee = ndb.KeyProperty()
     project = ndb.KeyProperty()
     sprint = ndb.KeyProperty()
+    tag = ndb.KeyProperty()
     user_story=ndb.KeyProperty()
     type = ndb.KeyProperty()
     task_status = ndb.StringProperty(choices=Status)

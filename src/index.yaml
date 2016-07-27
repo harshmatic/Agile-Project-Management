@@ -37,3 +37,10 @@ indexes:
   - name: status
   - name: created_date
     direction: desc
+- kind: Tags
+  properties:
+  - name: project
+  - name: status
+  - name: created_date
+    direction: desc
+ 

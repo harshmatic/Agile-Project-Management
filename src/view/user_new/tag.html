@@ -1,0 +1,121 @@
+
+<style>
+.error{
+			color:red;
+			
+			}
+			
+</style>
+<script>
+$(document).ready(function(){	
+
+	var tag_validator=   $("#add_form").validate({
+	      rules: {
+	    	  tag_name: 
+	    	  {
+	           		 required: true
+	          },
+	          desc: 
+	    	  {
+	           		 required: true
+	          }
+	     
+			
+ 
+	         },
+	         messages: 
+	         {
+	        	 tag_name: 
+	           {
+	             required: "Please enter tag title."
+	           },
+	           desc: 
+		    	{
+		           		 required: "Please enter description."
+		        }
+		   
+	           
+	         }
+	     });
+	
+	$("#add_tag").on("click",function(){
+		 if (!$('#add_form').valid()){
+			    console.log("comes inside if");
+			    event.preventDefault();
+			    event.stopImmediatePropagation();
+			    return false;
+		 }
+		 else
+			 {
+						$.post( '/addtag', $("#add_form").serialize())
+						.done(function( data ) {
+						if (data!="true"){
+						alert("Tag cannot be created.");
+						return false
+						} else {
+					
+					 	alert("Tag created successfully."); 
+					
+							}
+						});
+			
+			}
+				
+				
+			})
+			
+			
+				$('#add-tag-modal').on('hidden.bs.modal', function(e)
+					    { 
+					        $(this).removeData('bs.modal');
+					        
+					    }) ;	
+
+});
+
+	</script>			
+
+	
+				
+				
+				  <div class="modal-header add-task-modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title add-task-modal-heading">Add Tag</h4>
+				  </div>
+				  
+				  <form role="form" id="add_form">
+					<div class="modal-body user-management-body">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								
+								<div class="col-md-10">
+										
+										    <!-- Tag Name --> 
+											  <div class="form-group task-form-group">
+												<label class="task-label">Title<font color="red">*</font></label>
+												<input type="text" class="form-control add-task-textbox" value="{{tag_info.name}}" name="tag_name" id="tag_name">
+											  </div>
+											  
+											    <div class="form-group task-form-group">
+														<label class="task-label">Description<font color="red">*</font></label>
+														<textarea name="desc" value='{{tag_info.description}}' rows="4" class="form-control apm-modal-textarea"></textarea>
+												</div>
+											
+											 <input name="edit_key" type="hidden" value="{{tag_info.key.urlsafe}}">
+											
+								</div>	
+								<div class="col-md-1">
+								</div>		
+							</div>
+						
+				  </div>
+				  <div class="modal-footer add-task-modal-footer">
+					<input type="submit" class="add-task-btn-modal" data-dismiss="modal" id="add_tag" value="Submit">
+				
+					<a href="#" class="cancel-task-btn-modal" data-dismiss="modal">Cancel</button>
+				  </div>
+	</form>	
+	
+
+		

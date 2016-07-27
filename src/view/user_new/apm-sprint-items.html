@@ -285,8 +285,8 @@ $(document).ready(function(){
 
 					
 /*****************************************add sprint modal ends***********************************************/
-					
-					
+	
+				
 					
 /*****************************************submit event starts***********************************************/					
 						$("#submit_sprint").on("click",function(event){
@@ -589,11 +589,11 @@ $(document).on("click", ".sprint_status_link",function() {
 						
 						<!-- Backlog Filter section -->
 						<div class="apm-backlog-filter-box">
-							
-							{% if next_cursor %}
-							<a href="/sprint?page={{next_cursor}}">Next</a>
-							{% endif %}
-							
+							<!-- Add tag button -->
+							<a href="/addtag" data-toggle="modal" data-target="#add-tag-modal">
+								<button class="apm-listing-add-proj-btn pro-button apm-add-sprint-btn" id="add-tag">Add Tags</button>
+								</a>
+								
 							<!-- Add issue button -->
 							<a href="/task" data-toggle="modal" data-target="#add-issue-modal">
 							
@@ -831,6 +831,19 @@ $(document).on("click", ".sprint_status_link",function() {
 			  </div>
 			</div>
 	<!-- Create Issue Modal Ends -->
+	
+	<!-- Create Tag Modal Starts -->
+			<div id="add-tag-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content add-task-modal-content">
+				  
+				</div>
+
+			  </div>
+			</div>
+	<!-- Create tag Modal Ends -->
 	
 		<!-- pending task Modal Starts -->
 			<div id="pending-task-modal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
