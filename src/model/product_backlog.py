@@ -12,7 +12,7 @@ class ProductUserStory(BaseClass):
     startDate = ndb.DateProperty(auto_now_add=True)
     roughEstimate = ndb.FloatProperty()
     priority = ndb.IntegerProperty()
-    
+    actual_effort=ndb.FloatProperty()
     backlog_name= ndb.StringProperty()
     assignee=ndb.KeyProperty()
     
@@ -30,5 +30,5 @@ class ProductUserStory(BaseClass):
     def delete_entity(self,id):
         ndb.Key(ProductUserStory, int(id)).delete()
     
-
+    
     

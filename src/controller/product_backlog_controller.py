@@ -196,6 +196,7 @@ class EditBacklog(BaseHandler):
             backlog_key.roughEstimate = float(self.request.get("rough_estimate"))
             backlog_key.priority = int(self.request.get("priority"))
             
+            backlog_key.actual_effort=float(0.0)
             user_info = self.auth.get_user_by_session()
             backlog_key.modified_by = user_info['email_address']
             backlog_key.modified_date = datetime.now()

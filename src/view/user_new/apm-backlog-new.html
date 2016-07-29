@@ -134,8 +134,9 @@ $(document).ready(function(){
 				      			 $('#assignee').html(myArray[4]);
 				    	   }
 				       $('#rough_estimate').html(myArray[5]);
-				       $('#priority').html(myArray[6]);
-				       $('#status').html(myArray[7]);
+				       $('#actual_efforts').html(myArray[6]);
+				       $('#priority').html(myArray[7]);
+				       $('#status').html(myArray[8]);
 				      
 					 
 					 
@@ -399,8 +400,9 @@ $('#add-issue-modal').on('shown.bs.modal', function () {
 					      			 $('#assignee').html(myArray[4]);
 					    	   }
 					       $('#rough_estimate').html(myArray[5]);
-					       $('#priority').html(myArray[6]);
-					       $('#status').html(myArray[7]);
+					       $('#actual_efforts').html(myArray[6]);
+					       $('#priority').html(myArray[7]);
+					       $('#status').html(myArray[8]);
 					      
 					    
 					    });
@@ -753,6 +755,7 @@ $('#add-issue-modal').on('shown.bs.modal', function () {
                													  <td><b>Created By</b></td>
                													  <td><b>Assigned To</b></td>
                 												  <td><b>Rough Effort Estimate</b></td>
+                												  <td><b>Actual Efforts</b></td>
               													   <td><b>Priority</b></td>
               													   <td><b>Status</b></td>
                  
@@ -789,6 +792,7 @@ $('#add-issue-modal').on('shown.bs.modal', function () {
 																
 																<td>{{i.assignee.get.name}}</td>
 																<td>{{i.roughEstimate}}</td>
+																<td>{{i.actual_effort}}</td>
 																<td>{{i.priority}}</td>
 																<td>
 																	{{i.user_story_status}}
@@ -841,6 +845,7 @@ $('#add-issue-modal').on('shown.bs.modal', function () {
 														<li><b><span class=".apm-sprint-detail-span">Assigned By -</span></b><i id="assigned_by"></li>
 														<li><b><span class=".apm-sprint-detail-span">Assigned To -</span></b><i id="assignee"></li>
 														<li><b><span class=".apm-sprint-detail-span">Rough Effort Estimate  -</span></b><i id="rough_estimate"></i></li>
+														<li><b><span class=".apm-sprint-detail-span">Actual Efforts -</span></b><i id="actual_efforts"></i></li>
 														<li><b><span class=".apm-sprint-detail-span">Priority -</span></b><i id="priority"></i></li>
 														<li><b><span class=".apm-sprint-detail-span">Status -</span></b><i id="status"></i></li>
 													</ul>

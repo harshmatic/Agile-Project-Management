@@ -126,6 +126,13 @@ class EditTask(BaseHandler):
         logging.info(type(self.request.get('edit_key')))
         task_key = ndb.Key(urlsafe=self.request.get('edit_key'))
         task_data=task_key.get()
+        
+        t_actual_efforts=self.request.get('actual_efforts')
+        
+        task.Task.previous_userstory=task_data.user_story
+        task.Task.previous_efforts = task_data.actual_efforts
+        
+        
         currentUser=self.auth.get_user_by_session()
         createdBy=self.user_model.get_by_id(currentUser['user_id']).key
         task_data.name = self.request.get('name')
@@ -152,7 +159,17 @@ class EditTask(BaseHandler):
         
         
         if (self.request.get('complexity') != 'None'):
-            task_data.complexity = ndb.Key(urlsafe=self.request.get('complexity'))
+            complexity = ndb.Key(urlsafe=self.request.get('complexity'))
+            
+          #  if (task_data.complexity != complexity ):
+          #      task.Task.previous_efforts = task_data.actual_efforts
+          #  else:
+         #       if(task_data.actual_efforts ==  t_actual_efforts):
+         #           task.Task.previous_efforts = 0.0
+        #        else:
+        #            task.Task.previous_efforts = task_data.actual_efforts - t_actual_efforts
+            
+            task_data.complexity=complexity       
         else:
            task_data.complexity=None
         
@@ -176,17 +193,23 @@ class EditTask(BaseHandler):
         else:
             task_data.sprint=None
         
-        if (self.request.get('user_story') != 'None'):
-            task_data.user_story = ndb.Key(urlsafe=self.request.get('user_story'))  
+         
+        
+        
+        if (self.request.get('user_story') != 'None'): 
+            user_story = ndb.Key(urlsafe=self.request.get('user_story'))
+            
+            
+            task_data.user_story=user_story  
         else:
             task_data.user_story =None
-        
+            task.Task.previous_efforts = 0.0
        # task_data.project = ndb.Key(urlsafe=self.request.get('key'))
         task_data.project =self.session['current_project']   
         
         task_data.createdby = createdBy
         task_data.type = ndb.Key(urlsafe=self.request.get('type'))
-        task_data.actual_efforts = self.request.get('actual_efforts')
+        task_data.actual_efforts = t_actual_efforts
         task_data.task_status = "Open"
         task_data.modified_by = currentUser['email_address']
         task_data.modified_date = datetime.now()
@@ -563,7 +586,8 @@ class PendingTaskList(BaseHandler):
     def post(self,*args,**kargs):
         key=ndb.Key(urlsafe=self.request.get('sprint_key'))
         new_sprint_key=ndb.Key(urlsafe=self.request.get('sprint_data'))
-     #   logging.info(new_sprint_key)
+        
+       # logging.info(new_sprint_key)
         tasks_data=model.task.Task().query(ndb.AND(model.task.Task.sprint == key ,ndb.AND(model.task.Task.status == True ,ndb.AND(model.task.Task.task_status.IN (['In Progress','Open','Done','ReOpen','Deferred']))))).fetch()
       
         task_list=[]
@@ -571,7 +595,13 @@ class PendingTaskList(BaseHandler):
         for i in tasks_data:
             tasks_key=i.key.get()        
             
-            tasks_key.sprint = new_sprint_key        
+            tasks_key.sprint = new_sprint_key    
+            if (tasks_key.user_story != None):
+               a=tasks_key.user_story
+               user_story_data=a.get()
+               user_story_data.sprintId = new_sprint_key
+               user_story_data.put()
+               logging.info(user_story_data)
               #  tasks_key.put()        
             task_list.append(tasks_key)        
                     

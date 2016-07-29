@@ -26,6 +26,9 @@ class Task(BaseClass):
     actual_efforts = ndb.StringProperty()
     comments = ndb.StructuredProperty(Comments,repeated=True)
     
+    previous_efforts=None
+    previous_userstory=None
+    
     def set(self,data):
         self.put()
     def get_all(self,projectId):
@@ -50,7 +53,58 @@ class Task(BaseClass):
             if order == 'desc':
                 return qry.filter(Task.status==True).order(-Task.created_date).fetch(keys_only=True) 
             else:
-               return qry.filter(Task.status==True).order(Task.created_date).fetch(keys_only=True) 
+                return qry.filter(Task.status==True).order(Task.created_date).fetch(keys_only=True) 
+           
+           
+    def _post_put_hook(self,Future):
+        current_efforts=self.actual_efforts
+        previous_efforts=self.previous_efforts
+        
+        previous_userstory=self.previous_userstory
+        current_userstory=self.user_story
+        
+       # logging.info(previous_userstory)
+      #  logging.info(current_userstory)
+        
+        if self.user_story != None:
+            userstory_key = self.user_story
+            userstory_data = userstory_key.get()
+            
+           
+            if(current_userstory == previous_userstory):
+                a = userstory_data.actual_effort
+                if (previous_efforts != current_efforts):
+                
+                    logging.info(userstory_data.actual_effort)
+                    logging.info(a + (float(current_efforts) - float(previous_efforts)))
+                
+                    if (previous_efforts > current_efforts):
+                        userstory_data.actual_effort= a + ( float(previous_efforts) - float(current_efforts) ) 
+                    else:
+                        userstory_data.actual_effort= a + (float(current_efforts) - float(previous_efforts))
+               
+                elif (previous_efforts == current_efforts):
+                    userstory_data.actual_effort= userstory_data.actual_effort + 0.0
+        
+                userstory_data.put()
+              
+            else:
+                previous_userstory_data= previous_userstory.get()
+                b=previous_userstory_data.actual_effort
+                
+                #remove efforts from previous user story
+                previous_userstory_data.actual_effort = b - float(previous_efforts)
+                previous_userstory_data.put()
+                
+                #put new efforts in new user story
+                a = userstory_data.actual_effort
+                userstory_data.actual_effort= a +  float(current_efforts) 
+                userstory_data.put()
+                
+                
+                
+            
+         #   logging.info(userstory_data)
            
     
 class Type(BaseClass):
