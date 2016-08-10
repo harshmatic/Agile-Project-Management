@@ -28,7 +28,7 @@ class Tasks(BaseHandler):
             sprints = sprint.Sprint().get_by_project(key)
             tags=model.tag.Tags().get_tags(project=key)
             
-            self.render_template("user_new/addtask.html",{"type":type_data,"team":team,"complex":complexity,'sprints':sprints,"tags":tags})
+            self.render_template("user_new/task.html",{"type":type_data,"team":team,"complex":complexity,'sprints':sprints,"tags":tags})
         #else:
             #self.response.write("you are not allowed")
     
@@ -117,7 +117,7 @@ class EditTask(BaseHandler):
             sprints = sprint.Sprint().get_by_project(key)
             
             tags=model.tag.Tags().get_tags(project=key)
-            self.render_template("user_new/edittask.html",{"type":type_data,"team":team,"complex":complexity,'sprints':sprints,'task_data':task_data,"tags":tags})
+            self.render_template("user_new/task.html",{"type":type_data,"team":team,"complex":complexity,'sprints':sprints,'task_data':task_data,"tags":tags})
         #else:
             #self.response.write("you are not allowed")
     
@@ -273,7 +273,9 @@ class Sprint(BaseHandler):
     @checkdomain
     def get(self,*args,**kargs):
         if check_permission(self):
-        
+            
+           
+           
             project1 =self.session['current_project']   
             all_sprint=sprint.Sprint().get_sprints(project=project1)
             
@@ -289,59 +291,210 @@ class Sprint(BaseHandler):
             
             if not (self.request.get('sprint_key')):
                 
-           
-                
                 sprint_data=sprint.Sprint().query(sprint.Sprint.project == project1,ndb.AND(sprint.Sprint.status == True)).order(-sprint.Sprint.created_date).get()
-          
-                task_cursor_str=self.request.get('tp',None)
-                t_cursor=None
-            
-                if task_cursor_str:
-                    t_cursor=Cursor(urlsafe=task_cursor_str)
+                prev_cursor = self.request.get('prev_cursor', '')
+                next_cursor = self.request.get('next_cursor', '')
                 
-                #tasks,task_next_cursor,t_more= task.Task().query(task.Task.project == project1,ndb.AND(task.Task.status == True)).order(-task.Task.created_date).fetch_page(15, start_cursor=t_cursor)
-            
-                tasks,task_next_cursor,t_more= task.Task().get_tasks(project=project1,start_cursor=t_cursor)
-              
-                if t_more:
-                
-                    t_next_cursor= task_next_cursor.urlsafe()
+                if (self.request.get('count')):
+                    task_count=self.request.get('count')
+                    logging.info(task_count)
                     
-                    self.render_template("user_new/apm-sprint-items.html",{"all_sprint":all_sprint,"sprints":sprint_data,"team":team,"tasks":tasks,"release":releases,"task_next_cursor":t_next_cursor})
-            
+                    #for user story ascending 
+                    if(self.request.get('userstory')):
+                        userstory_order= self.request.get('userstory')
+                        a='userstory'
+                        if(userstory_order == 'asce'):
+                            
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,count=str(task_count),based_field=a,order='asce',prev_cursor_str=prev_cursor, next_cursor_str=next_cursor)
+                        else:
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,count=str(task_count),based_field=a,order='desc',prev_cursor_str=prev_cursor, next_cursor_str=next_cursor)
+                    
+                    elif(self.request.get('planned_startdate')):
+                        userstory_order= self.request.get('planned_startdate')
+                        a='planned_startdate'
+                        if(userstory_order == 'asce'):
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,count=str(task_count),based_field=a,order='asce',prev_cursor_str=prev_cursor, next_cursor_str=next_cursor)
+                        else:
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,count=str(task_count),based_field=a,order='desc',prev_cursor_str=prev_cursor, next_cursor_str=next_cursor)
+                    
+                    elif(self.request.get('planned_enddate')):
+                        userstory_order= self.request.get('planned_enddate')
+                        a='planned_enddate'
+                        if(userstory_order == 'asce'):
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,count=str(task_count),based_field=a,order='asce',prev_cursor_str=prev_cursor, next_cursor_str=next_cursor)
+                        else:
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,count=str(task_count),based_field=a,order='desc',prev_cursor_str=prev_cursor, next_cursor_str=next_cursor)
+                    
+                    elif(self.request.get('efforts')):
+                        userstory_order= self.request.get('efforts')
+                        a='efforts'
+                        if(userstory_order == 'asce'):
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,count=str(task_count),based_field=a,order='asce',prev_cursor_str=prev_cursor, next_cursor_str=next_cursor)
+                        else:
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,count=str(task_count),based_field=a,order='desc',prev_cursor_str=prev_cursor, next_cursor_str=next_cursor)
+                    
+                    
+                    else:
+                        res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,count=str(task_count),prev_cursor_str=prev_cursor, next_cursor_str=next_cursor)
+                    
+                    
+                    
                 else:
-                
-                    self.render_template("user_new/apm-sprint-items.html",{"all_sprint":all_sprint,"sprints":sprint_data,"team":team,"tasks":tasks,"release":releases})
-            
-            
+                    
+                     #for user story ascending 
+                    if(self.request.get('userstory')):
+                        userstory_order= self.request.get('userstory')
+                        a='userstory'
+                        if(userstory_order == 'asce'):
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,prev_cursor_str=prev_cursor, next_cursor_str=next_cursor,based_field=a,order='asce')
+                        else:
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,prev_cursor_str=prev_cursor, next_cursor_str=next_cursor,based_field=a,order='desc')
+                    
+                    
+                    
+                    elif(self.request.get('planned_startdate')):
+                        userstory_order= self.request.get('planned_startdate')
+                        a='planned_startdate'
+                        if(userstory_order == 'asce'):
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,prev_cursor_str=prev_cursor, next_cursor_str=next_cursor,based_field=a,order='asce')
+                        else:
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,prev_cursor_str=prev_cursor, next_cursor_str=next_cursor,based_field=a,order='desc')
+                    
+                    elif(self.request.get('planned_enddate')):
+                        userstory_order= self.request.get('planned_enddate')
+                        a='planned_enddate'
+                        if(userstory_order == 'asce'):
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,prev_cursor_str=prev_cursor, next_cursor_str=next_cursor,based_field=a,order='asce')
+                        else:
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,prev_cursor_str=prev_cursor, next_cursor_str=next_cursor,based_field=a,order='desc')
+                    
+                    elif(self.request.get('efforts')):
+                        userstory_order= self.request.get('efforts')
+                        a='efforts'
+                        if(userstory_order == 'asce'):
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,prev_cursor_str=prev_cursor, next_cursor_str=next_cursor,based_field=a,order='asce')
+                        else:
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,prev_cursor_str=prev_cursor, next_cursor_str=next_cursor,based_field=a,order='desc')
+                    
+                    
+                    else:
+                        res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,prev_cursor_str=prev_cursor, next_cursor_str=next_cursor)
+                        task_count =15
+                    
+                    
+                    
+                    
+               # logging.info(a)    
+                logging.info(res)    
+        
+                self.render_template("user_new/apm-sprint-items.html",{"all_sprint":all_sprint,"sprints":sprint_data,"team":team,"release":releases,"res":res,"count":task_count})
+          
             else:
                
                 sprint_key=ndb.Key(urlsafe=self.request.get('sprint_key'))
                 sprint_data=sprint_key.get()
-                
-                task_cursor_str=self.request.get('tp',None)
-                t_cursor=None
-            
-                if task_cursor_str:
-                    t_cursor=Cursor(urlsafe=task_cursor_str)
-                
-               # tasks,task_next_cursor,t_more= task.Task().query(task.Task.sprint == sprint_data.key).order(-task.Task.created_date).fetch_page(15, start_cursor=t_cursor)
-               
-                tasks,task_next_cursor,t_more= task.Task().get_tasks(project=project1,sprint=sprint_data.key,start_cursor=t_cursor)
-              
-                if t_more:
-                
-                    t_next_cursor= task_next_cursor.urlsafe()
+                prev_cursor = self.request.get('prev_cursor', '')
+                next_cursor = self.request.get('next_cursor', '')
+                if (self.request.get('count')):
+                    task_count=self.request.get('count')
                     
-                    self.render_template("user_new/apm-sprint-items.html",{"all_sprint":all_sprint,"sprints":sprint_data,"team":team,"tasks":tasks,"release":releases,"task_next_cursor":t_next_cursor})
-            
-                else:
-                
-                    self.render_template("user_new/apm-sprint-items.html",{"all_sprint":all_sprint,"sprints":sprint_data,"team":team,"tasks":tasks,"release":releases})
-            
-          
-                
-            
+                    #for user story ascending 
+                    if(self.request.get('userstory')):
+                        userstory_order= self.request.get('userstory')
+                        a='userstory'
+                        if(userstory_order == 'asce'):
+                            
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,count=str(task_count),based_field=a,order='asce',prev_cursor_str=prev_cursor, next_cursor_str=next_cursor)
+                        else:
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,count=str(task_count),based_field=a,order='desc',prev_cursor_str=prev_cursor, next_cursor_str=next_cursor)
+                    
+                    elif(self.request.get('planned_startdate')):
+                        userstory_order= self.request.get('planned_startdate')
+                        a='planned_startdate'
+                        if(userstory_order == 'asce'):
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,count=str(task_count),based_field=a,order='asce',prev_cursor_str=prev_cursor, next_cursor_str=next_cursor)
+                        else:
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,count=str(task_count),based_field=a,order='desc',prev_cursor_str=prev_cursor, next_cursor_str=next_cursor)
+                    
+                    elif(self.request.get('planned_enddate')):
+                        userstory_order= self.request.get('planned_enddate')
+                        a='planned_enddate'
+                        if(userstory_order == 'asce'):
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,count=str(task_count),based_field=a,order='asce',prev_cursor_str=prev_cursor, next_cursor_str=next_cursor)
+                        else:
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,count=str(task_count),based_field=a,order='desc',prev_cursor_str=prev_cursor, next_cursor_str=next_cursor)
+                    
+                    elif(self.request.get('efforts')):
+                        userstory_order= self.request.get('efforts')
+                        a='efforts'
+                        if(userstory_order == 'asce'):
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,count=str(task_count),based_field=a,order='asce',prev_cursor_str=prev_cursor, next_cursor_str=next_cursor)
+                        else:
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,count=str(task_count),based_field=a,order='desc',prev_cursor_str=prev_cursor, next_cursor_str=next_cursor)
+                    
+                    
+                    else:
+                        res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,count=str(task_count),prev_cursor_str=prev_cursor, next_cursor_str=next_cursor)
+                    
+                    
+                    
+                    
+                #    res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,count=str(task_count),prev_cursor_str=prev_cursor, next_cursor_str=next_cursor)
+                    logging.info(task_count)
+                    
+                    
+                    
+                    
+                    
+                else:    
+                  #  res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,prev_cursor_str=prev_cursor, next_cursor_str=next_cursor)
+                    task_count=15
+                  
+                     #for user story ascending 
+                    if(self.request.get('userstory')):
+                        userstory_order= self.request.get('userstory')
+                        a='userstory'
+                        if(userstory_order == 'asce'):
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,prev_cursor_str=prev_cursor, next_cursor_str=next_cursor,based_field=a,order='asce')
+                        else:
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,prev_cursor_str=prev_cursor, next_cursor_str=next_cursor,based_field=a,order='desc')
+                    
+                    
+                    
+                    elif(self.request.get('planned_startdate')):
+                        userstory_order= self.request.get('planned_startdate')
+                        a='planned_startdate'
+                        if(userstory_order == 'asce'):
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,prev_cursor_str=prev_cursor, next_cursor_str=next_cursor,based_field=a,order='asce')
+                        else:
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,prev_cursor_str=prev_cursor, next_cursor_str=next_cursor,based_field=a,order='desc')
+                    
+                    elif(self.request.get('planned_enddate')):
+                        userstory_order= self.request.get('planned_enddate')
+                        a='planned_enddate'
+                        if(userstory_order == 'asce'):
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,prev_cursor_str=prev_cursor, next_cursor_str=next_cursor,based_field=a,order='asce')
+                        else:
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,prev_cursor_str=prev_cursor, next_cursor_str=next_cursor,based_field=a,order='desc')
+                    
+                    elif(self.request.get('efforts')):
+                        userstory_order= self.request.get('efforts')
+                        a='efforts'
+                        if(userstory_order == 'asce'):
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,prev_cursor_str=prev_cursor, next_cursor_str=next_cursor,based_field=a,order='asce')
+                        else:
+                            res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,prev_cursor_str=prev_cursor, next_cursor_str=next_cursor,based_field=a,order='desc')
+                    
+                    
+                    else:
+                        res = task.Task().get_tasks(project=project1,sprint=sprint_data.key,prev_cursor_str=prev_cursor, next_cursor_str=next_cursor)
+                        
+                  
+                logging.info(res) 
+                 
+              
+                self.render_template("user_new/apm-sprint-items.html",{"all_sprint":all_sprint,"sprints":sprint_data,"team":team,"release":releases,"res":res,"count":task_count})
+           
         else:
             self.response.write("you are not allowed")
     
@@ -350,7 +503,7 @@ class Sprint(BaseHandler):
         currentUser=self.auth.get_user_by_session()
         createdBy=self.user_model.get_by_id(currentUser['user_id']).key
         sprint_data=sprint.Sprint()
-        sprint_data.name = self.request.get("name")
+        sprint_data.name = (self.request.get("name")).lower()
         sprint_data.description = self.request.get("desc")
         sprint_data.workinghours=self.request.get("workinghours")
         
@@ -367,8 +520,8 @@ class Sprint(BaseHandler):
         
         sprint_data.project=self.session['current_project']  
         
-        sprint_data.project =self.session['current_project'] 
-        sprint_data.createdby = createdBy
+     #   sprint_data.project =self.session['current_project'] 
+        sprint_data.createdby = createdBy.lower()
         sprint_data.sprint_status = Sprint_Status[0]
         
         
@@ -395,12 +548,16 @@ class EditSprint(BaseHandler):
     def get(self,*args,**kargs):
         #if check_permission(self):
            # project = ndb.Key(urlsafe=self.request.get("key"))
-            key = ndb.Key(urlsafe=self.request.get('edit_key'))
-            sprint_info=key.get()
             release=project.ProjectRelease()
             releases=release.get_by_project(self.session['current_project'])
-            self.render_template("user_new/editsprint.html",{"sprint_info":sprint_info,"release":releases})
-           
+            
+            if(self.request.get('edit_key')):
+                key = ndb.Key(urlsafe=self.request.get('edit_key'))
+                sprint_info=key.get()
+                
+                self.render_template("user_new/editsprint.html",{"sprint_info":sprint_info,"release":releases})
+            else:
+                self.render_template("user_new/editsprint.html",{"release":releases})    
         #else:
             #self.response.write("you are not allowed")
     
@@ -414,7 +571,7 @@ class EditSprint(BaseHandler):
         sprint_data.modified_by=currentUser['email_address']
         sprint_data.modified_date = datetime.now()
        # sprint_data=sprint.Sprint()
-        sprint_data.name = self.request.get("name")
+        sprint_data.name = (self.request.get("name")).lower()
         sprint_data.description = self.request.get("desc")
         
         

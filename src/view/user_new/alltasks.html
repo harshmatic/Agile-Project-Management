@@ -1,0 +1,93 @@
+	<div class="table-responsive">
+														<table class="table-condensed table apm-sprint-table apm-sprint-item-table">
+															<thead>
+																<tr>	
+																	
+																	<th>Task</th>
+																	<th>User Story</th>
+																	<th>Planned Start Date</th>
+																	<th>Planned End Date</th>
+																	<th>Created By</th>
+																	<th>Assigned To</th>
+																	<th>Status</th>
+																	<th>Complexity</th>
+																	<th>Estimated Efforts (Hrs.)</th>
+																	<th>Action Items</th>
+																</tr>
+															</thead>
+															<tr class="separator" />
+															<tbody>
+															{%if res.objects%}
+															{%for task in res.objects %}
+															
+																{%ifequal task.get.sprint sprints.key%}
+															  <tr class="find_empty">
+																
+																<td title="Task">{{task.get.name}}</td>
+																<td title="User Story">{%if task.get.user_story%}{{task.get.user_story.get.backlog_name}}{%else%}None{%endif%}</td>
+																<td title="Planned Start Date">{{task.get.startDate}}</td>
+																<td title="Planned End Date">{{task.get.endDate}}</td>
+																<td title="Assigned By">
+																	{% for team in team%}
+																	{%if team.status%}
+																	{%if team.userid.get.email_address == task.get.created_by%}
+																	
+																	{{team.userid.get.name}} {{team.userid.get.last_name}}
+													
+																	{%endif%}
+																	{%endif%}	
+																	{%endfor%}
+																</td>
+																<td title="Assigned To">{%if task.get.assignee%}{{task.get.assignee.get.name}}{%else%}None{%endif%}</td>
+																<td title="Status">{{task.get.task_status}}</td>
+																<td title="Complexity">{{task.get.complexity.get.estimationLevel}}</td>
+																
+																<td title="Estimated Efforts (Hrs.)">{{task.get.actual_efforts}}</td>
+															  	<td>
+															  	<a href="/mytasks/view?key={{task.get.key.urlsafe}}"><i class="fa fa-eye apm-add-proj-view" title="View Task" aria-hidden="true"></i></a>
+															  	<a href="/task/edittask?edit_key={{task.get.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#edit-issue-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Task"  id="{{task.get.key.urlsafe}}"></i></a>
+															  	<a href="/task/movetask?task_key={{task.get.key.urlsafe}}" data-toggle="modal" data-target="#move-issue-modal"><i class="fa fa-arrows" aria-hidden="true" title="Move Task"></i></a>
+															  	
+																<!-- <a href="/task/deletetask?delete_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#delete-issue-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Task"  id="{{task.key.urlsafe}}"></i></a> -->
+															  	
+															  	</td>
+															  	
+															  </tr>
+															  <tr class="separator" />
+															   
+															  {% endifequal %}
+															 
+															
+															  {% endfor %}
+															  
+															  {%endif%}
+															</tbody>
+														</table>
+													</div>
+													
+													<!-- Pagination starts  -->
+             										<ul class="pagination apm-table-pagination">
+              										<li class="previous">
+              										
+              										 {% if res.prev %}
+                											<a href="/sprint?sprint_key={{sprints.key.urlsafe}}&prev_cursor={{ res.prev_cursor }}">
+                											<i class="fa fa-long-arrow-left" aria-hidden="true"></i> Previous
+                											</a>
+            										 {% endif %}
+              										</li>
+                 									<!-- <li><a href="#" class="apm-table-pagination-active">1</a></li>
+              										<li><a href="#">2</a></li>
+              										<li><a href="#">3</a></li>
+              										<li><a href="#">4</a></li>
+              										<li><a href="#">5</a></li> -->
+              										<li class="next">
+              										
+              										 {% if task_next_cursor %}
+                										<a href="/sprint?sprint_key={{sprints.key.urlsafe}}&next_cursor={{ task_next_cursor }}" class="apm-table-pagination-active">Next 
+                										<i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                										</a>
+           											 {% endif %}
+              										</li>
+             										</ul>
+             										<!-- Pagination ends  -->
+													</html>

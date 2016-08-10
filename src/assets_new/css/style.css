@@ -2240,3 +2240,40 @@ div.Tokenize {
 	text-transform: lowercase;
 }  
  
+ / For pagination */
+   .apm-table-pagination{
+    float: right;
+    margin-bottom: -3px;
+    margin-top: 10px;
+   }
+   .apm-table-pagination>li>a, .apm-table-pagination>li>span {
+    padding: 5px 10px;
+    color: #1565c0;
+    border:none!important;
+    margin-left:0!important;
+    font-size:10px;
+   }
+   .apm-table-pagination>li>a:hover, .apm-table-pagination>li>span:hover{
+    border:none!important;
+   }
+   .apm-table-pagination>li:first-child>a {
+    border-top-left-radius: 0!important;
+    border-bottom-left-radius: 0!important;
+   }
+   .apm-table-pagination>li:last-child>a{
+    border-top-right-radius: 0!important;
+    border-bottom-right-radius: 0!important;
+   }
+   .apm-table-pagination-active{
+    background:#1565c0!important;
+    color:#fff!important;
+   }
+   @media (max-width:650px){
+    .apm-table-pagination{
+     float: none;
+    }
+   }
+   
+   .apm-sprint-item-table>thead>tr>th {
+    border-bottom: none!important;
+}

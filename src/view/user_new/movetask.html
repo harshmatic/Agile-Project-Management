@@ -4,42 +4,10 @@ color:burlywood;
 }
 </style>
 <script>
-$(document).ready(function(){	
+//$(document).ready(function(){	
 	
 
-$("#movetask").on("click",function(){
-	$.post( '/task/movetask', $("#update_form").serialize())
-		.done(function( data ) {
-			if (data!="true"){
-				alert("Task cannot be moved.");
-				return false
-			} else {
-				
-				/* alert("Task updated."); */
-				
-			}
-		});
-		
-		
-			
-			
-		})
-		
-		
-			$('#move-issue-modal').on('hidden.bs.modal', function(e)
-				    { 
-				        $(this).removeData('bs.modal');
-				        
-				        $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
-				        //	$("#details").hide();
-				        	
-				  
-				        	
-		  				});
-				  
-				        
-				    }) ;
-});
+//});
 	</script>			
 
 <form role="form" id="update_form" enctype="multipart/form-data">

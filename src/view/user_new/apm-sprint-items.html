@@ -3,6 +3,11 @@
 {% block title %}User | Sprint{% endblock %}
 {% block header_links%}
 <style>
+.apm-table-pagination{
+    float: right;
+    margin-bottom: -3px;
+    margin-top: 10px;
+   }
 .cr{
 			cursor:pointer;
 		}
@@ -39,519 +44,10 @@
    .apm-sprint-listing-box{
     padding:0!important;
    }
+   
 </style>
-<script>
 
-$(document).ready(function(){
-
-/**************************************select sprint from dropdown start*********************************************/
-	
-	//alert($('#sprintselect').val());
-
- 	$(document).on("change","#sprintselect",function() {
-		
-		var sprint_key =this.value;
-		$.get( "/sprint?sprint_key="+sprint_key ,function( data ) {
-		
-			//console.log(data);
-			
-			window.location.href = "/sprint?sprint_key="+sprint_key;
-  			
-		});
-	}); 
-	
-
-/**************************************select sprint from dropdown end*********************************************/
-				
-/******************************get release data starts**********************************************/					
-				var releasel;
-				release=$('#release').val();
-				 var release_start_date;
-				 var release_end_date;
-					 
-					if (release != 'None')
-					{
-						release=$('#release').val(); 
-						$.post( "/release_info?key="+release+"")
-				  		.done(function( data ) {
-				  		
-							console.log(data);
-						
-							
-							release_end_date= data;
-						
-				  		});
-					}
-						
-/******************************get release data ends**********************************************/						
-
-/******************************icon click starts**********************************************/	
-					
-					$('.form-group').find('.open-datetimepicker').on('click', function(){
-					    $('#sprint_start').trigger('focus');
-					});
-					
-					$('.form-group').find('.open-datetimepicker1').on('click', function(){
-					    $('#sprint_end').trigger('focus');
-					});
-					
-/******************************icon click ends**********************************************/						
-					
-/***********************sprint validation starts******************************/
-					
-					var sprint_validator=   $("#add_sprint").validate({
-						      rules: {
-						    	  name: 
-						    	  {
-						           		 required: true
-						          },
-						          start: 
-						    	  {
-						           		 required: true
-						          },
-						          end: 
-						    	  {
-						           		 required: true
-						          },
-						          desc: 
-						          {
-							      		 required: true
-							      },
-								  workinghours: 
-								  {
-										 required: true
-										
-									
-								  }
-						         },
-						         messages: 
-						         {
-						        	 name: 
-						           {
-						             required: "Please enter sprint name."
-						           },
-						           start: 
-							    	{
-							           		 required: "Please enter start date."
-							        },
-							        end: 
-							    	{
-							           		 required: "Please enter end date."
-							       },
-						           desc: 
-						           {
-						             required: "Please enter sprint description."
-						           },
-						     
-							       workinghours: 
-							       {
-							             required: "Please enter working hours."
-							       }
-							   
-						         }
-						     });
-/****************************************sprint validation ends**************************************************/
-
-
-/*****************************************to get release data on select starts*********************************/
-					
-					$('select').on('change', function (e) {
-		
-						release=$('#release').val(); 
-						$.post( "/release_info?key="+release+"")
-				  		.done(function( data ) {
-				  			//alert(data);
-							//console.log(data);
-							release_end_date= data;
-							
-				  		});
-	
-	
-					});
-					
-/*****************************************to get release data on select ends*********************************/	
-
-/*****************************************for blank table rows starts****************************************/	
-					$(".table").each(function(){
-						if (!$(this).find("tr.find_empty").length){
-						a=$(this).find("tbody")[0];
-						$(a).append("<tr><td colspan='10' align='center'>There are no tasks in the sprint</td></tr>")
-						}
-						
-					})
-					if (!$('#empty_sprint').find("tr.find_empty").length){
-						$('#empty_sprint').remove();
-						
-					}
-					$('#tasks_sprints').on('load',function(){
-						$(".table").each(function(){
-												if (!$(this).find("tr.find_empty").length){
-												a=$(this).find("tbody")[0];
-												$(a).append("<tr><td colspan='10' align='center'>There are no tasks in the sprint</td></tr>")
-												}
-												
-											})
-											if (!$('#empty_sprint').find("tr.find_empty").length){
-												$('#empty_sprint').remove();
-												
-											}
-						})
-						
-/*****************************************for blank table rows ends****************************************/
-					$(".nav-tabs a").click(function(){
-						$(this).tab('show');
-					});
-
-/*****************************************datepicker starts***********************************************/
-					$('body').on('focus',"#start,#start_edit", function(){
-					    $(this).datepicker({
-							format: 'dd/mm/yyyy',
-							//startDate: '0d'
-						});
-					});
-					$('body').on('focus',"#end,#end_edit", function(){
-					    $(this).datepicker({
-							format: 'dd/mm/yyyy',
-							//startDate: '0d'
-						});
-					});
-					$('.datepicker').datepicker({
-						format: 'mm/dd/yyyy',
-						//startDate: '0d',
-						autoclose:true
-					});
-					$('.datepicker').datepicker()
-				    .on('changeDate', function(e) {
-				        $('.datepicker').datepicker('hide');
-				    });
-					
-					
-					$('#sprint_end').datepicker()
-				    .on('changeDate', function(e) {
-				    	if ($('#sprint_start').val()!=""){
-					        start=$('#sprint_start').val();
-					        end=$('#sprint_end').val();
-					        secs=(new Date(end)).getTime()/1000-(new Date(start)).getTime()/1000
-					        secs=secs/60/60/24;
-					        if (secs>=7){
-					        	week=parseInt(secs/7);
-					        	days=secs%6;
-					        	$("#length").val(week+" weeks "+days+" days")
-					        }
-					        else {
-					        	if(secs==0){
-					        		$("#length").val("1 Day")
-					        	} else {
-					        		secs=secs+1;
-					        	$("#length").val(secs+" Days")
-					        	}
-					        }
-				    	}
-				    });
-					$('#sprint_start').datepicker()
-				    .on('changeDate', function(e) {
-				    	if ($('#sprint_end').val()!=""){
-				    		start=$('#sprint_start').val();
-					        end=$('#sprint_end').val();
-					        secs=(new Date(end)).getTime()/1000-(new Date(start)).getTime()/1000
-					        secs=secs/60/60/24;
-					        if (secs>=7){
-					        	week=parseInt(secs/7);
-					        	days=secs%6;
-					        	$("#length").val(week+" weeks "+days+" days")
-					        }
-					        else {
-					        	if(secs==0){
-					        		$("#length").val("1 Day")
-					        	} else {
-					        		secs=secs+1;
-					        	$("#length").val(secs+" Days")
-					        	}
-					        }
-				    	}
-				    });
-					
-					
-/*****************************************datepicker ends***********************************************/
-					/*$("#add-issue").click(function(e) {
-						$('#add-issue-modal').modal('show');
-					});*/
-					
-					
-/*****************************************add sprint modal starts***********************************************/
-					$("#add-sprint").click(function(e) {
-						$('#add-sprint-modal').modal('show');
-					});
-
-					
-/*****************************************add sprint modal ends***********************************************/
-	
-				
-					
-/*****************************************submit event starts***********************************************/					
-						$("#submit_sprint").on("click",function(event){
-						 if (!$('#add_sprint').valid()){
-							    event.preventDefault();
-							    event.stopImmediatePropagation();
-							    return false;
-						 }
-						 else
-						 {
-						 
-							 var start_date=$('#sprint_start').val();
-							 var end_date=$('#sprint_end').val();
-							 var project_start_date="{{session.current_project.get.startDate|date:'m/d/Y'}}";
-							 var project_end_date="{{session.current_project.get.endDate|date:'m/d/Y'}}";
-							 
-							 var project_startdate=project_start_date;
-							 var project_enddate=project_end_date;
-							 
-						
-							 start_date =Date.parse(start_date);
-							 end_date=Date.parse(end_date);
-							 project_start_date=Date.parse(project_start_date);
-							 project_end_date =Date.parse(project_end_date);
-							 
-							 
-							// alert(release_end_date);
-							
-							//to check if sprint start date is before project start date
-							
-							 if(start_date < project_start_date && start_date!='')
-							 {
-								 
-									$('#date_error').text("Start date cannot before project start date("+project_startdate+").")
-									event.preventDefault();
-									 event.stopImmediatePropagation();
-									 return false;
-									 
-								 
-							 }
-							 else
-							 
-							//to check if sprint start date is after project end date	 
-							 if (start_date > project_end_date && start_date!='')
-							 {
-									 
-									$('#date_error').text("Start date cannot be after project end date("+project_enddate+").")
-									event.preventDefault();
-									 event.stopImmediatePropagation();
-									 return false;
-									 
-								 
-							 }
-							 else
-								 
-							//to check if sprint end date before project start date 
-								if (end_date < project_start_date && end_date !='' )
-								 {
-										 
-										$('#date_error').text("End Date cannot be before project start date("+project_startdate+").")
-										event.preventDefault();
-										 event.stopImmediatePropagation();
-										 return false;
-										 
-									 
-								 }
-								 
-								 else
-									 
-							//to check if sprint end date is after project end date
-								 if (end_date > project_end_date && end_date !='')
-								 {
-										 
-										$('#date_error').text("End date cannot be after project end date("+project_enddate+").")
-										event.preventDefault();
-										 event.stopImmediatePropagation();
-										 return false;
-										 
-									 
-								 }
-							 else
-							/* 	 
-							//to check if 
-								if (end_date > project_end_date && start_date > project_end_date && end_date !='' && start_date!='')
-									 {
-											 
-											$('#date_error').text("Start date & end date cannot be after project end date("+project_enddate+").")
-											event.preventDefault();
-											 event.stopImmediatePropagation();
-											 return false;
-											 
-										 
-									 } 
-								 else 
-								 
-								 
-								if (end_date < project_start_date && start_date < project_start_date && end_date !='' && start_date!='')
-											 {
-													 
-													$('#date_error').text("Start date & end date cannot be before project start date("+project_startdate+").")
-													event.preventDefault();
-													 event.stopImmediatePropagation();
-													 return false;
-													 
-												 
-											 } 
-											 
-								else*/
-								
-								//to check if sprint start date is after sprint end date
-									if(start_date > end_date)
-									{
-										$('#date_error').text("Start date cannot be after end date.")
-										event.preventDefault();
-										 event.stopImmediatePropagation();
-										 return false;
-										
-									}
-							
-								
-								if(end_date > release_end_date)
-										{
-											$('#date_error').text("End date cannot be after release date.")
-											event.preventDefault();
-											 event.stopImmediatePropagation();
-											 return false;
-											
-										}
-							 else
-							
-								 {
-							 
-							
-							 
-							 $('#date_error').text("");
-							 $.post( "/sprint", $("#add_sprint").serialize())
-						  		.done(function( data ) {
-						  			if (data!="true"){
-						  				alert("Sprint cannot be added.");
-						  				return false
-						  			} 
-						  		//	$("#backlog_form").reset();
-						  		else
-						  			{
-						  			alert("Sprint added successfully.");
-						  		
-						  			$('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
-						  			
-						  				
-						  				$(".table").each(function(){
-											if (!$(this).find("tr.find_empty").length){
-											a=$(this).find("tbody")[0];
-											$(a).append("<tr><td colspan='10' align='center'>There are no tasks in the sprint</td></tr>")
-											}
-											
-										})
-						  			});
-									$('#sprint_dropdown').load('/sprint #sprint_dropdown', function(result) {
-						  			
-						  			});
-						  			
-						  			}
-						  			
-						  			 
-						  		
-						  		});
-							
-							 }	
-						 }	
-								
-						})
-					
-/*****************************************submit event ends***********************************************/						
-			/* 		$("#submit_sprint").on("click",function(){
-						$.post( "/sprint", $("#add_sprint").serialize())
-				  		.done(function( data ) {
-				  			if (data!="true"){
-				  				alert("Something Went Wrong");
-				  				return false
-				  			} 
-				  		})
-					});
-						 */
-				  			
-/*****************************************modal hide starts***********************************************/
-				  			$('#add-sprint-modal').on('hidden.bs.modal', function(e)
-								    { 
-									//	alert("hey");
-										 $('#date_error').text("");
-										$(this).removeData('bs.modal');
-										$(this).find('form')[0].reset();
-										sprint_validator.resetForm();
-									/* 	$('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
-						  				    //var variable = $('#edit_permissions').html();
-						  				});
-								 */
-								    }) ;
-							
-				  		
-					
-					$('#edit-issue-modal').on('hidden.bs.modal', function(e)
-						    { 
-						        $(this).removeData();
-						        $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
-				  				    //var variable = $('#edit_permissions').html();
-				  				});
-						        $('#sprint_dropdown').load('/sprint #sprint_dropdown', function(result) {
-						  			
-					  			});
-						        
-						    }) ;
-					
-/*****************************************submit event ends***********************************************/		
-/******************************************for complete sprint dropdown starts***********************************************/
-
-$(document).on("click", ".sprint_status_link",function() {
-					
-						var sprint_key=$(this).find('.sprint_key').val();
-					
-						var status= $(this).text()
-						
-						$.post( "/sprint/status",{key : sprint_key , status : status},function( data ) {
-							
-							  //alert(data);
-							if (data!="true"){
-				  				/* alert("Sprint status cannot be updated as all the task within the sprint are not completed.Please complete all task to complete a sprint.");
-				  				return false */
-				  				
-								$.get('/sprint/tasklist',{key : sprint_key},function(data){
-									
-									console.log(data);
-									$('#tr_content').html(data);
-									
-									$('#pending-task-modal').modal('show');
-								});
-				  				
-				  			}  
-							
-							else {
-				  				
-				  				alert("Sprint status updated successfully.");
-					  			$('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
-					  				$(".table").each(function(){
-										if (!$(this).find("tr.find_empty").length){
-										a=$(this).find("tbody")[0];
-										$(a).append("<tr><td colspan='10' align='center'>There are no tasks in the sprint</td></tr>")
-										}
-										
-									})
-					  			});
-					  			
-					  			
-				  				
-				  		}	
-						
-						});
-					});
-
-/****************************************complete sprint dropdown ends******************************************/
-});
-				
-
-				
-				
-		</script>		
+<script src="../assets_new/js/sprint.js"></script>	
 		
 {% endblock %}	
 	
@@ -570,7 +66,7 @@ $(document).on("click", ".sprint_status_link",function() {
                 <div class="row">
                     <div class="col-lg-12">
 					
-						<h2 class="apm-all-reports-heading">Sprint Items</h2>
+						<h2 class="apm-all-reports-heading effort-heading">Sprint Items</h2>
 						
 						<div class="form-group select-sprint-dropdown-box" id="sprint_dropdown">
 							<label class="apm-effort-est-lbl select-sprint-label"></label>
@@ -624,14 +120,11 @@ $(document).on("click", ".sprint_status_link",function() {
 												
 												
 												
-												
 												<!-- Sprint Action dropdown starts -->
               										<li class="dropdown sprint-action-dropdown-box">
               									 		<a href="#" class="dropdown-toggle sprint-action-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
              									  		
-             									  		{% if task_next_cursor %}
-															<a class="panel-heading" href="/sprint?tp={{next_cursor}}">Next</a>
-														{% endif %}
+             									  		
              									  		
              									  		<i class="fa fa-cogs"></i> Action
             									   		<span class="caret"></span></a>
@@ -651,27 +144,41 @@ $(document).on("click", ".sprint_status_link",function() {
 												<!-- Sprint Action dropdown Ends -->
 												</div>
 												<div class="panel-body">
+												Count : <select name="task_count" id="task_count" class="apm-effort-est-dropdown">
+												
+												<option value="15">15</option> 
+											
+												<option value="20">20</option> 
+											
+												<option value="30">30</option> 
+											
+												</select>
+											<br>
+											<br>
 													<div class="table-responsive">
-														<table class="table-condensed table apm-sprint-table apm-sprint-item-table">
+														<table class="table-condensed table apm-sprint-table apm-sprint-item-table tablesorter" id="myTable">
 															<thead>
 																<tr>	
 																	
 																	<th>Task</th>
-																	<th>User Story</th>
-																	<th>Planned Start Date</th>
-																	<th>Planned End Date</th>
+																	<th>User Story 
+																	<!-- <i class="fa fa-arrow-up" aria-hidden="true" id="user_story_asce"></i><i class="fa fa-arrow-down" aria-hidden="true" id="user_story_desc"></i>
+																	 -->
+																	</th>
+																	<th>Planned Start Date <i class="fa fa-arrow-up" aria-hidden="true" id="planned_startdate_asce"></i><i class="fa fa-arrow-down" aria-hidden="true" id="planned_startdate_desc"></i></th>
+																	<th>Planned End Date <i class="fa fa-arrow-up" aria-hidden="true" id="planned_enddate_asce"></i><i class="fa fa-arrow-down" aria-hidden="true" id="planned_enddate_desc"></i></th>
 																	<th>Created By</th>
 																	<th>Assigned To</th>
 																	<th>Status</th>
 																	<th>Complexity</th>
-																	<th>Estimated Efforts (Hrs.)</th>
+																	<th>Estimated Efforts (Hrs.) <i class="fa fa-arrow-up" aria-hidden="true" id="estimation_effort_asce"></i><i class="fa fa-arrow-down" aria-hidden="true" id="estimation_effort_desc"></i></th>
 																	<th>Action Items</th>
 																</tr>
 															</thead>
 															<tr class="separator" />
-															<tbody>
-															{%if tasks%}
-															{%for task in tasks %}
+															<tbody id="task_table">
+															{%if res.objects%}
+															{%for task in res.objects %}
 															
 																{%ifequal task.get.sprint sprints.key%}
 															  <tr class="find_empty">
@@ -698,7 +205,7 @@ $(document).on("click", ".sprint_status_link",function() {
 																<td title="Estimated Efforts (Hrs.)">{{task.get.actual_efforts}}</td>
 															  	<td>
 															  	<a href="/mytasks/view?key={{task.get.key.urlsafe}}"><i class="fa fa-eye apm-add-proj-view" title="View Task" aria-hidden="true"></i></a>
-															  	<a href="/task/edittask?edit_key={{task.get.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#edit-issue-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Task"  id="{{task.get.key.urlsafe}}"></i></a>
+															  	<a href="/task/edittask?edit_key={{task.get.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#add-issue-modal"><i class="fa fa-pencil apm-add-proj-edit" aria-hidden="true" title="Edit Task"  id="{{task.get.key.urlsafe}}"></i></a>
 															  	<a href="/task/movetask?task_key={{task.get.key.urlsafe}}" data-toggle="modal" data-target="#move-issue-modal"><i class="fa fa-arrows" aria-hidden="true" title="Move Task"></i></a>
 															  	
 																<!-- <a href="/task/deletetask?delete_key={{task.key.urlsafe}}&key=ag1zfmFwbS1ldGVybnVzchQLEgdQcm9qZWN0GICAgICWpZILDA" data-toggle="modal" data-target="#delete-issue-modal"><i class="fa fa-trash apm-add-proj-delete" aria-hidden="true" title="Delete Task"  id="{{task.key.urlsafe}}"></i></a> -->
@@ -716,6 +223,31 @@ $(document).on("click", ".sprint_status_link",function() {
 															  {%endif%}
 															</tbody>
 														</table>
+														<!-- Pagination starts  -->
+             											<ul class="pagination apm-table-pagination">
+              											<li class="previous">
+              											{% if res.prev %}
+                											<a href="/sprint?sprint_key={{sprints.key.urlsafe}}&count={{count}}&prev_cursor={{ res.prev_cursor }}"><i class="fa fa-long-arrow-left" aria-hidden="true"></i> Previous</a>
+            											{% endif %}
+              											
+              											</li>
+                 										<!-- <li><a href="#" class="apm-table-pagination-active">1</a></li>
+              											 <li><a href="/sprint?sprint_key={{sprints.key.urlsafe}}&next_cursor={{page2.next_cursor}}">2</a></li>
+              											<li><a href="/sprint?sprint_key={{sprints.key.urlsafe}}&next_cursor={{page3.next_cursor}}">3</a></li>
+              											<li><a href="#">4</a></li>
+              											<li><a href="#">5</a></li>  -->
+              											<li class="next">
+              											{% if res.next %}
+															<a class="apm-table-pagination-active" href="/sprint?sprint_key={{sprints.key.urlsafe}}&count={{count}}&next_cursor={{res.next_cursor}}">Next <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+														{% endif %}
+               											
+              											</li>
+             											</ul>
+             											<!-- Pagination ends  -->
+														
+														
+														
+														
 													</div>
 												</div>
 											</div>

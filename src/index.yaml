@@ -43,4 +43,93 @@ indexes:
   - name: status
   - name: created_date
     direction: desc
- 
+- kind: Task
+  properties:
+  - name: project
+  - name: created_date
+- kind: Task
+  properties:
+  - name: project
+  - name: sprint
+  - name: created_date
+- kind: Task
+  properties:
+  - name: status
+  - name: created_date
+- kind: Task
+  properties:
+  - name: project
+  - name: sprint
+  - name: user_story
+    direction: desc
+- kind: Task
+  properties:
+  - name: project
+  - name: sprint
+  - name: actual_efforts
+    direction: desc
+- kind: Task
+  properties:
+  - name: project
+  - name: sprint
+  - name: status
+  - name: user_story
+- kind: Task
+  properties:
+  - name: project
+  - name: sprint
+  - name: status
+  - name: user_story
+    direction: desc
+- kind: Task
+  properties:
+  - name: project
+  - name: sprint
+  - name: status
+  - name: startDate
+- kind: Task
+  properties:
+  - name: project
+  - name: sprint
+  - name: status
+  - name: startDate
+    direction: desc
+- kind: Task
+  properties:
+  - name: project
+  - name: sprint
+  - name: status
+  - name: endDate
+- kind: Task
+  properties:
+  - name: project
+  - name: sprint
+  - name: status
+  - name: endDate
+    direction: desc
+- kind: Task
+  properties:
+  - name: project
+  - name: sprint
+  - name: status
+  - name: efforts
+- kind: Task
+  properties:
+  - name: project
+  - name: sprint
+  - name: status
+  - name: efforts
+    direction: desc
+- kind: Task
+  properties:
+  - name: project
+  - name: sprint
+  - name: status
+  - name: actual_efforts
+- kind: Task
+  properties:
+  - name: project
+  - name: sprint
+  - name: status
+  - name: actual_efforts
+    direction: desc

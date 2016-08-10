@@ -99,6 +99,7 @@ app = webapp2.WSGIApplication([
         
         #Sprint
         webapp2.Route('/sprint', Sprint,name='sprint'),
+       # webapp2.Route('/sprint/add',AddSprint),
         webapp2.Route('/sprint/edit', EditSprint),                
         webapp2.Route('/sprint/delete', DeleteSprint),
         webapp2.Route('/sprint_info', SprintInfo),

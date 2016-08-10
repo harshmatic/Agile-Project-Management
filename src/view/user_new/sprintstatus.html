@@ -4,42 +4,11 @@ color:burlywood;
 }
 </style>
 <script>
-$(document).ready(function(){	
+//$(document).ready(function(){	
 	
 
-	$("#move_sprint_tasks").on("click",function(){
-		$.post( '/sprint/tasklist', $("#update_form").serialize())
-			.done(function( data ) {
-				if (data!="true"){
-					alert("Tasks cannot be moved.");
-					return false
-				} else {
-					
-					/* alert("Task updated."); */
-					
-				}
-			});
-			
-			
-				
-				
-			})
-			
-			
-				$('#pending-task-modal').on('hidden.bs.modal', function(e)
-					    { 
-					        $(this).removeData('bs.modal');
-					        
-					        $('#tasks_sprints').load('/sprint #tasks_sprints', function(result) {
-					        //	$("#details").hide();
-					        	
-					  
-					        	
-			  				});
-					  
-					        
-					    }) ;
-	});
+	
+//	});
 </script>
 <form role="form" id="update_form" enctype="multipart/form-data">
 			<div class="modal-content add-task-modal-content">
